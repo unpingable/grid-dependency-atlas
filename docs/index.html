@@ -4,6 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Infrastructure Dependency Atlas</title>
+  <meta name="description" content="Places where local customers are exposed to infrastructure decisions made outside their own effective political control. 15 documented cases across electricity, gas, water, and sewer.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Infrastructure Dependency Atlas">
+  <meta property="og:description" content="Places where local customers are exposed to infrastructure decisions made outside their own effective political control.">
+  <meta property="og:url" content="https://unpingable.github.io/grid-dependency-atlas/">
+  <meta property="og:image" content="https://unpingable.github.io/grid-dependency-atlas/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Infrastructure Dependency Atlas">
+  <meta name="twitter:description" content="Places where local customers are exposed to infrastructure decisions made outside their own effective political control.">
+  <meta name="twitter:image" content="https://unpingable.github.io/grid-dependency-atlas/og-image.png">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -62,10 +76,54 @@
 
     .panel-placeholder {
       padding: 40px 24px;
-      text-align: center;
       color: #555;
       font-size: 13px;
       line-height: 1.6;
+    }
+
+    .placeholder-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #888;
+      margin-bottom: 16px;
+    }
+
+    .placeholder-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .placeholder-stat {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 3px;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      color: #999;
+    }
+
+    .placeholder-desc {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .placeholder-note {
+      font-size: 11px;
+      color: #444;
+      line-height: 1.5;
+      border-top: 1px solid #1a1a1a;
+      padding-top: 16px;
+    }
+
+    .filter-count {
+      font-size: 11px;
+      color: #666;
+      margin-left: 4px;
     }
 
     .panel-content { display: none; }
@@ -276,7 +334,17 @@
     <div id="map"></div>
     <div class="panel">
       <div class="panel-placeholder" id="placeholder">
-        Click a case marker to see details.
+        <div class="placeholder-title">Select a case</div>
+        <div class="placeholder-stats" id="placeholder-stats"></div>
+        <div class="placeholder-desc">
+          Each marker represents a documented case where local customers
+          bear the consequences of infrastructure decisions made outside
+          their effective political control.
+        </div>
+        <div class="placeholder-note">
+          This atlas shows documented events, not all structural exposure.
+          Absence of a marker does not mean absence of dependency.
+        </div>
       </div>
       <div class="panel-content" id="panel-content">
         <div class="panel-header">
@@ -379,6 +447,23 @@
       geojsonData = await resp.json();
 
       map.addSource('cases', { type: 'geojson', data: geojsonData });
+
+      // Populate placeholder stats
+      const features = geojsonData.features;
+      const total = features.length;
+      const byCat = {};
+      features.forEach(f => {
+        const t = f.properties.utility_type;
+        byCat[t] = (byCat[t] || 0) + 1;
+      });
+      const statsEl = document.getElementById('placeholder-stats');
+      statsEl.innerHTML =
+        `<span class="placeholder-stat">${total} cases</span>` +
+        Object.entries(byCat).map(([k, v]) =>
+          `<span class="placeholder-stat" style="color:${COLORS[k]}">${v} ${k}</span>`
+        ).join('');
+
+      updateFilterCount();
 
       // Outer glow
       map.addLayer({
@@ -508,11 +593,35 @@
       const f = filters.length === 1 ? null : filters;
       map.setFilter('cases-dot', f);
       map.setFilter('cases-glow', f);
+      updateFilterCount();
     }
 
     filterUtility.addEventListener('change', applyFilters);
     filterLayer.addEventListener('change', applyFilters);
     filterStatus.addEventListener('change', applyFilters);
+
+    function updateFilterCount() {
+      if (!geojsonData) return;
+      const u = filterUtility.value;
+      const l = filterLayer.value;
+      const s = filterStatus.value;
+      let count = geojsonData.features.filter(f => {
+        const p = f.properties;
+        if (u !== 'all' && p.utility_type !== u) return false;
+        if (l !== 'all' && p.control_layer !== l) return false;
+        if (s !== 'all' && p.status !== s) return false;
+        return true;
+      }).length;
+      let el = document.getElementById('filter-count');
+      if (!el) {
+        el = document.createElement('span');
+        el.id = 'filter-count';
+        el.className = 'filter-count';
+        document.querySelector('.filters').insertBefore(el, document.querySelector('.legend'));
+      }
+      const total = geojsonData.features.length;
+      el.textContent = count === total ? `${total} cases` : `${count} of ${total} cases`;
+    }
   </script>
 </body>
 </html>
