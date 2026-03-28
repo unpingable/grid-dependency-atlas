@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infrastructure Dependency Atlas</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 12px 20px;
+      background: #111;
+      border-bottom: 1px solid #222;
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    header h1 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.01em;
+    }
+
+    header .subtitle {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    #map {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .panel {
+      width: 420px;
+      flex-shrink: 0;
+      background: #111;
+      border-left: 1px solid #222;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-placeholder {
+      padding: 40px 24px;
+      text-align: center;
+      color: #555;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .panel-content { display: none; }
+
+    .panel-content.active { display: block; }
+
+    .panel-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid #222;
+    }
+
+    .panel-header .utility-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 3px;
+      margin-bottom: 8px;
+    }
+
+    .badge-electricity { background: #2a1f00; color: #f5a623; }
+    .badge-gas { background: #1a0a2e; color: #bd7dff; }
+    .badge-water { background: #001a2e; color: #4fc3f7; }
+    .badge-sewer { background: #0a1a0a; color: #66bb6a; }
+
+    .panel-header h2 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .panel-header .one-line {
+      font-size: 13px;
+      color: #aaa;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    .panel-body {
+      padding: 16px 24px 24px;
+    }
+
+    .panel-body .field {
+      margin-bottom: 14px;
+    }
+
+    .panel-body .field-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #666;
+      margin-bottom: 3px;
+    }
+
+    .panel-body .field-value {
+      font-size: 13px;
+      color: #ccc;
+      line-height: 1.5;
+    }
+
+    .panel-body .field-value a {
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+
+    .panel-body .field-value a:hover {
+      text-decoration: underline;
+    }
+
+    .meta-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .meta-row .field { flex: 1; margin-bottom: 0; }
+
+    .status-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .status-active { background: #2a1a00; color: #f5a623; }
+    .status-emerging { background: #2a0a0a; color: #ef5350; }
+    .status-recurring { background: #1a0a2e; color: #bd7dff; }
+    .status-resolved { background: #0a1a0a; color: #66bb6a; }
+
+    .filters {
+      padding: 10px 20px;
+      background: #111;
+      border-bottom: 1px solid #222;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-group label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #666;
+    }
+
+    .filter-group select {
+      font-size: 12px;
+      background: #1a1a1a;
+      color: #ccc;
+      border: 1px solid #333;
+      border-radius: 4px;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+
+    .legend {
+      display: flex;
+      gap: 14px;
+      margin-left: auto;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: #888;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    @media (max-width: 900px) {
+      .main { flex-direction: column; }
+      .panel { width: 100%; height: 50%; border-left: none; border-top: 1px solid #222; }
+      #map { height: 50%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Infrastructure Dependency Atlas</h1>
+    <span class="subtitle">Places where local customers are exposed to infrastructure decisions made outside their own effective political control.</span>
+  </header>
+
+  <div class="filters">
+    <div class="filter-group">
+      <label>Utility</label>
+      <select id="filter-utility">
+        <option value="all">All</option>
+        <option value="electricity">Electricity</option>
+        <option value="gas">Gas</option>
+        <option value="water">Water</option>
+        <option value="sewer">Sewer</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Control Layer</label>
+      <select id="filter-layer">
+        <option value="all">All</option>
+        <option value="wholesale_contract">Wholesale Contract</option>
+        <option value="balancing">Balancing Authority</option>
+        <option value="transmission">Transmission</option>
+        <option value="market_governance">Market Governance</option>
+        <option value="pipeline_capacity">Pipeline Capacity</option>
+        <option value="supply">Supply</option>
+        <option value="treatment">Treatment</option>
+        <option value="basin_allocation">Basin Allocation</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Status</label>
+      <select id="filter-status">
+        <option value="all">All</option>
+        <option value="active">Active</option>
+        <option value="emerging">Emerging</option>
+        <option value="recurring">Recurring</option>
+        <option value="resolved">Resolved</option>
+      </select>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#f5a623"></div>Electricity</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#bd7dff"></div>Gas</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#4fc3f7"></div>Water</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#66bb6a"></div>Sewer</div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div id="map"></div>
+    <div class="panel">
+      <div class="panel-placeholder" id="placeholder">
+        Click a case marker to see details.
+      </div>
+      <div class="panel-content" id="panel-content">
+        <div class="panel-header">
+          <span class="utility-badge" id="p-badge"></span>
+          <h2 id="p-title"></h2>
+          <div class="one-line" id="p-oneline"></div>
+        </div>
+        <div class="panel-body">
+          <div class="meta-row">
+            <div class="field">
+              <div class="field-label">Status</div>
+              <div class="field-value"><span class="status-badge" id="p-status"></span></div>
+            </div>
+            <div class="field">
+              <div class="field-label">Control Layer</div>
+              <div class="field-value" id="p-layer"></div>
+            </div>
+            <div class="field">
+              <div class="field-label">Population</div>
+              <div class="field-value" id="p-pop"></div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="field-label">Affected Jurisdiction</div>
+            <div class="field-value" id="p-affected"></div>
+          </div>
+          <div class="field">
+            <div class="field-label">Controlling Actor</div>
+            <div class="field-value" id="p-actor"></div>
+          </div>
+          <div class="field">
+            <div class="field-label">Controlling Jurisdiction</div>
+            <div class="field-value" id="p-ctrl-jurisdiction"></div>
+          </div>
+          <div class="field">
+            <div class="field-label">Trigger</div>
+            <div class="field-value" id="p-trigger"></div>
+          </div>
+          <div class="field">
+            <div class="field-label">Public Consequence</div>
+            <div class="field-value" id="p-consequence"></div>
+          </div>
+          <div class="field">
+            <div class="field-label">Sources</div>
+            <div class="field-value" id="p-sources"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.js"></script>
+  <script>
+    const COLORS = {
+      electricity: '#f5a623',
+      gas: '#bd7dff',
+      water: '#4fc3f7',
+      sewer: '#66bb6a'
+    };
+
+    const BADGE_CLASSES = {
+      electricity: 'badge-electricity',
+      gas: 'badge-gas',
+      water: 'badge-water',
+      sewer: 'badge-sewer'
+    };
+
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: {
+        version: 8,
+        sources: {
+          'carto-dark': {
+            type: 'raster',
+            tiles: ['https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png'],
+            tileSize: 256,
+            attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
+          }
+        },
+        layers: [{
+          id: 'carto-dark-layer',
+          type: 'raster',
+          source: 'carto-dark',
+          minzoom: 0,
+          maxzoom: 19
+        }]
+      },
+      center: [-95, 38],
+      zoom: 3.8,
+      maxZoom: 12,
+      minZoom: 3
+    });
+
+    map.addControl(new maplibregl.NavigationControl(), 'top-left');
+
+    let geojsonData = null;
+
+    map.on('load', async () => {
+      const resp = await fetch('data/cases.geojson');
+      geojsonData = await resp.json();
+
+      map.addSource('cases', { type: 'geojson', data: geojsonData });
+
+      // Outer glow
+      map.addLayer({
+        id: 'cases-glow',
+        type: 'circle',
+        source: 'cases',
+        paint: {
+          'circle-radius': 16,
+          'circle-color': ['match', ['get', 'utility_type'],
+            'electricity', COLORS.electricity,
+            'gas', COLORS.gas,
+            'water', COLORS.water,
+            'sewer', COLORS.sewer,
+            '#888'
+          ],
+          'circle-opacity': 0.15,
+          'circle-blur': 1
+        }
+      });
+
+      // Main dot
+      map.addLayer({
+        id: 'cases-dot',
+        type: 'circle',
+        source: 'cases',
+        paint: {
+          'circle-radius': 7,
+          'circle-color': ['match', ['get', 'utility_type'],
+            'electricity', COLORS.electricity,
+            'gas', COLORS.gas,
+            'water', COLORS.water,
+            'sewer', COLORS.sewer,
+            '#888'
+          ],
+          'circle-opacity': 0.9,
+          'circle-stroke-color': '#fff',
+          'circle-stroke-width': 1.5,
+          'circle-stroke-opacity': 0.4
+        }
+      });
+
+      // Hover state
+      map.on('mouseenter', 'cases-dot', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      map.on('mouseleave', 'cases-dot', () => {
+        map.getCanvas().style.cursor = '';
+      });
+
+      // Click handler
+      map.on('click', 'cases-dot', (e) => {
+        const props = e.features[0].properties;
+        showPanel(props);
+        map.flyTo({ center: e.lngLat, zoom: Math.max(map.getZoom(), 6), duration: 600 });
+      });
+
+      // Click on empty space closes panel
+      map.on('click', (e) => {
+        const features = map.queryRenderedFeatures(e.point, { layers: ['cases-dot'] });
+        if (features.length === 0) hidePanel();
+      });
+    });
+
+    function showPanel(props) {
+      document.getElementById('placeholder').style.display = 'none';
+      const panel = document.getElementById('panel-content');
+      panel.classList.add('active');
+
+      const badge = document.getElementById('p-badge');
+      badge.textContent = props.utility_type;
+      badge.className = 'utility-badge ' + (BADGE_CLASSES[props.utility_type] || '');
+
+      document.getElementById('p-title').textContent = props.title;
+      document.getElementById('p-oneline').textContent = props.one_line;
+
+      const statusEl = document.getElementById('p-status');
+      statusEl.textContent = props.status;
+      statusEl.className = 'status-badge status-' + props.status;
+
+      document.getElementById('p-layer').textContent = formatLayer(props.control_layer);
+      document.getElementById('p-pop').textContent = formatPop(props.affected_population_est);
+      document.getElementById('p-affected').textContent = props.affected_jurisdiction;
+      document.getElementById('p-actor').textContent = props.controlling_actor;
+      document.getElementById('p-ctrl-jurisdiction').textContent = props.controlling_jurisdiction;
+      document.getElementById('p-trigger').textContent = props.trigger;
+      document.getElementById('p-consequence').textContent = props.public_consequence;
+
+      const sources = typeof props.sources === 'string' ? JSON.parse(props.sources) : props.sources;
+      const sourcesEl = document.getElementById('p-sources');
+      sourcesEl.innerHTML = sources.map(s =>
+        `<a href="${s.url}" target="_blank" rel="noopener">${s.publisher}</a> (${s.date})`
+      ).join('<br>');
+    }
+
+    function hidePanel() {
+      document.getElementById('placeholder').style.display = 'block';
+      document.getElementById('panel-content').classList.remove('active');
+    }
+
+    function formatLayer(layer) {
+      return layer.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    function formatPop(n) {
+      n = parseInt(n);
+      if (n >= 1000000) return (n / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+      if (n >= 1000) return (n / 1000).toFixed(0) + 'K';
+      return n.toString();
+    }
+
+    // Filters
+    const filterUtility = document.getElementById('filter-utility');
+    const filterLayer = document.getElementById('filter-layer');
+    const filterStatus = document.getElementById('filter-status');
+
+    function applyFilters() {
+      if (!geojsonData) return;
+      const u = filterUtility.value;
+      const l = filterLayer.value;
+      const s = filterStatus.value;
+
+      const filters = ['all'];
+      if (u !== 'all') filters.push(['==', ['get', 'utility_type'], u]);
+      if (l !== 'all') filters.push(['==', ['get', 'control_layer'], l]);
+      if (s !== 'all') filters.push(['==', ['get', 'status'], s]);
+
+      const f = filters.length === 1 ? null : filters;
+      map.setFilter('cases-dot', f);
+      map.setFilter('cases-glow', f);
+    }
+
+    filterUtility.addEventListener('change', applyFilters);
+    filterLayer.addEventListener('change', applyFilters);
+    filterStatus.addEventListener('change', applyFilters);
+  </script>
+</body>
+</html>
