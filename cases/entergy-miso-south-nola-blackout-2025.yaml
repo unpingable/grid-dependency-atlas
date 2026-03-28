@@ -1,0 +1,45 @@
+case_id: entergy-miso-south-nola-blackout-2025
+title: "New Orleans blackout exposes Entergy's multi-state transmission underinvestment under MISO governance"
+utility_type: electricity
+control_layer: transmission
+affected_jurisdiction:
+  locality: "Greater New Orleans (Orleans, Jefferson, St. Bernard, Plaquemines, St. Tammany parishes)"
+  state: Louisiana
+controlling_actor: "Entergy Corporation / MISO"
+controlling_jurisdiction:
+  locality: "New Orleans, LA (Entergy HQ) / Carmel, IN (MISO HQ)"
+  state: "Louisiana / Indiana"
+trigger: >
+  On May 25, 2025, MISO ordered Entergy to shed 498 MW of load across Greater
+  New Orleans with only 30 minutes' warning after River Bend nuclear plant
+  (1,035 MW) tripped and multiple gas plants were down. Entergy's four-state
+  territory has blocked MISO long-range transmission planning — not one MISO
+  LRTP line has been built in Entergy's territory, and MISO South planning won't
+  begin until 2026 with earliest construction around 2036.
+public_consequence: >
+  100,000+ customers lost power during Memorial Day weekend. The outage was not
+  caused by extreme weather — it was a normal Sunday. The Amite South load pocket
+  has had limited transmission import capability since at least 2006. New Orleans
+  City Council regulates Entergy locally but has no authority over MISO's
+  reliability decisions or Entergy's multi-state transmission investment priorities.
+affected_population_est: 250000
+status: active
+date_surfaced: "2025-05-25"
+confidence: high
+sources:
+  - publisher: The Lens (New Orleans)
+    url: "https://thelensnola.org/2025/07/31/entergy-wants-to-use-power-it-creates-that-led-to-the-may-blackout/"
+    date: "2025-07-31"
+  - publisher: Southern Renewable Energy Association
+    url: "https://southernrenewable.org/news-updates/miso-entergy-reports-on-may-25-load-shed-event-reveal-ongoing-generation-and-transmission-challenges-in-louisiana"
+    date: "2025-08-15"
+  - publisher: Verite News (New Orleans)
+    url: "https://veritenews.org/2025/06/04/entergy-miso-memorial-day-blackout/"
+    date: "2025-06-04"
+  - publisher: Energy and Policy Institute
+    url: "https://energyandpolicy.org/entergy-role-stalling-miso-transmission-planning/"
+    date: "2024-11-15"
+one_line: >
+  100,000 New Orleans customers lost power on an ordinary Sunday because Entergy
+  has blocked MISO transmission planning across four states for a decade, leaving
+  a known load pocket with insufficient import capacity.

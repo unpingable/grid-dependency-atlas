@@ -1,0 +1,47 @@
+case_id: iso-ne-winter-gas-pipeline-constraint
+title: "New England winter gas pipeline constraints causing electricity price spikes and reliability risk"
+utility_type: electricity
+control_layer: pipeline_capacity
+affected_jurisdiction:
+  locality: "Six-state region (CT, ME, MA, NH, RI, VT)"
+  state: Massachusetts (hub)
+controlling_actor: "Interstate pipeline operators (Algonquin/Enbridge, Tennessee Gas Pipeline/TC Energy)"
+controlling_jurisdiction:
+  locality: "Houston, TX / Calgary, AB"
+  state: "Texas / Alberta (corporate); FERC (federal regulatory)"
+trigger: >
+  Gas pipelines into New England were sized for heating load alone. When natural
+  gas generators (~50% of New England electricity) compete with heating customers
+  for pipeline capacity on cold winter days, LDCs have contractual priority.
+  In winter 2025-2026, DOE issued an emergency order (Jan 25 - Feb 14, 2026)
+  allowing generators to exceed emissions limits to prevent blackouts. Natural
+  gas prices on Jan 27, 2026 hit the highest level ever recorded in ISO-NE's
+  pricing database (since 2003).
+public_consequence: >
+  Extreme wholesale electricity price spikes passed to ratepayers. Winter
+  2024/2025 wholesale energy market valued at $4 billion (up from $1.6B prior
+  year). January 2026 wholesale power prices averaged $154.73/MWh real-time,
+  with peaks reaching $441.80/MWh. Reliability risk during cold snaps requires
+  emergency DOE orders, oil-fired backup, and reliance on globally-priced LNG.
+affected_population_est: 15100000
+status: recurring
+date_surfaced: "2013-01-01"
+confidence: high
+sources:
+  - publisher: ISO New England
+    url: "https://www.iso-ne.com/about/where-we-are-going/role-of-natural-gas"
+    date: "2025-01-01"
+  - publisher: ISO Newswire
+    url: "https://isonewswire.com/2026/03/05/winter-2025-2026-recap-grid-stays-reliable-during-prolonged-cold/"
+    date: "2026-03-05"
+  - publisher: Portland Press Herald
+    url: "https://www.pressherald.com/2026/02/20/natural-gas-prices-in-new-england-spiked-to-their-highest-level-ever-in-january/"
+    date: "2026-02-20"
+  - publisher: U.S. Department of Energy
+    url: "https://www.energy.gov/articles/energy-department-extends-emergency-order-new-england-ahead-second-winter-storm"
+    date: "2026-02-05"
+one_line: >
+  New England's gas pipelines were built for heating, not power generation; every
+  cold winter, heating gets priority and 15 million electricity customers pay
+  massive price spikes because no New England entity controls pipeline capacity
+  decisions made by FERC-regulated interstate operators.

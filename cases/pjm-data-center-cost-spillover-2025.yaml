@@ -1,0 +1,47 @@
+case_id: pjm-data-center-cost-spillover-2025
+title: "Virginia data center boom drives capacity cost explosion across 13 PJM states"
+utility_type: electricity
+control_layer: market_governance
+affected_jurisdiction:
+  locality: "13 states + D.C. (DE, IL, IN, KY, MD, MI, NJ, NC, OH, PA, TN, VA, WV)"
+  state: "Multi-state (PJM footprint)"
+controlling_actor: "PJM Interconnection / Virginia data center developers"
+controlling_jurisdiction:
+  locality: "Northern Virginia (Loudoun County) / Audubon, PA (PJM HQ)"
+  state: "Virginia / Pennsylvania"
+trigger: >
+  Data centers concentrated in Virginia's Dominion zone drove an 833% increase
+  in PJM capacity auction clearing prices from $28.92/MW-day (2024/25) to
+  $269.92/MW-day (2025/26). Data centers accounted for 63% of the $9.3B cost
+  increase and 94% of projected 32 GW demand growth through 2030. PJM's
+  December 2025 auction fell 6,625 MW short of reliability requirements for the
+  first time ever. From 2022-2024, $4.3B in transmission expansion costs for
+  data center connections were socialized to ratepayers across 7 states.
+public_consequence: >
+  Residential ratepayers across 13 states pay for Virginia's data center growth:
+  Pepco (D.C.) customers see $21/month increase, western Maryland $18/month,
+  Ohio $16/month, Columbus OH $27/month. NRDC projects $100-163B in cumulative
+  capacity costs through 2033. PJM's first-ever reliability shortfall means
+  potential rolling blackouts. Customers in Ohio, Illinois, and West Virginia
+  have no influence over Virginia's data center permitting.
+affected_population_est: 67000000
+status: active
+date_surfaced: "2024-07-30"
+confidence: high
+sources:
+  - publisher: IEEFA
+    url: "https://ieefa.org/resources/projected-data-center-growth-spurs-pjm-capacity-prices-factor-10"
+    date: "2025-03-18"
+  - publisher: Sierra Club
+    url: "https://www.sierraclub.org/press-releases/2025/12/pjm-capacity-auction-ends-record-high-costs-again"
+    date: "2025-12-17"
+  - publisher: Citizens Utility Board
+    url: "https://www.citizensutilityboard.org/blog/2025/10/23/data-center-concerns-cub-nrdc-experts-warn-pjm-states-could-get-hit-with-forced-blackouts-163b-in-additional-electricity-capacity-costs/"
+    date: "2025-10-23"
+  - publisher: NRDC
+    url: "https://www.nrdc.org/press-releases/pjm-board-announces-final-proposal-address-data-center-demand"
+    date: "2026-02-10"
+one_line: >
+  Virginia data centers triggered an 833% spike in PJM capacity prices,
+  socializing $9.3B in costs across 67 million ratepayers in 13 states who have
+  no say over Virginia's permitting decisions.

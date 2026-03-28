@@ -1,0 +1,42 @@
+case_id: aquidneck-island-gas-outage-2019
+title: "Aquidneck Island gas outage from Algonquin pipeline pressure loss"
+utility_type: gas
+control_layer: pipeline_capacity
+affected_jurisdiction:
+  locality: "Newport and Middletown (Aquidneck Island)"
+  state: Rhode Island
+controlling_actor: "Enbridge Inc. (Algonquin Gas Transmission) / National Grid"
+controlling_jurisdiction:
+  locality: "Calgary, Alberta"
+  state: "FERC-regulated interstate pipeline"
+trigger: >
+  On January 21, 2019 — one of the coldest days in a decade (2 deg F low) —
+  high heating demand across the Algonquin pipeline system caused a low-pressure
+  condition on the Aquidneck Island branch. A programming error in a valve at a
+  meter station restricted flow, and a power failure at a local LNG backup
+  facility removed the last safety net. Rhode Island DPUC called it a "perfect
+  storm" but the root vulnerability was dependence on an interstate pipeline
+  whose capacity allocation was not under local control.
+public_consequence: >
+  7,455 gas customers lost heating service for up to 7 days in sub-freezing
+  temperatures. Thousands displaced to hotels. Each customer required individual
+  service restoration (relighting pilots). National Grid later paid a $2M class
+  action settlement.
+affected_population_est: 18000
+status: resolved
+date_surfaced: "2019-01-21"
+confidence: high
+sources:
+  - publisher: Rhode Island Division of Public Utilities and Carriers
+    url: "https://ripuc.ri.gov/sites/g/files/xkgbur841/files/eventsactions/AI_Report.pdf"
+    date: "2019-10-30"
+  - publisher: Utility Dive
+    url: "https://www.utilitydive.com/news/gas-outages-hit-10k-in-rhode-island-after-issue-on-algonquin-pipeline/546556/"
+    date: "2019-01-22"
+  - publisher: Newport Buzz
+    url: "https://www.thenewportbuzz.com/attorney-brian-cunha-secures-2-million-settlement-with-national-grid-following-2019-gas-outage-on-aquidneck-island/53492"
+    date: "2024-06-10"
+one_line: >
+  Newport and Middletown lost heat for a week in freezing weather because their
+  gas depends on a Canadian-owned interstate pipeline whose capacity allocation
+  prioritized system-wide balance over a small island community.

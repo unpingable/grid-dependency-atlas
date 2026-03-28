@@ -1,0 +1,41 @@
+case_id: tva-elliott-gas-generation-2022
+title: "Winter Storm Elliott gas plant failures cause rolling blackouts across TVA territory"
+utility_type: electricity
+control_layer: supply
+affected_jurisdiction:
+  locality: "Nashville, Knoxville, Chattanooga, Memphis and 153 local power company territories"
+  state: "Tennessee (plus parts of AL, MS, KY, GA, NC, VA)"
+controlling_actor: "Tennessee Valley Authority / upstream gas producers and pipeline operators"
+controlling_jurisdiction:
+  locality: "Knoxville, TN (TVA HQ)"
+  state: "Gas supply from producers in PA, WV, OH, and Gulf states"
+trigger: >
+  Christmas Eve 2022 arctic blast caused 10 of TVA's 17 gas plants and 4 of 6
+  coal plants to fail or derate. Gas supply was inadequate due to freeze-related
+  production declines (Marcellus down 23%, Utica down 54%) and insufficient
+  pipeline pressure. TVA ordered all 153 local power companies to shed 5-10%
+  of load. Nationally, 90,000 MW went offline; gas generators were 70% of
+  forced outages.
+public_consequence: >
+  Rolling blackouts on Christmas Eve/Christmas Day across the Mid-South. Millions
+  of customers affected across TVA's seven-state territory. Financial impact to
+  TVA: $170M. FERC/NERC found the event was the largest percentage of Eastern
+  Interconnection capacity ever to fail simultaneously (13%).
+affected_population_est: 10000000
+status: recurring
+date_surfaced: "2022-12-23"
+confidence: high
+sources:
+  - publisher: FERC
+    url: "https://www.ferc.gov/news-events/news/ferc-nerc-release-final-report-lessons-winter-storm-elliott"
+    date: "2024-08-27"
+  - publisher: WPLN News (Nashville NPR)
+    url: "https://wpln.org/post/tennessee-blackouts-winter-2023/"
+    date: "2023-11-27"
+  - publisher: NRDC
+    url: "https://www.nrdc.org/bio/dana-ammann/winter-storm-elliott-report-highlights-risk-natural-gas-failures"
+    date: "2024-08-28"
+one_line: >
+  TVA's gas plants failed on Christmas Eve because the upstream gas supply chain
+  froze across states TVA does not control, and 153 local power companies had no
+  lever to pull except cutting power to their own customers.

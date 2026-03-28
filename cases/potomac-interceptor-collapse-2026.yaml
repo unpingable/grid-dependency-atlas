@@ -1,0 +1,40 @@
+case_id: potomac-interceptor-collapse-2026
+title: "Potomac Interceptor sewer collapse releases 300M gallons of untreated sewage into Potomac River"
+utility_type: sewer
+control_layer: treatment
+affected_jurisdiction:
+  locality: "Loudoun County, Fairfax County, Town of Vienna, Town of Herndon, Montgomery County"
+  state: "Virginia / Maryland"
+controlling_actor: "DC Water (District of Columbia Water and Sewer Authority)"
+controlling_jurisdiction:
+  locality: Washington
+  state: "District of Columbia"
+trigger: >
+  A section of the 54-mile, 60-year-old Potomac Interceptor sewer line collapsed
+  on January 19, 2026, along Clara Barton Parkway in Montgomery County, MD.
+  Virginia and Maryland suburbs send ~60 MGD of sewage through this DC Water-owned
+  pipe they cannot maintain or inspect.
+public_consequence: >
+  240-300 million gallons of untreated wastewater released into the C&O Canal and
+  Potomac River — one of the largest sewage spills in U.S. history. E. coli
+  levels hundreds of times above EPA safety limits. Health advisories across DC,
+  MD, and VA. Recreation shut down for months. Emergency bypass took five days;
+  full flow not restored until March 14, 2026.
+affected_population_est: 800000
+status: active
+date_surfaced: "2026-01-19"
+confidence: high
+sources:
+  - publisher: DC Water
+    url: "https://www.dcwater.com/about-dc-water/media/potomac-interceptor-collapse"
+    date: "2026-01-19"
+  - publisher: Maryland Department of the Environment
+    url: "https://mde.maryland.gov/programs/water/Compliance/Pages/Potomac-Interceptor-Sewer-Overflow.aspx"
+    date: "2026-01-19"
+  - publisher: Potomac Conservancy
+    url: "https://potomac.org/blog/2026/1/30/potomac-interceptor-sewage-spill-updates"
+    date: "2026-01-30"
+one_line: >
+  Virginia and Maryland suburbs send sewage through a DC Water-owned pipe they
+  cannot maintain; when it collapsed, 300 million gallons of untreated wastewater
+  hit the Potomac.

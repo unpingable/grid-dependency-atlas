@@ -1,0 +1,35 @@
+case_id: tahoe-nvenergy-supply-2026
+title: "NV Energy declines continued full-requirements supply to Liberty Utilities at Lake Tahoe"
+utility_type: electricity
+control_layer: wholesale_contract
+affected_jurisdiction:
+  locality: "Lake Tahoe basin (South Lake Tahoe, Tahoe City, surrounding communities)"
+  state: California
+controlling_actor: "NV Energy"
+controlling_jurisdiction:
+  locality: Las Vegas
+  state: Nevada
+trigger: >
+  NV Energy informed Liberty Utilities it would not extend the full-requirements
+  wholesale supply arrangement beyond May 2027, citing its own resource needs.
+  Liberty currently gets ~75% of its power from NV Energy. The northern Nevada
+  market is now "extremely competitive" due to data center load growth, and
+  transmission for new interconnections is severely constrained.
+public_consequence: >
+  49,000 California customers face a rushed wholesale resupply process. Liberty
+  must procure replacement power by March 2027 and has asked California regulators
+  for expedited approval. Customers will absorb whatever replacement costs emerge.
+  Because Liberty's territory sits in the NV Energy balancing authority — not
+  CAISO — the community has no access to California's main grid reliability
+  programs.
+affected_population_est: 49000
+status: active
+date_surfaced: "2026-03-20"
+confidence: high
+sources:
+  - publisher: CalMatters
+    url: "https://calmatters.org/economy/2026/03/nevada-utility-to-lake-tahoe-find-electricity-elsewhere/"
+    date: "2026-03-20"
+one_line: >
+  California community electrically dependent on Nevada; supplier withdrawing
+  capacity under data-center pressure, forcing emergency procurement.

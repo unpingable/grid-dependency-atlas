@@ -1,0 +1,41 @@
+case_id: texas-uri-gas-electric-2021
+title: "Winter Storm Uri gas-electric interdependency collapse in Texas"
+utility_type: gas
+control_layer: supply
+affected_jurisdiction:
+  locality: "Statewide (Houston, DFW, San Antonio, Austin metros)"
+  state: Texas
+controlling_actor: "ERCOT / Texas Railroad Commission / uncoordinated gas producers and pipeline operators"
+controlling_jurisdiction:
+  locality: Austin
+  state: Texas
+trigger: >
+  February 2021 arctic blast caused cascading gas-electric interdependency
+  failure. Permian Basin gas production dropped 85%. Gas compressors on
+  interruptible electric contracts lost power during rolling blackouts, cutting
+  gas supply to generators that needed gas to produce the electricity that
+  powered the compressors. FERC/NERC found natural gas fuel supply issues
+  accounted for 87% of all fuel-related generator outages.
+public_consequence: >
+  4.5 million+ homes and businesses lost power, many for days (average 42 hours).
+  Official death toll: 246; independent estimates: 426-978 excess deaths. 69% of
+  Texans lost power; 49% lost water service. Economic losses estimated at
+  $80-130 billion (Federal Reserve Bank of Dallas).
+affected_population_est: 29000000
+status: resolved
+date_surfaced: "2021-02-14"
+confidence: high
+sources:
+  - publisher: FERC
+    url: "https://www.ferc.gov/news-events/news/final-report-february-2021-freeze-underscores-winterization-recommendations"
+    date: "2021-11-16"
+  - publisher: Texas Comptroller
+    url: "https://comptroller.texas.gov/economy/fiscal-notes/archive/2021/oct/winter-storm-impact.php"
+    date: "2021-10-01"
+  - publisher: KUT Radio (Austin NPR)
+    url: "https://www.kut.org/energy-environment/2025-08-18/texas-energy-grid-winterize-blackouts-audit"
+    date: "2025-08-18"
+one_line: >
+  Texas's unregulated gas producers had no obligation to winterize or coordinate
+  with the electric grid; the freeze created a death spiral where electric outages
+  killed gas compressors that killed gas supply that killed electric generators.

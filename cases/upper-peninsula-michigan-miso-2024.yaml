@@ -1,0 +1,45 @@
+case_id: upper-peninsula-michigan-miso-2024
+title: "Michigan Upper Peninsula electrically dependent on Wisconsin transmission within MISO"
+utility_type: electricity
+control_layer: transmission
+affected_jurisdiction:
+  locality: "Upper Peninsula (Marquette, Delta, Houghton, Iron, Baraga, Menominee counties)"
+  state: Michigan
+controlling_actor: "American Transmission Company (ATC) / MISO"
+controlling_jurisdiction:
+  locality: Pewaukee
+  state: Wisconsin
+trigger: >
+  The UP's western two-thirds are electrically tied to northern Wisconsin via
+  ATC's transmission system, not to Lower Michigan. ATC is headquartered in
+  Wisconsin and majority-owned by Wisconsin utilities. Limited interconnections
+  make the UP vulnerable to large outages — a 2011 lightning event during planned
+  maintenance knocked out power to two-thirds of the peninsula. Data center load
+  growth in Wisconsin is driving $1.3B+ in new transmission investment that UP
+  ratepayers may subsidize through MISO cost allocation.
+public_consequence: >
+  ~300,000 residents depend on a transmission system owned and planned by a
+  Wisconsin-based company, governed by a multi-state RTO headquartered in Indiana.
+  ATC cannot provide firm service to some UP utilities due to transmission
+  constraints. Wisconsin data center-driven buildout costs may be socialized to
+  UP customers.
+affected_population_est: 301000
+status: active
+date_surfaced: "2024-07-17"
+confidence: high
+sources:
+  - publisher: Michigan Public Service Commission
+    url: "https://www.michigan.gov/mpsc/-/media/Project/Websites/mpsc/regulatory/reports/2024_Upper_Peninsula_Energy_Report_with_Appendices.pdf"
+    date: "2024-09-01"
+  - publisher: Michigan Public Service Commission
+    url: "https://www.michigan.gov/mpsc/commission/news-releases/2024/07/17/mpsc-to-hold-public-hearing-on-study-of-energy-issues-in-the-upper-peninsula"
+    date: "2024-07-17"
+  - publisher: Wisconsin Watch / WPR
+    url: "https://wisconsinwatch.org/2026/03/wisconsin-data-center-power-grid-transmission-utilities-customers-project-cost/"
+    date: "2026-03-24"
+  - publisher: Governing
+    url: "https://www.governing.com/infrastructure/even-23b-might-not-be-enough-to-upgrade-midwests-power-lines"
+    date: "2024-10-15"
+one_line: >
+  300,000 Michigan UP residents depend on Wisconsin-owned transmission governed
+  by MISO; a single lightning strike blacked out two-thirds of the peninsula.

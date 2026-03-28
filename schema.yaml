@@ -1,0 +1,29 @@
+# Infrastructure Dependency Atlas — Event Schema
+# Thesis: Places where local customers are exposed to infrastructure
+#         decisions made outside their own political control.
+
+case:
+  case_id: string            # slug, e.g. "tahoe-nvenergy-supply-2026"
+  title: string              # short descriptive title
+  utility_type: enum         # electricity | gas | water | sewer
+  control_layer: enum        # supply | balancing | transmission | pipeline_capacity
+                             # treatment | wholesale_contract | basin_allocation
+                             # market_governance
+  affected_jurisdiction:     # where exposed customers are
+    locality: string
+    state: string
+  controlling_actor: string  # who holds the lever
+  controlling_jurisdiction:  # where that actor sits
+    locality: string         # optional
+    state: string
+  trigger: string            # what changed or broke
+  public_consequence: string # what customers experience
+  affected_population_est: integer
+  status: enum               # active | emerging | resolved | recurring
+  date_surfaced: date        # YYYY-MM-DD
+  confidence: enum           # high | medium | low
+  sources:
+    - publisher: string
+      url: string
+      date: date
+  one_line: string           # plain English diagnosis

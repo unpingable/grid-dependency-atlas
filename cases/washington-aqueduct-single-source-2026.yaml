@@ -1,0 +1,41 @@
+case_id: washington-aqueduct-single-source-2026
+title: "Army Corps-operated Washington Aqueduct leaves 1.1M people dependent on single Potomac intake"
+utility_type: water
+control_layer: wholesale_contract
+affected_jurisdiction:
+  locality: "Washington, D.C.; Arlington County; portions of Fairfax County"
+  state: "District of Columbia / Virginia"
+controlling_actor: "U.S. Army Corps of Engineers (Baltimore District)"
+controlling_jurisdiction:
+  locality: Washington
+  state: "Federal"
+trigger: >
+  The January 2026 Potomac Interceptor sewage spill renewed attention on the
+  fact that DC and Arlington have zero alternative drinking water sources. The
+  Potomac River is the sole intake. The Aqueduct's Dalecarlia Reservoir holds
+  only 24-48 hours of supply. A 2025 ICPRB report found that in 4 of 9 extreme
+  drought scenarios, upstream reservoirs run dry by 2030. The Trump
+  administration tried to sell the Aqueduct in 2017.
+public_consequence: >
+  1.1 million people have no backup water supply if the Potomac becomes
+  contaminated or runs low. DC Water, Arlington County, and Fairfax Water have
+  no vote on Army Corps capital investment decisions. Rate-setting and
+  modernization are controlled by a federal agency with competing priorities.
+affected_population_est: 1100000
+status: active
+date_surfaced: "2026-01-19"
+confidence: high
+sources:
+  - publisher: WTOP News
+    url: "https://wtop.com/local/2026/03/army-corps-reservoir-expansion-doesnt-fix-but-improves-dcs-supply-of-drinking-water-during-future-potomac-river-emergency/"
+    date: "2026-03-01"
+  - publisher: ICPRB
+    url: "https://www.potomacriver.org/news/news-release-new-report-exposes-the-vulnerabilities-of-the-washington-metropolitan-areas-water-supply/"
+    date: "2025-01-01"
+  - publisher: U.S. Army Corps of Engineers
+    url: "https://www.nab.usace.army.mil/Missions/Washington-Aqueduct/"
+    date: "2026-01-01"
+one_line: >
+  A federal agency operates the sole drinking water system for 1.1M people in DC
+  and Virginia; customers have no alternative source and limited influence over
+  capital investment or emergency preparedness decisions.

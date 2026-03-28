@@ -1,0 +1,42 @@
+case_id: jackson-ms-water-crisis-2022
+title: "Mississippi state government withheld federal relief funds, precipitating Jackson water system collapse"
+utility_type: water
+control_layer: supply
+affected_jurisdiction:
+  locality: "Jackson"
+  state: Mississippi
+controlling_actor: "State of Mississippi (Governor, Legislature)"
+controlling_jurisdiction:
+  locality: Jackson
+  state: Mississippi
+trigger: >
+  In August 2022, Pearl River flooding overwhelmed the already-failing O.B.
+  Curtis Water Treatment Plant. The deeper cause: Mississippi lawmakers withheld
+  $1.8 billion in ARPA funds from Jackson despite urgent requests. Governor
+  Reeves vetoed a bipartisan bill to help Jackson collect overdue water payments.
+  The state health department failed to enforce Safe Drinking Water Act violations
+  from 2015-2021, preventing federal intervention.
+public_consequence: >
+  150,000-180,000 residents (84% minority, 25% below poverty line) lost safe
+  drinking water for weeks. Boil-water advisories persisted for months. 55 pipe
+  breaks per 100 miles annually (safe threshold: 15). ~50% of treated water lost
+  to leaks or faulty meters. Total repair cost estimated at $2 billion. Federal
+  disaster declaration issued.
+affected_population_est: 180000
+status: recurring
+date_surfaced: "2022-08-29"
+confidence: high
+sources:
+  - publisher: NPR
+    url: "https://www.npr.org/2022/08/31/1120166328/jackson-mississippi-water-crisis"
+    date: "2022-08-31"
+  - publisher: Washington Post
+    url: "https://www.washingtonpost.com/nation/2022/09/03/jackson-mississippi-water-crisis/"
+    date: "2022-09-03"
+  - publisher: Mississippi Today
+    url: "https://mississippitoday.org/2022/11/07/jackson-water-crisis-poverty-neglect-racism/"
+    date: "2022-11-07"
+one_line: >
+  Jackson's 180,000 residents depend on a city water system whose survival
+  requires state funding; Mississippi's government actively withheld federal
+  relief dollars and vetoed revenue-recovery legislation.

@@ -1,0 +1,38 @@
+case_id: toledo-lake-erie-algal-bloom-2014
+title: "Upstream agricultural runoff contaminates Toledo's sole drinking water source with microcystin toxin"
+utility_type: water
+control_layer: supply
+affected_jurisdiction:
+  locality: "Toledo and surrounding Lucas County"
+  state: Ohio
+controlling_actor: "Upstream agricultural operators in Maumee River watershed"
+controlling_jurisdiction:
+  locality: "Maumee River watershed (90% agricultural land)"
+  state: "Ohio / Indiana / Michigan"
+trigger: >
+  On August 2, 2014, a massive harmful algal bloom caused by phosphorus-laden
+  agricultural runoff produced microcystin toxin levels exceeding safe limits at
+  Toledo's water intake on Lake Erie. State regulators lacked legal authority to
+  regulate non-point-source farm runoff. A decade later, blooms persist annually;
+  Ohio's voluntary H2Ohio program achieves only ~10% phosphorus reduction vs the
+  40% needed.
+public_consequence: >
+  500,000+ residents received "do not drink, do not touch" water orders for three
+  days. Businesses closed, tourism disrupted. Estimated $65M in economic damage.
+  Toledo has since invested $500M in treatment upgrades. Toxic blooms continue
+  annually.
+affected_population_est: 500000
+status: recurring
+date_surfaced: "2014-08-02"
+confidence: high
+sources:
+  - publisher: Alliance for the Great Lakes
+    url: "https://greatlakes.org/2019/08/five-years-later-lessons-from-the-toledo-water-crisis/"
+    date: "2019-08-01"
+  - publisher: Michigan Public Radio
+    url: "https://www.michiganpublic.org/environment-climate-change/2024-08-02/toxic-blooms-on-lake-erie-still-a-problem-10-years-after-toledo-shut-down-its-water-system"
+    date: "2024-08-02"
+one_line: >
+  Toledo's 500,000 residents draw water from Lake Erie but phosphorus runoff from
+  farmland across three states — governed by regulators with no authority over
+  non-point agricultural pollution — causes recurring toxic blooms.

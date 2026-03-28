@@ -1,0 +1,45 @@
+case_id: pacificorp-california-balancing-2022
+title: "PacifiCorp's 46,000 California customers governed by six-state balancing authority outside CAISO"
+utility_type: electricity
+control_layer: balancing
+affected_jurisdiction:
+  locality: "Del Norte, Modoc, Shasta, and Siskiyou counties"
+  state: California
+controlling_actor: "PacifiCorp (Berkshire Hathaway Energy)"
+controlling_jurisdiction:
+  locality: Portland
+  state: Oregon
+trigger: >
+  PacifiCorp operates its own balancing authority (PACW) spanning six states;
+  California customers sit outside CAISO. Wildfire liabilities totaling $2.2B+
+  in settlements are being recovered across PacifiCorp's multi-state rate base,
+  and $1.7B in wildfire costs are being pushed into FERC-jurisdictional
+  transmission rates that wholesale customers must absorb.
+public_consequence: >
+  Northern California customers have no representation in CAISO governance,
+  cannot access CAISO reliability programs, and face rate exposure from wildfire
+  liabilities incurred across PacifiCorp's six-state territory. Utah wholesale
+  customers face a 32-45% transmission rate increase from wildfire costs while
+  PacifiCorp's own retail customers in Salt Lake City pay nothing toward wildfire
+  liability.
+affected_population_est: 47800
+status: active
+date_surfaced: "2022-12-01"
+confidence: high
+sources:
+  - publisher: PacifiCorp
+    url: "https://www.pacificorp.com/about/newsroom/news-releases/california-iso-edam.html"
+    date: "2024-03-22"
+  - publisher: U.S. Department of Justice
+    url: "https://www.justice.gov/opa/pr/pacificorp-agrees-pay-575m-settle-claims-damage-caused-six-wildfires-california-and-oregon"
+    date: "2026-02-20"
+  - publisher: Utility Dive
+    url: "https://www.utilitydive.com/news/pacificorp-ferc-bpa-wildfire-liability-transmission-rates/758475/"
+    date: "2025-08-22"
+  - publisher: Utility Dive
+    url: "https://www.utilitydive.com/news/utah-deseret-uamps-ferc-pacificorp-wildfire-transmission/752557/"
+    date: "2025-07-14"
+one_line: >
+  46,000 Californians governed by a Portland-based utility's six-state balancing
+  authority outside CAISO, facing rate exposure from $2.2B in multi-state wildfire
+  settlements.

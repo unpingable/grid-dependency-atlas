@@ -1,0 +1,40 @@
+case_id: delmarva-dpl-south-pjm-capacity-2023
+title: "Delmarva Peninsula customers hit with $183M capacity cost overcharge from flawed PJM auction parameter"
+utility_type: electricity
+control_layer: market_governance
+affected_jurisdiction:
+  locality: "Delmarva Peninsula (statewide Delaware, Eastern Shore Maryland)"
+  state: "Delaware / Maryland"
+controlling_actor: "PJM Interconnection"
+controlling_jurisdiction:
+  locality: Audubon
+  state: Pennsylvania
+trigger: >
+  In the December 2022 capacity auction for 2024/2025, PJM's planning model
+  predicted certain large plants and solar facilities would participate. When
+  those suppliers declined, the inflated reliability requirement remained,
+  producing anomalous results that drove up DPL South zone prices by ~$183M.
+  PJM proposed a re-run; FERC approved a fix keeping higher prices. The D.C.
+  Circuit Court vacated FERC's decision on January 13, 2026.
+public_consequence: >
+  DPL South zone customers faced $288.4M in capacity costs versus $110.7M under
+  corrected parameters — a $178M overcharge driven by a modeling error at PJM.
+  Delaware and Maryland regulators had no power to correct it and spent three
+  years litigating through FERC and federal appeals court.
+affected_population_est: 515000
+status: active
+date_surfaced: "2023-02-01"
+confidence: high
+sources:
+  - publisher: Utility Dive
+    url: "https://www.utilitydive.com/news/appeals-court-vacates-ferc-decision-pjm-capacity-auction/809589/"
+    date: "2026-01-14"
+  - publisher: Utility Dive
+    url: "https://www.utilitydive.com/news/ferc-rehearing-pjm-delmarva-capacity-auction/717174/"
+    date: "2024-05-20"
+  - publisher: National Law Review
+    url: "https://natlawreview.com/article/dc-circuit-finds-ferc-erred-declining-consider-section-206-relief-202425-pjm"
+    date: "2026-01-22"
+one_line: >
+  A modeling error at PJM in Pennsylvania overcharged 515,000 Delmarva customers
+  by $178M; state regulators had no power to fix it and litigated for three years.
