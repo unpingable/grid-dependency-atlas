@@ -42,14 +42,14 @@
     }
 
     header h1 {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 600;
       color: #fff;
       letter-spacing: -0.01em;
     }
 
     header .subtitle {
-      font-size: 12px;
+      font-size: 14px;
       color: #888;
     }
 
@@ -77,12 +77,12 @@
     .panel-placeholder {
       padding: 40px 24px;
       color: #555;
-      font-size: 13px;
+      font-size: 15px;
       line-height: 1.6;
     }
 
     .placeholder-title {
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 600;
       color: #888;
       margin-bottom: 16px;
@@ -96,7 +96,7 @@
     }
 
     .placeholder-stat {
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 600;
       padding: 4px 10px;
       border-radius: 3px;
@@ -106,14 +106,14 @@
     }
 
     .placeholder-desc {
-      font-size: 13px;
+      font-size: 15px;
       color: #666;
       line-height: 1.6;
       margin-bottom: 16px;
     }
 
     .placeholder-note {
-      font-size: 11px;
+      font-size: 12px;
       color: #444;
       line-height: 1.5;
       border-top: 1px solid #1a1a1a;
@@ -121,7 +121,7 @@
     }
 
     .filter-count {
-      font-size: 11px;
+      font-size: 13px;
       color: #666;
       margin-left: 4px;
     }
@@ -146,7 +146,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 12px;
+      font-size: 13px;
       color: #bbb;
     }
 
@@ -168,7 +168,7 @@
     }
 
     .overlay-note {
-      font-size: 10px;
+      font-size: 11px;
       color: #555;
       line-height: 1.4;
       font-style: italic;
@@ -185,7 +185,7 @@
 
     .panel-header .utility-badge {
       display: inline-block;
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -200,7 +200,7 @@
     .badge-sewer { background: #0a1a0a; color: #66bb6a; }
 
     .panel-header h2 {
-      font-size: 15px;
+      font-size: 17px;
       font-weight: 600;
       color: #fff;
       line-height: 1.4;
@@ -208,7 +208,7 @@
     }
 
     .panel-header .one-line {
-      font-size: 13px;
+      font-size: 14px;
       color: #aaa;
       line-height: 1.5;
       font-style: italic;
@@ -223,7 +223,7 @@
     }
 
     .panel-body .field-label {
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -232,7 +232,7 @@
     }
 
     .panel-body .field-value {
-      font-size: 13px;
+      font-size: 14px;
       color: #ccc;
       line-height: 1.5;
     }
@@ -256,7 +256,7 @@
 
     .status-badge {
       display: inline-block;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 600;
       padding: 2px 6px;
       border-radius: 3px;
@@ -285,7 +285,7 @@
     }
 
     .filter-group label {
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -293,7 +293,7 @@
     }
 
     .filter-group select {
-      font-size: 12px;
+      font-size: 13px;
       background: #1a1a1a;
       color: #ccc;
       border: 1px solid #333;
@@ -312,7 +312,7 @@
       display: flex;
       align-items: center;
       gap: 5px;
-      font-size: 11px;
+      font-size: 12px;
       color: #888;
     }
 
@@ -794,6 +794,12 @@
           document.getElementById('overlay-control-label').textContent = control[0].properties.label;
         }
 
+        // Dim dots so overlays are the visual focus
+        map.setPaintProperty('cases-dot', 'circle-opacity', 0.3);
+        map.setPaintProperty('cases-dot', 'circle-stroke-opacity', 0.15);
+        map.setPaintProperty('cases-dot', 'circle-radius', 4);
+        map.setPaintProperty('cases-glow', 'circle-opacity', 0.05);
+
         // Fit bounds to show both geometries
         const allFeatures = [...affected, ...control];
         const bounds = new maplibregl.LngLatBounds();
@@ -807,13 +813,23 @@
         map.fitBounds(bounds, { padding, duration: 800, maxZoom: 10 });
       } else {
         legendEl.style.display = 'none';
+        restoreDots();
       }
+    }
+
+    function restoreDots() {
+      const m = isMobile();
+      map.setPaintProperty('cases-dot', 'circle-opacity', 0.9);
+      map.setPaintProperty('cases-dot', 'circle-stroke-opacity', 0.4);
+      map.setPaintProperty('cases-dot', 'circle-radius', m ? 9 : 7);
+      map.setPaintProperty('cases-glow', 'circle-opacity', 0.15);
     }
 
     function clearOverlays() {
       map.getSource('overlay-affected').setData(emptyGeoJSON);
       map.getSource('overlay-control').setData(emptyGeoJSON);
       document.getElementById('overlay-legend').style.display = 'none';
+      restoreDots();
     }
 
     function showPanel(props) {
