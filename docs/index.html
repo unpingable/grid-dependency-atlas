@@ -126,6 +126,54 @@
       margin-left: 4px;
     }
 
+    .overlay-legend {
+      margin-bottom: 14px;
+      padding: 10px 12px;
+      background: #161616;
+      border: 1px solid #252525;
+      border-radius: 6px;
+    }
+
+    .overlay-legend .field-label { margin-bottom: 8px; }
+
+    .overlay-legend-items {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 6px;
+    }
+
+    .overlay-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #bbb;
+    }
+
+    .overlay-swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      border: 1.5px solid;
+    }
+
+    .overlay-swatch-affected {
+      background: rgba(239, 83, 80, 0.25);
+      border-color: rgba(239, 83, 80, 0.7);
+    }
+
+    .overlay-swatch-control {
+      background: rgba(79, 195, 247, 0.15);
+      border-color: rgba(79, 195, 247, 0.5);
+    }
+
+    .overlay-note {
+      font-size: 10px;
+      color: #555;
+      line-height: 1.4;
+      font-style: italic;
+    }
+
     .panel-content { display: none; }
 
     .panel-content.active { display: block; }
@@ -462,6 +510,14 @@
             <div class="field-label">Controlling Jurisdiction</div>
             <div class="field-value" id="p-ctrl-jurisdiction"></div>
           </div>
+          <div class="overlay-legend" id="overlay-legend" style="display:none">
+            <div class="field-label">Geography</div>
+            <div class="overlay-legend-items">
+              <span class="overlay-legend-item"><span class="overlay-swatch overlay-swatch-affected"></span><span id="overlay-affected-label">Affected area</span></span>
+              <span class="overlay-legend-item"><span class="overlay-swatch overlay-swatch-control"></span><span id="overlay-control-label">Control footprint</span></span>
+            </div>
+            <div class="overlay-note">Boundaries are approximate. Shows governance/dependency, not literal physical routing.</div>
+          </div>
           <div class="field">
             <div class="field-label">Trigger</div>
             <div class="field-value" id="p-trigger"></div>
@@ -524,10 +580,16 @@
     map.addControl(new maplibregl.NavigationControl(), 'top-left');
 
     let geojsonData = null;
+    let overlayData = null;
+    const emptyGeoJSON = { type: 'FeatureCollection', features: [] };
 
     map.on('load', async () => {
-      const resp = await fetch('data/cases.geojson');
-      geojsonData = await resp.json();
+      const [caseResp, overlayResp] = await Promise.all([
+        fetch('data/cases.geojson'),
+        fetch('data/overlays.geojson')
+      ]);
+      geojsonData = await caseResp.json();
+      overlayData = await overlayResp.json();
 
       map.addSource('cases', { type: 'geojson', data: geojsonData });
 
@@ -547,6 +609,51 @@
         ).join('');
 
       updateFilterCount();
+
+      // Overlay sources (empty until a case is selected)
+      map.addSource('overlay-control', { type: 'geojson', data: emptyGeoJSON });
+      map.addSource('overlay-affected', { type: 'geojson', data: emptyGeoJSON });
+
+      // Control footprint fill (rendered first = underneath)
+      map.addLayer({
+        id: 'overlay-control-fill',
+        type: 'fill',
+        source: 'overlay-control',
+        paint: {
+          'fill-color': 'rgba(79, 195, 247, 0.10)',
+          'fill-opacity': 1
+        }
+      });
+      map.addLayer({
+        id: 'overlay-control-outline',
+        type: 'line',
+        source: 'overlay-control',
+        paint: {
+          'line-color': 'rgba(79, 195, 247, 0.45)',
+          'line-width': 1.5,
+          'line-dasharray': [4, 3]
+        }
+      });
+
+      // Affected area fill (rendered on top of control)
+      map.addLayer({
+        id: 'overlay-affected-fill',
+        type: 'fill',
+        source: 'overlay-affected',
+        paint: {
+          'fill-color': 'rgba(239, 83, 80, 0.18)',
+          'fill-opacity': 1
+        }
+      });
+      map.addLayer({
+        id: 'overlay-affected-outline',
+        type: 'line',
+        source: 'overlay-affected',
+        paint: {
+          'line-color': 'rgba(239, 83, 80, 0.6)',
+          'line-width': 2
+        }
+      });
 
       const mobile = isMobile();
 
@@ -621,9 +728,15 @@
       clickLayers.forEach(layer => {
         map.on('click', layer, (e) => {
           const props = e.features[0].properties;
+          const caseId = props.case_id;
           showPanel(props);
-          const targetZoom = mobile ? Math.max(map.getZoom(), 5) : Math.max(map.getZoom(), 6);
-          map.flyTo({ center: e.lngLat, zoom: targetZoom, duration: 600 });
+          // If case has overlay geometry, fitBounds handles the camera.
+          // Otherwise fall back to flyTo on the marker.
+          const hasOverlay = overlayData && overlayData.features.some(f => f.properties.case_id === caseId);
+          if (!hasOverlay) {
+            const targetZoom = mobile ? Math.max(map.getZoom(), 5) : Math.max(map.getZoom(), 6);
+            map.flyTo({ center: e.lngLat, zoom: targetZoom, duration: 600 });
+          }
         });
       });
 
@@ -652,6 +765,56 @@
       if (dy > 60) { hidePanel(); dragStartY = null; }
     }, { passive: true });
     dragHandle.addEventListener('touchend', () => { dragStartY = null; });
+
+    function showOverlays(caseId) {
+      if (!overlayData) return;
+      const affected = overlayData.features.filter(f =>
+        f.properties.case_id === caseId && f.properties.role === 'affected'
+      );
+      const control = overlayData.features.filter(f =>
+        f.properties.case_id === caseId && f.properties.role === 'control'
+      );
+
+      const hasOverlay = affected.length > 0 || control.length > 0;
+      const legendEl = document.getElementById('overlay-legend');
+
+      map.getSource('overlay-affected').setData(
+        affected.length ? { type: 'FeatureCollection', features: affected } : emptyGeoJSON
+      );
+      map.getSource('overlay-control').setData(
+        control.length ? { type: 'FeatureCollection', features: control } : emptyGeoJSON
+      );
+
+      if (hasOverlay) {
+        legendEl.style.display = 'block';
+        if (affected.length) {
+          document.getElementById('overlay-affected-label').textContent = affected[0].properties.label;
+        }
+        if (control.length) {
+          document.getElementById('overlay-control-label').textContent = control[0].properties.label;
+        }
+
+        // Fit bounds to show both geometries
+        const allFeatures = [...affected, ...control];
+        const bounds = new maplibregl.LngLatBounds();
+        allFeatures.forEach(f => {
+          const coords = f.geometry.coordinates[0];
+          coords.forEach(c => bounds.extend(c));
+        });
+        const padding = isMobile()
+          ? { top: 60, bottom: 80, left: 30, right: 30 }
+          : { top: 60, bottom: 60, left: 60, right: 440 };
+        map.fitBounds(bounds, { padding, duration: 800, maxZoom: 10 });
+      } else {
+        legendEl.style.display = 'none';
+      }
+    }
+
+    function clearOverlays() {
+      map.getSource('overlay-affected').setData(emptyGeoJSON);
+      map.getSource('overlay-control').setData(emptyGeoJSON);
+      document.getElementById('overlay-legend').style.display = 'none';
+    }
 
     function showPanel(props) {
       document.getElementById('placeholder').style.display = 'none';
@@ -683,12 +846,15 @@
       sourcesEl.innerHTML = sources.map(s =>
         `<a href="${s.url}" target="_blank" rel="noopener">${s.publisher}</a> (${s.date})`
       ).join('<br>');
+
+      showOverlays(props.case_id);
     }
 
     function hidePanel() {
       if (!isMobile()) document.getElementById('placeholder').style.display = 'block';
       document.getElementById('panel-content').classList.remove('active');
       panelEl.classList.remove('mobile-open');
+      clearOverlays();
     }
 
     function formatLayer(layer) {
