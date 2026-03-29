@@ -1,0 +1,364 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-120.1, 39.1] },
+      "properties": {
+        "case_id": "tahoe-nvenergy-supply-2026",
+        "title": "NV Energy declines continued full-requirements supply to Liberty Utilities at Lake Tahoe",
+        "utility_type": "electricity",
+        "control_layer": "wholesale_contract",
+        "affected_jurisdiction": "Lake Tahoe basin, California",
+        "controlling_actor": "NV Energy",
+        "controlling_jurisdiction": "Las Vegas, Nevada",
+        "trigger": "NV Energy informed Liberty Utilities it would not extend the full-requirements wholesale supply arrangement beyond May 2027, citing its own resource needs. The northern Nevada market is now extremely competitive due to data center load growth, and transmission for new interconnections is severely constrained.",
+        "public_consequence": "49,000 California customers face a rushed wholesale resupply process. Liberty must procure replacement power by March 2027. Customers will absorb whatever replacement costs emerge. Because Liberty's territory sits in the NV Energy balancing authority — not CAISO — the community has no access to California's main grid reliability programs.",
+        "affected_population_est": 49000,
+        "status": "active",
+        "date_surfaced": "2026-03-20",
+        "confidence": "high",
+        "one_line": "California community electrically dependent on Nevada; supplier withdrawing capacity under data-center pressure, forcing emergency procurement.",
+        "sources": [
+          { "publisher": "CalMatters", "url": "https://calmatters.org/economy/2026/03/nevada-utility-to-lake-tahoe-find-electricity-elsewhere/", "date": "2026-03-20" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-121.8, 41.3] },
+      "properties": {
+        "case_id": "pacificorp-california-balancing-2022",
+        "title": "PacifiCorp's 46,000 California customers governed by six-state balancing authority outside CAISO",
+        "utility_type": "electricity",
+        "control_layer": "balancing",
+        "affected_jurisdiction": "Del Norte, Modoc, Shasta, and Siskiyou counties, California",
+        "controlling_actor": "PacifiCorp (Berkshire Hathaway Energy)",
+        "controlling_jurisdiction": "Portland, Oregon",
+        "trigger": "PacifiCorp operates its own balancing authority (PACW) spanning six states; California customers sit outside CAISO. Wildfire liabilities totaling $2.2B+ in settlements are being recovered across PacifiCorp's multi-state rate base, and $1.7B in wildfire costs are being pushed into FERC-jurisdictional transmission rates.",
+        "public_consequence": "Northern California customers have no representation in CAISO governance, cannot access CAISO reliability programs, and face rate exposure from wildfire liabilities incurred across PacifiCorp's six-state territory. Utah wholesale customers face a 32-45% transmission rate increase from wildfire costs while PacifiCorp's own retail customers in Salt Lake City pay nothing.",
+        "affected_population_est": 47800,
+        "status": "active",
+        "date_surfaced": "2022-12-01",
+        "confidence": "high",
+        "one_line": "46,000 Californians governed by a Portland-based utility's six-state balancing authority outside CAISO, facing rate exposure from $2.2B in multi-state wildfire settlements.",
+        "sources": [
+          { "publisher": "PacifiCorp", "url": "https://www.pacificorp.com/about/newsroom/news-releases/california-iso-edam.html", "date": "2024-03-22" },
+          { "publisher": "U.S. Department of Justice", "url": "https://www.justice.gov/opa/pr/pacificorp-agrees-pay-575m-settle-claims-damage-caused-six-wildfires-california-and-oregon", "date": "2026-02-20" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-87.5, 46.8] },
+      "properties": {
+        "case_id": "upper-peninsula-michigan-miso-2024",
+        "title": "Michigan Upper Peninsula electrically dependent on Wisconsin transmission within MISO",
+        "utility_type": "electricity",
+        "control_layer": "transmission",
+        "affected_jurisdiction": "Upper Peninsula, Michigan",
+        "controlling_actor": "American Transmission Company (ATC) / MISO",
+        "controlling_jurisdiction": "Pewaukee, Wisconsin / Carmel, Indiana",
+        "trigger": "The UP's western two-thirds are electrically tied to northern Wisconsin via ATC's transmission system, not to Lower Michigan. ATC is headquartered in Wisconsin and majority-owned by Wisconsin utilities. A 2011 lightning event during planned maintenance knocked out power to two-thirds of the peninsula. Data center load growth in Wisconsin is driving $1.3B+ in new transmission investment that UP ratepayers may subsidize.",
+        "public_consequence": "~300,000 residents depend on a transmission system owned and planned by a Wisconsin-based company, governed by a multi-state RTO headquartered in Indiana. ATC cannot provide firm service to some UP utilities due to transmission constraints.",
+        "affected_population_est": 301000,
+        "status": "active",
+        "date_surfaced": "2024-07-17",
+        "confidence": "high",
+        "one_line": "300,000 Michigan UP residents depend on Wisconsin-owned transmission governed by MISO; a single lightning strike blacked out two-thirds of the peninsula.",
+        "sources": [
+          { "publisher": "Michigan Public Service Commission", "url": "https://www.michigan.gov/mpsc/-/media/Project/Websites/mpsc/regulatory/reports/2024_Upper_Peninsula_Energy_Report_with_Appendices.pdf", "date": "2024-09-01" },
+          { "publisher": "Wisconsin Watch / WPR", "url": "https://wisconsinwatch.org/2026/03/wisconsin-data-center-power-grid-transmission-utilities-customers-project-cost/", "date": "2026-03-24" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-75.5, 38.3] },
+      "properties": {
+        "case_id": "delmarva-dpl-south-pjm-capacity-2023",
+        "title": "Delmarva Peninsula customers hit with $183M capacity cost overcharge from flawed PJM auction parameter",
+        "utility_type": "electricity",
+        "control_layer": "market_governance",
+        "affected_jurisdiction": "Delmarva Peninsula (Delaware / Eastern Shore Maryland)",
+        "controlling_actor": "PJM Interconnection",
+        "controlling_jurisdiction": "Audubon, Pennsylvania",
+        "trigger": "In the December 2022 capacity auction, PJM's planning model predicted certain large plants would participate. When they declined, inflated reliability requirements produced anomalous results that drove up DPL South zone prices by ~$183M. The D.C. Circuit Court vacated FERC's decision on January 13, 2026.",
+        "public_consequence": "DPL South zone customers faced $288.4M in capacity costs versus $110.7M under corrected parameters — a $178M overcharge. Delaware and Maryland regulators had no power to correct it and spent three years litigating through FERC and federal court.",
+        "affected_population_est": 515000,
+        "status": "active",
+        "date_surfaced": "2023-02-01",
+        "confidence": "high",
+        "one_line": "A modeling error at PJM in Pennsylvania overcharged 515,000 Delmarva customers by $178M; state regulators had no power to fix it and litigated for three years.",
+        "sources": [
+          { "publisher": "Utility Dive", "url": "https://www.utilitydive.com/news/appeals-court-vacates-ferc-decision-pjm-capacity-auction/809589/", "date": "2026-01-14" },
+          { "publisher": "National Law Review", "url": "https://natlawreview.com/article/dc-circuit-finds-ferc-erred-declining-consider-section-206-relief-202425-pjm", "date": "2026-01-22" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-77.6, 39.0] },
+      "properties": {
+        "case_id": "pjm-data-center-cost-spillover-2025",
+        "title": "Virginia data center boom drives capacity cost explosion across 13 PJM states",
+        "utility_type": "electricity",
+        "control_layer": "market_governance",
+        "affected_jurisdiction": "13 states + D.C. (PJM footprint)",
+        "controlling_actor": "PJM Interconnection / Virginia data center developers",
+        "controlling_jurisdiction": "Loudoun County, Virginia / Audubon, Pennsylvania",
+        "trigger": "Data centers in Virginia's Dominion zone drove an 833% increase in PJM capacity auction clearing prices. Data centers accounted for 63% of the $9.3B cost increase and 94% of projected 32 GW demand growth through 2030. PJM's December 2025 auction fell 6,625 MW short of reliability requirements for the first time ever.",
+        "public_consequence": "Residential ratepayers across 13 states pay for Virginia's data center growth: Pepco (D.C.) +$21/month, western Maryland +$18/month, Ohio +$16/month. NRDC projects $100-163B in cumulative capacity costs through 2033. PJM's first-ever reliability shortfall means potential rolling blackouts.",
+        "affected_population_est": 67000000,
+        "status": "active",
+        "date_surfaced": "2024-07-30",
+        "confidence": "high",
+        "one_line": "Virginia data centers triggered an 833% spike in PJM capacity prices, socializing $9.3B in costs across 67 million ratepayers in 13 states who have no say over Virginia's permitting decisions.",
+        "sources": [
+          { "publisher": "IEEFA", "url": "https://ieefa.org/resources/projected-data-center-growth-spurs-pjm-capacity-prices-factor-10", "date": "2025-03-18" },
+          { "publisher": "Citizens Utility Board", "url": "https://www.citizensutilityboard.org/blog/2025/10/23/data-center-concerns-cub-nrdc-experts-warn-pjm-states-could-get-hit-with-forced-blackouts-163b-in-additional-electricity-capacity-costs/", "date": "2025-10-23" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-90.1, 29.95] },
+      "properties": {
+        "case_id": "entergy-miso-south-nola-blackout-2025",
+        "title": "New Orleans blackout exposes Entergy's multi-state transmission underinvestment under MISO governance",
+        "utility_type": "electricity",
+        "control_layer": "transmission",
+        "affected_jurisdiction": "Greater New Orleans, Louisiana",
+        "controlling_actor": "Entergy Corporation / MISO",
+        "controlling_jurisdiction": "New Orleans, LA (Entergy HQ) / Carmel, Indiana (MISO HQ)",
+        "trigger": "On May 25, 2025, MISO ordered Entergy to shed 498 MW of load across Greater New Orleans with only 30 minutes' warning after River Bend nuclear plant tripped. Entergy's four-state territory has blocked MISO long-range transmission planning — not one MISO LRTP line has been built in Entergy's territory.",
+        "public_consequence": "100,000+ customers lost power during Memorial Day weekend. The outage was not caused by extreme weather — it was a normal Sunday. New Orleans City Council regulates Entergy locally but has no authority over MISO's reliability decisions or Entergy's multi-state transmission strategy.",
+        "affected_population_est": 250000,
+        "status": "active",
+        "date_surfaced": "2025-05-25",
+        "confidence": "high",
+        "one_line": "100,000 New Orleans customers lost power on an ordinary Sunday because Entergy has blocked MISO transmission planning across four states for a decade.",
+        "sources": [
+          { "publisher": "The Lens (New Orleans)", "url": "https://thelensnola.org/2025/07/31/entergy-wants-to-use-power-it-creates-that-led-to-the-may-blackout/", "date": "2025-07-31" },
+          { "publisher": "Verite News", "url": "https://veritenews.org/2025/06/04/entergy-miso-memorial-day-blackout/", "date": "2025-06-04" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-71.1, 42.4] },
+      "properties": {
+        "case_id": "iso-ne-winter-gas-pipeline-constraint",
+        "title": "New England winter gas pipeline constraints causing electricity price spikes and reliability risk",
+        "utility_type": "electricity",
+        "control_layer": "pipeline_capacity",
+        "affected_jurisdiction": "New England (CT, ME, MA, NH, RI, VT)",
+        "controlling_actor": "Interstate pipeline operators (Algonquin/Enbridge, Tennessee Gas Pipeline/TC Energy)",
+        "controlling_jurisdiction": "Houston, TX / Calgary, AB (corporate); FERC (regulatory)",
+        "trigger": "Gas pipelines into New England were sized for heating load alone. When generators (~50% of electricity) compete with heating for pipeline capacity on cold days, heating gets contractual priority. In January 2026, gas prices hit the highest level ever in ISO-NE's pricing database. DOE issued an emergency order allowing generators to exceed emissions limits.",
+        "public_consequence": "Extreme wholesale electricity price spikes passed to 15.1 million ratepayers. Winter 2024/2025 wholesale energy market was $4B (up from $1.6B). January 2026 peaks reached $441.80/MWh. Reliability during cold snaps requires emergency federal orders and oil-fired backup.",
+        "affected_population_est": 15100000,
+        "status": "recurring",
+        "date_surfaced": "2013-01-01",
+        "confidence": "high",
+        "one_line": "New England's gas pipelines were built for heating, not power generation; every cold winter, 15 million electricity customers pay massive price spikes because no New England entity controls interstate pipeline capacity decisions.",
+        "sources": [
+          { "publisher": "ISO New England", "url": "https://www.iso-ne.com/about/where-we-are-going/role-of-natural-gas", "date": "2025-01-01" },
+          { "publisher": "Portland Press Herald", "url": "https://www.pressherald.com/2026/02/20/natural-gas-prices-in-new-england-spiked-to-their-highest-level-ever-in-january/", "date": "2026-02-20" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-97.7, 30.3] },
+      "properties": {
+        "case_id": "texas-uri-gas-electric-2021",
+        "title": "Winter Storm Uri gas-electric interdependency collapse in Texas",
+        "utility_type": "gas",
+        "control_layer": "supply",
+        "affected_jurisdiction": "Texas (statewide)",
+        "controlling_actor": "ERCOT / Texas Railroad Commission / uncoordinated gas producers",
+        "controlling_jurisdiction": "Austin, Texas",
+        "trigger": "February 2021 arctic blast caused cascading gas-electric interdependency failure. Permian Basin gas production dropped 85%. Gas compressors on interruptible electric contracts lost power, cutting gas supply to generators that needed gas to produce electricity. FERC/NERC found gas fuel supply issues accounted for 87% of all fuel-related generator outages.",
+        "public_consequence": "4.5 million+ homes lost power for an average of 42 hours. Official death toll: 246; independent estimates: 426-978. 69% of Texans lost power; 49% lost water. Economic losses: $80-130 billion.",
+        "affected_population_est": 29000000,
+        "status": "resolved",
+        "date_surfaced": "2021-02-14",
+        "confidence": "high",
+        "one_line": "Texas's unregulated gas producers had no obligation to winterize or coordinate with the grid; the freeze created a death spiral where electric outages killed gas supply that killed electric generation.",
+        "sources": [
+          { "publisher": "FERC", "url": "https://www.ferc.gov/news-events/news/final-report-february-2021-freeze-underscores-winterization-recommendations", "date": "2021-11-16" },
+          { "publisher": "Texas Comptroller", "url": "https://comptroller.texas.gov/economy/fiscal-notes/archive/2021/oct/winter-storm-impact.php", "date": "2021-10-01" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-71.3, 41.5] },
+      "properties": {
+        "case_id": "aquidneck-island-gas-outage-2019",
+        "title": "Aquidneck Island gas outage from Algonquin pipeline pressure loss",
+        "utility_type": "gas",
+        "control_layer": "pipeline_capacity",
+        "affected_jurisdiction": "Newport and Middletown (Aquidneck Island), Rhode Island",
+        "controlling_actor": "Enbridge Inc. (Algonquin Gas Transmission) / National Grid",
+        "controlling_jurisdiction": "Calgary, Alberta (Enbridge); FERC-regulated",
+        "trigger": "On January 21, 2019 — one of the coldest days in a decade — high heating demand across the Algonquin system caused a low-pressure condition on the Aquidneck branch. A valve programming error and local LNG backup failure removed the last safety net.",
+        "public_consequence": "7,455 gas customers lost heating for up to 7 days in sub-freezing temperatures. Thousands displaced. Each customer required individual restoration visit. National Grid paid $2M class action settlement.",
+        "affected_population_est": 18000,
+        "status": "resolved",
+        "date_surfaced": "2019-01-21",
+        "confidence": "high",
+        "one_line": "Newport and Middletown lost heat for a week in freezing weather because their gas depends on a Canadian-owned interstate pipeline whose capacity allocation prioritized system-wide balance over a small island community.",
+        "sources": [
+          { "publisher": "Rhode Island DPUC", "url": "https://ripuc.ri.gov/sites/g/files/xkgbur841/files/eventsactions/AI_Report.pdf", "date": "2019-10-30" },
+          { "publisher": "Utility Dive", "url": "https://www.utilitydive.com/news/gas-outages-hit-10k-in-rhode-island-after-issue-on-algonquin-pipeline/546556/", "date": "2019-01-22" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-86.8, 36.2] },
+      "properties": {
+        "case_id": "tva-elliott-gas-generation-2022",
+        "title": "Winter Storm Elliott gas plant failures cause rolling blackouts across TVA territory",
+        "utility_type": "electricity",
+        "control_layer": "supply",
+        "affected_jurisdiction": "Nashville, Knoxville, Chattanooga, Memphis and 153 local power company territories (7 states)",
+        "controlling_actor": "Tennessee Valley Authority / upstream gas producers",
+        "controlling_jurisdiction": "Knoxville, TN (TVA); gas from PA, WV, OH, Gulf states",
+        "trigger": "Christmas Eve 2022 arctic blast caused 10 of 17 TVA gas plants and 4 of 6 coal plants to fail. Gas supply was inadequate — Marcellus down 23%, Utica down 54%. TVA ordered all 153 local distributors to shed 5-10% of load. 90,000 MW went offline nationally; gas generators were 70% of forced outages.",
+        "public_consequence": "Rolling blackouts on Christmas Eve across the Mid-South. Millions affected across seven states. $170M financial impact to TVA. FERC/NERC found it was the largest percentage of Eastern Interconnection capacity ever to fail simultaneously (13%).",
+        "affected_population_est": 10000000,
+        "status": "recurring",
+        "date_surfaced": "2022-12-23",
+        "confidence": "high",
+        "one_line": "TVA's gas plants failed on Christmas Eve because upstream gas supply froze across states TVA does not control, and 153 local power companies had no lever except cutting power to customers.",
+        "sources": [
+          { "publisher": "FERC", "url": "https://www.ferc.gov/news-events/news/ferc-nerc-release-final-report-lessons-winter-storm-elliott", "date": "2024-08-27" },
+          { "publisher": "NRDC", "url": "https://www.nrdc.org/bio/dana-ammann/winter-storm-elliott-report-highlights-risk-natural-gas-failures", "date": "2024-08-28" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-77.3, 38.97] },
+      "properties": {
+        "case_id": "potomac-interceptor-collapse-2026",
+        "title": "Potomac Interceptor sewer collapse releases 300M gallons of untreated sewage into Potomac River",
+        "utility_type": "sewer",
+        "control_layer": "treatment",
+        "affected_jurisdiction": "Loudoun County, Fairfax County, Montgomery County (VA / MD)",
+        "controlling_actor": "DC Water",
+        "controlling_jurisdiction": "Washington, D.C.",
+        "trigger": "A section of the 54-mile, 60-year-old Potomac Interceptor collapsed on January 19, 2026 in Montgomery County, MD. Virginia and Maryland suburbs send ~60 MGD through this DC Water-owned pipe they cannot maintain or inspect.",
+        "public_consequence": "240-300 million gallons of untreated wastewater released into the Potomac — one of the largest sewage spills in U.S. history. E. coli hundreds of times above EPA limits. Health advisories across DC, MD, VA. Recreation shut down for months.",
+        "affected_population_est": 800000,
+        "status": "active",
+        "date_surfaced": "2026-01-19",
+        "confidence": "high",
+        "one_line": "Virginia and Maryland suburbs send sewage through a DC Water-owned pipe they cannot maintain; when it collapsed, 300 million gallons of untreated wastewater hit the Potomac.",
+        "sources": [
+          { "publisher": "DC Water", "url": "https://www.dcwater.com/about-dc-water/media/potomac-interceptor-collapse", "date": "2026-01-19" },
+          { "publisher": "Potomac Conservancy", "url": "https://potomac.org/blog/2026/1/30/potomac-interceptor-sewage-spill-updates", "date": "2026-01-30" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-77.1, 38.93] },
+      "properties": {
+        "case_id": "washington-aqueduct-single-source-2026",
+        "title": "Army Corps-operated Washington Aqueduct leaves 1.1M people dependent on single Potomac intake",
+        "utility_type": "water",
+        "control_layer": "wholesale_contract",
+        "affected_jurisdiction": "Washington, D.C.; Arlington County; parts of Fairfax County, Virginia",
+        "controlling_actor": "U.S. Army Corps of Engineers",
+        "controlling_jurisdiction": "Federal (Washington, D.C.)",
+        "trigger": "The January 2026 sewage spill renewed attention on the fact that DC and Arlington have zero alternative water sources. The Potomac is the sole intake. Dalecarlia Reservoir holds only 24-48 hours of supply. A 2025 ICPRB report found upstream reservoirs could run dry by 2030 in 4 of 9 drought scenarios.",
+        "public_consequence": "1.1 million people have no backup water supply. DC Water, Arlington, and Fairfax Water have no vote on Army Corps capital investment decisions. Rate-setting and modernization controlled by a federal agency with competing priorities.",
+        "affected_population_est": 1100000,
+        "status": "active",
+        "date_surfaced": "2026-01-19",
+        "confidence": "high",
+        "one_line": "A federal agency operates the sole drinking water system for 1.1M people in DC and Virginia; customers have no alternative source and limited influence over capital investment decisions.",
+        "sources": [
+          { "publisher": "WTOP News", "url": "https://wtop.com/local/2026/03/army-corps-reservoir-expansion-doesnt-fix-but-improves-dcs-supply-of-drinking-water-during-future-potomac-river-emergency/", "date": "2026-03-01" },
+          { "publisher": "ICPRB", "url": "https://www.potomacriver.org/news/news-release-new-report-exposes-the-vulnerabilities-of-the-washington-metropolitan-areas-water-supply/", "date": "2025-01-01" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-114.7, 36.0] },
+      "properties": {
+        "case_id": "colorado-river-post2026-allocation",
+        "title": "Colorado River post-2026 operating guidelines collapse leaves 40M people without agreed water rules",
+        "utility_type": "water",
+        "control_layer": "basin_allocation",
+        "affected_jurisdiction": "Southern NV (Las Vegas); Central AZ (Phoenix, Tucson); Southern CA (MWD)",
+        "controlling_actor": "U.S. Bureau of Reclamation / Upper Basin states (CO, WY, UT, NM)",
+        "controlling_jurisdiction": "Federal / Upper Basin states",
+        "trigger": "The 2007 Interim Guidelines expire end of 2026. Interior set a February 14, 2026 deadline for seven states to agree on successor rules. Upper Basin states refused binding cutbacks. The deadline was missed. Tier 1 shortage in effect: Nevada 7% cut, Arizona 18% cut, California no cuts due to senior rights.",
+        "public_consequence": "2.3 million Southern Nevadans get 90% of water from the Colorado. Arizona's 7.1 million face largest cuts. No framework means the Interior Secretary may impose unilateral cuts. Municipal providers cannot plan capital investments. 40 million affected basin-wide.",
+        "affected_population_est": 40000000,
+        "status": "emerging",
+        "date_surfaced": "2026-02-14",
+        "confidence": "high",
+        "one_line": "Forty million people depend on Colorado River water with rules expiring in 2026; Upper Basin refusal to accept cuts leaves Las Vegas and Phoenix exposed to allocation decisions made hundreds of miles away.",
+        "sources": [
+          { "publisher": "Las Vegas Weekly", "url": "https://lasvegasweekly.com/news/2026/jan/29/colorado-river-water-rights-deadline/", "date": "2026-01-29" },
+          { "publisher": "SNWA", "url": "https://www.snwa.com/water-resources/drought-and-shortage/index.html", "date": "2026-01-01" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-90.2, 32.3] },
+      "properties": {
+        "case_id": "jackson-ms-water-crisis-2022",
+        "title": "Mississippi state government withheld federal relief funds, precipitating Jackson water system collapse",
+        "utility_type": "water",
+        "control_layer": "supply",
+        "affected_jurisdiction": "Jackson, Mississippi",
+        "controlling_actor": "State of Mississippi (Governor, Legislature)",
+        "controlling_jurisdiction": "State of Mississippi",
+        "trigger": "In August 2022, Pearl River flooding overwhelmed the failing O.B. Curtis Water Treatment Plant. Mississippi lawmakers had withheld $1.8B in ARPA funds. Governor vetoed a bill to help Jackson collect overdue water payments. State health department failed to enforce Safe Drinking Water Act violations from 2015-2021.",
+        "public_consequence": "150,000-180,000 residents (84% minority, 25% below poverty line) lost safe drinking water for weeks. Boil-water advisories persisted months. 55 pipe breaks per 100 miles annually. ~50% of treated water lost to leaks. Total repair cost: ~$2B. Federal disaster declared.",
+        "affected_population_est": 180000,
+        "status": "recurring",
+        "date_surfaced": "2022-08-29",
+        "confidence": "high",
+        "one_line": "Jackson's 180,000 residents depend on a water system whose survival requires state funding; Mississippi's government actively withheld federal relief and vetoed revenue-recovery legislation.",
+        "sources": [
+          { "publisher": "NPR", "url": "https://www.npr.org/2022/08/31/1120166328/jackson-mississippi-water-crisis", "date": "2022-08-31" },
+          { "publisher": "Mississippi Today", "url": "https://mississippitoday.org/2022/11/07/jackson-water-crisis-poverty-neglect-racism/", "date": "2022-11-07" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-83.5, 41.7] },
+      "properties": {
+        "case_id": "toledo-lake-erie-algal-bloom-2014",
+        "title": "Upstream agricultural runoff contaminates Toledo's sole drinking water source with microcystin toxin",
+        "utility_type": "water",
+        "control_layer": "supply",
+        "affected_jurisdiction": "Toledo and Lucas County, Ohio",
+        "controlling_actor": "Upstream agricultural operators in Maumee River watershed",
+        "controlling_jurisdiction": "Maumee River watershed (Ohio / Indiana / Michigan)",
+        "trigger": "On August 2, 2014, a massive harmful algal bloom caused by phosphorus-laden agricultural runoff produced microcystin toxin exceeding safe limits at Toledo's Lake Erie intake. State regulators lacked authority to regulate non-point-source farm runoff. A decade later, blooms persist annually.",
+        "public_consequence": "500,000+ residents received 'do not drink, do not touch' orders for three days. $65M economic damage. Toledo has invested $500M in treatment upgrades. Toxic blooms continue annually; Ohio's voluntary program achieves only ~10% phosphorus reduction vs 40% needed.",
+        "affected_population_est": 500000,
+        "status": "recurring",
+        "date_surfaced": "2014-08-02",
+        "confidence": "high",
+        "one_line": "Toledo's 500,000 residents draw water from Lake Erie but phosphorus runoff from farmland across three states — governed by regulators with no non-point-source authority — causes recurring toxic blooms.",
+        "sources": [
+          { "publisher": "Alliance for the Great Lakes", "url": "https://greatlakes.org/2019/08/five-years-later-lessons-from-the-toledo-water-crisis/", "date": "2019-08-01" },
+          { "publisher": "Michigan Public Radio", "url": "https://www.michiganpublic.org/environment-climate-change/2024-08-02/toxic-blooms-on-lake-erie-still-a-problem-10-years-after-toledo-shut-down-its-water-system", "date": "2024-08-02" }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,329 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Philippines",
+        "stress_band": "already_stressed",
+        "stress_label": "Already stressed",
+        "confidence": "high",
+        "confidence_note": "Declared national energy emergency March 2026; public reserve data available",
+        "hormuz_oil_pct": 92,
+        "hormuz_lng_pct": null,
+        "reserve_days": 45,
+        "gen_mix_summary": "Coal 53%, gas 18%, renewables 12%, oil 5%",
+        "gen_fossil_pct": 76,
+        "current_status": "Declared national energy emergency. Suspended wholesale electricity spot market. Created emergency fuel-security fund. Implementing 4-day government work weeks.",
+        "alternative_supply": "Limited. No pipeline alternatives. Attempting emergency spot purchases. Domestic coal dominant but imported.",
+        "rationing_capacity": "Low. Limited state capacity to manage prolonged shortage. History of grid stress during typhoon season.",
+        "one_line": "92% of oil from the Gulf, 45 days of reserves, energy emergency already declared.",
+        "sources": [
+          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/philippine-president-declares-energy-emergency-over-middle-east-conflict-risk-2026-03-24/", "date": "2026-03-24" },
+          { "publisher": "Lowy Institute", "url": "https://www.lowyinstitute.org/the-interpreter/philippines-fuel-emergency-textbook-case-warning-hiding-official-statistics", "date": "2026-03-15" }
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[120.9,14.8],[121.8,15.8],[122.5,17.5],[122.1,18.5],[121.3,18.2],[120.5,16.8],[119.8,15.5],[119.5,14.0],[120.0,12.5],[121.0,11.5],[122.0,10.5],[123.5,9.8],[124.5,10.5],[124.8,11.5],[124.0,12.5],[123.0,13.5],[122.0,14.2],[120.9,14.8]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Sri Lanka",
+        "stress_band": "already_stressed",
+        "stress_label": "Already stressed",
+        "confidence": "medium",
+        "confidence_note": "Active crisis well-documented; reserve data limited; LNG import data sparse",
+        "hormuz_oil_pct": 85,
+        "hormuz_lng_pct": null,
+        "reserve_days": null,
+        "gen_mix_summary": "Hydro 37%, solar 14%, coal/oil 45%",
+        "gen_fossil_pct": 45,
+        "current_status": "Tightened fuel rationing. Reintroduced queuing systems. Four-day government work week. Emergency spot fuel purchases.",
+        "alternative_supply": "Minimal. Small domestic hydro base helps but insufficient. Emergency purchases at extreme premiums.",
+        "rationing_capacity": "Already rationing. Prior 2022 economic crisis built institutional muscle for austerity measures but population tolerance is low.",
+        "one_line": "Already rationing fuel with no public reserve data — Hormuz is an accelerant on existing fragility.",
+        "sources": [
+          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/sri-lanka-tightens-fuel-rationing-supply-squeeze-deepens-2026-03-18/", "date": "2026-03-18" },
+          { "publisher": "Atlantic Council", "url": "https://www.atlanticcouncil.org/dispatches/demand-destruction-has-begun-what-sri-lanka-reveals-about-the-global-energy-crisis/", "date": "2026-03-20" }
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[80.0,9.8],[80.7,9.4],[81.5,8.8],[81.9,8.0],[81.8,7.0],[81.0,6.2],[80.2,5.9],[79.7,6.5],[79.5,7.5],[79.7,8.5],[80.0,9.8]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Bangladesh",
+        "stress_band": "already_stressed",
+        "stress_label": "Already stressed",
+        "confidence": "medium",
+        "confidence_note": "Active crisis documented; reserve data unavailable; 99% of LNG from Qatar/UAE",
+        "hormuz_oil_pct": 95,
+        "hormuz_lng_pct": 99,
+        "reserve_days": null,
+        "gen_mix_summary": "Gas 47%, coal 30%, oil 12%, renewables 4%",
+        "gen_fossil_pct": 89,
+        "current_status": "Fuel rationing imposed. Military deployed for anti-hoarding enforcement. Universities closed. Fertilizer plants temporarily shut. LNG costs forcing load-shedding.",
+        "alternative_supply": "Near zero. 99% of LNG from Qatar and UAE. No pipeline alternatives. Domestic gas production declining.",
+        "rationing_capacity": "Low. Military enforcement suggests political stress. History of grid instability and load-shedding even before crisis.",
+        "one_line": "99% of LNG from Qatar/UAE, military deployed for fuel hoarding, universities shut — no reserve data public.",
+        "sources": [
+          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/bangladesh-rations-fuel-middle-east-conflict-spur-panic-buying-2026-03-06/", "date": "2026-03-06" },
+          { "publisher": "Deccan Herald", "url": "https://www.deccanherald.com/amp/story/world/asia/philippines-to-pakistan-a-look-at-how-asian-countries-are-hit-by-energy-crisis-3945218", "date": "2026-03-25" }
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[88.0,26.5],[89.5,26.0],[91.0,26.5],[92.5,27.0],[92.5,25.0],[91.5,23.5],[91.0,22.5],[91.5,21.5],[90.5,21.0],[89.5,21.5],[88.5,22.5],[88.0,24.0],[88.0,26.5]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Thailand",
+        "stress_band": "acute_if_persists",
+        "stress_label": "Acute if disruption persists",
+        "confidence": "high",
+        "confidence_note": "Good reserve data; active government conservation measures documented",
+        "hormuz_oil_pct": 80,
+        "hormuz_lng_pct": 28,
+        "reserve_days": 95,
+        "gen_mix_summary": "Gas 55%, coal 20%, renewables 15%, oil 5%",
+        "gen_fossil_pct": 80,
+        "current_status": "Government-ordered energy conservation: bureaucrats required to take stairs, work from home. Considering oil-tax cuts. 95 days of reserves cited.",
+        "alternative_supply": "Limited. Some pipeline gas from Myanmar. Qatar supplies 28% of LNG (second-largest buyer). Exploring alternatives.",
+        "rationing_capacity": "Moderate. Government acting early with conservation measures. 95 days provides buffer but gas-heavy generation mix is the vulnerability.",
+        "one_line": "95 days of reserves and active conservation measures, but 55% gas-fired generation is the structural exposure.",
+        "sources": [
+          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/thailand-orders-bureaucrats-use-stairs-work-home-energy-saving-drive-2026-03-10/", "date": "2026-03-10" },
+          { "publisher": "CNBC", "url": "https://www.cnbc.com/2026/03/03/strait-of-hormuz-closure-which-countries-will-be-hit-the-most.html", "date": "2026-03-03" }
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[100.0,20.5],[101.0,21.5],[102.5,22.0],[104.0,21.5],[104.5,20.0],[103.5,18.5],[102.5,17.5],[103.0,16.0],[102.5,14.5],[101.5,13.0],[100.8,12.0],[100.5,10.5],[100.0,7.5],[99.5,5.5],[99.0,6.5],[99.5,8.0],[99.0,9.5],[98.5,11.0],[98.0,13.0],[98.5,15.0],[99.5,17.0],[100.0,18.5],[100.0,20.5]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "South Korea",
+        "stress_band": "acute_if_persists",
+        "stress_label": "Acute if disruption persists",
+        "confidence": "high",
+        "confidence_note": "Comprehensive data; 210 days strategic oil but only 9 days working LNG inventory",
+        "hormuz_oil_pct": 70,
+        "hormuz_lng_pct": 18,
+        "reserve_days": 210,
+        "gen_mix_summary": "Coal 42%, gas 27%, nuclear 18%, renewables 8%",
+        "gen_fossil_pct": 74,
+        "current_status": "National energy-saving campaign launched. President called for shorter showers and car restrictions. 70% of crude imports through Hormuz.",
+        "alternative_supply": "Some. Nuclear provides 18% baseload. Coal stockpiles exist. But working LNG terminal inventory is only ~9 days despite 210-day strategic oil reserve.",
+        "rationing_capacity": "High state capacity. Institutional ability to enforce conservation. The gap between 210-day oil reserves and 9-day LNG working stock is the real vulnerability.",
+        "one_line": "210 days of strategic oil reserves but only 9 days of working LNG inventory — the mismatch is the risk.",
+        "sources": [
+          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/south-koreas-lee-calls-energy-saving-campaign-including-curbs-cars-2026-03-24/", "date": "2026-03-24" },
+          { "publisher": "Zero Carbon Analytics", "url": "https://zerocarbon-analytics.org/insights/briefings/asian-countries-most-at-risk-from-oil-and-gas-supply-disruptions-in-strait-of-hormuz/", "date": "2026-03-10" }
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[126.0,34.0],[127.0,34.5],[128.5,35.0],[129.5,35.5],[130.0,37.0],[129.5,38.5],[128.5,39.5],[127.5,40.0],[126.0,39.5],[124.5,38.5],[125.0,37.0],[126.0,36.0],[126.0,34.0]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Vietnam",
+        "stress_band": "acute_if_persists",
+        "stress_label": "Acute if disruption persists",
+        "confidence": "medium",
+        "confidence_note": "Generation mix clear; reserve data weak (20-45 days range); actively pursuing Russian alternatives",
+        "hormuz_oil_pct": 90,
+        "hormuz_lng_pct": 49,
+        "reserve_days": 30,
+        "gen_mix_summary": "Coal 52%, hydro 31%, gas 6%, solar/wind 8%",
+        "gen_fossil_pct": 61,
+        "current_status": "Actively negotiating Russian oil and LNG deals. Seeking to diversify from Gulf dependence. Only 20-45 days of reserves. LNG under 2% of installed capacity.",
+        "alternative_supply": "Pursuing Russian alternatives. Domestic coal and hydro provide buffer. LNG dependency still small. Emergency procurement of 4M barrels non-Middle-Eastern oil (~6 days).",
+        "rationing_capacity": "Moderate. Coal and hydro provide structural resilience. The vulnerability is oil for transport and industry, not electricity generation.",
+        "one_line": "Coal and hydro provide a generation buffer, but 90% of oil is from the Gulf and reserves are thin at 20-45 days.",
+        "sources": [
+          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/vietnam-russia-set-sign-energy-deals-during-pms-moscow-visit-2026-03-23/", "date": "2026-03-23" },
+          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/fuel-thirsty-asian-countries-line-up-russian-oil-2026-03-26/", "date": "2026-03-26" }
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[103.5,22.5],[104.5,22.0],[106.0,22.5],[107.5,21.5],[108.0,20.0],[107.5,18.5],[107.0,17.0],[108.0,15.5],[108.5,14.0],[109.0,12.5],[109.5,11.0],[108.5,10.0],[107.0,10.5],[106.0,10.0],[105.0,10.5],[104.5,11.5],[104.0,13.0],[103.5,14.5],[103.0,16.0],[103.5,18.0],[104.0,20.0],[103.5,22.5]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "India",
+        "stress_band": "price_shock_first",
+        "stress_label": "Price shock first, physical shortage later",
+        "confidence": "high",
+        "confidence_note": "Extensive official data; reserve estimates vary (25-74 days); diversification actively underway",
+        "hormuz_oil_pct": 45,
+        "hormuz_lng_pct": 53,
+        "reserve_days": 50,
+        "gen_mix_summary": "Coal 73%, renewables 12%, gas 4%, nuclear 3%, hydro 8%",
+        "gen_fossil_pct": 77,
+        "current_status": "Actively diversifying: 70% of oil rerouted to non-Hormuz sources. 90% of LPG imports still through Hormuz. Strategic reserves at 25-74 days depending on source.",
+        "alternative_supply": "Best positioned of the vulnerable countries. Coal-dominant generation reduces electricity exposure. Russian oil deals active. But 88% oil import dependent overall.",
+        "rationing_capacity": "High state capacity. Large domestic coal base insulates electricity. Primary risk is transport fuel and LPG for cooking, not grid collapse.",
+        "one_line": "Coal-dominant grid limits electricity exposure, but 88% oil import dependent and 90% of LPG through Hormuz.",
+        "sources": [
+          { "publisher": "India Briefing", "url": "https://www.india-briefing.com/news/indias-oil-supply-hormuz-diversification-strategy-43381.html/", "date": "2026-03-15" },
+          { "publisher": "IEA", "url": "https://www.iea.org/countries/india", "date": "2026-01-01" }
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[68.5,23.0],[70.0,22.0],[72.5,20.5],[74.5,19.5],[77.0,19.0],[80.0,18.0],[82.5,17.0],[84.0,15.5],[80.0,13.5],[78.0,11.0],[77.5,8.5],[80.0,7.5],[80.5,9.0],[81.5,10.5],[84.0,13.0],[87.5,16.0],[89.0,21.0],[88.5,23.5],[88.0,26.5],[89.5,27.5],[87.5,28.0],[84.0,28.5],[81.0,30.5],[79.5,32.5],[76.5,34.5],[74.0,36.0],[73.0,34.0],[71.5,33.0],[70.0,29.5],[68.0,27.0],[68.5,23.0]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Japan",
+        "stress_band": "price_shock_first",
+        "stress_label": "Price shock first, physical shortage later",
+        "confidence": "high",
+        "confidence_note": "Best data coverage of any country; 254-260 days of reserves; comprehensive IEA/EIA profiles",
+        "hormuz_oil_pct": 77,
+        "hormuz_lng_pct": 7,
+        "reserve_days": 257,
+        "gen_mix_summary": "Coal 32%, gas 33%, nuclear 10%, renewables 20%, oil 5%",
+        "gen_fossil_pct": 70,
+        "current_status": "Largest strategic reserves in Asia (257 days). 77% of seaborne oil from Middle East Gulf. Tokyo Electric has warned of potential rolling blackouts in extended scenario.",
+        "alternative_supply": "Best in Asia. Massive strategic reserves. Nuclear restart program. Diversified LNG sources. But volume dependency on Gulf crude is structurally high.",
+        "rationing_capacity": "Very high state capacity. Institutional experience from Fukushima energy conservation. Can sustain months of elevated prices before physical shortage.",
+        "one_line": "257 days of reserves and strong state capacity — pain is price, not blackouts, unless disruption extends past 6 months.",
+        "sources": [
+          { "publisher": "Energy Tracker Asia", "url": "https://energytracker.asia/japan-most-at-risk-from-disruption-in-the-strait-of-hormuz/", "date": "2026-03-08" },
+          { "publisher": "Al Jazeera", "url": "https://www.aljazeera.com/news/2026/3/23/which-countries-have-strategic-oil-reserves-and-how-much", "date": "2026-03-23" }
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[130.5,31.5],[131.5,32.5],[132.5,33.5],[134.0,34.5],[135.5,34.7],[137.0,35.0],[138.5,35.5],[140.0,36.5],[141.5,38.5],[141.5,40.5],[141.0,42.5],[140.0,43.5],[138.5,43.0],[137.0,42.0],[136.0,40.5],[135.0,38.0],[133.5,36.0],[132.0,34.5],[131.0,33.0],[130.5,31.5]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Singapore",
+        "stress_band": "resilient_but_expensive",
+        "stress_label": "Resilient but expensive",
+        "confidence": "high",
+        "confidence_note": "Excellent data; 245 days reserves (includes foreign-owned storage); 95% gas generation is the exposure",
+        "hormuz_oil_pct": 70,
+        "hormuz_lng_pct": 45,
+        "reserve_days": 245,
+        "gen_mix_summary": "Gas 95%, solar 2%, other 3%",
+        "gen_fossil_pct": 95,
+        "current_status": "No public emergency measures yet. As financial and refining hub, pain manifests as price before shortage. 45% of LNG from Qatar. Can buy time with money.",
+        "alternative_supply": "Large storage capacity (245 days, though much is foreign-owned). Refining hub status provides some flexibility. But 95% gas generation is extreme single-fuel exposure.",
+        "rationing_capacity": "Very high state capacity and fiscal reserves. Can subsidize and purchase at premium for extended period. The question is whether global LNG supply physically exists at any price.",
+        "one_line": "95% gas generation and 45% of LNG from Qatar — money buys time, not immunity.",
+        "sources": [
+          { "publisher": "EMA Singapore", "url": "https://ema.gov.sg/our-energy-story/energy-supply/natural-gas", "date": "2026-01-01" },
+          { "publisher": "CNBC", "url": "https://www.cnbc.com/2026/03/03/strait-of-hormuz-closure-which-countries-will-be-hit-the-most.html", "date": "2026-03-03" }
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[103.60,1.27],[103.70,1.24],[103.85,1.26],[104.00,1.30],[104.05,1.36],[103.95,1.44],[103.80,1.46],[103.65,1.42],[103.58,1.35],[103.60,1.27]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Pakistan",
+        "stress_band": "acute_if_persists",
+        "stress_label": "Acute if disruption persists",
+        "confidence": "low",
+        "confidence_note": "Reserve data unavailable; conflicting reports on domestic vs import dependency; 99% of LNG from Gulf",
+        "hormuz_oil_pct": 95,
+        "hormuz_lng_pct": 99,
+        "reserve_days": null,
+        "gen_mix_summary": "Gas 25%, hydro 19%, coal 14%, nuclear 13%, renewables 13%, oil 10%",
+        "gen_fossil_pct": 49,
+        "current_status": "Government claims 74% domestic power sources cushion LNG risk. Universities closed. Fertilizer plants shut. But LNG is 10% of generation and imported fuel critical for transport.",
+        "alternative_supply": "More diversified generation than it appears (hydro 19%, nuclear 13%). But 99% of LNG from Qatar/UAE. Domestic gas declining. No strategic reserve data public.",
+        "rationing_capacity": "Low. History of political instability and grid management challenges. Already experiencing rolling blackouts in many regions pre-crisis.",
+        "one_line": "Government says 74% domestic power sources, but 99% of LNG from Gulf, no public reserve data, universities already shut.",
+        "sources": [
+          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/pakistans-domestic-power-sources-cushion-lng-supply-risk-minister-says-2026-03-13/", "date": "2026-03-13" },
+          { "publisher": "Wood Mackenzie", "url": "https://www.woodmac.com/press-releases/strait-of-hormuz-closure-threatens-south-asia-lng-supply/", "date": "2026-03-10" }
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[61.0,25.0],[62.5,23.5],[64.0,23.0],[66.5,22.5],[68.0,23.5],[69.5,24.5],[71.0,25.0],[72.5,26.5],[74.0,28.0],[74.5,30.0],[73.5,32.5],[74.0,34.5],[72.5,36.0],[70.0,37.5],[67.5,37.0],[65.0,35.5],[63.0,33.0],[62.0,30.5],[60.5,29.0],[61.0,25.0]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Taiwan",
+        "stress_band": "acute_if_persists",
+        "stress_label": "Acute if disruption persists",
+        "confidence": "low",
+        "confidence_note": "Generation mix clear; reserve data essentially unavailable publicly; no crisis reporting yet",
+        "hormuz_oil_pct": 70,
+        "hormuz_lng_pct": null,
+        "reserve_days": null,
+        "gen_mix_summary": "Gas 42%, coal 39%, nuclear 4%, renewables 12%",
+        "gen_fossil_pct": 85,
+        "current_status": "No public emergency declarations. Decommissioned nuclear fleet (restarting planned). 70% of crude from Middle East. Reserve data not publicly available.",
+        "alternative_supply": "Limited. Decommissioned nuclear (restart planned). Coal stockpiles provide some buffer. But 42% gas generation with unclear LNG source diversification.",
+        "rationing_capacity": "High state capacity. But the absence of public reserve data is itself a signal — either reserves are thin or disclosure is politically sensitive.",
+        "one_line": "85% fossil generation, no public reserve data, decommissioned nuclear — the data gap is the red flag.",
+        "sources": [
+          { "publisher": "Low-Carbon Power", "url": "https://lowcarbonpower.org/", "date": "2026-01-01" },
+          { "publisher": "Zero Carbon Analytics", "url": "https://zerocarbon-analytics.org/insights/briefings/asian-countries-most-at-risk-from-oil-and-gas-supply-disruptions-in-strait-of-hormuz/", "date": "2026-03-10" }
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[121.0,25.3],[121.8,25.0],[122.0,24.0],[121.5,22.5],[120.8,22.0],[120.0,22.5],[120.0,23.5],[120.5,24.5],[121.0,25.3]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Cuba",
+        "stress_band": "special_case",
+        "stress_label": "Special case: distorted substrate",
+        "confidence": "medium",
+        "confidence_note": "Grid collapse well-documented; not primarily Hormuz-driven; Venezuelan/US sanctions are the primary mechanism",
+        "hormuz_oil_pct": null,
+        "hormuz_lng_pct": null,
+        "reserve_days": null,
+        "gen_mix_summary": "Fossil fuels 82%, renewables 18%",
+        "gen_fossil_pct": 82,
+        "current_status": "Repeated national grid collapses March 2026. Russia shipping fuel as humanitarian aid. US cut off Venezuelan oil supply to Cuba. Generation shortfall 1,300-1,700 MW during peak (half of demand).",
+        "alternative_supply": "Venezuelan supply cut by US policy. Russian humanitarian shipments. No market alternatives at scale. Decrepit domestic generation infrastructure.",
+        "rationing_capacity": "Already beyond rationing into collapse. Not a Hormuz case — this is blockade + infrastructure decay + loss of benefactor supply. Hormuz is an amplifier through global price pressure.",
+        "one_line": "Not a Hormuz case. Already inside the wreckage from US sanctions cutting Venezuelan oil. Hormuz amplifies via global prices.",
+        "sources": [
+          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/cuba-says-electrical-grid-reconnected-after-major-power-blackout-2026-03-05/", "date": "2026-03-05" },
+          { "publisher": "NPR", "url": "https://www.npr.org/2026/03/26/nx-s1-5760763/southeast-asia-is-being-hit-hard-by-irans-cutoff-of-oil-and-gas", "date": "2026-03-26" }
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-85.0,22.5],[-83.5,23.2],[-82.0,23.5],[-80.5,23.0],[-79.0,22.5],[-77.5,22.0],[-76.0,20.5],[-75.0,20.0],[-76.5,19.8],[-78.0,20.0],[-79.5,21.0],[-81.0,21.8],[-82.5,22.0],[-83.5,22.5],[-85.0,22.5]]]
+      }
+    }
+  ]
+}
