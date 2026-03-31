@@ -1,0 +1,281 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Bangladesh",
+        "stress_band": "input_shock_active",
+        "stress_label": "Input shock active",
+        "confidence": "high",
+        "confidence_note": "Urea import data public; gas dependency on Qatar documented; tender cancellations reported",
+        "fertilizer_import_pct": 65,
+        "hormuz_exposure": "critical",
+        "planting_window": "Rice: Apr-May (Boro), Jul-Aug (Aman)",
+        "subsidy_capacity": "Low — limited fiscal space",
+        "domestic_production": "10 lakh tonnes urea; needs 26 lakh total",
+        "current_status": "65% of urea demand imported. 65% of gas from Qatar. 4 fertilizer facilities shut down. 200,000-tonne urea tender cancelled. Rice planting at risk.",
+        "downstream_food_risk": "Severe. Rice is the staple; fertilizer-intensive crop. Both Boro and Aman seasons threatened.",
+        "one_line": "65% of urea imported, gas from Qatar cut, fertilizer plants shut, rice planting tenders cancelled.",
+        "sources": [
+          { "publisher": "The Business Standard", "url": "https://www.tbsnews.net/economy/bangladesh-seeks-alternatives-mideast-war-disrupts-fertiliser-imports-1396316", "date": "2026-03-20" },
+          { "publisher": "CNBC", "url": "https://www.cnbc.com/2026/03/25/fertilizer-price-iran-war-food-security-inflation-urea-potash-nitrogen-farmers.html", "date": "2026-03-25" }
+        ]
+      },
+      "geometry": { "type": "Polygon", "coordinates": [[[88.0,22.0],[88.5,22.5],[89.5,22.0],[91.0,22.0],[92.0,22.5],[92.5,23.5],[91.5,24.0],[92.0,25.0],[91.0,26.0],[89.5,26.5],[88.5,25.5],[88.0,24.5],[88.5,23.5],[88.0,22.0]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "India",
+        "stress_band": "planting_season_exposure",
+        "stress_label": "Planting season exposure",
+        "confidence": "high",
+        "confidence_note": "Subsidy data public; import volumes documented; production capacity known; monsoon timing fixed",
+        "fertilizer_import_pct": 20,
+        "hormuz_exposure": "high",
+        "planting_window": "Kharif (monsoon): Jun-Jul; Rabi (winter): Oct-Nov",
+        "subsidy_capacity": "High — ₹1.71T ($18.6B) FY2026-27 subsidy budget",
+        "domestic_production": "31.2M tonnes urea; world's 2nd largest producer",
+        "current_status": "10-20% urea imported. 75% ammonia imports for complex fertilizers. 78% of gas for urea production is imported. Andhra Pradesh plants shut down. 2.2M tonnes urea imported from Middle East pre-crisis.",
+        "downstream_food_risk": "High for monsoon season. India is world's 2nd largest rice exporter — disruption has global knock-on effects.",
+        "one_line": "World's 2nd largest producer but still imports 20% of urea and 75% of ammonia — monsoon planting exposed.",
+        "sources": [
+          { "publisher": "India Briefing", "url": "https://www.india-briefing.com/news/indias-oil-supply-hormuz-diversification-strategy-43381.html/", "date": "2026-03-15" },
+          { "publisher": "Next IAS", "url": "https://www.nextias.com/ca/current-affairs/30-03-2026/urea-import-india", "date": "2026-03-30" }
+        ]
+      },
+      "geometry": { "type": "Polygon", "coordinates": [[[68.1,23.0],[70.0,20.5],[72.6,19.0],[73.0,15.0],[74.5,13.0],[77.5,8.0],[80.3,9.5],[80.1,13.5],[80.3,16.0],[82.5,20.0],[85.0,20.5],[87.0,22.0],[88.5,22.5],[88.0,25.0],[89.0,26.5],[88.0,27.5],[80.0,28.5],[77.0,30.5],[73.5,34.0],[71.0,34.0],[68.1,23.0]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Pakistan",
+        "stress_band": "input_shock_active",
+        "stress_label": "Input shock active",
+        "confidence": "medium",
+        "confidence_note": "DAP import dependency clear; urea production data available; fiscal capacity data limited",
+        "fertilizer_import_pct": 60,
+        "hormuz_exposure": "critical",
+        "planting_window": "Kharif: Apr-Jun; Rabi: Oct-Dec",
+        "subsidy_capacity": "Low — indirect through gas pricing; limited fiscal flexibility",
+        "domestic_production": "0.7M tonnes DAP; needs 2M+",
+        "current_status": "100% import-dependent for DAP. Imports primarily from Middle East. Monsoon planting preparation at risk. Price shocks already hitting farmers.",
+        "downstream_food_risk": "High. Wheat and rice are staples. Reduced fertilizer application directly reduces yields in a country with food security concerns.",
+        "one_line": "100% DAP import-dependent from the Gulf — fertilizer shortage hits before monsoon planting.",
+        "sources": [
+          { "publisher": "Pro Kerala", "url": "https://www.prokerala.com/news/articles/a1743781.html", "date": "2026-03-20" },
+          { "publisher": "Click Mandu", "url": "https://english.clickmandu.com/2026/03/7386/", "date": "2026-03-22" }
+        ]
+      },
+      "geometry": { "type": "Polygon", "coordinates": [[[61.0,25.0],[62.5,23.5],[64.0,23.0],[66.0,24.0],[68.0,24.5],[68.1,23.0],[71.0,34.0],[73.5,34.0],[74.5,36.5],[72.0,37.5],[70.0,38.0],[66.5,37.0],[64.5,36.5],[62.5,36.0],[60.5,35.0],[60.0,30.0],[61.0,29.0],[62.0,27.0],[61.0,25.0]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Brazil",
+        "stress_band": "cost_shock",
+        "stress_label": "Cost shock, not shortage",
+        "confidence": "high",
+        "confidence_note": "85% import dependency well-documented; export economy provides fiscal buffer; diversified sourcing",
+        "fertilizer_import_pct": 85,
+        "hormuz_exposure": "moderate",
+        "planting_window": "Soybean: Sep-Dec; Corn (safrinha): Jan-Mar",
+        "subsidy_capacity": "Moderate — commodity export revenues provide buffer",
+        "domestic_production": "Limited — 85% total fertilizer imported; 95%+ potash imported",
+        "current_status": "85% fertilizer import dependent but sourcing diversified beyond Gulf. Cost shock affects profitability but not immediate food security. Major agricultural exporter.",
+        "downstream_food_risk": "Low domestically. But Brazil is a major global food exporter — reduced profitability may reduce planting, affecting global supply.",
+        "one_line": "85% fertilizer import dependent but diversified sourcing and export revenues buffer the shock — global food supply feels it before Brazilians do.",
+        "sources": [
+          { "publisher": "AP News", "url": "https://apnews.com/article/1bcb0c616c5ca2e1b6a903c2cd64a4e4", "date": "2026-03-20" },
+          { "publisher": "IFPRI", "url": "https://www.ifpri.org/blog/the-iran-war-potential-food-security-impacts/", "date": "2026-03-15" }
+        ]
+      },
+      "geometry": { "type": "Polygon", "coordinates": [[[-73.0,-10.0],[-73.5,-5.0],[-72.0,-2.0],[-68.0,-2.5],[-60.0,0.5],[-52.0,4.0],[-50.5,1.5],[-48.0,-0.5],[-44.5,-2.5],[-37.0,-5.0],[-35.0,-8.5],[-39.0,-17.0],[-40.5,-19.5],[-44.5,-23.0],[-48.5,-28.5],[-53.5,-33.5],[-56.0,-34.5],[-58.5,-33.5],[-63.0,-22.5],[-68.0,-18.0],[-73.0,-10.0]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "United States",
+        "stress_band": "cost_shock",
+        "stress_label": "Cost shock, not shortage",
+        "confidence": "high",
+        "confidence_note": "USDA acreage data, farmdoc analysis, price data all public and detailed",
+        "fertilizer_import_pct": 18,
+        "hormuz_exposure": "moderate",
+        "planting_window": "Corn/soybean: Apr-Jun; Winter wheat: Sep-Oct",
+        "subsidy_capacity": "Very high — federal fiscal capacity, crop insurance system",
+        "domestic_production": "Major producer — imports 18% of nitrogen. But 2M ton urea shortfall predicted for spring 2026",
+        "current_status": "Urea prices doubled since January ($350→$665-745). 2M ton shortfall predicted. Farmers shifting: corn acres -3%, soybean acres +4% (lower nitrogen requirement). Front-loaded imports provide some buffer.",
+        "downstream_food_risk": "Low for domestic food security. Margin squeeze for farmers. Acreage shifts may affect global corn supply.",
+        "one_line": "Urea doubled to $745/MT, farmers shifting 3% of corn to soybeans — price shock, not famine, but the acreage shift ripples globally.",
+        "sources": [
+          { "publisher": "farmdoc daily", "url": "https://farmdocdaily.illinois.edu/2026/03/strait-of-hormuz-closure-and-fertilizer-supply-risks-for-us-agriculture.html", "date": "2026-03-20" },
+          { "publisher": "American Farm Bureau", "url": "https://www.fb.org/market-intel/middle-east-tensions-raise-spring-planting-concerns", "date": "2026-03-15" }
+        ]
+      },
+      "geometry": { "type": "Polygon", "coordinates": [[[-124.7,48.4],[-117.0,49.0],[-104.0,49.0],[-95.0,49.0],[-83.0,45.5],[-77.0,43.5],[-67.0,47.5],[-67.0,44.5],[-70.0,41.5],[-75.0,35.0],[-80.0,31.0],[-81.5,30.0],[-84.0,29.5],[-90.0,28.5],[-97.0,25.8],[-97.0,26.0],[-99.5,27.0],[-104.0,29.0],[-106.5,32.0],[-111.0,31.0],[-117.0,32.5],[-120.5,34.5],[-124.2,37.0],[-124.5,40.5],[-124.7,48.4]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Egypt",
+        "stress_band": "production_disrupted",
+        "stress_label": "Production disrupted (exporter)",
+        "confidence": "medium",
+        "confidence_note": "Export data public; gas dependency on Israel documented; production status from industry reporting",
+        "fertilizer_import_pct": 0,
+        "hormuz_exposure": "high",
+        "planting_window": "Winter crops: Oct-Nov; Summer: Apr-May",
+        "subsidy_capacity": "Limited fiscal resources",
+        "domestic_production": "#1 urea exporter by value ($1.73B/2023) — but production offline due to gas disruption",
+        "current_status": "World's largest urea exporter by value now offline. Nearly all natural gas from Israel — supply disrupted. Plants shut down. Export gap compounds global shortage. Domestically, 43% food import dependent.",
+        "downstream_food_risk": "Moderate domestically (food import dependent). Severe globally — Egypt's export gap removes major supply from world market.",
+        "one_line": "World's #1 urea exporter by value is offline — the country that feeds global fertilizer markets can't get gas to run its plants.",
+        "sources": [
+          { "publisher": "Carnegie Endowment", "url": "https://carnegieendowment.org/emissary/2026/03/fertilizer-iran-hormuz-food-crisis", "date": "2026-03-15" },
+          { "publisher": "Marine Link", "url": "https://www.marinelink.com/news/ammonia-fertilizer-trade-threatened-537507", "date": "2026-03-20" }
+        ]
+      },
+      "geometry": { "type": "Polygon", "coordinates": [[[25.0,22.0],[35.0,22.0],[36.5,22.0],[36.9,23.5],[34.0,27.5],[34.5,29.5],[32.5,29.5],[32.0,31.0],[30.0,31.2],[28.0,31.0],[26.0,31.5],[25.0,31.5],[25.0,29.0],[25.0,22.0]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "China",
+        "stress_band": "strategic_buffer",
+        "stress_label": "Strategic buffer (state capacity)",
+        "confidence": "high",
+        "confidence_note": "Reserve releases documented; export restrictions public; production data from industry sources",
+        "fertilizer_import_pct": 0,
+        "hormuz_exposure": "low",
+        "planting_window": "Spring: Mar-May; depends on region",
+        "subsidy_capacity": "Very high — strategic reserve system, government control of supply",
+        "domestic_production": "World's largest urea producer. Self-sufficient. Major exporter.",
+        "current_status": "Released fertilizer stockpiles 15 days early. Restricted phosphate exports until August 2026. Releasing sulfur from strategic reserves. 50M tonne grain production increase target for 2026. Independent supply chain.",
+        "downstream_food_risk": "Low domestically. But export restrictions reduce global availability — China stabilizing itself at world's expense.",
+        "one_line": "World's largest producer, self-sufficient, releasing reserves early — but export restrictions tighten the global market for everyone else.",
+        "sources": [
+          { "publisher": "Bloomberg", "url": "https://www.bloomberg.com/news/articles/2026-03-16/china-taps-fertilizer-reserves-as-war-disrupts-global-supplies", "date": "2026-03-16" },
+          { "publisher": "Reuters", "url": "https://www.reuters.com/world/asia-pacific/china-taps-fertiliser-reserves-hormuz-closure-disrupts-global-supply-2026-03-13/", "date": "2026-03-13" }
+        ]
+      },
+      "geometry": { "type": "Polygon", "coordinates": [[[73.5,39.5],[76.0,42.0],[80.0,43.0],[85.0,47.0],[87.0,49.0],[91.0,49.5],[97.0,50.0],[103.0,50.5],[110.0,49.5],[119.0,48.5],[123.0,48.0],[129.5,47.0],[133.5,43.0],[131.0,42.0],[129.0,42.5],[126.0,40.0],[120.0,37.0],[121.5,30.0],[120.0,27.0],[117.0,23.5],[113.5,22.0],[108.0,21.5],[103.0,22.5],[100.0,22.0],[97.5,24.0],[97.0,27.5],[95.0,29.0],[92.5,28.0],[88.0,27.5],[80.0,31.5],[78.0,35.5],[73.5,39.5]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Sub-Saharan Africa",
+        "stress_band": "structural_vulnerability",
+        "stress_label": "Structural vulnerability",
+        "confidence": "medium",
+        "confidence_note": "Aggregate data from FAO/World Bank; country-level granularity varies; 90% import figure well-sourced",
+        "fertilizer_import_pct": 90,
+        "hormuz_exposure": "critical",
+        "planting_window": "Varies by country and hemisphere",
+        "subsidy_capacity": "Very low — limited government revenue across most countries",
+        "domestic_production": "Minimal — 90% of fertilizer imported. Only 22 kg/ha application rate (global avg: 146 kg/ha)",
+        "current_status": "90% import dependent. Costs 4x higher than Europe due to logistics. 10 countries control 97% of exports they depend on. 240M already malnourished. 1.3M additional hunger cases projected annually from disruption.",
+        "downstream_food_risk": "Extreme. Lowest application rates in the world mean any reduction hits yields immediately. No buffer.",
+        "one_line": "90% of fertilizer imported, costs 4x Europe's price, 240M already malnourished — the region with the least margin has the highest exposure.",
+        "sources": [
+          { "publisher": "World Bank", "url": "https://blogs.worldbank.org/en/voices/transformed-fertilizer-market-needed-response-food-crisis-africa", "date": "2025-06-01" },
+          { "publisher": "Energy Capital Power", "url": "https://energycapitalpower.com/gulf-shipping-shock-turns-africas-fertilizer-dependence-into-a-food-security-risk/", "date": "2026-03-20" }
+        ]
+      },
+      "geometry": { "type": "Polygon", "coordinates": [[[33.0,15.0],[36.0,15.0],[38.0,15.5],[41.5,15.0],[43.0,12.5],[43.5,11.5],[42.5,10.0],[42.0,9.0],[43.5,8.5],[45.0,8.0],[46.5,8.5],[48.0,8.0],[44.5,4.5],[41.5,3.5],[38.0,3.5],[36.0,4.5],[35.0,5.0],[34.0,7.0],[33.0,9.0],[33.5,11.0],[33.0,13.0],[33.0,15.0]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Philippines",
+        "stress_band": "planting_season_exposure",
+        "stress_label": "Planting season exposure",
+        "confidence": "medium",
+        "confidence_note": "Import dependency documented; source diversification (Indonesia, Malaysia, Qatar, China) mapped; fiscal data limited",
+        "fertilizer_import_pct": 66,
+        "hormuz_exposure": "high",
+        "planting_window": "Rice: Jun-Jul (wet season), Nov-Dec (dry season)",
+        "subsidy_capacity": "Limited fiscal resources",
+        "domestic_production": "Limited — 66% of fertilizer supply imported",
+        "current_status": "66% import dependent. Sources include Indonesia, Malaysia, Qatar, China, Saudi Arabia. Already declared energy emergency — fertilizer compounds existing crisis. $363M urea imports (2023).",
+        "downstream_food_risk": "High. Rice is the staple crop. Compound exposure with energy emergency already declared.",
+        "one_line": "66% fertilizer import dependent, already in energy emergency — compound crisis hitting before rice planting season.",
+        "sources": [
+          { "publisher": "Globe Newswire", "url": "https://www.globenewswire.com/news-release/2024/12/05/2992164/28124/en/The-Philippines-Urea-Import-Research-Report-2024-2033-Indonesia-Malaysia-Qatar-China-Brunei-Saudi-Arabia", "date": "2024-12-05" },
+          { "publisher": "CNBC", "url": "https://www.cnbc.com/2026/03/12/iran-war-food-prices-fertilizer-hormuz-countries-impacted-.html", "date": "2026-03-12" }
+        ]
+      },
+      "geometry": { "type": "Polygon", "coordinates": [[[118.5,9.0],[120.0,10.0],[121.5,11.0],[122.0,12.5],[123.0,14.0],[122.5,16.0],[121.5,18.5],[120.5,20.5],[121.0,18.0],[122.5,17.5],[123.0,16.0],[125.0,12.0],[124.5,11.0],[126.0,10.0],[126.5,8.0],[125.0,7.5],[123.0,7.5],[120.5,8.5],[118.5,9.0]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Thailand",
+        "stress_band": "planting_season_exposure",
+        "stress_label": "Planting season exposure",
+        "confidence": "medium",
+        "confidence_note": "Phosphorus dependency documented; consumption volumes known; alternative projects in development",
+        "fertilizer_import_pct": 75,
+        "hormuz_exposure": "moderate",
+        "planting_window": "Rice: May-Jul; Second crop: Jan-Mar",
+        "subsidy_capacity": "Moderate — emerging market resources",
+        "domestic_production": "Potash mine in Chaiyaphum planned (operational 2028). Currently 75% phosphorus import dependent.",
+        "current_status": "75% phosphorus import dependent. 4M metric tons annual consumption. Already in energy conservation mode from Hormuz crisis. Green ammonia pilot programs underway but years from production.",
+        "downstream_food_risk": "Moderate. Rice exporter — reduced yield affects both domestic supply and exports. Compound exposure with energy crisis.",
+        "one_line": "75% phosphorus import dependent with a domestic potash mine two years away — exposed now, planning for later.",
+        "sources": [
+          { "publisher": "Eco-Business", "url": "https://www.eco-business.com/news/prices-of-asia-pacifics-fertilisers-petrochemicals-set-to-surge-on-iran-war-adb/", "date": "2026-03-20" },
+          { "publisher": "Green Gubre Group", "url": "https://www.greengubregroup.com/blogs/southeast-asias-fertilizer-landscape-in-2025-securing-food-through-innovation-and-access", "date": "2025-06-01" }
+        ]
+      },
+      "geometry": { "type": "Polygon", "coordinates": [[[97.5,13.5],[98.0,16.0],[98.5,18.5],[98.0,19.5],[100.0,20.5],[101.0,22.5],[102.5,22.5],[104.0,22.0],[104.5,20.0],[102.5,18.5],[103.0,17.5],[104.5,15.5],[103.0,14.0],[102.5,12.5],[101.5,12.5],[100.5,13.5],[99.5,12.5],[99.0,10.0],[100.0,6.5],[101.5,5.5],[102.5,6.5],[102.0,7.5],[100.5,8.5],[99.5,11.0],[97.5,13.5]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Indonesia",
+        "stress_band": "planting_season_exposure",
+        "stress_label": "Planting season exposure",
+        "confidence": "medium",
+        "confidence_note": "Identified as 'worst affected' by IFPRI alongside Bangladesh; rice/maize fertilizer intensity documented",
+        "fertilizer_import_pct": 50,
+        "hormuz_exposure": "moderate",
+        "planting_window": "Rice: Oct-Nov (main), Mar-Apr (second)",
+        "subsidy_capacity": "Moderate — large economy but subsidy system strained",
+        "domestic_production": "Domestic urea production significant but insufficient for demand",
+        "current_status": "IFPRI identifies Indonesia alongside Bangladesh as 'worst affected' — rice and maize are most fertilizer-intensive crops. Domestic production helps but doesn't cover demand.",
+        "downstream_food_risk": "High. 270M population. Rice is the staple. Maize for animal feed also exposed. Any yield reduction is politically sensitive.",
+        "one_line": "270M people eating rice and maize — the two most fertilizer-intensive crops — in a country that can't fully supply its own nitrogen.",
+        "sources": [
+          { "publisher": "IFPRI", "url": "https://www.ifpri.org/blog/the-iran-war-potential-food-security-impacts/", "date": "2026-03-15" },
+          { "publisher": "FULCRUM", "url": "https://fulcrum.sg/fertiliser-security-for-food-security-in-southeast-asia-going-local-and-circular", "date": "2025-06-01" }
+        ]
+      },
+      "geometry": { "type": "Polygon", "coordinates": [[[95.0,5.5],[98.0,5.0],[104.0,2.5],[108.0,1.0],[109.5,0.5],[115.0,0.0],[117.5,1.0],[119.5,0.5],[124.0,1.0],[125.5,2.0],[128.0,1.5],[130.0,3.5],[132.5,2.5],[136.0,2.0],[140.0,3.5],[141.0,1.0],[141.0,-2.5],[138.5,-5.5],[136.0,-7.5],[134.0,-8.0],[132.0,-7.0],[129.0,-8.5],[125.0,-9.5],[120.0,-10.0],[118.0,-8.5],[115.0,-8.0],[115.0,-9.5],[113.0,-8.0],[110.0,-8.0],[108.0,-7.0],[106.0,-7.5],[104.5,-5.5],[101.5,-1.5],[99.0,-2.0],[96.0,-0.5],[95.0,2.5],[95.0,5.5]]] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "country": "Australia",
+        "stress_band": "cost_shock",
+        "stress_label": "Cost shock, not shortage",
+        "confidence": "medium",
+        "confidence_note": "Import dependency documented; ammonia plant outages reported; agricultural export economy provides buffer",
+        "fertilizer_import_pct": 60,
+        "hormuz_exposure": "moderate",
+        "planting_window": "Winter crops: Apr-Jun; Summer: Oct-Dec",
+        "subsidy_capacity": "High — developed economy",
+        "domestic_production": "Some domestic ammonia production but plant outages reported. Importer of Gulf urea/ammonia.",
+        "current_status": "Ammonia plant outages plus global tightness hitting both fertilizer and mining explosives supply. Import dependent on Gulf urea/ammonia. Cost shock for grain production.",
+        "downstream_food_risk": "Low domestically (exporter nation). Mining sector also exposed — ammonia is used for explosives. Dual agricultural + mining vulnerability.",
+        "one_line": "Ammonia shortage hits both farms and mines — fertilizer and explosives use the same feedstock from the same disrupted source.",
+        "sources": [
+          { "publisher": "The Australian", "url": "https://www.theaustralian.com.au/business/mining-energy/double-whammy-for-miners-and-farmers-as-ammonia-plants-shut-down/news-story/fe814ceea729c944d8405b696a5fd795", "date": "2026-03-20" },
+          { "publisher": "CNBC", "url": "https://www.cnbc.com/2026/03/25/fertilizer-price-iran-war-food-security-inflation-urea-potash-nitrogen-farmers.html", "date": "2026-03-25" }
+        ]
+      },
+      "geometry": { "type": "Polygon", "coordinates": [[[114.0,-22.0],[114.0,-26.5],[113.5,-29.0],[115.5,-33.5],[117.5,-35.0],[121.0,-33.5],[124.0,-33.5],[129.0,-33.5],[132.0,-34.5],[137.0,-35.5],[140.0,-35.5],[144.0,-38.0],[149.5,-37.5],[151.0,-34.0],[152.5,-29.0],[153.5,-27.5],[152.5,-24.5],[150.0,-22.0],[148.0,-19.5],[146.0,-18.0],[140.0,-17.0],[136.5,-12.0],[132.0,-11.0],[129.0,-14.5],[127.0,-14.0],[125.0,-14.5],[124.0,-16.5],[122.0,-18.0],[118.0,-20.5],[114.0,-22.0]]] }
+    }
+  ]
+}
