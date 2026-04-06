@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maritime Chokepoints — Infrastructure Dependency Atlas</title>
+  <meta name="description" content="Global dependency on narrow transit geometry. 5 maritime chokepoints that carry the majority of global trade through passages narrower than most rivers.">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 12px 20px;
+      background: #111;
+      border-bottom: 1px solid #222;
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    header a {
+      color: #666;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    header a:hover { color: #aaa; }
+
+    header h1 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.01em;
+    }
+
+    header .subtitle {
+      font-size: 14px;
+      color: #888;
+    }
+
+    .main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    #map {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .panel {
+      width: 440px;
+      flex-shrink: 0;
+      background: #111;
+      border-left: 1px solid #222;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-placeholder {
+      padding: 40px 24px;
+      color: #555;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .placeholder-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #888;
+      margin-bottom: 16px;
+    }
+
+    .placeholder-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .placeholder-stat {
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 3px;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+    }
+
+    .placeholder-desc {
+      font-size: 15px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .placeholder-note {
+      font-size: 12px;
+      color: #444;
+      line-height: 1.5;
+      border-top: 1px solid #1a1a1a;
+      padding-top: 16px;
+    }
+
+    .panel-content { display: none; }
+    .panel-content.active { display: block; }
+
+    .panel-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid #222;
+    }
+
+    .stress-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 10px;
+      border-radius: 3px;
+      margin-bottom: 8px;
+    }
+
+    .panel-header h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    .panel-header .one-line {
+      font-size: 14px;
+      color: #aaa;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    .panel-body { padding: 16px 24px 24px; }
+
+    .panel-body .field { margin-bottom: 14px; }
+
+    .panel-body .field-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #666;
+      margin-bottom: 3px;
+    }
+
+    .panel-body .field-value {
+      font-size: 14px;
+      color: #ccc;
+      line-height: 1.5;
+    }
+
+    .panel-body .field-value a {
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+
+    .panel-body .field-value a:hover { text-decoration: underline; }
+
+    .meta-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .meta-row .field { flex: 1; margin-bottom: 0; }
+
+    .dimension-bar {
+      margin-bottom: 10px;
+    }
+
+    .dimension-bar .dim-label {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 3px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .dimension-bar .dim-track {
+      height: 6px;
+      background: #1a1a1a;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .dimension-bar .dim-fill {
+      height: 100%;
+      border-radius: 3px;
+    }
+
+    .filters {
+      padding: 10px 20px;
+      background: #111;
+      border-bottom: 1px solid #222;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-group label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #666;
+    }
+
+    .filter-group select {
+      font-size: 13px;
+      background: #1a1a1a;
+      color: #ccc;
+      border: 1px solid #333;
+      border-radius: 4px;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+
+    .legend {
+      display: flex;
+      gap: 12px;
+      margin-left: auto;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: #888;
+    }
+
+    .legend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+    }
+
+    .filter-count {
+      font-size: 13px;
+      color: #666;
+      margin-left: 4px;
+    }
+
+    /* Mobile */
+    .panel-drag-handle { display: none; }
+    .panel-close {
+      display: none;
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      width: 28px;
+      height: 28px;
+      align-items: center;
+      justify-content: center;
+      background: #222;
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #888;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 2;
+    }
+    .panel-close:hover { color: #ccc; background: #2a2a2a; }
+
+    @media (max-width: 900px) {
+      header { flex-direction: column; gap: 4px; padding: 10px 16px; }
+      header h1 { font-size: 14px; }
+      header .subtitle { font-size: 11px; line-height: 1.4; }
+      .filters { padding: 8px 12px; gap: 8px; }
+      .filter-group select { font-size: 13px; padding: 6px 8px; }
+      .filter-count { display: none; }
+      .legend { display: none; }
+      .main { flex-direction: column; position: relative; }
+      #map { flex: 1; min-height: 0; }
+      .panel {
+        position: absolute; bottom: 0; left: 0; right: 0; width: 100%;
+        max-height: 55vh; border-left: none; border-top: 1px solid #333;
+        border-radius: 12px 12px 0 0; transform: translateY(100%);
+        transition: transform 0.3s ease; z-index: 10;
+      }
+      .panel.mobile-open { transform: translateY(0); }
+      .panel-placeholder { display: none; }
+      .panel-drag-handle {
+        display: flex; justify-content: center; padding: 10px 0 4px; cursor: grab;
+      }
+      .panel-drag-handle::after {
+        content: ''; width: 36px; height: 4px; background: #444; border-radius: 2px;
+      }
+      .panel-close { display: flex; }
+      .panel-header { padding: 12px 16px 12px; }
+      .panel-header h2 { font-size: 16px; }
+      .panel-body { padding: 12px 16px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../">&larr; Atlas</a>
+    <h1>Maritime Chokepoints</h1>
+    <span class="subtitle">Global dependency on narrow transit geometry.</span>
+  </header>
+
+  <div class="filters">
+    <div class="filter-group">
+      <label>Status</label>
+      <select id="filter-status">
+        <option value="all">All</option>
+        <option value="active_crisis">Active crisis</option>
+        <option value="disrupted">Disrupted</option>
+        <option value="constrained">Constrained</option>
+        <option value="elevated_risk">Elevated risk</option>
+      </select>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch" style="background:#ef5350"></div>Active crisis</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#f5a623"></div>Disrupted</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#fdd835"></div>Constrained</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#bd7dff"></div>Elevated risk</div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div id="map"></div>
+    <div class="panel" id="panel">
+      <div class="panel-drag-handle" id="drag-handle"></div>
+      <button class="panel-close" id="panel-close" aria-label="Close">&times;</button>
+      <div class="panel-placeholder" id="placeholder">
+        <div class="placeholder-title">Select a chokepoint</div>
+        <div class="placeholder-stats" id="placeholder-stats"></div>
+        <div class="placeholder-desc" id="placeholder-desc"></div>
+        <div class="placeholder-note">
+          Status reflects current operational condition. Active crisis means functional
+          closure or blockade. Disrupted means reduced traffic or rerouting. Constrained
+          means capacity limits from non-geopolitical causes. Elevated risk means
+          operational but with rising threat indicators.
+        </div>
+      </div>
+      <div class="panel-content" id="panel-content">
+        <div class="panel-header">
+          <span class="stress-badge" id="p-badge"></span>
+          <h2 id="p-name"></h2>
+          <div class="one-line" id="p-oneline"></div>
+        </div>
+        <div class="panel-body">
+          <div class="meta-row">
+            <div class="field">
+              <div class="field-label">Width</div>
+              <div class="field-value" id="p-width"></div>
+            </div>
+            <div class="field">
+              <div class="field-label">Daily Vessels</div>
+              <div class="field-value" id="p-vessels"></div>
+            </div>
+            <div class="field">
+              <div class="field-label">Global Trade %</div>
+              <div class="field-value" id="p-trade"></div>
+            </div>
+          </div>
+          <div id="p-dimensions"></div>
+          <div class="field">
+            <div class="field-label">Current Situation</div>
+            <div class="field-value" id="p-situation"></div>
+          </div>
+          <div class="field">
+            <div class="field-label">Key Dependents</div>
+            <div class="field-value" id="p-dependents"></div>
+          </div>
+          <div class="field">
+            <div class="field-label">Alternative Routes</div>
+            <div class="field-value" id="p-alternatives"></div>
+          </div>
+          <div class="field">
+            <div class="field-label">Economic Impact</div>
+            <div class="field-value" id="p-economic"></div>
+          </div>
+          <div class="field">
+            <div class="field-label">Historical</div>
+            <div class="field-value" id="p-historical"></div>
+          </div>
+          <div class="field">
+            <div class="field-label">Sources</div>
+            <div class="field-value" id="p-sources"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.js"></script>
+  <script>
+    const STATUS_COLORS = {
+      active_crisis: '#ef5350',
+      disrupted: '#f5a623',
+      constrained: '#fdd835',
+      elevated_risk: '#bd7dff'
+    };
+
+    const STATUS_STYLES = {
+      active_crisis: { bg: '#2a0a0a', fg: '#ef5350' },
+      disrupted: { bg: '#2a1a00', fg: '#f5a623' },
+      constrained: { bg: '#2a2a00', fg: '#fdd835' },
+      elevated_risk: { bg: '#1a0a2a', fg: '#bd7dff' }
+    };
+
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: {
+        version: 8,
+        sources: {
+          'carto-dark': {
+            type: 'raster',
+            tiles: ['https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png'],
+            tileSize: 256,
+            attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
+          }
+        },
+        layers: [{
+          id: 'carto-dark-layer',
+          type: 'raster',
+          source: 'carto-dark',
+          minzoom: 0,
+          maxzoom: 19
+        }]
+      },
+      center: [50, 20],
+      zoom: 2.2,
+      minZoom: 1.5,
+      maxZoom: 10
+    });
+
+    map.addControl(new maplibregl.NavigationControl(), 'top-left');
+
+    let geojsonData = null;
+
+    map.on('load', async () => {
+      const resp = await fetch('data/chokepoints.geojson');
+      geojsonData = await resp.json();
+
+      map.addSource('chokepoints', { type: 'geojson', data: geojsonData });
+
+      // Outer glow
+      map.addLayer({
+        id: 'chokepoint-glow',
+        type: 'circle',
+        source: 'chokepoints',
+        paint: {
+          'circle-radius': 20,
+          'circle-color': ['match', ['get', 'status'],
+            'active_crisis', STATUS_COLORS.active_crisis,
+            'disrupted', STATUS_COLORS.disrupted,
+            'constrained', STATUS_COLORS.constrained,
+            'elevated_risk', STATUS_COLORS.elevated_risk,
+            '#888'
+          ],
+          'circle-opacity': 0.15,
+          'circle-blur': 1
+        }
+      });
+
+      // Main dot
+      map.addLayer({
+        id: 'chokepoint-dot',
+        type: 'circle',
+        source: 'chokepoints',
+        paint: {
+          'circle-radius': 12,
+          'circle-color': ['match', ['get', 'status'],
+            'active_crisis', STATUS_COLORS.active_crisis,
+            'disrupted', STATUS_COLORS.disrupted,
+            'constrained', STATUS_COLORS.constrained,
+            'elevated_risk', STATUS_COLORS.elevated_risk,
+            '#888'
+          ],
+          'circle-opacity': 0.85,
+          'circle-stroke-width': 2,
+          'circle-stroke-color': ['match', ['get', 'status'],
+            'active_crisis', STATUS_COLORS.active_crisis,
+            'disrupted', STATUS_COLORS.disrupted,
+            'constrained', STATUS_COLORS.constrained,
+            'elevated_risk', STATUS_COLORS.elevated_risk,
+            '#888'
+          ],
+          'circle-stroke-opacity': 0.4
+        }
+      });
+
+      // Populate placeholder
+      const features = geojsonData.features;
+      const totalTrade = features.reduce((sum, f) => sum + (f.properties.trade_global_pct || 0), 0);
+      document.getElementById('placeholder-stats').innerHTML =
+        `<span class="placeholder-stat" style="color:#ccc">${features.length} chokepoints</span>` +
+        `<span class="placeholder-stat" style="color:#ccc">${totalTrade}% global trade</span>`;
+      document.getElementById('placeholder-desc').textContent =
+        `5 chokepoints. ${totalTrade}% of global trade passes through passages narrower than most rivers.`;
+
+      updateFilterCount();
+
+      // Hover
+      map.on('mouseenter', 'chokepoint-dot', () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', 'chokepoint-dot', () => { map.getCanvas().style.cursor = ''; });
+
+      // Click
+      map.on('click', 'chokepoint-dot', (e) => {
+        const props = e.features[0].properties;
+        const coords = e.features[0].geometry.coordinates;
+        showPanel(props);
+        const padding = isMobile()
+          ? { top: 40, bottom: 60, left: 20, right: 20 }
+          : { top: 60, bottom: 60, left: 60, right: 460 };
+        map.flyTo({ center: coords, zoom: 5, padding, duration: 600 });
+      });
+
+      map.on('click', (e) => {
+        const features = map.queryRenderedFeatures(e.point, { layers: ['chokepoint-dot'] });
+        if (features.length === 0) hidePanel();
+      });
+    });
+
+    const isMobile = () => window.innerWidth <= 900;
+    const panelEl = document.getElementById('panel');
+
+    document.getElementById('panel-close').addEventListener('click', hidePanel);
+
+    let dragStartY = null;
+    const dragHandle = document.getElementById('drag-handle');
+    dragHandle.addEventListener('touchstart', (e) => { dragStartY = e.touches[0].clientY; }, { passive: true });
+    dragHandle.addEventListener('touchmove', (e) => {
+      if (dragStartY === null) return;
+      if (e.touches[0].clientY - dragStartY > 60) { hidePanel(); dragStartY = null; }
+    }, { passive: true });
+    dragHandle.addEventListener('touchend', () => { dragStartY = null; });
+
+    function showPanel(props) {
+      document.getElementById('placeholder').style.display = 'none';
+      document.getElementById('panel-content').classList.add('active');
+      if (isMobile()) panelEl.classList.add('mobile-open');
+
+      const status = props.status;
+      const style = STATUS_STYLES[status] || STATUS_STYLES.disrupted;
+      const badge = document.getElementById('p-badge');
+      badge.textContent = props.status_label;
+      badge.style.background = style.bg;
+      badge.style.color = style.fg;
+
+      document.getElementById('p-name').textContent = props.name;
+      document.getElementById('p-oneline').textContent = props.one_line;
+
+      document.getElementById('p-width').textContent = props.width_km + ' km';
+      document.getElementById('p-vessels').textContent = props.daily_vessels.toLocaleString();
+      document.getElementById('p-trade').textContent = props.trade_global_pct + '%';
+
+      // Dimension bars
+      const dims = document.getElementById('p-dimensions');
+      dims.innerHTML = '';
+      const oilPct = typeof props.oil_global_pct === 'string' ? JSON.parse(props.oil_global_pct) : props.oil_global_pct;
+      const lngPct = typeof props.lng_global_pct === 'string' ? JSON.parse(props.lng_global_pct) : props.lng_global_pct;
+      const tradePct = props.trade_global_pct;
+      if (oilPct != null) dims.innerHTML += dimBar('Oil (global %)', oilPct, '%', '#ef5350');
+      if (lngPct != null) dims.innerHTML += dimBar('LNG (global %)', lngPct, '%', '#f5a623');
+      if (tradePct != null) dims.innerHTML += dimBar('Trade (global %)', tradePct, '%', '#4fc3f7');
+
+      document.getElementById('p-situation').textContent = props.current_situation;
+      document.getElementById('p-dependents').textContent = props.key_dependents;
+      document.getElementById('p-alternatives').textContent = props.alternative_routes;
+      document.getElementById('p-economic').textContent = props.economic_impact;
+      document.getElementById('p-historical').textContent = props.historical;
+
+      const sources = typeof props.sources === 'string' ? JSON.parse(props.sources) : props.sources;
+      document.getElementById('p-sources').innerHTML = sources.map(s =>
+        `<a href="${s.url}" target="_blank" rel="noopener">${s.publisher}</a> (${s.date})`
+      ).join('<br>');
+    }
+
+    function dimBar(label, value, unit, color) {
+      return `<div class="dimension-bar">
+        <div class="dim-label"><span>${label}</span><span>${value}${unit}</span></div>
+        <div class="dim-track"><div class="dim-fill" style="width:${Math.min(value, 100)}%;background:${color};opacity:0.7"></div></div>
+      </div>`;
+    }
+
+    function hidePanel() {
+      if (!isMobile()) document.getElementById('placeholder').style.display = 'block';
+      document.getElementById('panel-content').classList.remove('active');
+      panelEl.classList.remove('mobile-open');
+    }
+
+    // Filters
+    const filterStatus = document.getElementById('filter-status');
+
+    function applyFilters() {
+      if (!geojsonData) return;
+      const s = filterStatus.value;
+      const filter = s === 'all' ? null : ['==', ['get', 'status'], s];
+      map.setFilter('chokepoint-dot', filter);
+      map.setFilter('chokepoint-glow', filter);
+      updateFilterCount();
+    }
+
+    filterStatus.addEventListener('change', applyFilters);
+
+    function updateFilterCount() {
+      if (!geojsonData) return;
+      const s = filterStatus.value;
+      let count = geojsonData.features.filter(f => {
+        if (s !== 'all' && f.properties.status !== s) return false;
+        return true;
+      }).length;
+      let el = document.getElementById('filter-count');
+      if (!el) {
+        el = document.createElement('span');
+        el.id = 'filter-count';
+        el.className = 'filter-count';
+        document.querySelector('.filters').insertBefore(el, document.querySelector('.legend'));
+      }
+      const total = geojsonData.features.length;
+      el.textContent = count === total ? `${total} chokepoints` : `${count} of ${total} chokepoints`;
+    }
+  </script>
+</body>
+</html>

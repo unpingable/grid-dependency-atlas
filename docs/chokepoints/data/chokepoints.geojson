@@ -1,0 +1,125 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [56.25, 26.55] },
+      "properties": {
+        "name": "Strait of Hormuz",
+        "status": "active_crisis",
+        "status_label": "Active crisis",
+        "width_km": 54,
+        "daily_vessels": 200,
+        "oil_global_pct": 20,
+        "lng_global_pct": 20,
+        "trade_global_pct": 20,
+        "current_situation": "Closure began March 2-3, 2026. Iran announced functional blockade; shipping traffic fell from 100+ vessels/day to near-zero. IEA launched record 400M barrel stock release March 11. Brent hit $126/barrel. 84% of strait crude goes to Asian markets.",
+        "key_dependents": "China, India, Japan, South Korea (69% of all flows). Singapore (45% of LNG). Philippines, Thailand, Bangladesh, Pakistan — all in active energy crisis.",
+        "alternative_routes": "Saudi East-West Pipeline (~4 mb/d). UAE ADCOP/Fujairah Pipeline (~1.8 mb/d). Combined bypass covers <45% of normal flow — 55%+ of volumes stranded.",
+        "economic_impact": "Oil at $126/barrel. Gas prices highest in ISO-NE history. IEA largest-ever stock release. Multiple Asian countries declared energy emergencies. Fertilizer supply chains disrupted globally.",
+        "historical": "1984-88 Tanker War: 546 vessels attacked, 430+ seafarers killed, but oil kept flowing. 2026 is fundamentally different — first functional complete closure. No modern precedent for a 20% supply shock.",
+        "one_line": "21 miles wide, 20% of global oil and LNG. Functional closure since March 2026 — largest energy disruption in 50 years.",
+        "sources": [
+          { "publisher": "IEA", "url": "https://www.iea.org/news/iea-member-countries-to-carry-out-largest-ever-oil-stock-release-amid-market-disruptions-from-middle-east-conflict", "date": "2026-03-11" },
+          { "publisher": "EIA", "url": "https://www.eia.gov/todayinenergy/detail.php?id=65504", "date": "2025-01-01" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [43.3, 12.6] },
+      "properties": {
+        "name": "Bab el-Mandeb",
+        "status": "disrupted",
+        "status_label": "Disrupted (fragile recovery)",
+        "width_km": 26,
+        "daily_vessels": 200,
+        "oil_global_pct": 5.5,
+        "lng_global_pct": 8,
+        "trade_global_pct": 12,
+        "current_situation": "Houthi attacks began November 2023. 178+ vessels hit, 4 ships sunk, 9 sailors killed. Container traffic dropped 90% at peak. October 2025 Gaza ceasefire triggered Houthi ceasefire — some carriers resumed, others still routing around Cape of Good Hope. Freight prices still 80% above pre-crisis levels.",
+        "key_dependents": "Europe (most penalized — disrupted Asia-Europe trade). Qatar (30M tonnes/year LNG fully dependent on this route). China, India (container exports). Egypt (Suez revenue collapsed from $10.2B to $4.1B).",
+        "alternative_routes": "Cape of Good Hope: +11,000 nautical miles, +10 days transit, +$1M fuel per voyage, +$200-400/TEU. Freight rates up 25-35% above pre-crisis.",
+        "economic_impact": "~$1 trillion in goods disrupted (Oct 2023-May 2024). 25% of global container trade affected. Insurance premiums spiked for Red Sea transit. Suez Canal revenue cut by 60%.",
+        "historical": "Historically a piracy zone but never blocked at this scale. Houthi campaign is the first time a non-state actor effectively closed a major global shipping lane for over a year.",
+        "one_line": "16 miles wide, 12% of global trade. Houthi attacks closed it for over a year — the first time a militia shut down a global shipping lane.",
+        "sources": [
+          { "publisher": "Atlas Institute", "url": "https://atlasinstitute.org/the-red-sea-shipping-crisis-2024-2025-houthi-attacks-and-global-trade-disruption/", "date": "2025-06-01" },
+          { "publisher": "EIA", "url": "https://www.eia.gov/todayinenergy/detail.php?id=61025", "date": "2024-01-01" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [32.35, 30.45] },
+      "properties": {
+        "name": "Suez Canal",
+        "status": "disrupted",
+        "status_label": "Disrupted (reduced traffic)",
+        "width_km": 0.3,
+        "daily_vessels": 34,
+        "oil_global_pct": null,
+        "lng_global_pct": null,
+        "trade_global_pct": 12,
+        "current_situation": "Downstream casualty of Bab el-Mandeb crisis. Container ship transits down 86% vs 2023 (Q4 2025). Daily transits dropped from 50+ to ~34. Some recovery: October 2025 saw 229 ships (highest since crisis). Revenue fell from $10.2B (2023) to $4.1B (2025). Slow recovery underway with 17.5% growth in late 2025.",
+        "key_dependents": "Egypt (revenue-dependent: canal is 5-8% of GDP). Europe-Asia trade corridor. CMA CGM, Maersk, Hapag-Lloyd (major shipping lines). 12% of global trade normally flows through.",
+        "alternative_routes": "Cape of Good Hope: same penalty as Bab el-Mandeb reroute since they're sequential. +10-14 days, +$1M fuel. No other alternative exists for Asia-Europe shipping.",
+        "economic_impact": "Egypt lost ~$6B in annual revenue. Shanghai-to-Europe container rates spiked 256% (Dec 2023-Feb 2024). 2025 average still 80% above pre-crisis. War-risk surcharge: $200-800/container.",
+        "historical": "Ever Given blockage (March 2021): 6 days, 300+ vessels blocked, $92.7B cargo affected, $136.9B total industry losses. 1956 and 1967: canal closed during wars. 1967-1975: closed 8 years during Arab-Israeli conflict.",
+        "one_line": "300 meters wide, 12% of global trade. Collateral damage from Red Sea crisis — Egypt lost $6B in annual revenue while ships reroute around Africa.",
+        "sources": [
+          { "publisher": "Suez Canal Authority", "url": "https://www.suezcanal.gov.eg/English/Navigation/Pages/NavigationStatistics.aspx", "date": "2025-12-01" },
+          { "publisher": "UNCTAD", "url": "https://unctad.org/news/suez-and-panama-canal-disruptions-threaten-global-trade-and-development", "date": "2024-06-01" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-79.75, 9.2] },
+      "properties": {
+        "name": "Panama Canal",
+        "status": "constrained",
+        "status_label": "Constrained (drought recovery)",
+        "width_km": 0.15,
+        "daily_vessels": 23,
+        "oil_global_pct": null,
+        "lng_global_pct": null,
+        "trade_global_pct": 5,
+        "current_situation": "Severe drought 2022-2024 dropped Gatun Lake to record lows. January 2024: water level 6ft below prior year (lowest January on record). Transits dropped 29% in FY2024. LNG transits down 66%. Daily transits still 22-24 vs normal 36-38. Draft limits forced lighter loads. Recovery underway but not complete.",
+        "key_dependents": "United States (40% of US container traffic, 72.5% of all canal traffic in FY2021). China (13-22% of traffic). LNG trade: Atlantic-to-Pacific. Grain exports: US Gulf to Asia.",
+        "alternative_routes": "Suez Canal (+10-14 days for Asia traffic). Cape Horn for South America. No overnight LNG transits allowed — limited slots even when operating. New Indio River dam approved January 2025; gas pipeline/land bridge in pre-qualification (April 2025).",
+        "economic_impact": "LNG transits -66%. Dry bulk -107%. Berthing times improved (23.5h to 10.6h, July 2024 to August 2025) but capacity still constrained. $270B in annual trade affected. Climate change makes drought recurrence likely.",
+        "historical": "Opened 1914. Expanded 2016 (neo-Panamax locks). 2023-24 drought was worst in canal's 110-year history. Unlike other chokepoints, the threat is hydrological, not geopolitical.",
+        "one_line": "150 meters wide, 5% of global trade. The only major chokepoint threatened by rainfall, not missiles — and it's still not recovered.",
+        "sources": [
+          { "publisher": "CNBC", "url": "https://www.cnbc.com/2025/09/13/panama-canal-drought-el-nino-climate-change-shipping-trade.html", "date": "2025-09-13" },
+          { "publisher": "EIA", "url": "https://www.eia.gov/todayinenergy/detail.php?id=62408", "date": "2024-06-01" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [101.5, 2.5] },
+      "properties": {
+        "name": "Strait of Malacca",
+        "status": "elevated_risk",
+        "status_label": "Elevated risk (piracy surge)",
+        "width_km": 2.8,
+        "daily_vessels": 258,
+        "oil_global_pct": 22,
+        "lng_global_pct": null,
+        "trade_global_pct": 30,
+        "current_situation": "World's busiest strait: 258 ships/day average, 94,301 transits in 2024 (+5.5% YoY). 23.2M barrels/day oil in first half 2025 (22% of global, 29% of seaborne). Piracy surging: 80 incidents in first half 2025 vs 21 in all of 2024 — 380% increase. China-US naval tension escalating. Phillips Channel narrows to 2.8km near Singapore.",
+        "key_dependents": "China (80% of crude imports). Japan (90% of oil imports). South Korea (80% of oil imports). Singapore (refining/transshipment hub). $3.5 trillion in annual trade value.",
+        "alternative_routes": "Sunda Strait (shallow, strong currents). Lombok/Makassar Strait (longer, more expensive). China-Myanmar pipeline (operational 2013, limited capacity). Thailand canal proposals (not built). All alternatives are inferior.",
+        "economic_impact": "Not currently disrupted in trade-flow terms — but piracy costs, insurance premiums, and naval posturing are rising. The 'Malacca Dilemma' is entrenched in Chinese strategic doctrine. A blockade scenario would dwarf Hormuz in scale.",
+        "historical": "Historical piracy zone for centuries. Modern piracy peaked 2000-2006 before coordinated patrols. Current surge (2024-2025) is the worst in over a decade. Geopolitically, it's the chokepoint most likely to become a flashpoint in US-China competition.",
+        "one_line": "1.7 miles wide at Phillips Channel, 30% of global trade, 258 ships/day. Not blocked — but piracy surging 380% and it's ground zero for US-China naval tension.",
+        "sources": [
+          { "publisher": "World Economic Forum", "url": "https://www.weforum.org/stories/2024/02/worlds-busiest-ocean-shipping-routes-trade/", "date": "2024-02-01" },
+          { "publisher": "Ballast Markets", "url": "https://content.ballastmarkets.com/blog/2025-05-12-malacca-strait-5-trillion-trade/", "date": "2025-05-12" }
+        ]
+      }
+    }
+  ]
+}
