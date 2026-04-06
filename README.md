@@ -3,9 +3,9 @@
 **Places where local populations are exposed to infrastructure decisions made
 outside their effective political control.**
 
-Same thesis, different substrates. Eight maps across physical infrastructure,
+Same thesis, different substrates. Nine maps across physical infrastructure,
 energy chokepoints, financial governance, agricultural inputs, water basins,
-grid equipment, and digital infrastructure.
+grid equipment, subsea cables, and digital infrastructure.
 
 ## Live site
 
@@ -22,6 +22,7 @@ grid equipment, and digital infrastructure.
 | [Fertilizer-to-Food](https://unpingable.github.io/grid-dependency-atlas/fertilizer/) | 12 countries | Chokepoint → fertilizer → planting → yield → food insecurity |
 | [Water Basins](https://unpingable.github.io/grid-dependency-atlas/water/) | 8 cases | Where consumption happens is not where hydrological control sits |
 | [Grid Equipment](https://unpingable.github.io/grid-dependency-atlas/grid-equipment/) | 7 cases | Long-lead transformers, single-vendor steel, physical limits of replacement |
+| [Subsea Cables](https://unpingable.github.io/grid-dependency-atlas/subsea/) | 9 cases | Landing concentration, corridor chokepoints, single-cable fragility, repair bottleneck |
 | [Cloud / CDN](https://unpingable.github.io/grid-dependency-atlas/cloud/) | 10 cases | Digital infrastructure concentration and sovereignty gaps |
 
 ## Structure
@@ -41,6 +42,7 @@ docs/                # GitHub Pages site
   fertilizer/        # Fertilizer-to-food stress map + data
   water/             # Water basin dependency map + data
   grid-equipment/    # Grid equipment dependency map + data
+  subsea/            # Subsea cable dependency map + data
   cloud/             # Cloud/CDN dependency map + data
 ```
 
