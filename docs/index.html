@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Infrastructure Dependency Atlas</title>
-  <meta name="description" content="Places where local populations are exposed to infrastructure decisions made outside their effective political control. Five atlases: U.S. infrastructure, Hormuz energy, maritime chokepoints, insurance dependency, and fertilizer-to-food stress.">
+  <meta name="description" content="Places where local populations are exposed to infrastructure decisions made outside their effective political control. Eight atlases: U.S. infrastructure, Hormuz energy, maritime chokepoints, insurance, fertilizer-to-food, water basins, grid equipment, and cloud/CDN dependency.">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -114,9 +114,19 @@
       color: #66bb6a;
     }
 
-    .card-tag-cloud {
+    .card-tag-water {
       background: #001a2e;
       color: #4fc3f7;
+    }
+
+    .card-tag-equipment {
+      background: #1a1a00;
+      color: #fdd835;
+    }
+
+    .card-tag-cloud {
+      background: #0a1a2e;
+      color: #64b5f6;
     }
 
     .card h2 {
@@ -280,6 +290,34 @@
           <span class="card-stat">11 countries</span>
           <span class="card-stat">6 stress bands</span>
           <span class="card-status status-active">Active crisis</span>
+        </div>
+      </a>
+
+      <a class="card" href="water/">
+        <span class="card-tag card-tag-water">Water Basins</span>
+        <h2>Water Basin Dependency</h2>
+        <p>
+          Where consumption happens is not where hydrological control sits.
+          Compacts, aquifers, and governance weapons.
+        </p>
+        <div class="card-stats">
+          <span class="card-stat">8 cases</span>
+          <span class="card-stat">6 categories</span>
+          <span class="card-status status-live">Live</span>
+        </div>
+      </a>
+
+      <a class="card" href="grid-equipment/">
+        <span class="card-tag card-tag-equipment">Grid Equipment</span>
+        <h2>Transformer & Equipment Dependency</h2>
+        <p>
+          The invisible substrate. Long-lead transformers, single-vendor
+          steel, and the physical limits of replacement.
+        </p>
+        <div class="card-stats">
+          <span class="card-stat">7 cases</span>
+          <span class="card-stat">4 categories</span>
+          <span class="card-status status-active">Active shortage</span>
         </div>
       </a>
 

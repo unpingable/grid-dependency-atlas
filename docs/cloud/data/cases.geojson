@@ -106,8 +106,8 @@
         "location": "us-east-1, Northern Virginia",
         "provider": "AWS",
         "affected_scope": "4M users, 1,000+ companies, 141 AWS services. Ring doorbells (10M devices offline), smart locks, thermostats.",
-        "one_line": "Empty DNS record + DynamoDB race condition = 15 hours of outage, 141 AWS services affected, 10 million Ring doorbells offline. Your doorbell is downstream of a database in Virginia.",
-        "dependency": "DNS resolution failure in us-east-1 caused by empty DNS record. Race condition in DynamoDB prevented recovery. 141 of AWS's own services affected. Ring, smart locks, thermostats, and IoT devices with no offline fallback went dark.",
+        "one_line": "DynamoDB automation race condition deleted DNS records — 15 hours of outage, 141 AWS services affected, 10 million Ring doorbells offline. Your doorbell is downstream of a database in Virginia.",
+        "dependency": "DynamoDB automation had a race condition that deleted DNS records in us-east-1 — not a Route 53 failure, but an internal automation error that cascaded through DNS. 141 of AWS's own services affected. Ring, smart locks, thermostats, and IoT devices with no offline fallback went dark.",
         "consequence": "10 million Ring devices offline — no video recording, no motion alerts, no remote access. Smart locks unresponsive. 4M end users affected across 1,000+ companies. Demonstrated IoT's total cloud dependency: devices become inert hardware when the connection drops.",
         "who_controls": "AWS. Ring is an Amazon subsidiary — even Amazon's own hardware products couldn't survive Amazon's own infrastructure failure. Consumers who bought 'security' devices found their security was downstream of a DNS table.",
         "sources": [

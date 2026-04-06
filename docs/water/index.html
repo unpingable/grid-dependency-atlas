@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Water Basin Dependency</title>
+  <meta name="description" content="Where consumption happens is not where hydrological control sits. 8 documented cases across compacts, aquifers, river management, and governance failures.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Water Basin Dependency">
+  <meta property="og:description" content="Where consumption happens is not where hydrological control sits.">
+  <meta property="og:url" content="https://unpingable.github.io/grid-dependency-atlas/water/">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Water Basin Dependency">
+  <meta name="twitter:description" content="Where consumption happens is not where hydrological control sits.">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 12px 20px;
+      background: #111;
+      border-bottom: 1px solid #222;
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    header .back-link {
+      font-size: 14px;
+      color: #4fc3f7;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    header .back-link:hover { text-decoration: underline; }
+
+    header h1 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.01em;
+    }
+
+    header .subtitle {
+      font-size: 14px;
+      color: #888;
+    }
+
+    .main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    #map {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .panel {
+      width: 420px;
+      flex-shrink: 0;
+      background: #111;
+      border-left: 1px solid #222;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-placeholder {
+      padding: 40px 24px;
+      color: #555;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .placeholder-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #888;
+      margin-bottom: 16px;
+    }
+
+    .placeholder-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .placeholder-stat {
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 3px;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      color: #999;
+    }
+
+    .placeholder-desc {
+      font-size: 15px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .placeholder-note {
+      font-size: 12px;
+      color: #444;
+      line-height: 1.5;
+      border-top: 1px solid #1a1a1a;
+      padding-top: 16px;
+    }
+
+    .filter-count {
+      font-size: 13px;
+      color: #666;
+      margin-left: 4px;
+    }
+
+    .panel-content { display: none; }
+
+    .panel-content.active { display: block; }
+
+    .panel-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid #222;
+    }
+
+    .panel-header .category-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 3px;
+      margin-bottom: 8px;
+    }
+
+    .badge-interstate_compact { background: #0a2a3a; color: #4fc3f7; }
+    .badge-aquifer { background: #0a2a0a; color: #66bb6a; }
+    .badge-river_management { background: #2a1f00; color: #f5a623; }
+    .badge-interstate_dispute { background: #1a0a2e; color: #bd7dff; }
+    .badge-federal_override { background: #2a2a00; color: #fdd835; }
+    .badge-governance_weapon { background: #2a0a0a; color: #ef5350; }
+
+    .panel-header h2 {
+      font-size: 17px;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .panel-header .one-line {
+      font-size: 14px;
+      color: #aaa;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    .panel-body {
+      padding: 16px 24px 24px;
+    }
+
+    .panel-body .field {
+      margin-bottom: 14px;
+    }
+
+    .panel-body .field-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #666;
+      margin-bottom: 3px;
+    }
+
+    .panel-body .field-value {
+      font-size: 14px;
+      color: #ccc;
+      line-height: 1.5;
+    }
+
+    .panel-body .field-value a {
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+
+    .panel-body .field-value a:hover {
+      text-decoration: underline;
+    }
+
+    .meta-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .meta-row .field { flex: 1; margin-bottom: 0; }
+
+    .filters {
+      padding: 10px 20px;
+      background: #111;
+      border-bottom: 1px solid #222;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-group label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #666;
+    }
+
+    .filter-group select {
+      font-size: 13px;
+      background: #1a1a1a;
+      color: #ccc;
+      border: 1px solid #333;
+      border-radius: 4px;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+
+    .legend {
+      display: flex;
+      gap: 14px;
+      margin-left: auto;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: #888;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    /* Mobile: panel becomes a slide-up drawer */
+    @media (max-width: 900px) {
+      header { flex-direction: column; gap: 4px; padding: 10px 16px; }
+      header h1 { font-size: 14px; }
+      header .subtitle { font-size: 11px; line-height: 1.4; }
+
+      .filters { padding: 8px 12px; gap: 8px; }
+      .filter-group { gap: 4px; }
+      .filter-group select { font-size: 13px; padding: 6px 8px; }
+      .filter-count { display: none; }
+      .legend { display: none; }
+
+      .main { flex-direction: column; position: relative; }
+      #map { flex: 1; min-height: 0; }
+
+      .panel {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-height: 55vh;
+        border-left: none;
+        border-top: 1px solid #333;
+        border-radius: 12px 12px 0 0;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+        z-index: 10;
+      }
+
+      .panel.mobile-open {
+        transform: translateY(0);
+      }
+
+      .panel-placeholder { display: none; }
+
+      .panel-drag-handle {
+        display: flex;
+        justify-content: center;
+        padding: 10px 0 4px;
+        cursor: grab;
+      }
+
+      .panel-drag-handle::after {
+        content: '';
+        width: 36px;
+        height: 4px;
+        background: #444;
+        border-radius: 2px;
+      }
+
+      .panel-close {
+        display: flex;
+      }
+
+      .panel-header { padding: 12px 16px 12px; }
+      .panel-header h2 { font-size: 14px; }
+      .panel-body { padding: 12px 16px 24px; }
+      .panel-body .field { margin-bottom: 12px; }
+      .meta-row { gap: 10px; }
+    }
+
+    @media (min-width: 901px) {
+      .panel-drag-handle { display: none; }
+      .panel-close { display: none; }
+    }
+
+    .panel-close {
+      display: none;
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      width: 28px;
+      height: 28px;
+      align-items: center;
+      justify-content: center;
+      background: #222;
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #888;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .panel-close:hover { color: #ccc; background: #2a2a2a; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../" class="back-link">&larr; Atlas</a>
+    <h1>Water Basin Dependency</h1>
+    <span class="subtitle">Where consumption happens is not where hydrological control sits.</span>
+  </header>
+
+  <div class="filters">
+    <div class="filter-group">
+      <label>Category</label>
+      <select id="filter-category">
+        <option value="all">All</option>
+        <option value="interstate_compact">Interstate Compact</option>
+        <option value="aquifer">Aquifer</option>
+        <option value="river_management">River Management</option>
+        <option value="interstate_dispute">Interstate Dispute</option>
+        <option value="federal_override">Federal Override</option>
+        <option value="governance_weapon">Water as Governance</option>
+      </select>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#4fc3f7"></div>Interstate Compact</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#66bb6a"></div>Aquifer</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f5a623"></div>River Mgmt</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#bd7dff"></div>Dispute</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#fdd835"></div>Federal Override</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ef5350"></div>Governance</div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div id="map"></div>
+    <div class="panel" id="panel">
+      <div class="panel-drag-handle" id="drag-handle"></div>
+      <button class="panel-close" id="panel-close" aria-label="Close">&times;</button>
+      <div class="panel-placeholder" id="placeholder">
+        <div class="placeholder-title">Select a case</div>
+        <div class="placeholder-stats" id="placeholder-stats"></div>
+        <div class="placeholder-desc">
+          8 cases. Water governance failures are about control, not hydrology.
+        </div>
+        <div class="placeholder-note">
+          Each marker represents a documented case where water consumption
+          depends on governance decisions made outside the consuming jurisdiction's
+          effective political control.
+        </div>
+      </div>
+      <div class="panel-content" id="panel-content">
+        <div class="panel-header">
+          <span class="category-badge" id="p-badge"></span>
+          <h2 id="p-title"></h2>
+          <div class="one-line" id="p-oneline"></div>
+        </div>
+        <div class="panel-body">
+          <div class="meta-row">
+            <div class="field">
+              <div class="field-label">Governance</div>
+              <div class="field-value" id="p-governance"></div>
+            </div>
+            <div class="field">
+              <div class="field-label">Affected Population</div>
+              <div class="field-value" id="p-pop"></div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="field-label">Control Mismatch</div>
+            <div class="field-value" id="p-mismatch"></div>
+          </div>
+          <div class="field">
+            <div class="field-label">Who Depends</div>
+            <div class="field-value" id="p-depends"></div>
+          </div>
+          <div class="field">
+            <div class="field-label">Who Controls</div>
+            <div class="field-value" id="p-controls"></div>
+          </div>
+          <div class="field">
+            <div class="field-label">Current Status</div>
+            <div class="field-value" id="p-status"></div>
+          </div>
+          <div class="field">
+            <div class="field-label">Sources</div>
+            <div class="field-value" id="p-sources"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.js"></script>
+  <script>
+    const COLORS = {
+      interstate_compact: '#4fc3f7',
+      aquifer: '#66bb6a',
+      river_management: '#f5a623',
+      interstate_dispute: '#bd7dff',
+      federal_override: '#fdd835',
+      governance_weapon: '#ef5350'
+    };
+
+    const BADGE_CLASSES = {
+      interstate_compact: 'badge-interstate_compact',
+      aquifer: 'badge-aquifer',
+      river_management: 'badge-river_management',
+      interstate_dispute: 'badge-interstate_dispute',
+      federal_override: 'badge-federal_override',
+      governance_weapon: 'badge-governance_weapon'
+    };
+
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: {
+        version: 8,
+        sources: {
+          'carto-dark': {
+            type: 'raster',
+            tiles: ['https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png'],
+            tileSize: 256,
+            attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
+          }
+        },
+        layers: [{
+          id: 'carto-dark-layer',
+          type: 'raster',
+          source: 'carto-dark',
+          minzoom: 0,
+          maxzoom: 19
+        }]
+      },
+      center: [-98, 38],
+      zoom: 3.8,
+      maxZoom: 10,
+      minZoom: 3
+    });
+
+    map.addControl(new maplibregl.NavigationControl(), 'top-left');
+
+    let geojsonData = null;
+
+    map.on('load', async () => {
+      const resp = await fetch('data/cases.geojson');
+      geojsonData = await resp.json();
+
+      map.addSource('cases', { type: 'geojson', data: geojsonData });
+
+      // Populate placeholder stats
+      const features = geojsonData.features;
+      const total = features.length;
+      const byCat = {};
+      features.forEach(f => {
+        const t = f.properties.category;
+        byCat[t] = (byCat[t] || 0) + 1;
+      });
+      const statsEl = document.getElementById('placeholder-stats');
+      statsEl.innerHTML =
+        `<span class="placeholder-stat">${total} cases</span>` +
+        Object.entries(byCat).map(([k, v]) =>
+          `<span class="placeholder-stat" style="color:${COLORS[k]}">${v} ${k.replace(/_/g, ' ')}</span>`
+        ).join('');
+
+      updateFilterCount();
+
+      const mobile = isMobile();
+
+      // Invisible hit area for easier mobile tapping
+      map.addLayer({
+        id: 'cases-hit',
+        type: 'circle',
+        source: 'cases',
+        paint: {
+          'circle-radius': mobile ? 24 : 16,
+          'circle-color': 'transparent'
+        }
+      });
+
+      // Outer glow
+      map.addLayer({
+        id: 'cases-glow',
+        type: 'circle',
+        source: 'cases',
+        paint: {
+          'circle-radius': mobile ? 20 : 16,
+          'circle-color': ['match', ['get', 'category'],
+            'interstate_compact', COLORS.interstate_compact,
+            'aquifer', COLORS.aquifer,
+            'river_management', COLORS.river_management,
+            'interstate_dispute', COLORS.interstate_dispute,
+            'federal_override', COLORS.federal_override,
+            'governance_weapon', COLORS.governance_weapon,
+            '#888'
+          ],
+          'circle-opacity': 0.15,
+          'circle-blur': 1
+        }
+      });
+
+      // Main dot
+      map.addLayer({
+        id: 'cases-dot',
+        type: 'circle',
+        source: 'cases',
+        paint: {
+          'circle-radius': mobile ? 11 : 9,
+          'circle-color': ['match', ['get', 'category'],
+            'interstate_compact', COLORS.interstate_compact,
+            'aquifer', COLORS.aquifer,
+            'river_management', COLORS.river_management,
+            'interstate_dispute', COLORS.interstate_dispute,
+            'federal_override', COLORS.federal_override,
+            'governance_weapon', COLORS.governance_weapon,
+            '#888'
+          ],
+          'circle-opacity': 0.9,
+          'circle-stroke-color': '#fff',
+          'circle-stroke-width': 1.5,
+          'circle-stroke-opacity': 0.4
+        }
+      });
+
+      const clickLayers = ['cases-dot', 'cases-hit'];
+
+      // Hover state (desktop)
+      map.on('mouseenter', 'cases-dot', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      map.on('mouseleave', 'cases-dot', () => {
+        map.getCanvas().style.cursor = '';
+      });
+      map.on('mouseenter', 'cases-hit', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      map.on('mouseleave', 'cases-hit', () => {
+        map.getCanvas().style.cursor = '';
+      });
+
+      // Click handler
+      clickLayers.forEach(layer => {
+        map.on('click', layer, (e) => {
+          const props = e.features[0].properties;
+          showPanel(props);
+          const targetZoom = mobile ? Math.max(map.getZoom(), 5) : Math.max(map.getZoom(), 6);
+          map.flyTo({ center: e.lngLat, zoom: targetZoom, duration: 600 });
+        });
+      });
+
+      // Click on empty space closes panel
+      map.on('click', (e) => {
+        const features = map.queryRenderedFeatures(e.point, { layers: clickLayers });
+        if (features.length === 0) hidePanel();
+      });
+    });
+
+    const isMobile = () => window.innerWidth <= 900;
+    const panelEl = document.getElementById('panel');
+
+    // Mobile close button
+    document.getElementById('panel-close').addEventListener('click', hidePanel);
+
+    // Mobile drag-to-dismiss
+    let dragStartY = null;
+    const dragHandle = document.getElementById('drag-handle');
+    dragHandle.addEventListener('touchstart', (e) => {
+      dragStartY = e.touches[0].clientY;
+    }, { passive: true });
+    dragHandle.addEventListener('touchmove', (e) => {
+      if (dragStartY === null) return;
+      const dy = e.touches[0].clientY - dragStartY;
+      if (dy > 60) { hidePanel(); dragStartY = null; }
+    }, { passive: true });
+    dragHandle.addEventListener('touchend', () => { dragStartY = null; });
+
+    function showPanel(props) {
+      document.getElementById('placeholder').style.display = 'none';
+      const panel = document.getElementById('panel-content');
+      panel.classList.add('active');
+      if (isMobile()) panelEl.classList.add('mobile-open');
+
+      const badge = document.getElementById('p-badge');
+      badge.textContent = props.category_label;
+      badge.className = 'category-badge ' + (BADGE_CLASSES[props.category] || '');
+
+      document.getElementById('p-title').textContent = props.title;
+      document.getElementById('p-oneline').textContent = props.one_line;
+
+      document.getElementById('p-governance').textContent = props.governance;
+      document.getElementById('p-pop').textContent = formatPop(props.affected_population);
+      document.getElementById('p-mismatch').textContent = props.control_mismatch;
+      document.getElementById('p-depends').textContent = props.who_depends;
+      document.getElementById('p-controls').textContent = props.who_controls;
+      document.getElementById('p-status').textContent = props.current_status;
+
+      const sources = typeof props.sources === 'string' ? JSON.parse(props.sources) : props.sources;
+      const sourcesEl = document.getElementById('p-sources');
+      sourcesEl.innerHTML = sources.map(s =>
+        `<a href="${s.url}" target="_blank" rel="noopener">${s.publisher}</a> (${s.date})`
+      ).join('<br>');
+    }
+
+    function hidePanel() {
+      if (!isMobile()) document.getElementById('placeholder').style.display = 'block';
+      document.getElementById('panel-content').classList.remove('active');
+      panelEl.classList.remove('mobile-open');
+    }
+
+    function formatPop(n) {
+      n = parseInt(n);
+      if (n >= 1000000) return (n / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+      if (n >= 1000) return (n / 1000).toFixed(0) + 'K';
+      return n.toString();
+    }
+
+    // Filters
+    const filterCategory = document.getElementById('filter-category');
+
+    function applyFilters() {
+      if (!geojsonData) return;
+      const c = filterCategory.value;
+
+      const filters = ['all'];
+      if (c !== 'all') filters.push(['==', ['get', 'category'], c]);
+
+      const f = filters.length === 1 ? null : filters;
+      map.setFilter('cases-dot', f);
+      map.setFilter('cases-glow', f);
+      map.setFilter('cases-hit', f);
+      updateFilterCount();
+    }
+
+    filterCategory.addEventListener('change', applyFilters);
+
+    function updateFilterCount() {
+      if (!geojsonData) return;
+      const c = filterCategory.value;
+      let count = geojsonData.features.filter(f => {
+        const p = f.properties;
+        if (c !== 'all' && p.category !== c) return false;
+        return true;
+      }).length;
+      let el = document.getElementById('filter-count');
+      if (!el) {
+        el = document.createElement('span');
+        el.id = 'filter-count';
+        el.className = 'filter-count';
+        document.querySelector('.filters').insertBefore(el, document.querySelector('.legend'));
+      }
+      const total = geojsonData.features.length;
+      el.textContent = count === total ? `${total} cases` : `${count} of ${total} cases`;
+    }
+  </script>
+</body>
+</html>

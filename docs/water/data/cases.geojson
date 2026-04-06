@@ -1,0 +1,173 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-114.41, 36.15] },
+      "properties": {
+        "case_id": "colorado-river",
+        "title": "Colorado River — 40M people, no post-2026 rules",
+        "category": "interstate_compact",
+        "category_label": "Interstate compact",
+        "governance": "Federal / interstate compact (expired)",
+        "affected_population": 40000000,
+        "control_mismatch": "7 states + Mexico depend on the river. Bureau of Reclamation controls reservoirs. Upper Basin refused binding cuts. Post-2026 operating guidelines expired with no consensus. Interior Secretary may impose unilateral management.",
+        "current_status": "Tier 1 shortage in effect: Arizona 18% cut, Nevada 7%, California 0% (senior rights). Upper Basin reached internal consensus but Lower Basin still contested. Federal EIS in draft. No binding framework.",
+        "who_depends": "Las Vegas (90% from Colorado River), Phoenix/Tucson (Central Arizona Project), Southern California (Metropolitan Water District), Mexico (1.5M acre-feet/year allocation).",
+        "who_controls": "Bureau of Reclamation (federal). 1922 Compact allocated 7.5M acre-feet each to Upper and Lower Basin — based on wet-period estimates that overstated actual flow.",
+        "one_line": "Seven states and 40M people depend on a river allocated during a wet period that overstated actual flow. The rules expired and nobody agreed on new ones.",
+        "sources": [
+          { "publisher": "Congress.gov", "url": "https://www.congress.gov/crs-product/R45546", "date": "2025-01-01" },
+          { "publisher": "Colorado Sun", "url": "https://coloradosun.com/2026/01/09/colorado-river-plan/", "date": "2026-01-09" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-87.62, 41.88] },
+      "properties": {
+        "case_id": "great-lakes",
+        "title": "Great Lakes Compact — anti-diversion rules with built-in exemptions",
+        "category": "interstate_compact",
+        "category_label": "Interstate compact",
+        "governance": "Great Lakes Compact Council (8 states + federal)",
+        "affected_population": 34000000,
+        "control_mismatch": "The Compact was created to prevent diversions. But Illinois has a pre-Compact exemption (1967 Supreme Court ruling) allowing diversion anywhere in-state. Waukesha, WI got the only outside-basin diversion approval (2016). Foxconn got 7M gallons/day despite environmental objections. The anti-diversion framework keeps creating exceptions.",
+        "current_status": "Waukesha now draws Lake Michigan water. Foxconn diversion upheld by Wisconsin courts. Asian carp barrier ($1.1B) in construction to prevent Mississippi Basin species from entering. Compact governance stable but precedent-setting exceptions continue.",
+        "who_depends": "34M people across 8 states and 2 Canadian provinces. Chicago metro area. Regional agriculture and industry. Municipal water systems throughout the basin.",
+        "who_controls": "8-state Compact Council (ratified 2008). Individual state DNRs hold permit authority. Illinois self-regulates under pre-Compact exemption. Federal courts enforce the Compact but exceptions erode it.",
+        "one_line": "The Compact exists to prevent Great Lakes diversions. Illinois has a pre-Compact exemption. Waukesha got an exception. Foxconn got an exception. The anti-diversion framework keeps approving diversions.",
+        "sources": [
+          { "publisher": "Alliance for the Great Lakes", "url": "https://greatlakes.org/2016/06/states-approve-request-to-divert-great-lakes-water/", "date": "2016-06-21" },
+          { "publisher": "FLOW", "url": "https://forloveofwater.org/flow-challenges-proposed-great-lakes-water-diversion-foxconn-wisconsin/", "date": "2018-01-01" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-101.44, 36.99] },
+      "properties": {
+        "case_id": "ogallala-aquifer",
+        "title": "Ogallala Aquifer — 8 states mining groundwater with no interstate governance",
+        "category": "aquifer",
+        "category_label": "Aquifer (no governance)",
+        "governance": "Fragmented: local/state districts only. No interstate framework.",
+        "affected_population": 2300000,
+        "control_mismatch": "8 states sit atop the same aquifer. No interstate compact, no basin-wide authority, no coordinated depletion limits. Each state manages (or doesn't) through local groundwater districts. Kansas has lost 44 feet of water depth. Recharge is 0.5-1 inch/year; withdrawal is 6+ feet/year in intensive zones. Federal crop subsidies incentivize water-intensive agriculture regardless of depletion.",
+        "current_status": "Projected 70% depletion by 2070. Some localized management (Kansas GMDs, Nebraska NRDs) but no binding interstate framework. Federal subsidies continue to reward depletion. The governance vacuum is the clearest case of unmanaged commons in US water.",
+        "who_depends": "Texas panhandle, Kansas, and Nebraska agriculture (the breadbasket). Municipal water for Lubbock, Amarillo, and smaller communities. 2.3M people directly; food system implications are national.",
+        "who_controls": "Whoever has a well. Texas Water Development Board + local districts. Kansas GMDs. Nebraska NRDs. No basin-wide authority exists. Control is atomized — essentially privatized extraction with no collective limits.",
+        "one_line": "Eight states drawing from the same aquifer with no interstate agreement. Recharge: 1 inch/year. Withdrawal: 6 feet/year. Governance: whoever has a well.",
+        "sources": [
+          { "publisher": "USDA Climate Hub", "url": "https://www.climatehubs.usda.gov/sites/default/files/Ogallala%20Overview%20241202.pdf", "date": "2024-12-01" },
+          { "publisher": "Farm Policy News", "url": "https://farmpolicynews.illinois.edu/2024/01/ogallala-aquifer-depletion-threatening-rural-communities-ag/", "date": "2024-01-01" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-90.06, 35.15] },
+      "properties": {
+        "case_id": "mississippi-low-water",
+        "title": "Mississippi River — critical infrastructure dependent on seasonal flow with no long-term plan",
+        "category": "river_management",
+        "category_label": "River management",
+        "governance": "Army Corps of Engineers (reactive emergency management)",
+        "affected_population": 18000000,
+        "control_mismatch": "Barge shipping, Memphis drinking water, New Orleans water supply, and power generation all depend on seasonal river flow. Army Corps can release upstream water but only reactively. No basin-wide low-water management plan exists. When the river dropped to -10.79 feet at Memphis (October 2022), 2,253 barges and 144 vessels queued. Shipping rates jumped from $11/ton to $71/ton.",
+        "current_status": "2022 drought is precedent for climate-driven low-water events. Corps has no long-term low-water strategy. Saltwater intrusion threatened New Orleans drinking water in 2023 (Gulf saltwater moves upstream when flow drops). Dependency is structural; management is reactive.",
+        "who_depends": "Barge shipping industry (grain, coal, oil). Memphis (largest artesian well system in North America). New Orleans (freshwater intake vulnerable to saltwater intrusion). Regional agriculture and power generation.",
+        "who_controls": "Army Corps of Engineers (dams, locks, emergency releases). National Weather Service (monitoring). No formal water allocation authority. Barge operators coordinate informally. Management is emergency-driven, not planned.",
+        "one_line": "The river dropped to its lowest level since 1954. Barges grounded, shipping rates jumped 6x, and the Corps had no plan because no plan exists.",
+        "sources": [
+          { "publisher": "CNN Business", "url": "https://www.cnn.com/2022/10/07/business/mississippi-river-closures-grounded-barges-drought-climate/index.html", "date": "2022-10-07" },
+          { "publisher": "NASA Earth Observatory", "url": "https://earthobservatory.nasa.gov/images/150504/drought-and-barge-backups-on-the-mississippi", "date": "2022-10-15" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-84.39, 33.75] },
+      "properties": {
+        "case_id": "acf-basin",
+        "title": "Apalachicola-Chattahoochee-Flint Basin — 40 years of litigation, no compact",
+        "category": "interstate_dispute",
+        "category_label": "Interstate dispute",
+        "governance": "Federal courts / Army Corps. No interstate compact.",
+        "affected_population": 6000000,
+        "control_mismatch": "Atlanta's 5.7M people depend on the Chattahoochee. Alabama and Florida receive diminishing downstream flows. Apalachicola Bay's oyster industry collapsed when freshwater flows dropped (salinity killed the oysters). 40+ years of litigation produced no binding interstate compact. 2023 settlement dismissed major lawsuits but established no permanent allocation framework.",
+        "current_status": "Settlement (Dec 2023) ended major litigation. Georgia committed to conservation measures but no binding compact. Future disputes likely as Atlanta continues growing. Army Corps operates dams and release schedules. Governance is federal court rulings and Corps negotiation, not interstate agreement.",
+        "who_depends": "Atlanta metro (5.7M, growing). Alabama agriculture and municipalities. Florida Apalachicola Bay ($5.8B historic fishing industry, now collapsed). Farm belt across all three states.",
+        "who_controls": "Army Corps (dam operations, release schedules). Federal courts (allocation disputes). Individual state water agencies (GA DNR, AL ADEM, FL DEP). No interstate compact — governance through litigation and Corps discretion.",
+        "one_line": "Atlanta keeps growing, Florida's oysters keep dying, and after 40 years of litigation there's still no interstate water compact.",
+        "sources": [
+          { "publisher": "NRDC", "url": "https://www.nrdc.org/stories/one-americas-great-rivers-fights-its-life", "date": "2023-01-01" },
+          { "publisher": "WABE", "url": "https://www.wabe.org/court-dismissal-ends-major-tri-state-water-dispute-apalachicola-chattahoochee-flint-river-basin/", "date": "2023-12-01" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-98.49, 29.93] },
+      "properties": {
+        "case_id": "edwards-aquifer",
+        "title": "Edwards Aquifer — 1.7M people vs an endangered fish, one aquifer",
+        "category": "aquifer",
+        "category_label": "Aquifer (ESA constrained)",
+        "governance": "Edwards Aquifer Authority (state-created, ESA-constrained)",
+        "affected_population": 1700000,
+        "control_mismatch": "San Antonio's 1.7M people get 100% of drinking water from one sole-source aquifer. The fountain darter (endangered) lives only in spring-fed waters that dry up if the aquifer drops. Federal ESA lawsuit forced Texas to create the Edwards Aquifer Authority (1993) with pumping limits. Municipal demand vs species protection is a permanent structural tension.",
+        "current_status": "San Antonio has reduced usage ~50% through conservation. EAA enforces pumping limits. Springs maintained above minimum levels. Governance is relatively strong (EAA has enforcement power) but population growth and agricultural demand create ongoing pressure.",
+        "who_depends": "San Antonio (1.7M people, 100% sole-source). Regional agriculture. Spring-fed ecosystems (Comal, San Marcos springs).",
+        "who_controls": "Edwards Aquifer Authority (pumping limits, spring flow protection). Created by ESA lawsuit — federal species protection effectively governs a city's water supply. Board includes municipal, agricultural, and environmental stakeholders.",
+        "one_line": "1.7 million people get all their water from one aquifer. An endangered fish determines how much they can pump. The fish was there first.",
+        "sources": [
+          { "publisher": "Texas State University", "url": "https://www.eardc.txst.edu/aquifer-information.html", "date": "2025-01-01" },
+          { "publisher": "The Atlas", "url": "https://the-atlas.com/projects/san-antonio-water-system-reduces-water-usage-nearly-50--through-conservation-measures-1", "date": "2024-01-01" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-122.0, 42.0] },
+      "properties": {
+        "case_id": "klamath-basin",
+        "title": "Klamath Basin — farmers vs fish, then the largest dam removal in US history",
+        "category": "federal_override",
+        "category_label": "Federal override (ESA)",
+        "governance": "Bureau of Reclamation / ESA / FERC / Tribal co-management",
+        "affected_population": 50000,
+        "control_mismatch": "Bureau of Reclamation built the irrigation project (200,000+ acres, 1,400 farms). Then ESA listed coho salmon (1997). Federal species protection overrode irrigation allocation. 2021 drought: irrigation shutoff, fish kills. Solution: 4 dams removed 2023-2024 (largest dam removal in US history), opening 425 miles of habitat. Farmers now face uncertain water availability under new managed flow regime.",
+        "current_status": "Dam removal completed. 425 miles of cold-water habitat opened. Restoration underway. Water managers balancing lake levels, species needs, and farmer supply. Irrigation water availability uncertain under geomorphic flow management. Planning horizon is decades.",
+        "who_depends": "1,400 farms (200,000+ acres). Endangered coho salmon. Tribal fisheries (Klamath tribes, treaty rights). Downstream commercial fisheries.",
+        "who_controls": "Bureau of Reclamation (irrigation, allocation). FERC (dam licensing — now removed). ESA (NOAA Fisheries, USFWS — species override). Klamath tribes (co-management, treaty rights). Federal authority overrides local when species are listed.",
+        "one_line": "The feds built the irrigation project, then listed the fish, then removed the dams. Farmers got the water, then lost it, then got uncertainty.",
+        "sources": [
+          { "publisher": "USGS", "url": "https://www.usgs.gov/mission-areas/water-resources/science/integrating-water-availability-klamath-basin-drought-dam", "date": "2024-01-01" },
+          { "publisher": "NOAA Fisheries", "url": "https://www.fisheries.noaa.gov/feature-story/klamath-river-reshapes-itself-flushing-flows-move-reservoir-sediment-downriver", "date": "2024-06-01" }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-83.71, 43.02] },
+      "properties": {
+        "case_id": "flint-detroit",
+        "title": "Flint & Detroit — water as governance lever in emergency management",
+        "category": "governance_weapon",
+        "category_label": "Water as governance",
+        "governance": "State emergency manager system / Great Lakes Water Authority",
+        "affected_population": 780000,
+        "control_mismatch": "Flint: Governor-appointed emergency manager switched water source from Detroit (Lake Huron) to Flint River to cut costs during bankruptcy. Failed to add corrosion inhibitors. 100K residents exposed to lead. Unelected EM overrode city council — residents had no input. Detroit: 60K+ households lost water for nonpayment — largest residential shutoff in US history. Shutoffs far more common in majority-Black neighborhoods. Emergency manager leveraged shutoffs to make utility attractive for privatization. Both cities sit on the Great Lakes. The issue was never hydrology.",
+        "current_status": "Flint: switched back to GLWA (2017 contract). Water quality restored but trust destroyed. Federal emergency ended May 2025. Detroit: shutoffs continuing. Water affordability crisis persists despite Great Lakes abundance. Both cases show water access as instrument of control, not technical challenge.",
+        "who_depends": "Flint (100K). Detroit metro (680K city, 4M+ metro). Both on Great Lakes — abundant water.",
+        "who_controls": "Michigan state emergency manager system (appointed, unelected, overrides elected officials). Great Lakes Water Authority (regional). The control mismatch is governance, not hydrology — abundant water, managed to produce scarcity.",
+        "one_line": "Both cities sit on the Great Lakes. Flint got lead poisoning because an unelected manager switched the water to save money. Detroit cut off 60,000 households to service municipal debt. The water was always there.",
+        "sources": [
+          { "publisher": "RAND", "url": "https://www.rand.org/pubs/external_publications/EP70530.html", "date": "2024-01-01" },
+          { "publisher": "Inequality.org", "url": "https://inequality.org/article/detroit-water-justice/", "date": "2023-01-01" }
+        ]
+      }
+    }
+  ]
+}
