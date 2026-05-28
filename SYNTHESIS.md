@@ -195,6 +195,38 @@ Two products:
 The essay without the map is abstract. The map without the essay is
 "miscellaneous utility weirdness." Together, they're a product.
 
+## Specialized observatories
+
+Some infrastructure patterns are best explained at atlas scale and best tracked
+by specialized observatories. The atlas identifies a recurring structure across
+substrates. A specialist tracker operationalizes one instance of it.
+
+Track Data Centers (trackdatacenters.com) is the first clean example of this
+relationship. It maps proposed U.S. data-center projects as a live civic
+object — not industry rumor mulch, not retrospective analysis, but permits in
+flight at the county level. Place-first, proposal-level, immediately usable to
+someone showing up at a zoning board meeting.
+
+The atlas should not become this. Building a thinner version of a sharper
+instrument would dilute both. But the existence of an observatory like this is
+itself evidence for one of the atlas's recurring claims: **"cloud" is a
+euphemism until someone maps the land, water, power, and tax footprint.** The
+tracker is that mapping, already in progress.
+
+The division of labor:
+
+- The atlas explains the pattern
+- The specialist instrument shows where the pattern is filing permits
+
+This is a reusable category. Other substrates already have fragments of it:
+grid-interconnection queue trackers exist in regional form, subsea cable
+incidents are logged by the industry, interstate water compacts are tracked by
+basin commissions. Where specialists exist, the atlas's job is to name the
+structural class and hand off. Where they don't, the atlas's role is more
+load-bearing.
+
+The handoff is the point, not an embarrassment.
+
 ## Open questions
 
 1. **Should the map show static exposure or only documented events?**
