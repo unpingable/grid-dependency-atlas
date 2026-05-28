@@ -4,8 +4,8 @@
 outside their effective political control.**
 
 Same thesis, different substrates. Nine maps across physical infrastructure,
-energy chokepoints, financial governance, agricultural inputs, water basins,
-grid equipment, subsea cables, and digital infrastructure.
+energy chokepoints, maritime chokepoints, financial governance, agricultural
+inputs, water basins, grid equipment, subsea cables, and digital infrastructure.
 
 ## Live site
 
@@ -34,7 +34,7 @@ SYNTHESIS.md         # Thesis, patterns, scope decisions
 TAXONOMY.md          # Cross-cutting tags and facets
 cases/               # 15 individual U.S. case files (YAML)
 docs/                # GitHub Pages site
-  index.html         # Splash page (routes to all 8 maps)
+  index.html         # Splash page (routes to all 9 maps)
   us/                # U.S. infrastructure map + data
   hormuz/            # Hormuz energy chokepoint map + data
   chokepoints/       # Maritime chokepoints map + data
