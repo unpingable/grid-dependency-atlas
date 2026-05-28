@@ -1,6 +1,6 @@
 # Atlas Refresh Workflow
 
-**Draft. Framing doc, not a ratified process. 2026-04-22.**
+**Draft. Framing doc, not a ratified process. Started 2026-04-22; last refresh pass 2026-05-27.**
 
 Names the refresh workflow for this atlas today, names the primitives that
 future tooling would operate on, and pins the constraints any automation
@@ -59,11 +59,27 @@ To update one atlas:
 4. Update `README.md` atlas table row for that atlas.
 5. Commit and push to `main`. GitHub Pages rebuilds from `/docs`.
 
-**Known drift as of 2026-04-22:**
+**Known drift as of 2026-05-27:**
 
-- Fertilizer count: splash says `11 countries`, README says `12 countries`.
-  One or both is wrong.
-- No check for schema divergence across Features within a single GeoJSON.
+- ~~Fertilizer count: splash says `11 countries`, README says `12 countries`~~
+  — fixed 2026-05-27 (GeoJSON is 12; splash now matches).
+- ~~README description enumerated 8 substrates while the table listed 9 atlases
+  (maritime chokepoints missing from prose)~~ — fixed 2026-05-27.
+- **Parallel source for U.S. cases:** `cases/*.yaml` and
+  `docs/us/data/cases.geojson` hold the same case content in two formats. The
+  GeoJSON is currently treated as source-of-truth by REFRESH.md, but CASES.md
+  links to the YAMLs. The May 2026 refresh updated three case GeoJSONs (Tahoe,
+  PJM spillover, Potomac) without updating the corresponding YAMLs — those
+  YAMLs now lag the GeoJSON. The new DOE 202(c) case has both. Needs a
+  reconciliation decision: deprecate `cases/*.yaml` and treat as historical,
+  OR re-establish them as the editorial source with GeoJSON generated from
+  them.
+- **Orphaned root duplicate:** `docs/data/cases.geojson` and
+  `docs/data/overlays.geojson` are byte-identical to `docs/us/data/...` and
+  not loaded by any atlas page. Candidate for deletion after confirming.
+- No automated check for schema divergence across Features within a single
+  GeoJSON. The DOE 202(c) addition introduced `current_status` to 4 of 16 US
+  cases — intentional but visible to a schema-check primitive.
 
 ## Primitives
 
@@ -136,6 +152,50 @@ the natural atlas hooks would be:
 
 Not in scope yet. This doc exists so that when the tooling is ready, the
 atlas-side workflow is already named and the primitives are already named.
+
+## Case watchlist (candidate but not added)
+
+Surfaced during the 2026-05-27 refresh research pass. Each was assessed and
+deferred — kept here so a future pass can revisit rather than re-research from
+scratch.
+
+- **Kentucky data center cost-allocation legislation (HB 593, HB 544)** —
+  2026 session attempt to require PSC rules preventing residential
+  subsidization of data center load. Both bills **died** at session close
+  April 15, 2026; data center provisions stripped from final omnibus.
+  Not a current dependency case; useful as a contrast to enacted PJM-state
+  responses. Revisit if 2027 session reintroduces.
+- **Florida HB 1451 (CS/CS/HB 1451, 2026)** — Constrains extraterritorial
+  municipal utility service (transparency requirements, rate limits on
+  outside-municipality customers, FL PSC annual reporting). Enrolled
+  March 13, 2026; effective July 1, 2027 if signed. Reverse-direction
+  to the atlas thesis (this **limits** an outside actor's lever rather
+  than creating one) — worth a SYNTHESIS note about feedback mechanisms,
+  but not a case in itself.
+- **Canton, OH / Perry Township water dispute** — Annexation-tied water
+  service denial. **Partial** residential carve-out March 18, 2026, but
+  commercial/industrial denial and underlying annexation-coercion
+  ordinance still in force. Negotiations ongoing late April 2026 with no
+  settlement. Watchlist — revisit when either ordinance changes or
+  litigation files.
+- **Corpus Christi / Three Rivers, TX (Choke Canyon)** — Three Rivers
+  notified March 23, 2026 that Choke Canyon access ends sooner than
+  projected; Corpus Christi denies any operational change. Contested
+  factual claim layered on regional drought. Watchlist — promote to
+  case when an operational change or formal proceeding actually
+  materializes; the asymmetric-information element is itself
+  atlas-interesting and may warrant SYNTHESIS framing.
+
+Three additional patterns from the May 2026 pass are background signals,
+not cases:
+
+- **Entergy / Meta full-cost-of-service** — counterexample to the cost-
+  socialization pattern (LA PSC required Meta to cover all incremental
+  costs). Belongs in SYNTHESIS as a design-choice alternative.
+- **Mass disconnection data (13.4M U.S. electricity shutoffs 2024)** —
+  background signal for affordability stress; not a chokepoint dependency.
+- **Municipalization pressure wave** — symptom of upstream dependency
+  failures, not a dependency layer itself.
 
 ## Out of scope
 
