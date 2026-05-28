@@ -150,6 +150,16 @@
       "type": "Feature",
       "properties": { "case_id": "toledo-lake-erie-algal-bloom-2014", "role": "control", "label": "Maumee River Watershed (NW Ohio, NE Indiana, SE Michigan)" },
       "geometry": { "type": "Polygon", "coordinates": [[ [-85.5,41.8],[-84.5,42.1],[-83.5,41.9],[-83.0,41.5],[-83.5,41.0],[-84.0,40.8],[-85.0,40.7],[-85.5,40.8],[-86.0,41.2],[-85.8,41.5],[-85.5,41.8] ]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "case_id": "doe-202c-emergency-orders-2025", "role": "affected", "label": "11 MISO states absorbing socialized compliance costs" },
+      "geometry": { "type": "Polygon", "coordinates": [[ [-96.0,48.5],[-90.0,48.0],[-84.5,46.0],[-82.5,42.0],[-84.5,38.5],[-83.0,37.0],[-88.0,36.5],[-89.5,34.5],[-90.5,32.0],[-91.5,30.0],[-93.5,30.0],[-92.5,32.5],[-92.0,35.5],[-94.0,38.5],[-95.5,42.5],[-96.0,48.5] ]] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "case_id": "doe-202c-emergency-orders-2025", "role": "control", "label": "U.S. Department of Energy (Washington, D.C.)" },
+      "geometry": { "type": "Polygon", "coordinates": [[ [-77.10,38.92],[-77.00,38.92],[-76.97,38.88],[-77.00,38.84],[-77.07,38.84],[-77.10,38.87],[-77.10,38.92] ]] }
     }
   ]
 }

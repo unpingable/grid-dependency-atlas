@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Infrastructure Dependency Atlas</title>
-  <meta name="description" content="Places where local customers are exposed to infrastructure decisions made outside their own effective political control. 15 documented cases across electricity, gas, water, and sewer.">
+  <meta name="description" content="Places where local customers are exposed to infrastructure decisions made outside their own effective political control. 16 documented cases across electricity, gas, water, and sewer.">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -439,6 +439,7 @@
         <option value="supply">Supply</option>
         <option value="treatment">Treatment</option>
         <option value="basin_allocation">Basin Allocation</option>
+        <option value="federal_override">Federal Override</option>
       </select>
     </div>
     <div class="filter-group">
@@ -525,6 +526,10 @@
           <div class="field">
             <div class="field-label">Public Consequence</div>
             <div class="field-value" id="p-consequence"></div>
+          </div>
+          <div class="field" id="p-current-status-field" style="display:none">
+            <div class="field-label">Current Status</div>
+            <div class="field-value" id="p-current-status"></div>
           </div>
           <div class="field">
             <div class="field-label">Sources</div>
@@ -856,6 +861,14 @@
       document.getElementById('p-ctrl-jurisdiction').textContent = props.controlling_jurisdiction;
       document.getElementById('p-trigger').textContent = props.trigger;
       document.getElementById('p-consequence').textContent = props.public_consequence;
+
+      const currentStatusField = document.getElementById('p-current-status-field');
+      if (props.current_status) {
+        document.getElementById('p-current-status').textContent = props.current_status;
+        currentStatusField.style.display = '';
+      } else {
+        currentStatusField.style.display = 'none';
+      }
 
       const sources = typeof props.sources === 'string' ? JSON.parse(props.sources) : props.sources;
       const sourcesEl = document.getElementById('p-sources');

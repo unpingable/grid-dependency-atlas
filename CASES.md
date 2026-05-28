@@ -2,7 +2,7 @@
 
 **Thesis:** Places where local customers are exposed to infrastructure decisions made outside their own political control.
 
-## Electricity (6 cases)
+## Electricity (7 cases)
 
 | Case | Control Layer | Affected | Pop. Est | Status |
 |------|--------------|----------|----------|--------|
@@ -12,6 +12,7 @@
 | [Delmarva / PJM South](cases/delmarva-dpl-south-pjm-capacity-2023.yaml) | market_governance | DE / Eastern MD | 515K | active |
 | [PJM Data Center Spillover](cases/pjm-data-center-cost-spillover-2025.yaml) | market_governance | 13 states + D.C. | 67M | active |
 | [Entergy / NOLA Blackout](cases/entergy-miso-south-nola-blackout-2025.yaml) | transmission | New Orleans, LA | 250K | active |
+| [DOE 202(c) Emergency Orders](cases/doe-202c-emergency-orders-2025.yaml) | federal_override | 11 MISO states | 45M | active |
 
 ## Gas / Gas-Electric (4 cases)
 
@@ -39,4 +40,4 @@
 
 ---
 
-15 cases total. Schema: [schema.yaml](schema.yaml)
+16 cases total. Schema: [schema.yaml](schema.yaml)

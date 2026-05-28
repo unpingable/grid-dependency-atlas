@@ -366,6 +366,32 @@
           { "publisher": "Michigan Public Radio", "url": "https://www.michiganpublic.org/environment-climate-change/2024-08-02/toxic-blooms-on-lake-erie-still-a-problem-10-years-after-toledo-shut-down-its-water-system", "date": "2024-08-02" }
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-86.2, 43.05] },
+      "properties": {
+        "case_id": "doe-202c-emergency-orders-2025",
+        "title": "DOE Section 202(c) emergency orders socialize coal-retention costs across 11 MISO states",
+        "utility_type": "electricity",
+        "control_layer": "federal_override",
+        "affected_jurisdiction": "11 MISO states (cost-allocation footprint)",
+        "controlling_actor": "U.S. Department of Energy",
+        "controlling_jurisdiction": "Washington, D.C.",
+        "trigger": "DOE issued 43+ Section 202(c) emergency orders since May 2025 directing utilities to keep coal plants running past planned retirement against utility and state objection. Cumulative impact: ≥4.4 GW of coal capacity kept online as of April 2026. Notable: J.H. Campbell (Consumers Energy, MI; 1,560 MW; closure planned 15 years ahead of schedule), Centralia Unit 2 (WA; 730 MW; state SB 5769 mandated Dec 31 closure), R.M. Schahfer Units 17 & 18 (NIPSCO, IN; ~423 MW each; order extended through March 23, 2026).",
+        "public_consequence": "Compliance costs from a utility-by-utility order socialize across the regional RTO footprint. Consumers Energy reported $135M in Campbell compliance costs (end-May through Dec 2025) which it intends to recover from ratepayers across 11 MISO states — Michigan, Indiana, Illinois, Wisconsin, Minnesota, Iowa, Missouri, Kentucky, Arkansas, Mississippi, Louisiana — none of whom have any vote over the DOE order or the Michigan utility's retirement plan. The federal lever overrides state retirement timelines while pushing the bill outward through the RTO cost-allocation mechanism.",
+        "current_status": "Active litigation: Earthjustice challenge to Schahfer order; D.C. Circuit heard oral argument May 15, 2026 on Campbell-related challenge brought by states. Additional orders issued in PNW, Midwest, Mountain West (Dec 2025 batch ~2 GW). Pattern continues with no statutory limit on duration.",
+        "affected_population_est": 45000000,
+        "status": "active",
+        "date_surfaced": "2025-05-23",
+        "confidence": "high",
+        "one_line": "DOE keeps coal plants open against utility and state plans; the compliance bill gets allocated across 11 MISO states, including ones with no plant in their territory.",
+        "sources": [
+          { "publisher": "POWER Magazine", "url": "https://www.powermag.com/doe-has-issued-more-than-40-section-202c-emergency-orders-since-may-2025-heres-an-updated-log/", "date": "2026-04-30" },
+          { "publisher": "Utility Dive", "url": "https://www.utilitydive.com/news/doe-coal-fired-emergency-campbell-lawsuit/820459/", "date": "2026-05-16" },
+          { "publisher": "Earthjustice", "url": "https://earthjustice.org/press/2026/groups-challenge-illegal-order-halting-the-retirement-of-indiana-power-plants", "date": "2026-04-01" }
+        ]
+      }
     }
   ]
 }

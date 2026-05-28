@@ -15,7 +15,7 @@ inputs, water basins, grid equipment, subsea cables, and digital infrastructure.
 
 | Atlas | Cases | Scope |
 |-------|-------|-------|
-| [U.S. Infrastructure](https://unpingable.github.io/grid-dependency-atlas/us/) | 15 cases | Electricity, gas, water, sewer — domestic dependency mismatches |
+| [U.S. Infrastructure](https://unpingable.github.io/grid-dependency-atlas/us/) | 16 cases | Electricity, gas, water, sewer — domestic dependency mismatches |
 | [Hormuz Energy](https://unpingable.github.io/grid-dependency-atlas/hormuz/) | 12 countries | Energy stress bands under Strait of Hormuz disruption |
 | [Maritime Chokepoints](https://unpingable.github.io/grid-dependency-atlas/chokepoints/) | 5 straits | Global dependency on narrow transit geometry |
 | [Insurance Dependency](https://unpingable.github.io/grid-dependency-atlas/insurance/) | 6 states | Insurer exit as hidden governance layer over housing |
@@ -32,7 +32,7 @@ schema.yaml          # Event schema (U.S. cases)
 CASES.md             # U.S. case index table
 SYNTHESIS.md         # Thesis, patterns, scope decisions
 TAXONOMY.md          # Cross-cutting tags and facets
-cases/               # 15 individual U.S. case files (YAML)
+cases/               # individual U.S. case files (YAML)
 docs/                # GitHub Pages site
   index.html         # Splash page (routes to all 9 maps)
   us/                # U.S. infrastructure map + data

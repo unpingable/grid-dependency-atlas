@@ -15,17 +15,18 @@ decisions that produce them.
 
 ## What we found
 
-15 cases across four utility types (electricity, gas, water, sewer), drawn
+16 cases across four utility types (electricity, gas, water, sewer), drawn
 from public filings, regulatory proceedings, federal reports, and journalism.
 The schema — a flat record with case metadata, a `control_layer` field, and
-sourced evidence — survived all 15 without modification.
+sourced evidence — survived 15 cases without modification; the 16th (DOE
+202(c)) required adding a ninth control_layer.
 
 ## The control layers
 
 The `control_layer` field turned out to be the conceptual spine. It answers:
 **where does the outside actor actually hold the knife?**
 
-Eight layers emerged:
+Nine layers have emerged:
 
 | Layer | What it means | Example |
 |-------|--------------|---------|
@@ -37,6 +38,7 @@ Eight layers emerged:
 | `supply` | Upstream production, funding, or pollution decisions control local service | Texas Uri, TVA Elliott, Jackson, Toledo |
 | `treatment` | A cross-jurisdictional treatment facility or trunk line is the single path | Potomac Interceptor |
 | `basin_allocation` | Interstate water allocation rules determine local supply | Colorado River |
+| `federal_override` | Federal executive directive countermands utility or state operational decisions; compliance cost is then socialized through the RTO | DOE 202(c) coal retention |
 
 These are not all the same kind of thing. They split roughly into:
 
@@ -44,9 +46,13 @@ These are not all the same kind of thing. They split roughly into:
 - **Physical network**: transmission, pipeline_capacity, treatment
 - **Governance/allocation**: balancing, basin_allocation
 - **Upstream dependency**: supply (production, funding, pollution)
+- **Jurisdictional override**: federal_override
 
-That four-way split might be more useful than listing eight layers flat. Or it
-might not. The cases will tell us once we try to explain them to a reader.
+The fifth category arrived late and is currently a single-case layer
+(DOE 202(c)), but the archetype is distinct enough — and the cost-socialization
+mechanism load-bearing enough — to warrant its own slot rather than being
+folded into governance/allocation. The Klamath supply case may eventually
+want reconsideration under this layer.
 
 ## Recurring patterns
 

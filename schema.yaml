@@ -8,7 +8,7 @@ case:
   utility_type: enum         # electricity | gas | water | sewer
   control_layer: enum        # supply | balancing | transmission | pipeline_capacity
                              # treatment | wholesale_contract | basin_allocation
-                             # market_governance
+                             # market_governance | federal_override
   affected_jurisdiction:     # where exposed customers are
     locality: string
     state: string
@@ -27,3 +27,5 @@ case:
       url: string
       date: date
   one_line: string           # plain English diagnosis
+  current_status: string     # optional — present-tense procedural state when live
+                             # proceedings are still moving
