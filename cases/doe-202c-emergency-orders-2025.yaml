@@ -30,7 +30,14 @@ current_status: >
   Active litigation: Earthjustice challenge to Schahfer order; D.C. Circuit
   heard oral argument May 15, 2026 on Campbell-related challenge brought by
   states. Additional orders issued in PNW, Midwest, Mountain West (Dec 2025
-  batch ~2 GW). Pattern continues with no statutory limit on duration.
+  batch ~2 GW). Pattern continues with no statutory limit on duration. By
+  spring 2026 the same authority is also being deployed in PJM to direct
+  backup generation at data centers and other large-load facilities during
+  emergency conditions — a different operational pattern (dispatching at large
+  loads, not blocking retirements) using the same statute. States and
+  environmental groups argue DOE is using §202(c) to override normal RTO
+  planning, resource-adequacy decisions, and cost-allocation rules without
+  statutory limit.
 affected_population_est: 45000000
 status: active
 date_surfaced: "2025-05-23"
@@ -45,6 +52,12 @@ sources:
   - publisher: Earthjustice
     url: "https://earthjustice.org/press/2026/groups-challenge-illegal-order-halting-the-retirement-of-indiana-power-plants"
     date: "2026-04-01"
+  - publisher: U.S. DOE / CESER
+    url: "https://www.energy.gov/ceser/2026-doe-202c-orders"
+    date: "2026-05-01"
+  - publisher: RTO Insider
+    url: "https://www.rtoinsider.com/129780-states-environmentalists-argue-doe-usurping-authority-via-202c/"
+    date: "2026-05-01"
 one_line: >
   DOE keeps coal plants open against utility and state plans; the compliance
   bill gets allocated across 11 MISO states, including ones with no plant in
