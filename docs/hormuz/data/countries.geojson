@@ -14,18 +14,104 @@
         "reserve_days": 45,
         "gen_mix_summary": "Coal 53%, gas 18%, renewables 12%, oil 5%",
         "gen_fossil_pct": 76,
-        "current_status": "Declared national energy emergency. Suspended wholesale electricity spot market. Created emergency fuel-security fund. Implementing 4-day government work weeks.",
+        "current_status": "National energy emergency remains in force. Wholesale electricity spot market still suspended, emergency fuel-security fund operating, and the four-day government working week continues.",
         "alternative_supply": "Limited. No pipeline alternatives. Attempting emergency spot purchases. Domestic coal dominant but imported.",
         "rationing_capacity": "Low. Limited state capacity to manage prolonged shortage. History of grid stress during typhoon season.",
         "one_line": "92% of oil from the Gulf, 45 days of reserves, energy emergency already declared.",
         "sources": [
-          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/philippine-president-declares-energy-emergency-over-middle-east-conflict-risk-2026-03-24/", "date": "2026-03-24" },
-          { "publisher": "Lowy Institute", "url": "https://www.lowyinstitute.org/the-interpreter/philippines-fuel-emergency-textbook-case-warning-hiding-official-statistics", "date": "2026-03-15" }
-        ]
+          {
+            "publisher": "The Conversation",
+            "url": "https://theconversation.com/some-countries-in-asia-are-rationing-energy-why-theyve-been-hit-hardest-by-the-crisis-in-the-gulf-279888",
+            "date": "2026-07-01",
+            "retrieved": "2026-08-14",
+            "note": "Four-day working week sustained"
+          },
+          {
+            "publisher": "Reuters",
+            "url": "https://www.reuters.com/business/energy/philippine-president-declares-energy-emergency-over-middle-east-conflict-risk-2026-03-24/",
+            "date": "2026-03-24"
+          }
+        ],
+        "status_asof": "2026-08-12"
       },
       "geometry": {
         "type": "Polygon",
-        "coordinates": [[[120.9,14.8],[121.8,15.8],[122.5,17.5],[122.1,18.5],[121.3,18.2],[120.5,16.8],[119.8,15.5],[119.5,14.0],[120.0,12.5],[121.0,11.5],[122.0,10.5],[123.5,9.8],[124.5,10.5],[124.8,11.5],[124.0,12.5],[123.0,13.5],[122.0,14.2],[120.9,14.8]]]
+        "coordinates": [
+          [
+            [
+              120.9,
+              14.8
+            ],
+            [
+              121.8,
+              15.8
+            ],
+            [
+              122.5,
+              17.5
+            ],
+            [
+              122.1,
+              18.5
+            ],
+            [
+              121.3,
+              18.2
+            ],
+            [
+              120.5,
+              16.8
+            ],
+            [
+              119.8,
+              15.5
+            ],
+            [
+              119.5,
+              14.0
+            ],
+            [
+              120.0,
+              12.5
+            ],
+            [
+              121.0,
+              11.5
+            ],
+            [
+              122.0,
+              10.5
+            ],
+            [
+              123.5,
+              9.8
+            ],
+            [
+              124.5,
+              10.5
+            ],
+            [
+              124.8,
+              11.5
+            ],
+            [
+              124.0,
+              12.5
+            ],
+            [
+              123.0,
+              13.5
+            ],
+            [
+              122.0,
+              14.2
+            ],
+            [
+              120.9,
+              14.8
+            ]
+          ]
+        ]
       }
     },
     {
@@ -41,18 +127,76 @@
         "reserve_days": null,
         "gen_mix_summary": "Hydro 37%, solar 14%, coal/oil 45%",
         "gen_fossil_pct": 45,
-        "current_status": "Tightened fuel rationing. Reintroduced queuing systems. Four-day government work week. Emergency spot fuel purchases.",
+        "current_status": "Fuel rationing tightened into a QR-code system capping weekly purchases at 15 litres for cars and 60 for buses. Fuel prices raised about 25% — the second increase within a week. Four-day working week, with Wednesdays a public holiday for most sectors. Government appeals for fuel and electricity conservation.",
         "alternative_supply": "Minimal. Small domestic hydro base helps but insufficient. Emergency purchases at extreme premiums.",
         "rationing_capacity": "Already rationing. Prior 2022 economic crisis built institutional muscle for austerity measures but population tolerance is low.",
         "one_line": "Already rationing fuel with no public reserve data — Hormuz is an accelerant on existing fragility.",
         "sources": [
-          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/sri-lanka-tightens-fuel-rationing-supply-squeeze-deepens-2026-03-18/", "date": "2026-03-18" },
-          { "publisher": "Atlantic Council", "url": "https://www.atlanticcouncil.org/dispatches/demand-destruction-has-begun-what-sri-lanka-reveals-about-the-global-energy-crisis/", "date": "2026-03-20" }
-        ]
+          {
+            "publisher": "The Conversation",
+            "url": "https://theconversation.com/some-countries-in-asia-are-rationing-energy-why-theyve-been-hit-hardest-by-the-crisis-in-the-gulf-279888",
+            "date": "2026-07-01",
+            "retrieved": "2026-08-14",
+            "note": "QR-code rationing limits; 25% price rise; four-day week"
+          },
+          {
+            "publisher": "Atlantic Council",
+            "url": "https://www.atlanticcouncil.org/dispatches/demand-destruction-has-begun-what-sri-lanka-reveals-about-the-global-energy-crisis/",
+            "date": "2026-03-20"
+          }
+        ],
+        "status_asof": "2026-08-12"
       },
       "geometry": {
         "type": "Polygon",
-        "coordinates": [[[80.0,9.8],[80.7,9.4],[81.5,8.8],[81.9,8.0],[81.8,7.0],[81.0,6.2],[80.2,5.9],[79.7,6.5],[79.5,7.5],[79.7,8.5],[80.0,9.8]]]
+        "coordinates": [
+          [
+            [
+              80.0,
+              9.8
+            ],
+            [
+              80.7,
+              9.4
+            ],
+            [
+              81.5,
+              8.8
+            ],
+            [
+              81.9,
+              8.0
+            ],
+            [
+              81.8,
+              7.0
+            ],
+            [
+              81.0,
+              6.2
+            ],
+            [
+              80.2,
+              5.9
+            ],
+            [
+              79.7,
+              6.5
+            ],
+            [
+              79.5,
+              7.5
+            ],
+            [
+              79.7,
+              8.5
+            ],
+            [
+              80.0,
+              9.8
+            ]
+          ]
+        ]
       }
     },
     {
@@ -68,18 +212,84 @@
         "reserve_days": null,
         "gen_mix_summary": "Gas 47%, coal 30%, oil 12%, renewables 4%",
         "gen_fossil_pct": 89,
-        "current_status": "Fuel rationing imposed. Military deployed for anti-hoarding enforcement. Universities closed. Fertilizer plants temporarily shut. LNG costs forcing load-shedding.",
+        "current_status": "Fuel rationing in force and universities closed. Military deployed for anti-hoarding enforcement earlier in the crisis. LNG costs continue to force load-shedding, and fertiliser plants have been shut to conserve gas.",
         "alternative_supply": "Near zero. 99% of LNG from Qatar and UAE. No pipeline alternatives. Domestic gas production declining.",
         "rationing_capacity": "Low. Military enforcement suggests political stress. History of grid instability and load-shedding even before crisis.",
         "one_line": "99% of LNG from Qatar/UAE, military deployed for fuel hoarding, universities shut — no reserve data public.",
         "sources": [
-          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/bangladesh-rations-fuel-middle-east-conflict-spur-panic-buying-2026-03-06/", "date": "2026-03-06" },
-          { "publisher": "Deccan Herald", "url": "https://www.deccanherald.com/amp/story/world/asia/philippines-to-pakistan-a-look-at-how-asian-countries-are-hit-by-energy-crisis-3945218", "date": "2026-03-25" }
-        ]
+          {
+            "publisher": "The Conversation",
+            "url": "https://theconversation.com/some-countries-in-asia-are-rationing-energy-why-theyve-been-hit-hardest-by-the-crisis-in-the-gulf-279888",
+            "date": "2026-07-01",
+            "retrieved": "2026-08-14",
+            "note": "Universities closed; rationing measures"
+          },
+          {
+            "publisher": "Reuters",
+            "url": "https://www.reuters.com/business/energy/bangladesh-rations-fuel-middle-east-conflict-spur-panic-buying-2026-03-06/",
+            "date": "2026-03-06"
+          }
+        ],
+        "status_asof": "2026-08-12"
       },
       "geometry": {
         "type": "Polygon",
-        "coordinates": [[[88.0,26.5],[89.5,26.0],[91.0,26.5],[92.5,27.0],[92.5,25.0],[91.5,23.5],[91.0,22.5],[91.5,21.5],[90.5,21.0],[89.5,21.5],[88.5,22.5],[88.0,24.0],[88.0,26.5]]]
+        "coordinates": [
+          [
+            [
+              88.0,
+              26.5
+            ],
+            [
+              89.5,
+              26.0
+            ],
+            [
+              91.0,
+              26.5
+            ],
+            [
+              92.5,
+              27.0
+            ],
+            [
+              92.5,
+              25.0
+            ],
+            [
+              91.5,
+              23.5
+            ],
+            [
+              91.0,
+              22.5
+            ],
+            [
+              91.5,
+              21.5
+            ],
+            [
+              90.5,
+              21.0
+            ],
+            [
+              89.5,
+              21.5
+            ],
+            [
+              88.5,
+              22.5
+            ],
+            [
+              88.0,
+              24.0
+            ],
+            [
+              88.0,
+              26.5
+            ]
+          ]
+        ]
       }
     },
     {
@@ -100,13 +310,124 @@
         "rationing_capacity": "Moderate. Government acting early with conservation measures. 95 days provides buffer but gas-heavy generation mix is the vulnerability.",
         "one_line": "95 days of reserves and active conservation measures, but 55% gas-fired generation is the structural exposure.",
         "sources": [
-          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/thailand-orders-bureaucrats-use-stairs-work-home-energy-saving-drive-2026-03-10/", "date": "2026-03-10" },
-          { "publisher": "CNBC", "url": "https://www.cnbc.com/2026/03/03/strait-of-hormuz-closure-which-countries-will-be-hit-the-most.html", "date": "2026-03-03" }
-        ]
+          {
+            "publisher": "Reuters",
+            "url": "https://www.reuters.com/business/energy/thailand-orders-bureaucrats-use-stairs-work-home-energy-saving-drive-2026-03-10/",
+            "date": "2026-03-10"
+          },
+          {
+            "publisher": "CNBC",
+            "url": "https://www.cnbc.com/2026/03/03/strait-of-hormuz-closure-which-countries-will-be-hit-the-most.html",
+            "date": "2026-03-03"
+          },
+          {
+            "publisher": "Lloyd's List Intelligence",
+            "url": "https://www.lloydslistintelligence.com/resources/blog/strait-of-hormuz-brief-12-august-2026",
+            "date": "2026-08-12",
+            "retrieved": "2026-08-14",
+            "note": "78 transits in the week to 9 Aug 2026 (45 non-Iranian-linked), down from 95; ~$1.5-2bn claims from ~70 casualties since late February 2026"
+          }
+        ],
+        "status_asof": "2026-03-26"
       },
       "geometry": {
         "type": "Polygon",
-        "coordinates": [[[100.0,20.5],[101.0,21.5],[102.5,22.0],[104.0,21.5],[104.5,20.0],[103.5,18.5],[102.5,17.5],[103.0,16.0],[102.5,14.5],[101.5,13.0],[100.8,12.0],[100.5,10.5],[100.0,7.5],[99.5,5.5],[99.0,6.5],[99.5,8.0],[99.0,9.5],[98.5,11.0],[98.0,13.0],[98.5,15.0],[99.5,17.0],[100.0,18.5],[100.0,20.5]]]
+        "coordinates": [
+          [
+            [
+              100.0,
+              20.5
+            ],
+            [
+              101.0,
+              21.5
+            ],
+            [
+              102.5,
+              22.0
+            ],
+            [
+              104.0,
+              21.5
+            ],
+            [
+              104.5,
+              20.0
+            ],
+            [
+              103.5,
+              18.5
+            ],
+            [
+              102.5,
+              17.5
+            ],
+            [
+              103.0,
+              16.0
+            ],
+            [
+              102.5,
+              14.5
+            ],
+            [
+              101.5,
+              13.0
+            ],
+            [
+              100.8,
+              12.0
+            ],
+            [
+              100.5,
+              10.5
+            ],
+            [
+              100.0,
+              7.5
+            ],
+            [
+              99.5,
+              5.5
+            ],
+            [
+              99.0,
+              6.5
+            ],
+            [
+              99.5,
+              8.0
+            ],
+            [
+              99.0,
+              9.5
+            ],
+            [
+              98.5,
+              11.0
+            ],
+            [
+              98.0,
+              13.0
+            ],
+            [
+              98.5,
+              15.0
+            ],
+            [
+              99.5,
+              17.0
+            ],
+            [
+              100.0,
+              18.5
+            ],
+            [
+              100.0,
+              20.5
+            ]
+          ]
+        ]
       }
     },
     {
@@ -127,13 +448,84 @@
         "rationing_capacity": "High state capacity. Institutional ability to enforce conservation. The gap between 210-day oil reserves and 9-day LNG working stock is the real vulnerability.",
         "one_line": "210 days of strategic oil reserves but only 9 days of working LNG inventory — the mismatch is the risk.",
         "sources": [
-          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/south-koreas-lee-calls-energy-saving-campaign-including-curbs-cars-2026-03-24/", "date": "2026-03-24" },
-          { "publisher": "Zero Carbon Analytics", "url": "https://zerocarbon-analytics.org/insights/briefings/asian-countries-most-at-risk-from-oil-and-gas-supply-disruptions-in-strait-of-hormuz/", "date": "2026-03-10" }
-        ]
+          {
+            "publisher": "Reuters",
+            "url": "https://www.reuters.com/business/energy/south-koreas-lee-calls-energy-saving-campaign-including-curbs-cars-2026-03-24/",
+            "date": "2026-03-24"
+          },
+          {
+            "publisher": "Zero Carbon Analytics",
+            "url": "https://zerocarbon-analytics.org/insights/briefings/asian-countries-most-at-risk-from-oil-and-gas-supply-disruptions-in-strait-of-hormuz/",
+            "date": "2026-03-10"
+          },
+          {
+            "publisher": "Lloyd's List Intelligence",
+            "url": "https://www.lloydslistintelligence.com/resources/blog/strait-of-hormuz-brief-12-august-2026",
+            "date": "2026-08-12",
+            "retrieved": "2026-08-14",
+            "note": "78 transits in the week to 9 Aug 2026 (45 non-Iranian-linked), down from 95; ~$1.5-2bn claims from ~70 casualties since late February 2026"
+          }
+        ],
+        "status_asof": "2026-03-26"
       },
       "geometry": {
         "type": "Polygon",
-        "coordinates": [[[126.0,34.0],[127.0,34.5],[128.5,35.0],[129.5,35.5],[130.0,37.0],[129.5,38.5],[128.5,39.5],[127.5,40.0],[126.0,39.5],[124.5,38.5],[125.0,37.0],[126.0,36.0],[126.0,34.0]]]
+        "coordinates": [
+          [
+            [
+              126.0,
+              34.0
+            ],
+            [
+              127.0,
+              34.5
+            ],
+            [
+              128.5,
+              35.0
+            ],
+            [
+              129.5,
+              35.5
+            ],
+            [
+              130.0,
+              37.0
+            ],
+            [
+              129.5,
+              38.5
+            ],
+            [
+              128.5,
+              39.5
+            ],
+            [
+              127.5,
+              40.0
+            ],
+            [
+              126.0,
+              39.5
+            ],
+            [
+              124.5,
+              38.5
+            ],
+            [
+              125.0,
+              37.0
+            ],
+            [
+              126.0,
+              36.0
+            ],
+            [
+              126.0,
+              34.0
+            ]
+          ]
+        ]
       }
     },
     {
@@ -154,13 +546,120 @@
         "rationing_capacity": "Moderate. Coal and hydro provide structural resilience. The vulnerability is oil for transport and industry, not electricity generation.",
         "one_line": "Coal and hydro provide a generation buffer, but 90% of oil is from the Gulf and reserves are thin at 20-45 days.",
         "sources": [
-          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/vietnam-russia-set-sign-energy-deals-during-pms-moscow-visit-2026-03-23/", "date": "2026-03-23" },
-          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/fuel-thirsty-asian-countries-line-up-russian-oil-2026-03-26/", "date": "2026-03-26" }
-        ]
+          {
+            "publisher": "Reuters",
+            "url": "https://www.reuters.com/business/energy/vietnam-russia-set-sign-energy-deals-during-pms-moscow-visit-2026-03-23/",
+            "date": "2026-03-23"
+          },
+          {
+            "publisher": "Reuters",
+            "url": "https://www.reuters.com/business/energy/fuel-thirsty-asian-countries-line-up-russian-oil-2026-03-26/",
+            "date": "2026-03-26"
+          },
+          {
+            "publisher": "Lloyd's List Intelligence",
+            "url": "https://www.lloydslistintelligence.com/resources/blog/strait-of-hormuz-brief-12-august-2026",
+            "date": "2026-08-12",
+            "retrieved": "2026-08-14",
+            "note": "78 transits in the week to 9 Aug 2026 (45 non-Iranian-linked), down from 95; ~$1.5-2bn claims from ~70 casualties since late February 2026"
+          }
+        ],
+        "status_asof": "2026-03-26"
       },
       "geometry": {
         "type": "Polygon",
-        "coordinates": [[[103.5,22.5],[104.5,22.0],[106.0,22.5],[107.5,21.5],[108.0,20.0],[107.5,18.5],[107.0,17.0],[108.0,15.5],[108.5,14.0],[109.0,12.5],[109.5,11.0],[108.5,10.0],[107.0,10.5],[106.0,10.0],[105.0,10.5],[104.5,11.5],[104.0,13.0],[103.5,14.5],[103.0,16.0],[103.5,18.0],[104.0,20.0],[103.5,22.5]]]
+        "coordinates": [
+          [
+            [
+              103.5,
+              22.5
+            ],
+            [
+              104.5,
+              22.0
+            ],
+            [
+              106.0,
+              22.5
+            ],
+            [
+              107.5,
+              21.5
+            ],
+            [
+              108.0,
+              20.0
+            ],
+            [
+              107.5,
+              18.5
+            ],
+            [
+              107.0,
+              17.0
+            ],
+            [
+              108.0,
+              15.5
+            ],
+            [
+              108.5,
+              14.0
+            ],
+            [
+              109.0,
+              12.5
+            ],
+            [
+              109.5,
+              11.0
+            ],
+            [
+              108.5,
+              10.0
+            ],
+            [
+              107.0,
+              10.5
+            ],
+            [
+              106.0,
+              10.0
+            ],
+            [
+              105.0,
+              10.5
+            ],
+            [
+              104.5,
+              11.5
+            ],
+            [
+              104.0,
+              13.0
+            ],
+            [
+              103.5,
+              14.5
+            ],
+            [
+              103.0,
+              16.0
+            ],
+            [
+              103.5,
+              18.0
+            ],
+            [
+              104.0,
+              20.0
+            ],
+            [
+              103.5,
+              22.5
+            ]
+          ]
+        ]
       }
     },
     {
@@ -181,13 +680,156 @@
         "rationing_capacity": "High state capacity. Large domestic coal base insulates electricity. Primary risk is transport fuel and LPG for cooking, not grid collapse.",
         "one_line": "Coal-dominant grid limits electricity exposure, but 88% oil import dependent and 90% of LPG through Hormuz.",
         "sources": [
-          { "publisher": "India Briefing", "url": "https://www.india-briefing.com/news/indias-oil-supply-hormuz-diversification-strategy-43381.html/", "date": "2026-03-15" },
-          { "publisher": "IEA", "url": "https://www.iea.org/countries/india", "date": "2026-01-01" }
-        ]
+          {
+            "publisher": "India Briefing",
+            "url": "https://www.india-briefing.com/news/indias-oil-supply-hormuz-diversification-strategy-43381.html/",
+            "date": "2026-03-15"
+          },
+          {
+            "publisher": "IEA",
+            "url": "https://www.iea.org/countries/india",
+            "date": "2026-01-01"
+          },
+          {
+            "publisher": "Lloyd's List Intelligence",
+            "url": "https://www.lloydslistintelligence.com/resources/blog/strait-of-hormuz-brief-12-august-2026",
+            "date": "2026-08-12",
+            "retrieved": "2026-08-14",
+            "note": "78 transits in the week to 9 Aug 2026 (45 non-Iranian-linked), down from 95; ~$1.5-2bn claims from ~70 casualties since late February 2026"
+          }
+        ],
+        "status_asof": "2026-03-26"
       },
       "geometry": {
         "type": "Polygon",
-        "coordinates": [[[68.5,23.0],[70.0,22.0],[72.5,20.5],[74.5,19.5],[77.0,19.0],[80.0,18.0],[82.5,17.0],[84.0,15.5],[80.0,13.5],[78.0,11.0],[77.5,8.5],[80.0,7.5],[80.5,9.0],[81.5,10.5],[84.0,13.0],[87.5,16.0],[89.0,21.0],[88.5,23.5],[88.0,26.5],[89.5,27.5],[87.5,28.0],[84.0,28.5],[81.0,30.5],[79.5,32.5],[76.5,34.5],[74.0,36.0],[73.0,34.0],[71.5,33.0],[70.0,29.5],[68.0,27.0],[68.5,23.0]]]
+        "coordinates": [
+          [
+            [
+              68.5,
+              23.0
+            ],
+            [
+              70.0,
+              22.0
+            ],
+            [
+              72.5,
+              20.5
+            ],
+            [
+              74.5,
+              19.5
+            ],
+            [
+              77.0,
+              19.0
+            ],
+            [
+              80.0,
+              18.0
+            ],
+            [
+              82.5,
+              17.0
+            ],
+            [
+              84.0,
+              15.5
+            ],
+            [
+              80.0,
+              13.5
+            ],
+            [
+              78.0,
+              11.0
+            ],
+            [
+              77.5,
+              8.5
+            ],
+            [
+              80.0,
+              7.5
+            ],
+            [
+              80.5,
+              9.0
+            ],
+            [
+              81.5,
+              10.5
+            ],
+            [
+              84.0,
+              13.0
+            ],
+            [
+              87.5,
+              16.0
+            ],
+            [
+              89.0,
+              21.0
+            ],
+            [
+              88.5,
+              23.5
+            ],
+            [
+              88.0,
+              26.5
+            ],
+            [
+              89.5,
+              27.5
+            ],
+            [
+              87.5,
+              28.0
+            ],
+            [
+              84.0,
+              28.5
+            ],
+            [
+              81.0,
+              30.5
+            ],
+            [
+              79.5,
+              32.5
+            ],
+            [
+              76.5,
+              34.5
+            ],
+            [
+              74.0,
+              36.0
+            ],
+            [
+              73.0,
+              34.0
+            ],
+            [
+              71.5,
+              33.0
+            ],
+            [
+              70.0,
+              29.5
+            ],
+            [
+              68.0,
+              27.0
+            ],
+            [
+              68.5,
+              23.0
+            ]
+          ]
+        ]
       }
     },
     {
@@ -208,13 +850,112 @@
         "rationing_capacity": "Very high state capacity. Institutional experience from Fukushima energy conservation. Can sustain months of elevated prices before physical shortage.",
         "one_line": "257 days of reserves and strong state capacity — pain is price, not blackouts, unless disruption extends past 6 months.",
         "sources": [
-          { "publisher": "Energy Tracker Asia", "url": "https://energytracker.asia/japan-most-at-risk-from-disruption-in-the-strait-of-hormuz/", "date": "2026-03-08" },
-          { "publisher": "Al Jazeera", "url": "https://www.aljazeera.com/news/2026/3/23/which-countries-have-strategic-oil-reserves-and-how-much", "date": "2026-03-23" }
-        ]
+          {
+            "publisher": "Energy Tracker Asia",
+            "url": "https://energytracker.asia/japan-most-at-risk-from-disruption-in-the-strait-of-hormuz/",
+            "date": "2026-03-08"
+          },
+          {
+            "publisher": "Al Jazeera",
+            "url": "https://www.aljazeera.com/news/2026/3/23/which-countries-have-strategic-oil-reserves-and-how-much",
+            "date": "2026-03-23"
+          },
+          {
+            "publisher": "Lloyd's List Intelligence",
+            "url": "https://www.lloydslistintelligence.com/resources/blog/strait-of-hormuz-brief-12-august-2026",
+            "date": "2026-08-12",
+            "retrieved": "2026-08-14",
+            "note": "78 transits in the week to 9 Aug 2026 (45 non-Iranian-linked), down from 95; ~$1.5-2bn claims from ~70 casualties since late February 2026"
+          }
+        ],
+        "status_asof": "2026-03-26"
       },
       "geometry": {
         "type": "Polygon",
-        "coordinates": [[[130.5,31.5],[131.5,32.5],[132.5,33.5],[134.0,34.5],[135.5,34.7],[137.0,35.0],[138.5,35.5],[140.0,36.5],[141.5,38.5],[141.5,40.5],[141.0,42.5],[140.0,43.5],[138.5,43.0],[137.0,42.0],[136.0,40.5],[135.0,38.0],[133.5,36.0],[132.0,34.5],[131.0,33.0],[130.5,31.5]]]
+        "coordinates": [
+          [
+            [
+              130.5,
+              31.5
+            ],
+            [
+              131.5,
+              32.5
+            ],
+            [
+              132.5,
+              33.5
+            ],
+            [
+              134.0,
+              34.5
+            ],
+            [
+              135.5,
+              34.7
+            ],
+            [
+              137.0,
+              35.0
+            ],
+            [
+              138.5,
+              35.5
+            ],
+            [
+              140.0,
+              36.5
+            ],
+            [
+              141.5,
+              38.5
+            ],
+            [
+              141.5,
+              40.5
+            ],
+            [
+              141.0,
+              42.5
+            ],
+            [
+              140.0,
+              43.5
+            ],
+            [
+              138.5,
+              43.0
+            ],
+            [
+              137.0,
+              42.0
+            ],
+            [
+              136.0,
+              40.5
+            ],
+            [
+              135.0,
+              38.0
+            ],
+            [
+              133.5,
+              36.0
+            ],
+            [
+              132.0,
+              34.5
+            ],
+            [
+              131.0,
+              33.0
+            ],
+            [
+              130.5,
+              31.5
+            ]
+          ]
+        ]
       }
     },
     {
@@ -235,13 +976,72 @@
         "rationing_capacity": "Very high state capacity and fiscal reserves. Can subsidize and purchase at premium for extended period. The question is whether global LNG supply physically exists at any price.",
         "one_line": "95% gas generation and 45% of LNG from Qatar — money buys time, not immunity.",
         "sources": [
-          { "publisher": "EMA Singapore", "url": "https://ema.gov.sg/our-energy-story/energy-supply/natural-gas", "date": "2026-01-01" },
-          { "publisher": "CNBC", "url": "https://www.cnbc.com/2026/03/03/strait-of-hormuz-closure-which-countries-will-be-hit-the-most.html", "date": "2026-03-03" }
-        ]
+          {
+            "publisher": "EMA Singapore",
+            "url": "https://ema.gov.sg/our-energy-story/energy-supply/natural-gas",
+            "date": "2026-01-01"
+          },
+          {
+            "publisher": "CNBC",
+            "url": "https://www.cnbc.com/2026/03/03/strait-of-hormuz-closure-which-countries-will-be-hit-the-most.html",
+            "date": "2026-03-03"
+          },
+          {
+            "publisher": "Lloyd's List Intelligence",
+            "url": "https://www.lloydslistintelligence.com/resources/blog/strait-of-hormuz-brief-12-august-2026",
+            "date": "2026-08-12",
+            "retrieved": "2026-08-14",
+            "note": "78 transits in the week to 9 Aug 2026 (45 non-Iranian-linked), down from 95; ~$1.5-2bn claims from ~70 casualties since late February 2026"
+          }
+        ],
+        "status_asof": "2026-03-26"
       },
       "geometry": {
         "type": "Polygon",
-        "coordinates": [[[103.60,1.27],[103.70,1.24],[103.85,1.26],[104.00,1.30],[104.05,1.36],[103.95,1.44],[103.80,1.46],[103.65,1.42],[103.58,1.35],[103.60,1.27]]]
+        "coordinates": [
+          [
+            [
+              103.6,
+              1.27
+            ],
+            [
+              103.7,
+              1.24
+            ],
+            [
+              103.85,
+              1.26
+            ],
+            [
+              104.0,
+              1.3
+            ],
+            [
+              104.05,
+              1.36
+            ],
+            [
+              103.95,
+              1.44
+            ],
+            [
+              103.8,
+              1.46
+            ],
+            [
+              103.65,
+              1.42
+            ],
+            [
+              103.58,
+              1.35
+            ],
+            [
+              103.6,
+              1.27
+            ]
+          ]
+        ]
       }
     },
     {
@@ -257,18 +1057,112 @@
         "reserve_days": null,
         "gen_mix_summary": "Gas 25%, hydro 19%, coal 14%, nuclear 13%, renewables 13%, oil 10%",
         "gen_fossil_pct": 49,
-        "current_status": "Government claims 74% domestic power sources cushion LNG risk. Universities closed. Fertilizer plants shut. But LNG is 10% of generation and imported fuel critical for transport.",
+        "current_status": "Moved to a four-day working week. Universities closed and fertiliser plants shut earlier in the crisis. Government continues to argue that roughly 74% domestic power generation cushions the LNG exposure, while imported fuel remains critical for transport.",
         "alternative_supply": "More diversified generation than it appears (hydro 19%, nuclear 13%). But 99% of LNG from Qatar/UAE. Domestic gas declining. No strategic reserve data public.",
         "rationing_capacity": "Low. History of political instability and grid management challenges. Already experiencing rolling blackouts in many regions pre-crisis.",
         "one_line": "Government says 74% domestic power sources, but 99% of LNG from Gulf, no public reserve data, universities already shut.",
         "sources": [
-          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/pakistans-domestic-power-sources-cushion-lng-supply-risk-minister-says-2026-03-13/", "date": "2026-03-13" },
-          { "publisher": "Wood Mackenzie", "url": "https://www.woodmac.com/press-releases/strait-of-hormuz-closure-threatens-south-asia-lng-supply/", "date": "2026-03-10" }
-        ]
+          {
+            "publisher": "The Conversation",
+            "url": "https://theconversation.com/some-countries-in-asia-are-rationing-energy-why-theyve-been-hit-hardest-by-the-crisis-in-the-gulf-279888",
+            "date": "2026-07-01",
+            "retrieved": "2026-08-14",
+            "note": "Four-day working week"
+          },
+          {
+            "publisher": "Reuters",
+            "url": "https://www.reuters.com/business/energy/pakistans-domestic-power-sources-cushion-lng-supply-risk-minister-says-2026-03-13/",
+            "date": "2026-03-13"
+          }
+        ],
+        "status_asof": "2026-08-12"
       },
       "geometry": {
         "type": "Polygon",
-        "coordinates": [[[61.0,25.0],[62.5,23.5],[64.0,23.0],[66.5,22.5],[68.0,23.5],[69.5,24.5],[71.0,25.0],[72.5,26.5],[74.0,28.0],[74.5,30.0],[73.5,32.5],[74.0,34.5],[72.5,36.0],[70.0,37.5],[67.5,37.0],[65.0,35.5],[63.0,33.0],[62.0,30.5],[60.5,29.0],[61.0,25.0]]]
+        "coordinates": [
+          [
+            [
+              61.0,
+              25.0
+            ],
+            [
+              62.5,
+              23.5
+            ],
+            [
+              64.0,
+              23.0
+            ],
+            [
+              66.5,
+              22.5
+            ],
+            [
+              68.0,
+              23.5
+            ],
+            [
+              69.5,
+              24.5
+            ],
+            [
+              71.0,
+              25.0
+            ],
+            [
+              72.5,
+              26.5
+            ],
+            [
+              74.0,
+              28.0
+            ],
+            [
+              74.5,
+              30.0
+            ],
+            [
+              73.5,
+              32.5
+            ],
+            [
+              74.0,
+              34.5
+            ],
+            [
+              72.5,
+              36.0
+            ],
+            [
+              70.0,
+              37.5
+            ],
+            [
+              67.5,
+              37.0
+            ],
+            [
+              65.0,
+              35.5
+            ],
+            [
+              63.0,
+              33.0
+            ],
+            [
+              62.0,
+              30.5
+            ],
+            [
+              60.5,
+              29.0
+            ],
+            [
+              61.0,
+              25.0
+            ]
+          ]
+        ]
       }
     },
     {
@@ -289,13 +1183,68 @@
         "rationing_capacity": "High state capacity. But the absence of public reserve data is itself a signal — either reserves are thin or disclosure is politically sensitive.",
         "one_line": "85% fossil generation, no public reserve data, decommissioned nuclear — the data gap is the red flag.",
         "sources": [
-          { "publisher": "Low-Carbon Power", "url": "https://lowcarbonpower.org/", "date": "2026-01-01" },
-          { "publisher": "Zero Carbon Analytics", "url": "https://zerocarbon-analytics.org/insights/briefings/asian-countries-most-at-risk-from-oil-and-gas-supply-disruptions-in-strait-of-hormuz/", "date": "2026-03-10" }
-        ]
+          {
+            "publisher": "Low-Carbon Power",
+            "url": "https://lowcarbonpower.org/",
+            "date": "2026-01-01"
+          },
+          {
+            "publisher": "Zero Carbon Analytics",
+            "url": "https://zerocarbon-analytics.org/insights/briefings/asian-countries-most-at-risk-from-oil-and-gas-supply-disruptions-in-strait-of-hormuz/",
+            "date": "2026-03-10"
+          },
+          {
+            "publisher": "Lloyd's List Intelligence",
+            "url": "https://www.lloydslistintelligence.com/resources/blog/strait-of-hormuz-brief-12-august-2026",
+            "date": "2026-08-12",
+            "retrieved": "2026-08-14",
+            "note": "78 transits in the week to 9 Aug 2026 (45 non-Iranian-linked), down from 95; ~$1.5-2bn claims from ~70 casualties since late February 2026"
+          }
+        ],
+        "status_asof": "2026-03-26"
       },
       "geometry": {
         "type": "Polygon",
-        "coordinates": [[[121.0,25.3],[121.8,25.0],[122.0,24.0],[121.5,22.5],[120.8,22.0],[120.0,22.5],[120.0,23.5],[120.5,24.5],[121.0,25.3]]]
+        "coordinates": [
+          [
+            [
+              121.0,
+              25.3
+            ],
+            [
+              121.8,
+              25.0
+            ],
+            [
+              122.0,
+              24.0
+            ],
+            [
+              121.5,
+              22.5
+            ],
+            [
+              120.8,
+              22.0
+            ],
+            [
+              120.0,
+              22.5
+            ],
+            [
+              120.0,
+              23.5
+            ],
+            [
+              120.5,
+              24.5
+            ],
+            [
+              121.0,
+              25.3
+            ]
+          ]
+        ]
       }
     },
     {
@@ -316,13 +1265,85 @@
         "rationing_capacity": "Already beyond rationing into collapse. Not a Hormuz case — this is blockade + infrastructure decay + loss of benefactor supply. Hormuz is an amplifier through global price pressure.",
         "one_line": "Not a Hormuz case. Already inside the wreckage from US sanctions cutting Venezuelan oil. Hormuz amplifies via global prices.",
         "sources": [
-          { "publisher": "Reuters", "url": "https://www.reuters.com/business/energy/cuba-says-electrical-grid-reconnected-after-major-power-blackout-2026-03-05/", "date": "2026-03-05" },
-          { "publisher": "NPR", "url": "https://www.npr.org/2026/03/26/nx-s1-5760763/southeast-asia-is-being-hit-hard-by-irans-cutoff-of-oil-and-gas", "date": "2026-03-26" }
-        ]
+          {
+            "publisher": "Reuters",
+            "url": "https://www.reuters.com/business/energy/cuba-says-electrical-grid-reconnected-after-major-power-blackout-2026-03-05/",
+            "date": "2026-03-05"
+          },
+          {
+            "publisher": "NPR",
+            "url": "https://www.npr.org/2026/03/26/nx-s1-5760763/southeast-asia-is-being-hit-hard-by-irans-cutoff-of-oil-and-gas",
+            "date": "2026-03-26"
+          }
+        ],
+        "status_asof": "2026-03-26"
       },
       "geometry": {
         "type": "Polygon",
-        "coordinates": [[[-85.0,22.5],[-83.5,23.2],[-82.0,23.5],[-80.5,23.0],[-79.0,22.5],[-77.5,22.0],[-76.0,20.5],[-75.0,20.0],[-76.5,19.8],[-78.0,20.0],[-79.5,21.0],[-81.0,21.8],[-82.5,22.0],[-83.5,22.5],[-85.0,22.5]]]
+        "coordinates": [
+          [
+            [
+              -85.0,
+              22.5
+            ],
+            [
+              -83.5,
+              23.2
+            ],
+            [
+              -82.0,
+              23.5
+            ],
+            [
+              -80.5,
+              23.0
+            ],
+            [
+              -79.0,
+              22.5
+            ],
+            [
+              -77.5,
+              22.0
+            ],
+            [
+              -76.0,
+              20.5
+            ],
+            [
+              -75.0,
+              20.0
+            ],
+            [
+              -76.5,
+              19.8
+            ],
+            [
+              -78.0,
+              20.0
+            ],
+            [
+              -79.5,
+              21.0
+            ],
+            [
+              -81.0,
+              21.8
+            ],
+            [
+              -82.5,
+              22.0
+            ],
+            [
+              -83.5,
+              22.5
+            ],
+            [
+              -85.0,
+              22.5
+            ]
+          ]
+        ]
       }
     }
   ]

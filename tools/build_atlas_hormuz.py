@@ -306,10 +306,11 @@ the corpus records them doing instead — their own <code>current_status</code>,
         A("""<div class="e">
   <div><div class="cn">%s</div>
     <span class="tag">%s</span></div>
-  <div class="st%s"><span class="lab">Current status · %s</span>%s</div>
+  <div class="st%s"><span class="lab">Current status · as of %s</span>%s</div>
 </div>""" % (e(c["country"]),
              "⊘ not a hormuz case" if refuse else "no reserve figure",
-             " refuse" if refuse else "", e(window_hi), e(c["current_status"])))
+             " refuse" if refuse else "",
+             e(c.get("status_asof") or window_hi), e(c["current_status"])))
 
     A(f"""</div>
 <div class="figfoot">
