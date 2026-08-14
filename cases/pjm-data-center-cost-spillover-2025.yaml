@@ -25,13 +25,14 @@ public_consequence: >
   potential rolling blackouts. Customers in Ohio, Illinois, and West Virginia
   have no influence over Virginia's data center permitting.
 current_status: >
-  FERC opened a parallel colocation tariff proceeding (Docket EL25-49-000) via
-  show-cause order on Dec 18, 2025, addressing whether data centers colocated
-  with generation should bypass grid charges. March 25, 2026 protests from
-  Vistra, Constellation Energy, and the Data Center Coalition criticized PJM's
-  proposed framework as operationally rigid; replies due April 17, 2026.
-  Separately, FERC's RM26-4-000 ANOPR on large-load (>20 MW) interconnection —
-  directed by DOE Oct 2025 — is on a June 2026 action timeline.
+  The 2028/2029 base residual auction, held in July 2026, cleared at $325/MW-day
+  across the footprint at a cost of $16.4B, procuring 138,318 MW — and came in
+  6,831 MW below PJM's own reliability requirement, leaving a 14.7% reserve
+  margin. PJM attributes continued growth to large data-centre loads entering
+  the load forecast. Prices have now sat at or near the cap for three
+  consecutive auctions: $269.92/MW-day for 2025/2026, $329.17 for 2026/2027 and
+  $325 for 2028/2029. FERC's colocation tariff proceeding (Docket EL25-49-000)
+  and the RM26-4-000 ANOPR on large-load interconnection both remain open.
 location:
   lng: -77.6
   lat: 39.0
@@ -40,6 +41,10 @@ status: active
 date_surfaced: "2024-07-30"
 confidence: high
 sources:
+  - publisher: PJM Interconnection
+    url: "https://insidelines.pjm.com/pjm-capacity-auction-procures-138318-mw-of-generation-resources-as-work-continues-to-address-growing-electricity-demand/"
+    date: "2026-07-14"
+    retrieved: "2026-08-14"
   - publisher: IEEFA
     url: "https://ieefa.org/resources/projected-data-center-growth-spurs-pjm-capacity-prices-factor-10"
     date: "2025-03-18"

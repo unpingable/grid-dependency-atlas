@@ -162,13 +162,23 @@
         "controlling_jurisdiction": "Washington, D.C., D.C.",
         "trigger": "DOE issued 43+ Section 202(c) emergency orders since May 2025 directing utilities to keep coal plants running past planned retirement against utility and state objection. Cumulative impact: ≥4.4 GW of coal capacity kept online as of April 2026. Notable: J.H. Campbell (Consumers Energy, MI; 1,560 MW; closure planned 15 years ahead of schedule), Centralia Unit 2 (WA; 730 MW; state SB 5769 mandated Dec 31 closure), R.M. Schahfer Units 17 & 18 (NIPSCO, IN; ~423 MW each; order extended through March 23, 2026).",
         "public_consequence": "Compliance costs from a utility-by-utility order socialize across the regional RTO footprint. Consumers Energy reported $135M in Campbell compliance costs (end-May through Dec 2025) which it intends to recover from ratepayers across 11 MISO states — Michigan, Indiana, Illinois, Wisconsin, Minnesota, Iowa, Missouri, Kentucky, Arkansas, Mississippi, Louisiana — none of whom have any vote over the DOE order or the Michigan utility's retirement plan. The federal lever overrides state retirement timelines while pushing the bill outward through the RTO cost-allocation mechanism.",
-        "current_status": "Active litigation: Earthjustice challenge to Schahfer order; D.C. Circuit heard oral argument May 15, 2026 on Campbell-related challenge brought by states. Additional orders issued in PNW, Midwest, Mountain West (Dec 2025 batch ~2 GW). Pattern continues with no statutory limit on duration. By spring 2026 the same authority is also being deployed in PJM to direct backup generation at data centers and other large-load facilities during emergency conditions — a different operational pattern (dispatching at large loads, not blocking retirements) using the same statute. States and environmental groups argue DOE is using §202(c) to override normal RTO planning, resource-adequacy decisions, and cost-allocation rules without statutory limit.",
+        "current_status": "DOE Order 202-26-22, issued May 18, 2026, directs MISO in coordination with Consumers Energy to keep the J.H. Campbell coal plant in West Olive, Michigan available, running May 19 to August 16, 2026 — the latest in a chain of renewals rather than a single emergency. Consumers Energy has spent about $254M keeping Campbell running and has asked FERC for permission to recover $135M of it from MISO ratepayers. Sierra Club's analysis puts the cost of 13 such orders at more than $235M to date. MISO state regulators have sought a stakeholder review of how those costs are allocated. In litigation over the Campbell order, DOE has told the court that an \"emergency\" under section 202(c) need not be imminent. Grid Strategies estimates that extending the practice to other pre-2028 retirements could exceed $3B a year.",
         "affected_population_est": 45000000,
         "status": "active",
         "date_surfaced": "2025-05-23",
         "confidence": "high",
         "one_line": "DOE keeps coal plants open against utility and state plans; the compliance bill gets allocated across 11 MISO states, including ones with no plant in their territory.",
         "sources": [
+          {
+            "publisher": "U.S. Department of Energy",
+            "url": "https://www.energy.gov/ceser/2026-doe-202c-orders",
+            "date": "2026-05-18"
+          },
+          {
+            "publisher": "Utility Dive",
+            "url": "https://www.utilitydive.com/news/doe-202c-cost-235m-coal-sierra-club/815045/",
+            "date": "2026-05-01"
+          },
           {
             "publisher": "POWER Magazine",
             "url": "https://www.powermag.com/doe-has-issued-more-than-40-section-202c-emergency-orders-since-may-2025-heres-an-updated-log/",
@@ -403,13 +413,18 @@
         "controlling_jurisdiction": "Northern Virginia (Loudoun County) / Audubon, PA (PJM HQ), Virginia / Pennsylvania",
         "trigger": "Data centers concentrated in Virginia's Dominion zone drove an 833% increase in PJM capacity auction clearing prices from $28.92/MW-day (2024/25) to $269.92/MW-day (2025/26). Data centers accounted for 63% of the $9.3B cost increase and 94% of projected 32 GW demand growth through 2030. PJM's December 2025 auction fell 6,625 MW short of reliability requirements for the first time ever. From 2022-2024, $4.3B in transmission expansion costs for data center connections were socialized to ratepayers across 7 states.",
         "public_consequence": "Residential ratepayers across 13 states pay for Virginia's data center growth: Pepco (D.C.) customers see $21/month increase, western Maryland $18/month, Ohio $16/month, Columbus OH $27/month. NRDC projects $100-163B in cumulative capacity costs through 2033. PJM's first-ever reliability shortfall means potential rolling blackouts. Customers in Ohio, Illinois, and West Virginia have no influence over Virginia's data center permitting.",
-        "current_status": "FERC opened a parallel colocation tariff proceeding (Docket EL25-49-000) via show-cause order on Dec 18, 2025, addressing whether data centers colocated with generation should bypass grid charges. March 25, 2026 protests from Vistra, Constellation Energy, and the Data Center Coalition criticized PJM's proposed framework as operationally rigid; replies due April 17, 2026. Separately, FERC's RM26-4-000 ANOPR on large-load (>20 MW) interconnection — directed by DOE Oct 2025 — is on a June 2026 action timeline.",
+        "current_status": "The 2028/2029 base residual auction, held in July 2026, cleared at $325/MW-day across the footprint at a cost of $16.4B, procuring 138,318 MW — and came in 6,831 MW below PJM's own reliability requirement, leaving a 14.7% reserve margin. PJM attributes continued growth to large data-centre loads entering the load forecast. Prices have now sat at or near the cap for three consecutive auctions: $269.92/MW-day for 2025/2026, $329.17 for 2026/2027 and $325 for 2028/2029. FERC's colocation tariff proceeding (Docket EL25-49-000) and the RM26-4-000 ANOPR on large-load interconnection both remain open.",
         "affected_population_est": 67000000,
         "status": "active",
         "date_surfaced": "2024-07-30",
         "confidence": "high",
         "one_line": "Virginia data centers triggered an 833% spike in PJM capacity prices, socializing $9.3B in costs across 67 million ratepayers in 13 states who have no say over Virginia's permitting decisions.",
         "sources": [
+          {
+            "publisher": "PJM Interconnection",
+            "url": "https://insidelines.pjm.com/pjm-capacity-auction-procures-138318-mw-of-generation-resources-as-work-continues-to-address-growing-electricity-demand/",
+            "date": "2026-07-14"
+          },
           {
             "publisher": "IEEFA",
             "url": "https://ieefa.org/resources/projected-data-center-growth-spurs-pjm-capacity-prices-factor-10",

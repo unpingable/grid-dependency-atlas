@@ -27,17 +27,17 @@ public_consequence: >
   federal lever overrides state retirement timelines while pushing the bill
   outward through the RTO cost-allocation mechanism.
 current_status: >
-  Active litigation: Earthjustice challenge to Schahfer order; D.C. Circuit
-  heard oral argument May 15, 2026 on Campbell-related challenge brought by
-  states. Additional orders issued in PNW, Midwest, Mountain West (Dec 2025
-  batch ~2 GW). Pattern continues with no statutory limit on duration. By
-  spring 2026 the same authority is also being deployed in PJM to direct
-  backup generation at data centers and other large-load facilities during
-  emergency conditions — a different operational pattern (dispatching at large
-  loads, not blocking retirements) using the same statute. States and
-  environmental groups argue DOE is using §202(c) to override normal RTO
-  planning, resource-adequacy decisions, and cost-allocation rules without
-  statutory limit.
+  DOE Order 202-26-22, issued May 18, 2026, directs MISO in coordination with
+  Consumers Energy to keep the J.H. Campbell coal plant in West Olive, Michigan
+  available, running May 19 to August 16, 2026 — the latest in a chain of
+  renewals rather than a single emergency. Consumers Energy has spent about
+  $254M keeping Campbell running and has asked FERC for permission to recover
+  $135M of it from MISO ratepayers. Sierra Club's analysis puts the cost of 13
+  such orders at more than $235M to date. MISO state regulators have sought a
+  stakeholder review of how those costs are allocated. In litigation over the
+  Campbell order, DOE has told the court that an "emergency" under section
+  202(c) need not be imminent. Grid Strategies estimates that extending the
+  practice to other pre-2028 retirements could exceed $3B a year.
 location:
   lng: -86.2
   lat: 43.05
@@ -46,6 +46,14 @@ status: active
 date_surfaced: "2025-05-23"
 confidence: high
 sources:
+  - publisher: U.S. Department of Energy
+    url: "https://www.energy.gov/ceser/2026-doe-202c-orders"
+    date: "2026-05-18"
+    retrieved: "2026-08-14"
+  - publisher: Utility Dive
+    url: "https://www.utilitydive.com/news/doe-202c-cost-235m-coal-sierra-club/815045/"
+    date: "2026-05-01"
+    retrieved: "2026-08-14"
   - publisher: POWER Magazine
     url: "https://www.powermag.com/doe-has-issued-more-than-40-section-202c-emergency-orders-since-may-2025-heres-an-updated-log/"
     date: "2026-04-30"
