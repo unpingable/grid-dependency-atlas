@@ -6,23 +6,105 @@
       "properties": {
         "state": "Florida",
         "stress_band": "systemic_retreat",
-        "stress_label": "Systemic insurer retreat",
+        "stress_label": "Residual market receding",
         "confidence": "high",
-        "confidence_note": "Citizens data public; depopulation program documented; ProPublica investigation on arbitration",
-        "fair_plan_policies": 395000,
-        "fair_plan_peak": 1410000,
+        "confidence_note": "Citizens policy counts and rate filings are published primary documents; the October 2023 peak and the 2026 recommended decrease are both from Citizens itself.",
+        "fair_plan_policies": 395144,
+        "fair_plan_peak": 1420000,
         "fair_plan_name": "Citizens Property Insurance",
-        "rate_change_pct": 18,
-        "insurer_exits": "Dozen+ carriers insolvent post-hurricanes Laura, Delta, Ida, Zeta (2020-2022). Citizens became largest insurer in state at 1.41M policies.",
-        "regulatory_response": "Aggressive depopulation program: 677,920 policies transferred to private market since Jan 2024. Citizens down from 1.41M to 395K policies.",
-        "mortgage_impact": "Coastal property values under pressure. Insurance costs now material factor in home affordability. Citizens wins 90%+ of arbitration cases it helps fund.",
-        "one_line": "Citizens went from 1.41M policies to 395K via forced depopulation — the state transferred risk back to a market that had already fled.",
+        "rate_change_pct": -2.6,
+        "insurer_exits": "A dozen-plus carriers went insolvent after Hurricanes Laura, Delta, Ida and Zeta (2020-2022), and Citizens became the largest insurer in the state at its October 2023 peak of 1.42 million policies. Since then private capacity has returned: the depopulation programme moved more than 546,000 policies to private insurers during 2025 alone.",
+        "regulatory_response": "Depopulation continued through 2025, cutting Citizens by 73% from its peak to roughly 385,000 by year-end and 395,144 at the start of 2026 — its lowest since the corporation was created in 2002. In December 2025 Citizens recommended a statewide average rate decrease of 2.6%, with three in five policyholders seeing an average reduction of 11.5% (about $359).",
+        "mortgage_impact": "Coastal property values remain under pressure and insurance is still a material factor in affordability, but the direction has reversed: premiums at the residual insurer are falling rather than rising, and Citizens is no longer the state's largest insurer.",
+        "one_line": "Citizens went from a 1.42M-policy peak in October 2023 to 395,144 at the start of 2026 — a 72% fall — and is now recommending a rate cut. The state transferred risk back to a market that had fled, and so far the market has taken it.",
         "sources": [
-          { "publisher": "Citizens Property Insurance", "url": "https://www.citizensfla.com/", "date": "2026-01-01" },
-          { "publisher": "ProPublica", "url": "https://www.propublica.org/", "date": "2025-06-01" }
-        ]
+          {
+            "publisher": "Citizens Property Insurance Corporation",
+            "url": "https://www.citizensfla.com/-/20251210-citizens-recommends-rate-cuts-for-most-policyholders",
+            "date": "2025-12-10",
+            "retrieved": "2026-08-14",
+            "note": "2.6% average decrease recommended; 73% below the October 2023 peak of 1.42M"
+          },
+          {
+            "publisher": "Florida Realtors",
+            "url": "https://www.floridarealtors.org/news-media/news-articles/2026/01/citizens-policies-plummet-2025",
+            "date": "2026-01-15",
+            "retrieved": "2026-08-14",
+            "note": "395,144 policies at the start of 2026; 546,000 depopulated during 2025"
+          }
+        ],
+        "fair_plan_asof": "2026-01-01",
+        "fair_plan_peak_asof": "2023-10-01",
+        "rate_change_period": "2026 filing",
+        "rate_change_basis": "Recommended statewide average change to Citizens personal-lines rates. Negative: a decrease."
       },
-      "geometry": { "type": "Polygon", "coordinates": [[[-87.63,30.87],[-85.00,30.99],[-84.87,29.74],[-83.60,29.93],[-82.05,28.55],[-80.88,25.17],[-80.32,25.34],[-80.68,27.21],[-80.03,27.56],[-81.17,28.79],[-82.64,28.89],[-82.05,30.36],[-84.00,30.00],[-85.49,30.30],[-87.63,30.87]]] }
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -87.63,
+              30.87
+            ],
+            [
+              -85.0,
+              30.99
+            ],
+            [
+              -84.87,
+              29.74
+            ],
+            [
+              -83.6,
+              29.93
+            ],
+            [
+              -82.05,
+              28.55
+            ],
+            [
+              -80.88,
+              25.17
+            ],
+            [
+              -80.32,
+              25.34
+            ],
+            [
+              -80.68,
+              27.21
+            ],
+            [
+              -80.03,
+              27.56
+            ],
+            [
+              -81.17,
+              28.79
+            ],
+            [
+              -82.64,
+              28.89
+            ],
+            [
+              -82.05,
+              30.36
+            ],
+            [
+              -84.0,
+              30.0
+            ],
+            [
+              -85.49,
+              30.3
+            ],
+            [
+              -87.63,
+              30.87
+            ]
+          ]
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -31,21 +113,110 @@
         "stress_band": "accelerating_withdrawal",
         "stress_label": "Accelerating insurer withdrawal",
         "confidence": "high",
-        "confidence_note": "FAIR Plan statistics public; State Farm nonrenewal data available; CDI press releases detailed",
-        "fair_plan_policies": 573700,
-        "fair_plan_peak": 573700,
+        "confidence_note": "FAIR Plan policy counts, exposure and the approved rate increase are published; the 1.5%-to-5% household share comes from separate analyses with stated dates.",
+        "fair_plan_policies": 696562,
+        "fair_plan_peak": 696562,
         "fair_plan_name": "California FAIR Plan",
-        "rate_change_pct": 36,
-        "insurer_exits": "State Farm stopped new policies (2023), nonrenewing 72,000. Allstate, Farmers retreated. FAIR Plan up 139% since Sept 2021. 14% of FAIR policies now in lower-fire-risk urban zones — retreat beyond wildfire areas.",
-        "regulatory_response": "25 moratorium declarations. SB 824 (2018) prohibits fire-risk nonrenewals. 9 new consumer protection laws effective 2026. 'Sustainable insurance strategy' trades rate hikes for writing commitments.",
-        "mortgage_impact": "Orinda ZIP 94563: 55% of homeowner policies nonrenewed by State Farm. LA fire zones (Brentwood, Beverly Hills) saw largest FAIR Plan growth. 26% of ZIP codes with $100M+ exposure growth.",
-        "one_line": "FAIR Plan up 139% in 4 years, now expanding beyond wildfire zones into normal urban areas — the retreat has its own momentum.",
+        "rate_change_pct": 29.1,
+        "insurer_exits": "State Farm stopped writing new policies in 2023 and non-renewed 72,000. Allstate and Farmers retreated. The FAIR Plan covered about 1.5% of California single-family homes in December 2020 and roughly 5% by March 2026. In the highest wildfire-risk ZIP codes it now covers about 41% of residential structures, against 4% in lower-risk areas — a more than nineteen-fold rise in those ZIP codes between 2009 and 2024.",
+        "regulatory_response": "25 moratorium declarations. SB 824 (2018) prohibits fire-risk non-renewals after a declared disaster. Nine consumer-protection laws took effect in 2026. The 'sustainable insurance strategy' trades rate increases for writing commitments. The FAIR Plan itself was approved for a 29.1% homeowners increase effective autumn 2026.",
+        "mortgage_impact": "Total FAIR Plan exposure reached $768B by June 2026, an 11% rise since September 2025 and 250% since September 2022. Growth is finally slowing — roughly 16,000 residential policies added in Q1 2026, against 35,000-50,000 per quarter over the preceding two years — but the book is still expanding, unlike Florida's or Louisiana's.",
+        "one_line": "The FAIR Plan reached 696,562 policies and $768B of exposure by June 2026 — up 250% in under four years — and now covers about one in twenty California single-family homes. It is raising rates 29.1% this autumn. The insurer of last resort is becoming an ordinary one.",
         "sources": [
-          { "publisher": "California FAIR Plan", "url": "https://www.cfpnet.com/key-statistics-data/", "date": "2025-09-01" },
-          { "publisher": "California Dept of Insurance", "url": "https://www.insurance.ca.gov/", "date": "2026-01-01" }
-        ]
+          {
+            "publisher": "KQED",
+            "url": "https://www.kqed.org/news/12094860/california-fair-plan-announces-29-1-rate-hike-for-homeowners-this-fall",
+            "date": "2026-06-01",
+            "retrieved": "2026-08-14",
+            "note": "29.1% FAIR Plan homeowners increase; 696,562 policies and $768B exposure as of June 2026"
+          },
+          {
+            "publisher": "Stanford Woods Institute for the Environment",
+            "url": "https://news.stanford.edu/stories/2026/06/california-home-insurance-crisis-wildfire-country",
+            "date": "2026-06-01",
+            "retrieved": "2026-08-14",
+            "note": "Crisis spreading beyond wildfire country"
+          },
+          {
+            "publisher": "Insurance for Good",
+            "url": "https://www.insuranceforgood.org/blog/growth-in-ca-fair-plan",
+            "date": "2026-05-05",
+            "retrieved": "2026-08-14",
+            "note": "19x growth in highest-risk ZIPs 2009-2024; 41% vs 4% coverage share"
+          }
+        ],
+        "fair_plan_asof": "2026-06-30",
+        "fair_plan_peak_asof": "2026-06-30",
+        "rate_change_period": "2026, effective autumn",
+        "rate_change_basis": "Approved FAIR Plan homeowners rate increase."
       },
-      "geometry": { "type": "Polygon", "coordinates": [[[-124.41,41.99],[-120.00,41.99],[-119.99,39.00],[-120.00,38.93],[-114.63,35.00],[-114.63,34.87],[-117.67,32.46],[-118.60,33.47],[-120.50,34.48],[-121.90,36.30],[-122.40,37.36],[-122.51,37.78],[-123.69,38.86],[-124.18,40.13],[-124.41,41.99]]] }
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -124.41,
+              41.99
+            ],
+            [
+              -120.0,
+              41.99
+            ],
+            [
+              -119.99,
+              39.0
+            ],
+            [
+              -120.0,
+              38.93
+            ],
+            [
+              -114.63,
+              35.0
+            ],
+            [
+              -114.63,
+              34.87
+            ],
+            [
+              -117.67,
+              32.46
+            ],
+            [
+              -118.6,
+              33.47
+            ],
+            [
+              -120.5,
+              34.48
+            ],
+            [
+              -121.9,
+              36.3
+            ],
+            [
+              -122.4,
+              37.36
+            ],
+            [
+              -122.51,
+              37.78
+            ],
+            [
+              -123.69,
+              38.86
+            ],
+            [
+              -124.18,
+              40.13
+            ],
+            [
+              -124.41,
+              41.99
+            ]
+          ]
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -54,44 +225,192 @@
         "stress_band": "growing_residual_exposure",
         "stress_label": "Growing residual market exposure",
         "confidence": "high",
-        "confidence_note": "TWIA annual reports public; deficit and exposure data detailed; rate inadequacy documented",
-        "fair_plan_policies": 276000,
-        "fair_plan_peak": 285000,
+        "confidence_note": "TWIA publishes quarterly fact books and board materials; policy counts, exposure, surplus and funding figures are all from those primary documents.",
+        "fair_plan_policies": 286251,
+        "fair_plan_peak": 291756,
         "fair_plan_name": "Texas Windstorm Insurance Association (TWIA)",
-        "rate_change_pct": 3,
-        "insurer_exits": "Private insurers exiting coastal market. TWIA market share >50% in designated catastrophe areas. 276,000+ policies (record), projected 285,000 by end 2025.",
-        "regulatory_response": "TWIA entered 2025 with $413.5M deficit (reversed from $45.9M surplus). Residential rates deemed inadequate by 38%. Hurricane Beryl (July 2024) drained Catastrophe Reserve Trust Fund.",
-        "mortgage_impact": "Total TWIA exposure: $117B+ (record). Written premiums $779M projected 2025. Rising reinsurance costs and construction inflation compounding.",
-        "one_line": "TWIA holds $117B in coastal exposure with a $413M deficit — the insurer of last resort is itself underinsured.",
+        "rate_change_pct": 0.0,
+        "insurer_exits": "Private carriers continue to limit coastal wind exposure, leaving TWIA as the windstorm insurer of last resort along the Texas coast. Policies in force fell 1.9% in Q1 2026 to 286,251 from 291,756 at year-end 2025, while total insured exposure rose to $127.1B from just over $117B.",
+        "regulatory_response": "Rates were held unchanged for 2026. TWIA reported a $41.6M surplus in Q1 2026, reversing a year-end deficit, with about $4.3B of total funding available for the 2026 hurricane season. A statutory change reduced the funding target from the 1-in-100-year probable maximum loss to 1-in-50 — a lower solvency bar, reached partly by lowering the bar.",
+        "mortgage_impact": "Coastal exposure keeps growing even as policy count falls, because insured values rise faster than TWIA sheds policies. Galveston County alone accounts for roughly a third of the $127.1B.",
+        "one_line": "TWIA carries $127.1B of coastal exposure on 286,251 policies, a third of it in Galveston County. It swung to a $41.6M surplus before the 2026 season, and the legislature cut the funding target from a 1-in-100-year loss to 1-in-50.",
         "sources": [
-          { "publisher": "TWIA", "url": "https://www.twia.org/wp-content/uploads/2025-TWIA-Annual-Report.pdf", "date": "2025-01-01" },
-          { "publisher": "Insurance Journal", "url": "https://www.insurancejournal.com/", "date": "2025-06-01" }
-        ]
+          {
+            "publisher": "Texas Windstorm Insurance Association",
+            "url": "https://www.twia.org/wp-content/uploads/Q1-2026-TWIA-Fact-Book.pdf",
+            "date": "2026-04-01",
+            "retrieved": "2026-08-14",
+            "note": "Q1 2026 Fact Book: 286,251 policies, $127.1B exposure"
+          },
+          {
+            "publisher": "Insurance Business / Reinsurance",
+            "url": "https://www.insurancebusinessmag.com/reinsurance/news/breaking-news/twia-swings-to-41-6-million-surplus-ahead-of-2026-hurricane-season-577756.aspx",
+            "date": "2026-05-01",
+            "retrieved": "2026-08-14",
+            "note": "$41.6M surplus; $4.3B funding for the 2026 season"
+          }
+        ],
+        "fair_plan_asof": "2026-03-31",
+        "fair_plan_peak_asof": "2025-12-31",
+        "rate_change_period": "2026",
+        "rate_change_basis": "TWIA rates held unchanged for 2026. Not a measure of market-wide premiums."
       },
-      "geometry": { "type": "Polygon", "coordinates": [[[-106.65,31.90],[-104.02,29.33],[-102.72,29.76],[-100.00,28.00],[-99.44,27.20],[-97.36,26.80],[-97.14,27.68],[-93.84,29.69],[-93.91,30.03],[-94.04,33.55],[-94.48,33.64],[-100.00,36.50],[-103.00,36.50],[-103.00,32.00],[-106.65,31.90]]] }
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -106.65,
+              31.9
+            ],
+            [
+              -104.02,
+              29.33
+            ],
+            [
+              -102.72,
+              29.76
+            ],
+            [
+              -100.0,
+              28.0
+            ],
+            [
+              -99.44,
+              27.2
+            ],
+            [
+              -97.36,
+              26.8
+            ],
+            [
+              -97.14,
+              27.68
+            ],
+            [
+              -93.84,
+              29.69
+            ],
+            [
+              -93.91,
+              30.03
+            ],
+            [
+              -94.04,
+              33.55
+            ],
+            [
+              -94.48,
+              33.64
+            ],
+            [
+              -100.0,
+              36.5
+            ],
+            [
+              -103.0,
+              36.5
+            ],
+            [
+              -103.0,
+              32.0
+            ],
+            [
+              -106.65,
+              31.9
+            ]
+          ]
+        ]
+      }
     },
     {
       "type": "Feature",
       "properties": {
         "state": "Louisiana",
         "stress_band": "systemic_retreat",
-        "stress_label": "Systemic insurer retreat",
+        "stress_label": "Residual market receding",
         "confidence": "high",
-        "confidence_note": "Post-hurricane insolvency wave documented; regulatory changes tracked; rate data available",
-        "fair_plan_policies": null,
+        "confidence_note": "Rate-filing counts and the Citizens enrolment figure come from Louisiana Department of Insurance reporting relayed by state press; the 2022 peak value itself is not published in the sources located, so no peak is recorded here.",
+        "fair_plan_policies": 114000,
         "fair_plan_peak": null,
         "fair_plan_name": "Louisiana Citizens Property Insurance",
-        "rate_change_pct": 58,
-        "insurer_exits": "Dozen+ carriers insolvent after Hurricanes Laura, Delta, Ida, Zeta. Many others stopped writing in high-risk areas. Highest rate increase in nation: 58%.",
-        "regulatory_response": "Repealed three-year protection rule (Jan 2025). Now allows up to 5% annual cancellations per insurer. Described as shift to 'business-friendly' climate — regulators chose market access over consumer protection.",
-        "mortgage_impact": "Highest rates in nation. Coastal communities face compounding exposure: hurricane risk + insurer exit + regulatory deprotection.",
-        "one_line": "Dozen+ insurers went insolvent, then the state repealed consumer protections to attract replacements — 58% rate increase followed.",
+        "rate_change_pct": 0.1,
+        "insurer_exits": "A dozen-plus carriers went insolvent after Hurricanes Laura, Delta, Ida and Zeta, and many others stopped writing in high-risk parishes. Capacity has since returned: around 20 companies have completed full licensing, three more were licensed in the first four months of 2026, and enrolment at Louisiana Citizens has fallen nearly 20% from its 2022 peak to roughly 114,000 policies as of June 2026.",
+        "regulatory_response": "The three-year protection rule was repealed in January 2025, allowing up to 5% annual cancellations per insurer — a deliberate shift toward market access over consumer protection. Rate filings have since reversed direction: four carriers filed increases in the first part of 2026 against 27 in 2025 and 50 in 2024, while nine filed decreases covering more than 100,000 policyholders and about $25M of premium.",
+        "mortgage_impact": "Louisiana premiums remain among the highest in the country, but the trajectory has changed. Greater New Orleans home sales rose 10% in the first half of 2026, which local brokers attribute partly to easing insurance costs.",
+        "one_line": "A dozen-plus insurers went insolvent and the state repealed consumer protections to attract replacements. Four years on, premium increases have flattened to 0.1%, nine carriers have filed decreases, and Louisiana Citizens is down to about 114,000 policies.",
         "sources": [
-          { "publisher": "Louisiana Dept of Insurance", "url": "https://www.ldi.la.gov/", "date": "2025-01-01" },
-          { "publisher": "Insurance.com", "url": "https://www.insurance.com/home-and-renters-insurance/home-insurance-rate-increases", "date": "2026-01-01" }
-        ]
+          {
+            "publisher": "NOLA.com / The Times-Picayune",
+            "url": "https://www.nola.com/news/business/homeowners-insurance-has-gotten-a-little-cheaper-easier-to-come-by-is-the-crisis-over/article_89b0e055-33a0-438a-bcbe-9a47f97a852d.html",
+            "date": "2026-07-01",
+            "retrieved": "2026-08-14",
+            "note": "0.1% 2026 increases; filing counts; Citizens ~114,000"
+          },
+          {
+            "publisher": "KPLC / Louisiana Department of Insurance",
+            "url": "https://www.kplctv.com/2026/03/24/louisiana-home-insurance-costs-remain-among-highest-state-officials-point-signs-market-improvement/",
+            "date": "2026-03-24",
+            "retrieved": "2026-08-14",
+            "note": "State officials on market improvement; costs still among the highest"
+          }
+        ],
+        "fair_plan_asof": "2026-06-30",
+        "fair_plan_peak_asof": null,
+        "rate_change_period": "2026 year to date",
+        "rate_change_basis": "Statewide average annual homeowners premium change. Prior years: 4.6% (2025), 6.6% (2024), double digits in 2022-23."
       },
-      "geometry": { "type": "Polygon", "coordinates": [[[-94.04,33.55],[-91.16,33.00],[-88.82,31.00],[-89.73,29.65],[-89.15,29.00],[-90.88,29.15],[-91.63,29.05],[-93.23,29.38],[-93.84,29.69],[-93.91,30.03],[-94.04,33.55]]] }
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -94.04,
+              33.55
+            ],
+            [
+              -91.16,
+              33.0
+            ],
+            [
+              -88.82,
+              31.0
+            ],
+            [
+              -89.73,
+              29.65
+            ],
+            [
+              -89.15,
+              29.0
+            ],
+            [
+              -90.88,
+              29.15
+            ],
+            [
+              -91.63,
+              29.05
+            ],
+            [
+              -93.23,
+              29.38
+            ],
+            [
+              -93.84,
+              29.69
+            ],
+            [
+              -93.91,
+              30.03
+            ],
+            [
+              -94.04,
+              33.55
+            ]
+          ]
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -100,21 +419,70 @@
         "stress_band": "underinsurance_crisis",
         "stress_label": "Post-disaster underinsurance crisis",
         "confidence": "high",
-        "confidence_note": "Marshall Fire data well-documented; insurance gap data from Boulder Reporting Lab; Xcel settlement public",
+        "confidence_note": "The 57.9% (2018-2023) figure and the 74%/36% underinsurance findings are from Colorado State University REDI and state reporting. The previous entry's figures — 87% holding extended coverage, 75% still short, and 76.6% over 2019-2024 — could not be reproduced from any source located in the 2026-08 refresh and have been replaced rather than carried forward unverified.",
         "fair_plan_policies": null,
         "fair_plan_peak": null,
-        "fair_plan_name": null,
-        "rate_change_pct": 77,
-        "insurer_exits": "Not primarily an exit story — Colorado is the underinsurance story. 1,105 homes destroyed in Marshall Fire (2021). Insurance gaps averaged >$100K per household. 87% had extended coverage but 75% still fell short.",
-        "regulatory_response": "Colorado Housing Recovery Program grants stopped new applications July 2024. Community Foundation rebuild fund running out (<$5M remaining). Xcel Energy + telecoms settled for $640M.",
-        "mortgage_impact": "Highest cumulative rate increase in nation: 76.6% over 6 years (2019-2024). Underinsured households significantly less likely to rebuild. Recovery funds expiring one by one.",
-        "one_line": "87% of Marshall Fire victims had extended coverage — 75% still fell short. The coverage people thought they had was a fiction.",
+        "fair_plan_name": "Colorado FAIR Plan (residential applications opened spring 2025)",
+        "rate_change_pct": 57.9,
+        "insurer_exits": "Not primarily an exit story — Colorado is the underinsurance story. The Marshall Fire destroyed more than 1,000 homes in a single day in December 2021 with about $2B in insured losses. Afterwards 74% of affected homeowners were found underinsured and 36% severely underinsured, carrying less than 75% of replacement cost. In parts of Boulder and El Paso counties and along the foothills, premiums have since climbed 150-300%.",
+        "regulatory_response": "A Colorado FAIR Plan was signed into law in 2023 but did not open to residential applications until spring 2025. It caps dwelling coverage at $750,000 and pays on an actual cash value basis rather than replacement cost — so the state's own backstop reproduces the underinsurance problem it was created to answer. A 2026 legislative proposal would raise the cap to $1.5M and add a state reinsurance programme.",
+        "mortgage_impact": "Colorado has the largest increase in home insurance premiums in the country since 2020. Underinsured households are markedly less likely to rebuild, and the FAIR Plan's actual-cash-value basis carries that risk forward for anyone who ends up on it.",
+        "one_line": "Three in four Marshall Fire households were underinsured and more than a third were severely so. Colorado premiums rose 57.9% statewide from 2018 to 2023, and the state's FAIR Plan only opened to residential applicants in 2025 — capped at $750,000, on actual cash value.",
         "sources": [
-          { "publisher": "Boulder Reporting Lab", "url": "https://hazards.colorado.edu/mitigation-matters-report/colorados-marshall-fire", "date": "2024-12-01" },
-          { "publisher": "Insurance.com", "url": "https://www.insurance.com/home-and-renters-insurance/home-insurance-rate-increases", "date": "2026-01-01" }
-        ]
+          {
+            "publisher": "Colorado State University REDI",
+            "url": "https://csuredi.org/redi_reports/homeowners-insurance-trends-in-colorado-implications-of-natural-hazard-dynamics/",
+            "date": "2026-01-01",
+            "retrieved": "2026-08-14",
+            "note": "57.9% statewide premium increase 2018-2023; Marshall Fire underinsurance 74%/36%"
+          },
+          {
+            "publisher": "Colorado Public Radio",
+            "url": "https://www.cpr.org/2026/01/15/climate-colorado-home-insurance-wildfires-extreme-weather/",
+            "date": "2026-01-15",
+            "retrieved": "2026-08-14",
+            "note": "Premium increases and state policy responses"
+          },
+          {
+            "publisher": "The Colorado Sun",
+            "url": "https://coloradosun.com/2026/07/11/colorado-homeowners-insurance-expensive/",
+            "date": "2026-07-11",
+            "retrieved": "2026-08-14",
+            "note": "Colorado among the most expensive in the US"
+          }
+        ],
+        "fair_plan_asof": null,
+        "fair_plan_peak_asof": null,
+        "rate_change_period": "2018-2023",
+        "rate_change_basis": "Statewide average homeowners premium increase over six years. Cumulative, not annual."
       },
-      "geometry": { "type": "Polygon", "coordinates": [[[-109.05,41.00],[-102.05,41.00],[-102.05,36.99],[-109.05,36.99],[-109.05,41.00]]] }
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -109.05,
+              41.0
+            ],
+            [
+              -102.05,
+              41.0
+            ],
+            [
+              -102.05,
+              36.99
+            ],
+            [
+              -109.05,
+              36.99
+            ],
+            [
+              -109.05,
+              41.0
+            ]
+          ]
+        ]
+      }
     },
     {
       "type": "Feature",
@@ -123,21 +491,99 @@
         "stress_band": "growing_residual_exposure",
         "stress_label": "Growing residual market exposure",
         "confidence": "medium",
-        "confidence_note": "Wind Pool data less publicly detailed than FL/TX; coastal exposure documented but granularity limited",
+        "confidence_note": "Weakest evidence in this atlas. NCIUA does not publish policy counts as accessibly as Florida, Texas or California; no statewide rate-change figure could be verified. Recorded as absent rather than estimated.",
         "fair_plan_policies": null,
         "fair_plan_peak": null,
-        "fair_plan_name": "NC Insurance Underwriting Association (Wind Pool)",
-        "rate_change_pct": 15,
-        "insurer_exits": "Private carriers reducing coastal exposure. Wind Pool absorbing increasing share of coastal risk. Hurricane season exposure compounding with development pressure on barrier islands.",
-        "regulatory_response": "Rate regulation remains commonplace. Coastal building codes updated post-hurricanes. But development pressure on barrier islands continues largely unchecked.",
-        "mortgage_impact": "Outer Banks and coastal communities face rising premiums and shrinking coverage options. Flood insurance (NFIP) costs rising separately. Compound exposure: wind + flood + sea level.",
-        "one_line": "Barrier island development continues while insurers retreat — the state is building into exposure it's simultaneously losing coverage for.",
+        "fair_plan_name": "North Carolina Insurance Underwriting Association (Beach Plan)",
+        "rate_change_pct": null,
+        "insurer_exits": "Private carriers continue reducing coastal exposure across the nine eligible beach counties — Brunswick, Carteret, Currituck, Dare, Hyde, New Hanover, Onslow, Pamlico and Pender — leaving the NCIUA Beach Plan as the windstorm and hail insurer of last resort. The rate environment hardened through 2024-2026 on storm losses, reinsurance costs and construction inflation. No current NCIUA policy count was located in published sources.",
+        "regulatory_response": "Rate regulation remains commonplace and Beach Plan claims fall under North Carolina's unfair-claims-settlement rules like any carrier's. Coastal building codes were updated after recent hurricanes. Development pressure on the barrier islands continues largely unchecked.",
+        "mortgage_impact": "Outer Banks and coastal households face rising premiums and shrinking options, with complete hurricane protection typically running $2,000-$5,000 a year across the three separate policies required. Flood cover through the NFIP is priced separately and also rising. Compound exposure: wind, flood and sea level.",
+        "one_line": "Barrier island development continues while private carriers retreat from the coast, pushing wind risk onto the Beach Plan. This is the thinnest record in the atlas: no published policy count and no verifiable rate figure were found.",
         "sources": [
-          { "publisher": "Insurance Journal", "url": "https://www.insurancejournal.com/", "date": "2025-01-01" },
-          { "publisher": "NC DOI", "url": "https://www.ncdoi.gov/", "date": "2025-01-01" }
-        ]
+          {
+            "publisher": "North Carolina Insurance Underwriting Association",
+            "url": "https://portal.ncjua-nciua.com/ResourceLibrary/Download/593",
+            "date": "2025-01-01",
+            "retrieved": "2026-08-14",
+            "note": "NCIUA Plan of Operation"
+          },
+          {
+            "publisher": "R Street Institute",
+            "url": "https://www.rstreet.org/commentary/north-carolinas-unique-insurance-market-its-time-for-change/",
+            "date": "2025-06-01",
+            "retrieved": "2026-08-14",
+            "note": "Analysis of North Carolina's residual market structure"
+          }
+        ],
+        "fair_plan_asof": null,
+        "fair_plan_peak_asof": null,
+        "rate_change_period": null,
+        "rate_change_basis": "No verifiable statewide figure located in the 2026-08 refresh. The previous entry carried 15% with no period, basis or source; it has been withdrawn rather than republished unverified."
       },
-      "geometry": { "type": "Polygon", "coordinates": [[[-84.32,35.20],[-82.27,35.19],[-80.93,35.10],[-79.97,34.92],[-78.57,33.87],[-76.47,34.56],[-75.77,35.18],[-75.53,35.78],[-76.33,36.55],[-77.90,36.54],[-80.74,36.56],[-83.68,36.58],[-84.32,36.59],[-84.32,35.20]]] }
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -84.32,
+              35.2
+            ],
+            [
+              -82.27,
+              35.19
+            ],
+            [
+              -80.93,
+              35.1
+            ],
+            [
+              -79.97,
+              34.92
+            ],
+            [
+              -78.57,
+              33.87
+            ],
+            [
+              -76.47,
+              34.56
+            ],
+            [
+              -75.77,
+              35.18
+            ],
+            [
+              -75.53,
+              35.78
+            ],
+            [
+              -76.33,
+              36.55
+            ],
+            [
+              -77.9,
+              36.54
+            ],
+            [
+              -80.74,
+              36.56
+            ],
+            [
+              -83.68,
+              36.58
+            ],
+            [
+              -84.32,
+              36.59
+            ],
+            [
+              -84.32,
+              35.2
+            ]
+          ]
+        ]
+      }
     }
   ]
 }

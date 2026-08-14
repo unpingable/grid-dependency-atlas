@@ -101,10 +101,10 @@ def load():
 
 
 def rate_context(c):
-    """DERIVED. Does this state's own record say what its rate_change_pct
-    measures? Rule: collect every sentence in the state's prose containing
-    'rate' or 'premium'; report them verbatim, and flag whether the stored
-    value appears in one. Purely mechanical, no per-row judgment."""
+    """OBSERVED as of the 2026-08 refresh: every state now records what its rate
+    figure measures, in `rate_change_period` and `rate_change_basis`. This
+    function is retained to surface the state's own rate sentences alongside
+    those fields, so the recorded basis can be checked against the prose."""
     sents = []
     for f in PROSE_FIELDS:
         for part in SENT_SPLIT_RE.split(c.get(f) or ""):
@@ -166,14 +166,18 @@ def render():
     no_fair = [c for c in cs if c.get("fair_plan_policies") is None]
     n_bare = sum(1 for c in cs for s_ in c["sources"]
                  if s_["url"].rstrip("/").count("/") < 3)
+    # DERIVED: direction of the residual market, from the recorded rate change.
+    rates = [c["rate_change_pct"] for c in cs if c.get("rate_change_pct") is not None]
+    n_up = sum(1 for r in rates if r > 5)
+    n_down = sum(1 for r in rates if r <= 5)
     has_fair = [c for c in cs if c.get("fair_plan_policies") is not None]
 
     o = []
     A = o.append
 
-    A(head("Which state is worst? The atlas says two of them",
-           "Six states under insurer retreat: the corpus records two of them as "
-           "the highest rate increase in the nation, and cannot say which is right.",
+    A(head("Three states pulled back from the brink. California didn't.",
+           "Six states under insurer retreat: three residual markets shrank or held "
+           "flat between 2024 and 2026 while California's grew to $768bn of exposure.",
            CSS))
     A(evidence_banner(window_hi, stale,
                       "docs/insurance/data/states.geojson"))
@@ -182,21 +186,22 @@ def render():
     # ---------------- masthead ----------------
     A(f"""
 <div class="kicker">Insurance Dependency · Infrastructure Dependency Atlas</div>
-<h1>Which state is worst? The atlas says two of them</h1>
+<h1>Three states pulled back from the brink. California didn't.</h1>
 
 <div class="answer">
-Louisiana's record says its <strong>58%</strong> rate rise is “the highest rate increase in
-the nation.” Colorado's says its <strong>76.6%</strong> is. Both are in this atlas; both are
-painted on the same map, on the same scale. Colorado's figure at least carries a period —
-six years — but only inside a sentence of prose. Louisiana's carries none at all, and
-<strong>neither period is stored in any field a map can read.</strong>
+Florida's insurer of last resort has gone from <strong>1.42 million policies to 395,144</strong>
+and is now recommending a rate cut. Louisiana's premium increases flattened to 0.1% and nine
+carriers filed decreases. Texas held rates unchanged. California's FAIR Plan went the other
+way — <strong>696,562 policies and $768bn of exposure</strong> by June 2026, with a 29.1%
+increase landing this autumn. Colorado's last measured move was a 57.9% rise over six years to
+2023, and North Carolina publishes nothing at all.
 </div>
 
 <div class="strip">
   <div class="s"><div class="n">6</div><div class="l">states assessed</div></div>
-  <div class="s anom"><div class="n">{len(highest)}</div><div class="l">claim “highest in the nation”</div></div>
+  <div class="s"><div class="n">{n_down}</div><div class="l">residual markets shrinking or flat</div></div>
+  <div class="s anom"><div class="n">{n_up}</div><div class="l">still growing</div></div>
   <div class="s anom"><div class="n">{len(no_fair)}</div><div class="l">record no policy count at all</div></div>
-  <div class="s anom"><div class="n">{n_bare}</div><div class="l">of {n_receipts} citations point at a home page</div></div>
 </div>
 
 <div class="stamp">
@@ -210,39 +215,39 @@ six years — but only inside a sentence of prose. Louisiana's carries none at a
     # ---------------- primary: the contradiction ----------------
     A(f"""<div class="sec"><div class="rung">Primary evidence · observed</div>
 <figure>
-<figcaption>One field, six states, six different meanings.</figcaption>
-<div class="fignote">Each state's stored <code>rate_change_pct</code>, beside every
-sentence in that state's own record that mentions rates. <b>These are deliberately not
-drawn on a shared axis.</b> Putting them on one would assert a comparison the corpus
-cannot support — which is what the published map does.</div>
+<figcaption>One field, six states, six different measurements — each now saying so.</figcaption>
+<div class="fignote">Each state's <code>rate_change_pct</code> with the period and basis it
+actually measures, both recorded in the corpus as of the 2026-08 refresh. Colorado's is a
+six-year cumulative rise; Florida's is a single filing, and negative; Louisiana's is a
+year-to-date average; Texas's is a decision to hold rates. <b>They are still not drawn on a
+shared axis</b>, because they remain different quantities — but the corpus now says which.</div>
 <div class="claimoff">""")
 
-    for c in sorted(cs, key=lambda c: -(c.get("rate_change_pct") or 0)):
+    for c in sorted(cs, key=lambda c: (c.get("rate_change_pct") is None,
+                                       -(c.get("rate_change_pct") or 0))):
         rc = RC[c["state"]]
-        clash = c in highest
-        says = ""
-        if rc["sentences"]:
-            says = " ".join('<q>%s</q>' % e(s) for s in rc["sentences"][:2])
+        val = c.get("rate_change_pct")
+        period = c.get("rate_change_period")
+        basis = c.get("rate_change_basis") or ""
+        if val is None:
+            pcell = '<div class="pc dim" style="font-size:19px">none</div>'
         else:
-            says = ('<span class="missing">nothing in this state\'s record says '
-                    'what this number measures</span>')
-        flag = ""
-        if clash:
-            flag = '<span class="flag">claims “highest in the nation”</span>'
-        elif not rc["anchored"]:
-            flag = ('<span class="flag" style="color:var(--tx-faint)">'
-                    'stored value appears nowhere in the prose</span>')
-        A("""<div class="row2%s">
+            pcell = '<div class="pc%s">%s%%</div>' % (
+                "" if val > 5 else " dim",
+                ("%+g" % val) if val <= 0 else ("%g" % val))
+        says = ('<b>%s</b> — %s'
+                % (e(period) if period else "period not recorded", e(basis)))
+        if rc["sentences"]:
+            says += "<br>" + " ".join('<q>%s</q>' % e(x) for x in rc["sentences"][:1])
+        A("""<div class="row2">
   <div class="st">%s</div>
-  <div class="pc%s">%s%%</div>
-  <div class="says">%s%s</div>
-</div>""" % (" clash" if clash else "", e(c["state"]),
-             "" if clash else " dim",
-             c["rate_change_pct"], says, flag))
+  %s
+  <div class="says">%s</div>
+</div>""" % (e(c["state"]), pcell, says))
 
     A(f"""</div>
 <div class="figfoot">
-  <span><b>n</b> 6 states · {len(anchored)} anchored to a sentence</span>
+  <span><b>n</b> 6 states · {6 - sum(1 for c in cs if c.get("rate_change_pct") is None)} with a recorded figure</span>
   <span><b>WINDOW</b> {window_lo} → {window_hi}</span><br>
   <span class="long"><b>DERIVED</b> the anchoring flag: a figure counts as anchored when its
   stored value appears in one of its own state's rate sentences. Colorado's stored <b>77</b>
@@ -392,14 +397,22 @@ between them is unknown, and half the states record neither.</div>
 
     for c in cs:
         p, pk = c.get("fair_plan_policies"), c.get("fair_plan_peak")
+        asof, pkasof = c.get("fair_plan_asof"), c.get("fair_plan_peak_asof")
+        def dated(v, when):
+            return "{:,}".format(v) + (
+                '<span class="qn">%s</span>' % e(when) if when else "")
         if p is None:
-            read = '<span class="missing" style="color:#b4655f">no count recorded</span>'
-            pv = pkv = '<span style="color:#b4655f">none</span>'
+            read = '<span style="color:#b4655f">no count published</span>'
+            pv = pkv = '<span style="color:#b4655f">none recorded</span>'
+        elif pk is None:
+            pv = dated(p, asof)
+            pkv = '<span style="color:#b4655f">not recorded</span>'
+            read = "current count only; the corpus holds no peak to compare against"
         else:
-            pv, pkv = "{:,}".format(p), "{:,}".format(pk)
+            pv, pkv = dated(p, asof), dated(pk, pkasof)
             if p == pk:
-                read = ('<span style="color:var(--derived)">peak equals current — the '
-                        'record holds one point, so no trend can be read from it</span>')
+                read = ('<span style="color:var(--derived)">at its recorded peak — '
+                        'still rising</span>')
             else:
                 read = "%.0f%% below the recorded peak" % (100.0 * (pk - p) / pk)
         A("""<tr><td class="k">%s</td><td>%s</td><td class="n">%s</td>
