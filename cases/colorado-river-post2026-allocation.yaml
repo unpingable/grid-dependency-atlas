@@ -27,7 +27,17 @@ location:
   lng: -114.7
   lat: 36.0
 affected_population_est: 40000000
-status: emerging
+current_status: >
+  The seven basin states missed their deadline and the decision passed to the
+  federal government. Reclamation published the Post-2026 Colorado River
+  Reservoir Operations Final Environmental Impact Statement in the Federal
+  Register on July 31, 2026, setting operations for Lake Powell and Lake Mead
+  after the 2007 guidelines expire. For 2027-2028 it adopts the reductions the
+  Lower Basin had proposed for itself; thereafter it revises guidelines at
+  two-year intervals through 2036. It imposes no mandatory reductions on the
+  Upper Basin. Each state was required to file a detailed conservation plan by
+  August 2026.
+status: active
 date_surfaced: "2026-02-14"
 confidence: high
 sources:
@@ -40,6 +50,14 @@ sources:
   - publisher: SNWA
     url: "https://www.snwa.com/water-resources/drought-and-shortage/index.html"
     date: "2026-01-01"
+  - publisher: U.S. Bureau of Reclamation
+    url: "https://www.usbr.gov/ColoradoRiverBasin/post2026/index.html"
+    date: "2026-07-31"
+    retrieved: "2026-08-14"
+  - publisher: DLA Piper
+    url: "https://www.dlapiper.com/en-us/insights/publications/2026/08/new-federal-framework-charts-the-colorado-rivers-next-decade"
+    date: "2026-08-01"
+    retrieved: "2026-08-14"
 one_line: >
   Forty million people across seven states depend on Colorado River water with
   rules expiring in 2026; Upper Basin refusal to accept cuts leaves Las Vegas

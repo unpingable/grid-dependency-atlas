@@ -1,7 +1,7 @@
 {
   "type": "FeatureCollection",
   "_generated": "tools/build_us_geojson.py from cases/*.yaml — do not edit",
-  "_evidence_window": "2026-05-20",
+  "_evidence_window": "2026-08-01",
   "features": [
     {
       "type": "Feature",
@@ -65,8 +65,9 @@
         "controlling_jurisdiction": "Washington, Federal / Upper Basin states",
         "trigger": "The 2007 Interim Guidelines governing Colorado River shortage-sharing expire end of 2026. Interior set a February 14, 2026 deadline for seven states to agree on successor rules. Upper Basin states refused to accept specific delivery cutbacks even during severe drought. The deadline was missed. Lower Basin proposed 27% cuts for AZ, 17% for NV, 10% for CA. No agreement reached. Tier 1 shortage in effect for 2026: Nevada gets 279,000 acre-feet (7% cut), Arizona loses 18%, California takes no cuts due to senior rights.",
         "public_consequence": "2.3 million people in Southern Nevada get 90% of water from the Colorado River. Arizona's 7.1 million residents face the largest proportional cuts. No agreed framework means the Interior Secretary may impose unilateral cuts. Municipal water providers cannot plan capital investments without knowing future allocations. 40 million people basin-wide affected.",
+        "current_status": "The seven basin states missed their deadline and the decision passed to the federal government. Reclamation published the Post-2026 Colorado River Reservoir Operations Final Environmental Impact Statement in the Federal Register on July 31, 2026, setting operations for Lake Powell and Lake Mead after the 2007 guidelines expire. For 2027-2028 it adopts the reductions the Lower Basin had proposed for itself; thereafter it revises guidelines at two-year intervals through 2036. It imposes no mandatory reductions on the Upper Basin. Each state was required to file a detailed conservation plan by August 2026.",
         "affected_population_est": 40000000,
-        "status": "emerging",
+        "status": "active",
         "date_surfaced": "2026-02-14",
         "confidence": "high",
         "one_line": "Forty million people across seven states depend on Colorado River water with rules expiring in 2026; Upper Basin refusal to accept cuts leaves Las Vegas and Phoenix exposed to allocation decisions made hundreds of miles away.",
@@ -85,6 +86,16 @@
             "publisher": "SNWA",
             "url": "https://www.snwa.com/water-resources/drought-and-shortage/index.html",
             "date": "2026-01-01"
+          },
+          {
+            "publisher": "U.S. Bureau of Reclamation",
+            "url": "https://www.usbr.gov/ColoradoRiverBasin/post2026/index.html",
+            "date": "2026-07-31"
+          },
+          {
+            "publisher": "DLA Piper",
+            "url": "https://www.dlapiper.com/en-us/insights/publications/2026/08/new-federal-framework-charts-the-colorado-rivers-next-decade",
+            "date": "2026-08-01"
           }
         ]
       }

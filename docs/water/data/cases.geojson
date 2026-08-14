@@ -3,7 +3,13 @@
   "features": [
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-114.41, 36.15] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -114.41,
+          36.15
+        ]
+      },
       "properties": {
         "case_id": "colorado-river",
         "title": "Colorado River — 40M people, no post-2026 rules",
@@ -11,20 +17,46 @@
         "category_label": "Interstate compact",
         "governance": "Federal / interstate compact (expired)",
         "affected_population": 40000000,
-        "control_mismatch": "7 states + Mexico depend on the river. Bureau of Reclamation controls reservoirs. Upper Basin refused binding cuts. Post-2026 operating guidelines expired with no consensus. Interior Secretary may impose unilateral management.",
-        "current_status": "Tier 1 shortage in effect: Arizona 18% cut, Nevada 7%, California 0% (senior rights). Upper Basin reached internal consensus but Lower Basin still contested. Federal EIS in draft. No binding framework.",
+        "control_mismatch": "The seven basin states could not reach agreement, so the decision passed to the Bureau of Reclamation. The resulting framework binds the Lower Basin to cuts it had already offered while leaving the Upper Basin without mandatory reductions — the asymmetry the compact created, now confirmed by federal decision rather than negotiated away.",
+        "current_status": "The states missed their deadline and Reclamation published a Final Environmental Impact Statement in the Federal Register on 31 July 2026, setting operations for Lake Powell, Lake Mead and associated infrastructure after the 2007 guidelines expire. For 2027-2028 it adopts the reductions the Lower Basin had proposed for itself; after 2028 it revises guidelines at two-year intervals through 2036. It imposes no mandatory reductions on the Upper Basin. Each state was required to file a detailed conservation plan by August 2026.",
         "who_depends": "Las Vegas (90% from Colorado River), Phoenix/Tucson (Central Arizona Project), Southern California (Metropolitan Water District), Mexico (1.5M acre-feet/year allocation).",
-        "who_controls": "Bureau of Reclamation (federal). 1922 Compact allocated 7.5M acre-feet each to Upper and Lower Basin — based on wet-period estimates that overstated actual flow.",
-        "one_line": "Seven states and 40M people depend on a river allocated during a wet period that overstated actual flow. The rules expired and nobody agreed on new ones.",
+        "who_controls": "U.S. Bureau of Reclamation and the Secretary of the Interior, following the states' failure to agree. Upper Basin states (Colorado, New Mexico, Utah, Wyoming) and Lower Basin states (Arizona, California, Nevada) retain compact entitlements but no longer control the operating rules.",
+        "one_line": "Seven states and 40M people depend on a river allocated during a wet period that overstated its flow. The states could not agree on successor rules, so in July 2026 the federal government wrote them instead — and the cuts fall on the Lower Basin.",
         "sources": [
-          { "publisher": "Congress.gov", "url": "https://www.congress.gov/crs-product/R45546", "date": "2025-01-01" },
-          { "publisher": "Colorado Sun", "url": "https://coloradosun.com/2026/01/09/colorado-river-plan/", "date": "2026-01-09" }
-        ]
+          {
+            "publisher": "U.S. Bureau of Reclamation",
+            "url": "https://www.usbr.gov/ColoradoRiverBasin/post2026/index.html",
+            "date": "2026-07-31",
+            "retrieved": "2026-08-14",
+            "note": "Post-2026 Colorado River Reservoir Operations Final EIS; Federal Register notice 31 July 2026"
+          },
+          {
+            "publisher": "DLA Piper",
+            "url": "https://www.dlapiper.com/en-us/insights/publications/2026/08/new-federal-framework-charts-the-colorado-rivers-next-decade",
+            "date": "2026-08-01",
+            "retrieved": "2026-08-14",
+            "note": "Analysis: Lower Basin reductions 2027-28, adaptive to 2036, no mandatory Upper Basin cuts"
+          },
+          {
+            "publisher": "WaterWorld",
+            "url": "https://www.waterworld.com/water-utility-management/news/55357951/colorado-river-states-miss-deadline-as-lower-upper-basin-tensions-sharpen-over-post-2026-cuts",
+            "date": "2026-05-13",
+            "retrieved": "2026-08-14",
+            "note": "States miss deadline; basin tensions"
+          }
+        ],
+        "status_asof": "2026-07-31"
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-87.62, 41.88] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.62,
+          41.88
+        ]
+      },
       "properties": {
         "case_id": "great-lakes",
         "title": "Great Lakes Compact — anti-diversion rules with built-in exemptions",
@@ -38,14 +70,29 @@
         "who_controls": "8-state Compact Council (ratified 2008). Individual state DNRs hold permit authority. Illinois self-regulates under pre-Compact exemption. Federal courts enforce the Compact but exceptions erode it.",
         "one_line": "The Compact exists to prevent Great Lakes diversions. Illinois has a pre-Compact exemption. Waukesha got an exception. Foxconn got an exception. The anti-diversion framework keeps approving diversions.",
         "sources": [
-          { "publisher": "Alliance for the Great Lakes", "url": "https://greatlakes.org/2016/06/states-approve-request-to-divert-great-lakes-water/", "date": "2016-06-21" },
-          { "publisher": "FLOW", "url": "https://forloveofwater.org/flow-challenges-proposed-great-lakes-water-diversion-foxconn-wisconsin/", "date": "2018-01-01" }
-        ]
+          {
+            "publisher": "Alliance for the Great Lakes",
+            "url": "https://greatlakes.org/2016/06/states-approve-request-to-divert-great-lakes-water/",
+            "date": "2016-06-21"
+          },
+          {
+            "publisher": "FLOW",
+            "url": "https://forloveofwater.org/flow-challenges-proposed-great-lakes-water-diversion-foxconn-wisconsin/",
+            "date": "2018-01-01"
+          }
+        ],
+        "status_asof": "2026-01-09"
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-101.44, 36.99] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -101.44,
+          36.99
+        ]
+      },
       "properties": {
         "case_id": "ogallala-aquifer",
         "title": "Ogallala Aquifer — 8 states mining groundwater with no interstate governance",
@@ -59,14 +106,29 @@
         "who_controls": "Whoever has a well. Texas Water Development Board + local districts. Kansas GMDs. Nebraska NRDs. No basin-wide authority exists. Control is atomized — essentially privatized extraction with no collective limits.",
         "one_line": "Eight states drawing from the same aquifer with no interstate agreement. Recharge: 1 inch/year. Withdrawal: 6 feet/year. Governance: whoever has a well.",
         "sources": [
-          { "publisher": "USDA Climate Hub", "url": "https://www.climatehubs.usda.gov/sites/default/files/Ogallala%20Overview%20241202.pdf", "date": "2024-12-01" },
-          { "publisher": "Farm Policy News", "url": "https://farmpolicynews.illinois.edu/2024/01/ogallala-aquifer-depletion-threatening-rural-communities-ag/", "date": "2024-01-01" }
-        ]
+          {
+            "publisher": "USDA Climate Hub",
+            "url": "https://www.climatehubs.usda.gov/sites/default/files/Ogallala%20Overview%20241202.pdf",
+            "date": "2024-12-01"
+          },
+          {
+            "publisher": "Farm Policy News",
+            "url": "https://farmpolicynews.illinois.edu/2024/01/ogallala-aquifer-depletion-threatening-rural-communities-ag/",
+            "date": "2024-01-01"
+          }
+        ],
+        "status_asof": "2026-01-09"
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-90.06, 35.15] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -90.06,
+          35.15
+        ]
+      },
       "properties": {
         "case_id": "mississippi-low-water",
         "title": "Mississippi River — critical infrastructure dependent on seasonal flow with no long-term plan",
@@ -80,14 +142,29 @@
         "who_controls": "Army Corps of Engineers (dams, locks, emergency releases). National Weather Service (monitoring). No formal water allocation authority. Barge operators coordinate informally. Management is emergency-driven, not planned.",
         "one_line": "The river dropped to its lowest level since 1954. Barges grounded, shipping rates jumped 6x, and the Corps had no plan because no plan exists.",
         "sources": [
-          { "publisher": "CNN Business", "url": "https://www.cnn.com/2022/10/07/business/mississippi-river-closures-grounded-barges-drought-climate/index.html", "date": "2022-10-07" },
-          { "publisher": "NASA Earth Observatory", "url": "https://earthobservatory.nasa.gov/images/150504/drought-and-barge-backups-on-the-mississippi", "date": "2022-10-15" }
-        ]
+          {
+            "publisher": "CNN Business",
+            "url": "https://www.cnn.com/2022/10/07/business/mississippi-river-closures-grounded-barges-drought-climate/index.html",
+            "date": "2022-10-07"
+          },
+          {
+            "publisher": "NASA Earth Observatory",
+            "url": "https://earthobservatory.nasa.gov/images/150504/drought-and-barge-backups-on-the-mississippi",
+            "date": "2022-10-15"
+          }
+        ],
+        "status_asof": "2026-01-09"
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-84.39, 33.75] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -84.39,
+          33.75
+        ]
+      },
       "properties": {
         "case_id": "acf-basin",
         "title": "Apalachicola-Chattahoochee-Flint Basin — 40 years of litigation, no compact",
@@ -101,14 +178,29 @@
         "who_controls": "Army Corps (dam operations, release schedules). Federal courts (allocation disputes). Individual state water agencies (GA DNR, AL ADEM, FL DEP). No interstate compact — governance through litigation and Corps discretion.",
         "one_line": "Atlanta keeps growing, Florida's oysters keep dying, and after 40 years of litigation there's still no interstate water compact.",
         "sources": [
-          { "publisher": "NRDC", "url": "https://www.nrdc.org/stories/one-americas-great-rivers-fights-its-life", "date": "2023-01-01" },
-          { "publisher": "WABE", "url": "https://www.wabe.org/court-dismissal-ends-major-tri-state-water-dispute-apalachicola-chattahoochee-flint-river-basin/", "date": "2023-12-01" }
-        ]
+          {
+            "publisher": "NRDC",
+            "url": "https://www.nrdc.org/stories/one-americas-great-rivers-fights-its-life",
+            "date": "2023-01-01"
+          },
+          {
+            "publisher": "WABE",
+            "url": "https://www.wabe.org/court-dismissal-ends-major-tri-state-water-dispute-apalachicola-chattahoochee-flint-river-basin/",
+            "date": "2023-12-01"
+          }
+        ],
+        "status_asof": "2026-01-09"
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-98.49, 29.93] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -98.49,
+          29.93
+        ]
+      },
       "properties": {
         "case_id": "edwards-aquifer",
         "title": "Edwards Aquifer — 1.7M people vs an endangered fish, one aquifer",
@@ -122,14 +214,29 @@
         "who_controls": "Edwards Aquifer Authority (pumping limits, spring flow protection). Created by ESA lawsuit — federal species protection effectively governs a city's water supply. Board includes municipal, agricultural, and environmental stakeholders.",
         "one_line": "1.7 million people get all their water from one aquifer. An endangered fish determines how much they can pump. The fish was there first.",
         "sources": [
-          { "publisher": "Texas State University", "url": "https://www.eardc.txst.edu/aquifer-information.html", "date": "2025-01-01" },
-          { "publisher": "The Atlas", "url": "https://the-atlas.com/projects/san-antonio-water-system-reduces-water-usage-nearly-50--through-conservation-measures-1", "date": "2024-01-01" }
-        ]
+          {
+            "publisher": "Texas State University",
+            "url": "https://www.eardc.txst.edu/aquifer-information.html",
+            "date": "2025-01-01"
+          },
+          {
+            "publisher": "The Atlas",
+            "url": "https://the-atlas.com/projects/san-antonio-water-system-reduces-water-usage-nearly-50--through-conservation-measures-1",
+            "date": "2024-01-01"
+          }
+        ],
+        "status_asof": "2026-01-09"
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-122.0, 42.0] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.0,
+          42.0
+        ]
+      },
       "properties": {
         "case_id": "klamath-basin",
         "title": "Klamath Basin — farmers vs fish, then the largest dam removal in US history",
@@ -143,14 +250,29 @@
         "who_controls": "Bureau of Reclamation (irrigation, allocation). FERC (dam licensing — now removed). ESA (NOAA Fisheries, USFWS — species override). Klamath tribes (co-management, treaty rights). Federal authority overrides local when species are listed.",
         "one_line": "The feds built the irrigation project, then listed the fish, then removed the dams. Farmers got the water, then lost it, then got uncertainty.",
         "sources": [
-          { "publisher": "USGS", "url": "https://www.usgs.gov/mission-areas/water-resources/science/integrating-water-availability-klamath-basin-drought-dam", "date": "2024-01-01" },
-          { "publisher": "NOAA Fisheries", "url": "https://www.fisheries.noaa.gov/feature-story/klamath-river-reshapes-itself-flushing-flows-move-reservoir-sediment-downriver", "date": "2024-06-01" }
-        ]
+          {
+            "publisher": "USGS",
+            "url": "https://www.usgs.gov/mission-areas/water-resources/science/integrating-water-availability-klamath-basin-drought-dam",
+            "date": "2024-01-01"
+          },
+          {
+            "publisher": "NOAA Fisheries",
+            "url": "https://www.fisheries.noaa.gov/feature-story/klamath-river-reshapes-itself-flushing-flows-move-reservoir-sediment-downriver",
+            "date": "2024-06-01"
+          }
+        ],
+        "status_asof": "2026-01-09"
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-83.71, 43.02] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -83.71,
+          43.02
+        ]
+      },
       "properties": {
         "case_id": "flint-detroit",
         "title": "Flint & Detroit — water as governance lever in emergency management",
@@ -164,9 +286,18 @@
         "who_controls": "Michigan state emergency manager system (appointed, unelected, overrides elected officials). Great Lakes Water Authority (regional). The control mismatch is governance, not hydrology — abundant water, managed to produce scarcity.",
         "one_line": "Both cities sit on the Great Lakes. Flint got lead poisoning because an unelected manager switched the water to save money. Detroit cut off 60,000 households to service municipal debt. The water was always there.",
         "sources": [
-          { "publisher": "RAND", "url": "https://www.rand.org/pubs/external_publications/EP70530.html", "date": "2024-01-01" },
-          { "publisher": "Inequality.org", "url": "https://inequality.org/article/detroit-water-justice/", "date": "2023-01-01" }
-        ]
+          {
+            "publisher": "RAND",
+            "url": "https://www.rand.org/pubs/external_publications/EP70530.html",
+            "date": "2024-01-01"
+          },
+          {
+            "publisher": "Inequality.org",
+            "url": "https://inequality.org/article/detroit-water-justice/",
+            "date": "2023-01-01"
+          }
+        ],
+        "status_asof": "2026-01-09"
       }
     }
   ]
