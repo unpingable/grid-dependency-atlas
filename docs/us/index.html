@@ -222,6 +222,28 @@
       margin-bottom: 14px;
     }
 
+    .callout {
+      border-left: 3px solid #f5a623;
+      background: #1a1305;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+    }
+
+    .callout .callout-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #f5a623;
+      margin-bottom: 6px;
+    }
+
+    .callout .callout-text {
+      font-size: 14px;
+      color: #e8d9b8;
+      line-height: 1.55;
+    }
+
     .panel-body .field-label {
       font-size: 11px;
       font-weight: 700;
@@ -485,6 +507,10 @@
           <div class="one-line" id="p-oneline"></div>
         </div>
         <div class="panel-body">
+          <div class="callout" id="p-callout-block" style="display:none">
+            <div class="callout-label">What changed about the mechanism</div>
+            <div class="callout-text" id="p-callout"></div>
+          </div>
           <div class="meta-row">
             <div class="field">
               <div class="field-label">Status</div>
@@ -861,6 +887,14 @@
       document.getElementById('p-ctrl-jurisdiction').textContent = props.controlling_jurisdiction;
       document.getElementById('p-trigger').textContent = props.trigger;
       document.getElementById('p-consequence').textContent = props.public_consequence;
+
+      const calloutBlock = document.getElementById('p-callout-block');
+      if (props.callout) {
+        document.getElementById('p-callout').textContent = props.callout;
+        calloutBlock.style.display = '';
+      } else {
+        calloutBlock.style.display = 'none';
+      }
 
       const currentStatusField = document.getElementById('p-current-status-field');
       if (props.current_status) {

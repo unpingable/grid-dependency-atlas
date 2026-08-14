@@ -175,9 +175,9 @@ def render():
     o = []
     A = o.append
 
-    A(head("Three states pulled back from the brink. California didn't.",
-           "Six states under insurer retreat: three residual markets shrank or held "
-           "flat between 2024 and 2026 while California's grew to $768bn of exposure.",
+    A(head("The backstop grew, then shrank. Nobody voted on either.",
+           "Six states where insurance markets, not legislatures, set who can afford "
+           "to live where — through retreat in some and recovery in others.",
            CSS))
     A(evidence_banner(window_hi, stale,
                       "docs/insurance/data/states.geojson"))
@@ -186,21 +186,21 @@ def render():
     # ---------------- masthead ----------------
     A(f"""
 <div class="kicker">Insurance Dependency · Infrastructure Dependency Atlas</div>
-<h1>Three states pulled back from the brink. California didn't.</h1>
+<h1>The backstop grew, then shrank. Nobody voted on either.</h1>
 
 <div class="answer">
-Florida's insurer of last resort has gone from <strong>1.42 million policies to 395,144</strong>
-and is now recommending a rate cut. Louisiana's premium increases flattened to 0.1% and nine
-carriers filed decreases. Texas held rates unchanged. California's FAIR Plan went the other
-way — <strong>696,562 policies and $768bn of exposure</strong> by June 2026, with a 29.1%
-increase landing this autumn. Colorado's last measured move was a 57.9% rise over six years to
-2023, and North Carolina publishes nothing at all.
+Florida's insurer of last resort went from <strong>1.42 million policies to 395,144</strong>
+and is now cutting rates. Louisiana's increases flattened to 0.1%. Texas held rates unchanged.
+California went the other way — <strong>696,562 policies and $768bn of exposure</strong>, with
+a 29.1% rise landing this autumn. <strong>Both directions were set by carriers and residual-market
+boards, not by anyone the affected households elect.</strong> Retreat and recovery are the same
+dependency seen twice.
 </div>
 
 <div class="strip">
   <div class="s"><div class="n">6</div><div class="l">states assessed</div></div>
-  <div class="s"><div class="n">{n_down}</div><div class="l">residual markets shrinking or flat</div></div>
-  <div class="s anom"><div class="n">{n_up}</div><div class="l">still growing</div></div>
+  <div class="s"><div class="n">{n_down}</div><div class="l">backstops receding as carriers return</div></div>
+  <div class="s anom"><div class="n">{n_up}</div><div class="l">backstops still absorbing risk</div></div>
   <div class="s anom"><div class="n">{len(no_fair)}</div><div class="l">record no policy count at all</div></div>
 </div>
 
@@ -459,8 +459,10 @@ judgment.</div>
     A('<div class="sec audit"><div class="rung">Audit · what the marks mean</div>')
     A(register_definitions())
     A("""<div class="refusal">
-<b>What this page does not claim.</b> That one state is worse off than another, or that the
-assessment classes rank anything. It reports what the corpus can and cannot substantiate.
+<b>What this page does not claim.</b> That one state is worse off than another, that the
+assessment classes rank anything, or that recovery is permanent — Florida's residual market has
+swung by a million policies in three years and could swing back. It reports what the corpus can
+and cannot substantiate.
 </div></div>""")
 
     A(f"""<div class="sec audit bound"><div class="rung">Audit · boundary conditions</div>

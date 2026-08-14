@@ -365,22 +365,26 @@
         "planting_window": "Soybean: Sep-Dec; Corn (safrinha): Jan-Mar",
         "subsidy_capacity": "Moderate — commodity export revenues provide buffer",
         "domestic_production": "Limited — 85% total fertilizer imported; 95%+ potash imported",
-        "current_status": "85% fertilizer import dependent but sourcing diversified beyond Gulf. Cost shock affects profitability but not immediate food security. Major agricultural exporter.",
+        "current_status": "Import dependence is higher than the earlier record showed: fertilisers were 88% of Brazilian consumption in 2025. The urea spike landed exactly as farmers were buying inputs for the 2026-27 season. Fertilisers are roughly 40% of total crop production cost, and with tight credit, high interest rates and rising farm debt, margins are near breakeven despite a record soybean crop. Sourcing is diversified beyond the Gulf, so this remains a cost shock rather than a supply failure.",
         "downstream_food_risk": "Low domestically. But Brazil is a major global food exporter — reduced profitability may reduce planting, affecting global supply.",
         "one_line": "85% fertilizer import dependent but diversified sourcing and export revenues buffer the shock — global food supply feels it before Brazilians do.",
         "sources": [
           {
-            "publisher": "AP News",
-            "url": "https://apnews.com/article/1bcb0c616c5ca2e1b6a903c2cd64a4e4",
-            "date": "2026-03-20"
+            "publisher": "farmdoc daily (University of Illinois)",
+            "url": "https://farmdocdaily.illinois.edu/2026/06/will-brazils-corn-and-soybean-production-continue-to-grow-in-2027.html",
+            "date": "2026-06-01",
+            "retrieved": "2026-08-14",
+            "note": "88% import share 2025; fertiliser ~40% of production cost; margins near breakeven"
           },
           {
-            "publisher": "IFPRI",
-            "url": "https://www.ifpri.org/blog/the-iran-war-potential-food-security-impacts/",
-            "date": "2026-03-15"
+            "publisher": "Southern Ag Today",
+            "url": "https://southernagtoday.org/2026/03/25/brazils-record-soybean-crop-meets-a-fragile-supply-chain/",
+            "date": "2026-03-25",
+            "retrieved": "2026-08-14",
+            "note": "Record crop against a fragile input supply chain"
           }
         ],
-        "status_asof": "2026-03-30"
+        "status_asof": "2026-06-01"
       },
       "geometry": {
         "type": "Polygon",
@@ -624,7 +628,7 @@
       "properties": {
         "country": "Egypt",
         "stress_band": "production_disrupted",
-        "stress_label": "Production disrupted (exporter)",
+        "stress_label": "Production strained, not stopped",
         "confidence": "medium",
         "confidence_note": "Export data public; gas dependency on Israel documented; production status from industry reporting",
         "fertilizer_import_pct": 0,
@@ -632,22 +636,26 @@
         "planting_window": "Winter crops: Oct-Nov; Summer: Apr-May",
         "subsidy_capacity": "Limited fiscal resources",
         "domestic_production": "#1 urea exporter by value ($1.73B/2023) — but production offline due to gas disruption",
-        "current_status": "World's largest urea exporter by value now offline. Nearly all natural gas from Israel — supply disrupted. Plants shut down. Export gap compounds global shortage. Domestically, 43% food import dependent.",
-        "downstream_food_risk": "Moderate domestically (food import dependent). Severe globally — Egypt's export gap removes major supply from world market.",
+        "current_status": "Correction on the earlier record: Egyptian urea production did not stop. Output has continued through the crisis despite gas shortages, with sales still transacting for April 2026 loadings. Israel's suspension of gas exports after the outbreak of war removed the equivalent of about one LNG cargo every four days from Egypt's balance, and Egypt secured replacement cargoes and imposed energy-saving measures. Capacity is 7.2-7.3M tonnes a year, with roughly 350,000-400,000 tonnes a month left for export after domestic allocation. Annual exports of about 4M tonnes supply around 12% of EU urea imports.",
+        "downstream_food_risk": "Egypt remains a supplier rather than a gap in the global balance, which removes one of the compounding factors the March framing assumed. European buyers dependent on Egyptian urea have not lost the source; they are paying more for it.",
         "one_line": "World's #1 urea exporter by value is offline — the country that feeds global fertilizer markets can't get gas to run its plants.",
         "sources": [
           {
-            "publisher": "Carnegie Endowment",
-            "url": "https://carnegieendowment.org/emissary/2026/03/fertilizer-iran-hormuz-food-crisis",
-            "date": "2026-03-15"
+            "publisher": "Argus Media",
+            "url": "https://www.argusmedia.com/en/news-and-insights/latest-market-news/2805101-egypt-s-urea-availability-production-solid",
+            "date": "2026-05-28",
+            "retrieved": "2026-08-14",
+            "note": "Egyptian urea availability and production solid; 7.2-7.3 Mtpy capacity, 350-400 kt/month export"
           },
           {
-            "publisher": "Marine Link",
-            "url": "https://www.marinelink.com/news/ammonia-fertilizer-trade-threatened-537507",
-            "date": "2026-03-20"
+            "publisher": "World Fertilizer",
+            "url": "https://www.worldfertilizer.com/materials-handling/25032026/egyptian-urea-production-continues-to-run-despite-gas-shortages/",
+            "date": "2026-03-25",
+            "retrieved": "2026-08-14",
+            "note": "Production continues despite gas shortages; Israeli export suspension effect"
           }
         ],
-        "status_asof": "2026-03-30"
+        "status_asof": "2026-05-28"
       },
       "geometry": {
         "type": "Polygon",
@@ -892,29 +900,26 @@
         "planting_window": "Varies by country and hemisphere",
         "subsidy_capacity": "Very low — limited government revenue across most countries",
         "domestic_production": "Minimal — 90% of fertilizer imported. Only 22 kg/ha application rate (global avg: 146 kg/ha)",
-        "current_status": "90% import dependent. Costs 4x higher than Europe due to logistics. 10 countries control 97% of exports they depend on. 240M already malnourished. 1.3M additional hunger cases projected annually from disruption.",
+        "current_status": "Application rates average about 20 kg per hectare against a global average near 135 — the structural problem the price shock lands on top of. About 80% of fertiliser used is imported, at prices well above European levels once freight, financing and logistics are counted. Urea passed $850 a tonne in April 2026, an 80% rise from February. Smallholders grow close to 70% of the region's food and, unlike large commercial farms, cannot buy forward — so they meet the peak price with no hedge.",
         "downstream_food_risk": "Extreme. Lowest application rates in the world mean any reduction hits yields immediately. No buffer.",
         "one_line": "90% of fertilizer imported, costs 4x Europe's price, 240M already malnourished — the region with the least margin has the highest exposure.",
         "sources": [
           {
-            "publisher": "World Bank",
-            "url": "https://thedocs.worldbank.org/en/doc/40ebbf38f5a6b68bfc11e5273e1405d4-0090012022/related/Food-and-Nutrition-Security-Update-edition-123-June-2026.pdf",
-            "date": "2026-06-01",
+            "publisher": "IFDC",
+            "url": "https://ifdc.org/2026/07/28/fertilizer-crisis-response-bulletin-22-africas-moment-to-strengthen-its-fertilizer-industry-afidas-perspective/",
+            "date": "2026-07-28",
             "retrieved": "2026-08-14",
-            "note": "Food and Nutrition Security Update 123: South Asia availability stable, affordability fragile"
+            "note": "Fertilizer Crisis Response Bulletin 22"
           },
           {
-            "publisher": "World Bank",
-            "url": "https://blogs.worldbank.org/en/voices/transformed-fertilizer-market-needed-response-food-crisis-africa",
-            "date": "2025-06-01"
-          },
-          {
-            "publisher": "Energy Capital Power",
-            "url": "https://energycapitalpower.com/gulf-shipping-shock-turns-africas-fertilizer-dependence-into-a-food-security-risk/",
-            "date": "2026-03-20"
+            "publisher": "African Development Bank",
+            "url": "https://www.afdb.org/en/news-and-events/african-governments-need-take-urgent-action-fertiliser-shortages-92779",
+            "date": "2026-04-25",
+            "retrieved": "2026-08-14",
+            "note": "20 kg/ha vs 135 global; 80% imported; smallholders ~70% of food"
           }
         ],
-        "status_asof": "2026-03-30"
+        "status_asof": "2026-07-28"
       },
       "geometry": {
         "type": "Polygon",
@@ -1146,7 +1151,7 @@
         "planting_window": "Rice: May-Jul; Second crop: Jan-Mar",
         "subsidy_capacity": "Moderate — emerging market resources",
         "domestic_production": "Potash mine in Chaiyaphum planned (operational 2028). Currently 75% phosphorus import dependent.",
-        "current_status": "75% phosphorus import dependent. 4M metric tons annual consumption. Already in energy conservation mode from Hormuz crisis. Green ammonia pilot programs underway but years from production.",
+        "current_status": "Not re-verified in the August 2026 refresh — No 2026 country-specific update located beyond the regional picture. As recorded: 75% phosphorus import dependent. 4M metric tons annual consumption. Already in energy conservation mode from Hormuz crisis. Green ammonia pilot programs underway but years from production.",
         "downstream_food_risk": "Moderate. Rice exporter — reduced yield affects both domestic supply and exports. Compound exposure with energy crisis.",
         "one_line": "75% phosphorus import dependent with a domestic potash mine two years away — exposed now, planning for later.",
         "sources": [
@@ -1161,7 +1166,8 @@
             "date": "2025-06-01"
           }
         ],
-        "status_asof": "2026-03-30"
+        "status_asof": "2026-03-30",
+        "verification_note": "No 2026 country-specific update located beyond the regional picture."
       },
       "geometry": {
         "type": "Polygon",
@@ -1284,7 +1290,7 @@
         "planting_window": "Rice: Oct-Nov (main), Mar-Apr (second)",
         "subsidy_capacity": "Moderate — large economy but subsidy system strained",
         "domestic_production": "Domestic urea production significant but insufficient for demand",
-        "current_status": "IFPRI identifies Indonesia alongside Bangladesh as 'worst affected' — rice and maize are most fertilizer-intensive crops. Domestic production helps but doesn't cover demand.",
+        "current_status": "Not re-verified in the August 2026 refresh — No 2026 country-specific update located beyond the IFPRI assessment already recorded. As recorded: IFPRI identifies Indonesia alongside Bangladesh as 'worst affected' — rice and maize are most fertilizer-intensive crops. Domestic production helps but doesn't cover demand.",
         "downstream_food_risk": "High. 270M population. Rice is the staple. Maize for animal feed also exposed. Any yield reduction is politically sensitive.",
         "one_line": "270M people eating rice and maize — the two most fertilizer-intensive crops — in a country that can't fully supply its own nitrogen.",
         "sources": [
@@ -1299,7 +1305,8 @@
             "date": "2025-06-01"
           }
         ],
-        "status_asof": "2026-03-30"
+        "status_asof": "2026-03-30",
+        "verification_note": "No 2026 country-specific update located beyond the IFPRI assessment already recorded."
       },
       "geometry": {
         "type": "Polygon",
@@ -1470,7 +1477,7 @@
         "planting_window": "Winter crops: Apr-Jun; Summer: Oct-Dec",
         "subsidy_capacity": "High — developed economy",
         "domestic_production": "Some domestic ammonia production but plant outages reported. Importer of Gulf urea/ammonia.",
-        "current_status": "Ammonia plant outages plus global tightness hitting both fertilizer and mining explosives supply. Import dependent on Gulf urea/ammonia. Cost shock for grain production.",
+        "current_status": "Not re-verified in the August 2026 refresh — No 2026 country-specific update located. As recorded: Ammonia plant outages plus global tightness hitting both fertilizer and mining explosives supply. Import dependent on Gulf urea/ammonia. Cost shock for grain production.",
         "downstream_food_risk": "Low domestically (exporter nation). Mining sector also exposed — ammonia is used for explosives. Dual agricultural + mining vulnerability.",
         "one_line": "Ammonia shortage hits both farms and mines — fertilizer and explosives use the same feedstock from the same disrupted source.",
         "sources": [
@@ -1485,7 +1492,8 @@
             "date": "2026-03-25"
           }
         ],
-        "status_asof": "2026-03-30"
+        "status_asof": "2026-03-30",
+        "verification_note": "No 2026 country-specific update located."
       },
       "geometry": {
         "type": "Polygon",

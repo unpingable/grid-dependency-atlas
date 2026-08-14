@@ -430,6 +430,10 @@
             <div class="field-label">Who Controls</div>
             <div class="field-value" id="p-who-controls"></div>
           </div>
+          <div class="field" id="p-evid-field" style="display:none">
+            <div class="field-label">Evidentiary standing</div>
+            <div class="field-value" id="p-evid" style="border-left:3px solid #80cbc4;padding-left:10px;color:#cfe6e2"></div>
+          </div>
           <div class="field">
             <div class="field-label">Sources</div>
             <div class="field-value" id="p-sources"></div>
@@ -634,6 +638,14 @@
       document.getElementById('p-dependency').textContent = props.dependency;
       document.getElementById('p-consequence').textContent = props.consequence;
       document.getElementById('p-who-controls').textContent = props.who_controls;
+
+      const evidField = document.getElementById('p-evid-field');
+      if (props.evidentiary_status) {
+        document.getElementById('p-evid').textContent = props.evidentiary_status;
+        evidField.style.display = '';
+      } else {
+        evidField.style.display = 'none';
+      }
 
       const sources = typeof props.sources === 'string' ? JSON.parse(props.sources) : props.sources;
       const sourcesEl = document.getElementById('p-sources');

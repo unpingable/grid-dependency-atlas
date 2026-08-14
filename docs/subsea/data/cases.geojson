@@ -160,7 +160,7 @@
         "one_line": "Cables between Sweden-Lithuania, Finland-Germany and Finland-Estonia were cut in late 2024. A Finnish court dismissed the Eagle S case in October 2025, finding intent unproven. NATO's Baltic Sentry has run since January 2025 and there have been no further incidents.",
         "dependency": "November 2024: the Sweden-Lithuania and Finland-Germany cables were cut. December 2024: the Finland-Estonia Estlink 2 power cable and telecom cables were damaged, with the tanker Eagle S suspected of dragging its anchor. The Baltic's shallow, crowded seabed puts cables and pipelines within reach of any vessel's ground tackle.",
         "consequence": "In October 2025 a Finnish court dismissed the case against the Eagle S captain and crew, ruling that prosecutors had not proved intent and that any negligence was a matter for the flag state or the crew's home countries. No charges were brought against the owner and the vessel was released. NATO launched Baltic Sentry on 14 January 2025 — frigates, maritime patrol aircraft, naval drones and surveillance — and no further incidents have been reported since. Whether that reflects deterrence or the absence of intent in the first place is not settled by the record.",
-        "who_controls": "Cable and pipeline owners; flag states of transiting vessels; NATO and Baltic littoral states through Baltic Sentry. Prosecution depends on jurisdiction over a vessel in international waters, which the Eagle S dismissal showed to be the binding constraint.",
+        "who_controls": "Suspected, not established: no court has found sabotage in the Baltic. Cable and pipeline owners; flag states of transiting vessels; NATO and Baltic littoral states through Baltic Sentry. Prosecution depends on jurisdiction over a vessel in international waters, which the Eagle S dismissal showed to be the binding constraint.",
         "affected_scope": "Baltic states connectivity. Finland-continental Europe link. Broader European infrastructure security.",
         "sources": [
           {
@@ -182,7 +182,8 @@
             "url": "https://www.reuters.com/world/europe/finland-police-investigate-role-foreign-ship-after-power-cable-outage-2024-12-26/",
             "date": "2024-12-26"
           }
-        ]
+        ],
+        "evidentiary_status": "Suspected and contested. The one prosecution brought — against the Eagle S captain and crew — was dismissed in October 2025 for want of proved intent. No court has established sabotage in the Baltic."
       }
     },
     {
@@ -224,7 +225,8 @@
             "url": "https://www.reuters.com/world/asia-pacific/taiwan-detains-china-linked-cargo-ship-after-undersea-cable-disconnected-2025-02-25/",
             "date": "2025-02-25"
           }
-        ]
+        ],
+        "evidentiary_status": "Established in court. Captain Wang Yuliang was convicted of damaging telecommunications infrastructure, a three-year sentence upheld on appeal, with damages awarded to Chunghwa Telecom."
       }
     },
     {

@@ -27,9 +27,16 @@ public_consequence: >
   territory sits in the NV Energy balancing authority — not CAISO — the community
   has no access to California's main grid reliability programs.
 current_status: >
-  Liberty filed at CPUC in March 2026 seeking expedited authorization to run an
-  RFP for replacement supply; formal RFP planned for summer 2026. Replacement
-  power likely sourced outside California and wheeled over NV Energy transmission.
+  Liberty asked the CPUC in March 2026 to authorise an expedited RFP for
+  replacement energy starting June 1, 2027. The formal RFP was expected in
+  summer 2026, with results and a preferred selection filed around winter
+  2026/2027 and new supply agreements approved in spring or summer 2027 — a
+  schedule that leaves very little margin before the May 31, 2027 termination.
+  Replacement power is expected to come from outside California and be wheeled
+  over NV Energy transmission. NV Energy has cited data centre load at the
+  Tahoe-Reno Industrial Center and northern Nevada transmission constraints as
+  reasons for ending full-requirements service. As of August 2026 no RFP result
+  is public.
 location:
   lng: -120.1
   lat: 39.1
@@ -44,6 +51,10 @@ sources:
   - publisher: Northern Nevada Business Weekly
     url: "https://www.nnbw.com/news/2026/apr/08/nv-energys-greenlink-west-expected-to-come-online-in-mid-2027/"
     date: "2026-04-08"
+  - publisher: Moonshine Ink
+    url: "https://www.moonshineink.com/tahoe-news/a-shock-to-the-system/"
+    date: "2026-05-20"
+    retrieved: "2026-08-14"
   - publisher: South Tahoe Now
     url: "https://southtahoenow.com/05/15/2026/liberty-responds-to-upcoming-power-situation-for-lake-tahoe"
     date: "2026-05-15"

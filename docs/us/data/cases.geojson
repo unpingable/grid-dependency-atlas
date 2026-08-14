@@ -162,6 +162,7 @@
         "controlling_jurisdiction": "Washington, D.C., D.C.",
         "trigger": "DOE issued 43+ Section 202(c) emergency orders since May 2025 directing utilities to keep coal plants running past planned retirement against utility and state objection. Cumulative impact: ≥4.4 GW of coal capacity kept online as of April 2026. Notable: J.H. Campbell (Consumers Energy, MI; 1,560 MW; closure planned 15 years ahead of schedule), Centralia Unit 2 (WA; 730 MW; state SB 5769 mandated Dec 31 closure), R.M. Schahfer Units 17 & 18 (NIPSCO, IN; ~423 MW each; order extended through March 23, 2026).",
         "public_consequence": "Compliance costs from a utility-by-utility order socialize across the regional RTO footprint. Consumers Energy reported $135M in Campbell compliance costs (end-May through Dec 2025) which it intends to recover from ratepayers across 11 MISO states — Michigan, Indiana, Illinois, Wisconsin, Minnesota, Iowa, Missouri, Kentucky, Arkansas, Mississippi, Louisiana — none of whom have any vote over the DOE order or the Michigan utility's retirement plan. The federal lever overrides state retirement timelines while pushing the bill outward through the RTO cost-allocation mechanism.",
+        "callout": "In litigation over the J.H. Campbell order, DOE has told the court that an \"emergency\" under Federal Power Act section 202(c) need not be imminent. If that reading stands, the statutory trigger this case documents has no temporal limit: the override stops being an emergency power and becomes an ordinary one, renewable indefinitely, with the cost socialised through the RTO each time.",
         "current_status": "DOE Order 202-26-22, issued May 18, 2026, directs MISO in coordination with Consumers Energy to keep the J.H. Campbell coal plant in West Olive, Michigan available, running May 19 to August 16, 2026 — the latest in a chain of renewals rather than a single emergency. Consumers Energy has spent about $254M keeping Campbell running and has asked FERC for permission to recover $135M of it from MISO ratepayers. Sierra Club's analysis puts the cost of 13 such orders at more than $235M to date. MISO state regulators have sought a stakeholder review of how those costs are allocated. In litigation over the Campbell order, DOE has told the court that an \"emergency\" under section 202(c) need not be imminent. Grid Strategies estimates that extending the practice to other pre-2028 retirements could exceed $3B a year.",
         "affected_population_est": 45000000,
         "status": "active",
@@ -467,7 +468,7 @@
         "controlling_jurisdiction": "Washington, District of Columbia",
         "trigger": "A section of the 54-mile, 60-year-old, 72-inch Potomac Interceptor sewer line ruptured on January 19, 2026, along Clara Barton Parkway in Montgomery County, MD, near the C&O Canal National Historical Park. Virginia and Maryland suburbs send ~60 MGD of sewage through this DC Water-owned pipe they cannot maintain or inspect.",
         "public_consequence": "~240 million gallons of untreated wastewater released into the Potomac and its tributaries over 8 days — early estimates ranged as high as 300 million — one of the largest sewage spills in U.S. history. DC Water bypassed sewage through a dry stretch of the C&O Canal, itself polluting the national park. E. coli levels hundreds of times above EPA safety limits. Health advisories across DC, MD, and VA. Recreation shut down for months. Emergency bypass took five days; full flow not restored until March 14, 2026.",
-        "current_status": "April 20, 2026: DOJ (on behalf of EPA) and Maryland AG Anthony Brown + Maryland Department of the Environment filed parallel Clean Water Act complaints against DC Water in separate venues. Maryland seeks civil penalties up to $10,000/day per violation, cleanup costs, natural resource damages, and injunctive relief. May 20, 2026: DC Water disclosed that three additional segments of the 54-mile interceptor require urgent repair — the failure mode is not isolated to the original collapse location, and the maintenance backlog on the line that VA/MD suburbs depend on is broader than a single point of failure.",
+        "current_status": "Repairs completed and the interceptor returned to service on March 14, 2026, after 55 days of mitigation. On April 20-21, 2026 the Justice Department (for EPA) and Maryland's Attorney General filed parallel Clean Water Act complaints. Maryland alleges DC Water was negligent: the pipe showed signs of corrosion, DC Water failed to properly assess the risk, and capital improvements were delayed. The federal complaint seeks penalties, sewer assessment and rehabilitation work, and pollutant mitigation. No settlement has been reached as of August 2026. DC Water has asked for streamlined environmental review to speed rehabilitation of the line; an earlier request for a categorical exclusion on this section was not approved. In May 2026 DC Water disclosed that three further segments of the 54-mile interceptor need urgent repair.",
         "affected_population_est": 800000,
         "status": "active",
         "date_surfaced": "2026-01-19",
@@ -488,6 +489,11 @@
             "publisher": "Potomac Conservancy",
             "url": "https://potomac.org/blog/2026/1/30/potomac-interceptor-sewage-spill-updates",
             "date": "2026-01-30"
+          },
+          {
+            "publisher": "U.S. Department of Justice",
+            "url": "https://www.justice.gov/opa/pr/justice-department-files-clean-water-act-complaint-against-dc-water-potomac-interceptor",
+            "date": "2026-04-20"
           },
           {
             "publisher": "U.S. EPA / DOJ",
@@ -526,7 +532,7 @@
         "controlling_jurisdiction": "Las Vegas, Nevada",
         "trigger": "NV Energy informed Liberty Utilities it would not extend the full-requirements wholesale supply arrangement past its May 31, 2027 termination, citing its own resource needs. Liberty currently gets ~75% of its power from NV Energy. The northern Nevada market is now \"extremely competitive\" due to Tahoe-Reno Industrial Center data center load growth, and transmission for new interconnections is severely constrained.",
         "public_consequence": "49,000 California customers face a rushed wholesale resupply process covering ~75% of Liberty's Tahoe-region supply. Liberty must procure replacement power before the May 31, 2027 contract termination and has asked California regulators for expedited approval. Customers will absorb whatever replacement costs emerge. Greenlink Nevada transmission relief lands after the gap opens — Greenlink West in-service slipped to May 2027, Greenlink North to late 2028 — so upstream capacity relief arrives too late to help. Because Liberty's territory sits in the NV Energy balancing authority — not CAISO — the community has no access to California's main grid reliability programs.",
-        "current_status": "Liberty filed at CPUC in March 2026 seeking expedited authorization to run an RFP for replacement supply; formal RFP planned for summer 2026. Replacement power likely sourced outside California and wheeled over NV Energy transmission.",
+        "current_status": "Liberty asked the CPUC in March 2026 to authorise an expedited RFP for replacement energy starting June 1, 2027. The formal RFP was expected in summer 2026, with results and a preferred selection filed around winter 2026/2027 and new supply agreements approved in spring or summer 2027 — a schedule that leaves very little margin before the May 31, 2027 termination. Replacement power is expected to come from outside California and be wheeled over NV Energy transmission. NV Energy has cited data centre load at the Tahoe-Reno Industrial Center and northern Nevada transmission constraints as reasons for ending full-requirements service. As of August 2026 no RFP result is public.",
         "affected_population_est": 49000,
         "status": "active",
         "date_surfaced": "2026-03-20",
@@ -542,6 +548,11 @@
             "publisher": "Northern Nevada Business Weekly",
             "url": "https://www.nnbw.com/news/2026/apr/08/nv-energys-greenlink-west-expected-to-come-online-in-mid-2027/",
             "date": "2026-04-08"
+          },
+          {
+            "publisher": "Moonshine Ink",
+            "url": "https://www.moonshineink.com/tahoe-news/a-shock-to-the-system/",
+            "date": "2026-05-20"
           },
           {
             "publisher": "South Tahoe Now",

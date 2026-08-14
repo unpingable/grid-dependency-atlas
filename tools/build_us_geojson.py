@@ -40,7 +40,7 @@ OVERLAY_OUT = os.path.join(REPO, "docs", "us", "data", "overlays.geojson")
 CASE_PROPS = [
     "case_id", "title", "utility_type", "control_layer",
     "affected_jurisdiction", "controlling_actor", "controlling_jurisdiction",
-    "trigger", "public_consequence", "current_status",
+    "trigger", "public_consequence", "callout", "current_status",
     "affected_population_est", "status", "date_surfaced", "confidence",
     "one_line", "sources",
 ]

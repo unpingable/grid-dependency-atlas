@@ -24,14 +24,18 @@ public_consequence: >
   MD, and VA. Recreation shut down for months. Emergency bypass took five days;
   full flow not restored until March 14, 2026.
 current_status: >
-  April 20, 2026: DOJ (on behalf of EPA) and Maryland AG Anthony Brown +
-  Maryland Department of the Environment filed parallel Clean Water Act
-  complaints against DC Water in separate venues. Maryland seeks civil penalties
-  up to $10,000/day per violation, cleanup costs, natural resource damages, and
-  injunctive relief. May 20, 2026: DC Water disclosed that three additional
-  segments of the 54-mile interceptor require urgent repair — the failure mode is
-  not isolated to the original collapse location, and the maintenance backlog on
-  the line that VA/MD suburbs depend on is broader than a single point of failure.
+  Repairs completed and the interceptor returned to service on March 14, 2026,
+  after 55 days of mitigation. On April 20-21, 2026 the Justice Department (for
+  EPA) and Maryland's Attorney General filed parallel Clean Water Act
+  complaints. Maryland alleges DC Water was negligent: the pipe showed signs of
+  corrosion, DC Water failed to properly assess the risk, and capital
+  improvements were delayed. The federal complaint seeks penalties, sewer
+  assessment and rehabilitation work, and pollutant mitigation. No settlement
+  has been reached as of August 2026. DC Water has asked for streamlined
+  environmental review to speed rehabilitation of the line; an earlier request
+  for a categorical exclusion on this section was not approved. In May 2026 DC
+  Water disclosed that three further segments of the 54-mile interceptor need
+  urgent repair.
 location:
   lng: -77.3
   lat: 38.97
@@ -49,6 +53,10 @@ sources:
   - publisher: Potomac Conservancy
     url: "https://potomac.org/blog/2026/1/30/potomac-interceptor-sewage-spill-updates"
     date: "2026-01-30"
+  - publisher: U.S. Department of Justice
+    url: "https://www.justice.gov/opa/pr/justice-department-files-clean-water-act-complaint-against-dc-water-potomac-interceptor"
+    date: "2026-04-20"
+    retrieved: "2026-08-14"
   - publisher: U.S. EPA / DOJ
     url: "https://www.epa.gov/newsreleases/united-states-files-complaint-against-dc-water-response-potomac-interceptor-collapse"
     date: "2026-04-20"
