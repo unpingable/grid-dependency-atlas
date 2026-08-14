@@ -3,7 +3,13 @@
   "features": [
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-77.46, 39.04] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.46,
+          39.04
+        ]
+      },
       "properties": {
         "case_id": "us-east-1-control-plane",
         "title": "AWS us-east-1 control plane concentration",
@@ -19,14 +25,28 @@
         "consequence": "When us-east-1 fails, services in other regions can't authenticate, can't update DNS, can't provision new resources. The December 2021 outage proved this: services not explicitly using us-east-1 failed because their control plane dependencies lived there.",
         "who_controls": "Amazon Web Services. $35B invested in Northern Virginia alone. 65 data centers in Loudoun County. $576M in annual local tax revenue (30%+ of county budget). Same county driving PJM capacity cost explosion.",
         "sources": [
-          { "publisher": "AWS", "url": "https://repost.aws/articles/ARe7BZRCUhRlap9b7yFSagLw/reducing-control-plane-dependencies-in-us-east-1-a-practical-guide-for-aws-customers", "date": "2024-01-01" },
-          { "publisher": "Data Center Dynamics", "url": "https://www.datacenterdynamics.com/en/analysis/the-amazon-factor-in-virginia/", "date": "2025-06-01" }
+          {
+            "publisher": "AWS",
+            "url": "https://repost.aws/articles/ARe7BZRCUhRlap9b7yFSagLw/reducing-control-plane-dependencies-in-us-east-1-a-practical-guide-for-aws-customers",
+            "date": "2024-01-01"
+          },
+          {
+            "publisher": "Data Center Dynamics",
+            "url": "https://www.datacenterdynamics.com/en/analysis/the-amazon-factor-in-virginia/",
+            "date": "2025-06-01"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-77.38, 38.95] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.38,
+          38.95
+        ]
+      },
       "properties": {
         "case_id": "aws-dec-2021-cascade",
         "title": "AWS December 2021 outage cascade — three failures in three weeks",
@@ -42,14 +62,29 @@
         "consequence": "Billions in estimated economic losses. Ring doorbells stopped working. Robinhood trading halted. IRS website went down. NY state court filing system offline. Each outage revealed new dependency chains nobody had mapped.",
         "who_controls": "AWS. Customers had no visibility into the control plane dependency until it failed. Post-incident, AWS published guidance on reducing us-east-1 dependencies — effectively admitting the concentration risk they'd built.",
         "sources": [
-          { "publisher": "CNBC", "url": "https://www.cnbc.com/2021/12/07/amazon-web-services-outage-causes-issues-at-disney-netflix-coinbase.html", "date": "2021-12-07" },
-          { "publisher": "Catchpoint", "url": "https://www.catchpoint.com/blog/what-can-we-learn-from-aws-december-outage", "date": "2021-12-15" }
-        ]
+          {
+            "publisher": "CNBC",
+            "url": "https://www.cnbc.com/2021/12/07/amazon-web-services-outage-causes-issues-at-disney-netflix-coinbase.html",
+            "date": "2021-12-07"
+          },
+          {
+            "publisher": "Catchpoint",
+            "url": "https://www.catchpoint.com/blog/what-can-we-learn-from-aws-december-outage",
+            "date": "2021-12-15"
+          }
+        ],
+        "event_date": "2021-12-07"
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-122.09, 37.42] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.09,
+          37.42
+        ]
+      },
       "properties": {
         "case_id": "crowdstrike-july-2024",
         "title": "CrowdStrike July 2024 — largest IT outage in history",
@@ -60,19 +95,37 @@
         "location": "Global (Windows systems worldwide)",
         "provider": "CrowdStrike / Microsoft Windows",
         "affected_scope": "8.5M Windows systems. Airlines (5,078 flights cancelled), banks, hospitals, stock markets, gas stations, emergency services.",
-        "one_line": "A single faulty sensor update from one security vendor crashed 8.5 million Windows machines worldwide — flights cancelled, hospitals disrupted, emergency services degraded. The largest IT outage in history.",
-        "dependency": "CrowdStrike Falcon runs at kernel level on Windows systems. Channel file 291 update caused boot loop. Every organization running CrowdStrike on Windows was affected simultaneously. No customer action triggered it.",
-        "consequence": "5,078 flights cancelled (4.6% of scheduled). Hospitals reverted to paper records. Emergency dispatch systems degraded. Stock trading disrupted. Tens of billions in estimated damages. Required manual remediation — no remote fix possible for boot-looped machines.",
+        "one_line": "A faulty Falcon sensor update from one security vendor crashed 8.5 million Windows machines worldwide on 19 July 2024 — 5,078 flights cancelled, hospitals on paper, emergency dispatch degraded. Widely described at the time as the largest IT outage on record.",
+        "dependency": "CrowdStrike Falcon runs at kernel level on Windows. Channel File 291 defined 21 input parameter fields while the calling code supplied 20; a Rapid Response Content update using a non-wildcard match on the 21st parameter caused an out-of-bounds read and a boot loop. The mismatch passed build validation, stress testing and several prior field deployments. Every organisation running Falcon on Windows was hit simultaneously, with no customer action involved.",
+        "consequence": "5,078 flights cancelled (4.6% of those scheduled). Hospitals reverted to paper records. Emergency dispatch degraded. Trading disrupted. Remediation required physical access to each machine — there was no remote fix. CrowdStrike added input-count validation and bounds checking on 25 July 2024 and commissioned two independent security reviews.",
         "who_controls": "CrowdStrike pushed the update. Microsoft's OS architecture allowed kernel-level access. Neither customers nor affected end-users had any lever. The blast radius was set by vendor market share, not by any customer's choice.",
         "sources": [
-          { "publisher": "Wikipedia", "url": "https://en.wikipedia.org/wiki/2024_CrowdStrike-related_IT_outages", "date": "2024-07-19" },
-          { "publisher": "TechTarget", "url": "https://www.techtarget.com/whatis/feature/Explaining-the-largest-IT-outage-in-history-and-whats-next", "date": "2024-08-01" }
-        ]
+          {
+            "publisher": "CrowdStrike",
+            "url": "https://www.crowdstrike.com/wp-content/uploads/2024/08/Channel-File-291-Incident-Root-Cause-Analysis-08.06.2024.pdf",
+            "date": "2024-08-06",
+            "retrieved": "2026-08-14",
+            "note": "External Technical Root Cause Analysis, Channel File 291"
+          },
+          {
+            "publisher": "TechTarget",
+            "url": "https://www.techtarget.com/whatis/feature/Explaining-the-largest-IT-outage-in-history-and-whats-next",
+            "date": "2024-08-01",
+            "note": "Source of the 'largest IT outage' characterisation"
+          }
+        ],
+        "event_date": "2024-07-19"
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-122.4, 37.78] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.4,
+          37.78
+        ]
+      },
       "properties": {
         "case_id": "fastly-cdn-june-2021",
         "title": "Fastly CDN outage — 49 minutes, half the internet dark",
@@ -88,17 +141,32 @@
         "consequence": "Major news, government, e-commerce, and social platforms unreachable for ~49 minutes. NYT redirected to Google Cloud origin as workaround. UK government services offline. Demonstrated that CDN concentration creates systemic fragility across unrelated organizations.",
         "who_controls": "Fastly. The triggering customer didn't do anything wrong. The bug was in Fastly's own deployment from a month earlier. Every Fastly customer inherited the risk.",
         "sources": [
-          { "publisher": "Fastly", "url": "https://www.fastly.com/blog/summary-of-june-8-outage", "date": "2021-06-08" },
-          { "publisher": "ThousandEyes", "url": "https://www.thousandeyes.com/blog/inside-the-fastly-outage-analysis-and-lessons-learned", "date": "2021-06-15" }
-        ]
+          {
+            "publisher": "Fastly",
+            "url": "https://www.fastly.com/blog/summary-of-june-8-outage",
+            "date": "2021-06-08"
+          },
+          {
+            "publisher": "ThousandEyes",
+            "url": "https://www.thousandeyes.com/blog/inside-the-fastly-outage-analysis-and-lessons-learned",
+            "date": "2021-06-15"
+          }
+        ],
+        "event_date": "2021-06-08"
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-77.46, 38.90] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.46,
+          38.9
+        ]
+      },
       "properties": {
         "case_id": "aws-oct-2025-dns",
-        "title": "AWS October 2025 — 15-hour DNS failure, 4 million users offline",
+        "title": "AWS us-east-1, 19-20 October 2025 — a DNS race condition, 15 hours, 141 services",
         "category": "outage",
         "category_label": "Outage cascade",
         "severity": "demonstrated",
@@ -106,19 +174,38 @@
         "location": "us-east-1, Northern Virginia",
         "provider": "AWS",
         "affected_scope": "4M users, 1,000+ companies, 141 AWS services. Ring doorbells (10M devices offline), smart locks, thermostats.",
-        "one_line": "DynamoDB automation race condition deleted DNS records — 15 hours of outage, 141 AWS services affected, 10 million Ring doorbells offline. Your doorbell is downstream of a database in Virginia.",
-        "dependency": "DynamoDB automation had a race condition that deleted DNS records in us-east-1 — not a Route 53 failure, but an internal automation error that cascaded through DNS. 141 of AWS's own services affected. Ring, smart locks, thermostats, and IoT devices with no offline fallback went dark.",
-        "consequence": "10 million Ring devices offline — no video recording, no motion alerts, no remote access. Smart locks unresponsive. 4M end users affected across 1,000+ companies. Demonstrated IoT's total cloud dependency: devices become inert hardware when the connection drops.",
+        "one_line": "A latent race condition in DynamoDB's DNS automation removed the endpoint records at 11:48pm PDT on 19 October 2025. Full recovery came at 2:20pm PDT on the 20th — about 15 hours, 141 AWS services, 10 million Ring doorbells inert. Your doorbell is downstream of a database in Virginia.",
+        "dependency": "A latent race condition in DynamoDB's internal DNS management removed the DNS records for its us-east-1 endpoints — not a Route 53 customer-facing failure, but internal automation. 141 AWS services were affected. Ring, smart locks and thermostats depend on that control path with no local fallback.",
+        "consequence": "The DNS fault itself was resolved by about 2:40am PDT on 20 October; cascading failures across EC2, load balancing, Lambda and ECS extended full recovery to 2:20pm PDT — roughly 15 hours end to end. 10 million Ring devices went offline: no recording, no motion alerts, no remote access. Roughly 4M end users across 1,000+ companies affected, including Snapchat, Fortnite, Signal, Duolingo and banking apps. IoT devices became inert hardware.",
         "who_controls": "AWS. Ring is an Amazon subsidiary — even Amazon's own hardware products couldn't survive Amazon's own infrastructure failure. Consumers who bought 'security' devices found their security was downstream of a DNS table.",
         "sources": [
-          { "publisher": "IntelligenceX", "url": "https://blog.intelligencex.org/aws-outage-2025", "date": "2025-10-15" },
-          { "publisher": "PCWorld", "url": "https://www.pcworld.com/article/2947084/the-aws-outage-took-down-my-ring-cam-and-everyone-else-too.html", "date": "2025-10-16" }
-        ]
+          {
+            "publisher": "ThousandEyes (Cisco)",
+            "url": "https://www.thousandeyes.com/blog/aws-outage-analysis-october-20-2025",
+            "date": "2025-10-20",
+            "retrieved": "2026-08-14",
+            "note": "Technical timeline of the 19-20 October 2025 us-east-1 disruption"
+          },
+          {
+            "publisher": "PCWorld",
+            "url": "https://www.pcworld.com/article/2947084/the-aws-outage-took-down-my-ring-cam-and-everyone-else-too.html",
+            "date": "2025-10-21",
+            "retrieved": "2026-08-14",
+            "note": "Consumer IoT impact"
+          }
+        ],
+        "event_date": "2025-10-19"
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [8.68, 50.11] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.68,
+          50.11
+        ]
+      },
       "properties": {
         "case_id": "eu-sovereignty-mirage",
         "title": "EU data sovereignty — residency without control",
@@ -131,17 +218,33 @@
         "affected_scope": "EU governments, enterprises, and citizens using US cloud providers",
         "one_line": "Microsoft completed its EU Data Boundary in February 2025. The data stays in Europe. The CLOUD Act still applies. Residency is not sovereignty.",
         "dependency": "120+ countries now have data protection laws. EU GDPR requires data residency. But the US CLOUD Act (2018) compels US-based providers to produce data regardless of storage location. Microsoft's EU Data Boundary addresses residency but explicitly does not override CLOUD Act obligations.",
-        "consequence": "Gaia-X — the EU's sovereign cloud initiative — was captured by US hyperscalers who lobbied for inclusion and diluted sovereignty requirements. EU organizations using AWS/Azure/GCP have data residency but not data sovereignty. 62% of global cloud market controlled by three US companies.",
+        "consequence": "Gaia-X — the EU's sovereign cloud initiative — was diluted after US hyperscalers lobbied for inclusion. EU organisations on AWS, Azure or GCP have data residency but not data sovereignty. Three US companies hold 63% of the global cloud infrastructure market as of Q1 2026 (AWS 28%, Microsoft Azure 21%, Google Cloud 14%), on $129B of quarterly spend.",
         "who_controls": "US government (via CLOUD Act) and US hyperscalers (via market dominance). EU Data Boundary is a geographic feature, not a legal one. Executive agreements with UK (2019) and Australia (2021) formalize the access mechanism.",
         "sources": [
-          { "publisher": "Akave", "url": "https://akave.com/blog/europes-digital-sovereignty-dilemma-can-the-continent-break-free-from-us-cloud-dominance", "date": "2025-06-01" },
-          { "publisher": "TechClass", "url": "https://www.techclass.com/resources/learning-and-development-articles/data-sovereignty-what-it-means-for-european-businesses-in-2025", "date": "2025-01-01" }
+          {
+            "publisher": "Synergy Research Group",
+            "url": "https://www.srgresearch.com/articles/cloud-market-share-trends-big-three-together-hold-63-while-oracle-and-the-neoclouds-inch-higher",
+            "date": "2025-12-01",
+            "retrieved": "2026-08-14",
+            "note": "Big three hold 63%; Q1 2026 split AWS 28 / Azure 21 / Google 14"
+          },
+          {
+            "publisher": "Akave",
+            "url": "https://akave.com/blog/europes-digital-sovereignty-dilemma-can-the-continent-break-free-from-us-cloud-dominance",
+            "date": "2025-06-01"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-77.50, 39.10] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.5,
+          39.1
+        ]
+      },
       "properties": {
         "case_id": "loudoun-county-nexus",
         "title": "Loudoun County — where cloud concentration meets grid dependency",
@@ -152,19 +255,41 @@
         "location": "Loudoun County, Virginia",
         "provider": "AWS, Microsoft, Google, Meta, and others",
         "affected_scope": "Global cloud users (via control planes) + 67M PJM ratepayers (via capacity costs)",
-        "one_line": "World's largest data center concentration. AWS us-east-1 control plane, 115 data centers, $576M in local tax revenue, 833% PJM capacity price spike. Cloud dependency and grid dependency are the same place.",
-        "dependency": "115 data centers in one county. AWS alone has 65 (500+ acres). Data centers drove 63% of PJM's $9.3B capacity cost increase and 94% of projected 32GW demand growth. The same physical concentration that makes us-east-1 a cloud chokepoint also makes it a grid chokepoint.",
-        "consequence": "Cloud users worldwide depend on infrastructure in one county. PJM ratepayers across 13 states subsidize the power for it. $576M annual tax revenue means the county government is fiscally dependent on data center growth. The dependency runs in every direction.",
+        "one_line": "World's largest data centre concentration: 115 data centres, the AWS us-east-1 control plane, $576M in local tax revenue, and the county at the centre of PJM's capacity price surge. Cloud dependency and grid dependency are the same place.",
+        "dependency": "115 data centres in one county; AWS alone has 65 across 500+ acres. Data centres drove 63% of PJM's $9.3B capacity cost increase and 94% of projected 32 GW demand growth. The 2025/2026 capacity auction cleared at $269.92/MW-day against $28.92 the year before — an 833% rise, which IEEFA described as roughly a factor of ten. Both describe the same auction. The same physical concentration that makes us-east-1 a cloud chokepoint makes it a grid chokepoint.",
+        "consequence": "Cloud users worldwide depend on infrastructure in one county, and PJM ratepayers across 13 states pay for its power. Prices have stayed at or near the cap since: $329.17/MW-day for 2026/2027 and $325/MW-day for 2028/2029, the latter still 6,831 MW short of PJM's reliability requirement. $576M in annual tax revenue leaves the county government fiscally dependent on continued data centre growth. The dependency runs in every direction.",
         "who_controls": "Hyperscalers (investment decisions), PJM (market rules), Loudoun County (permitting), Virginia (state policy). No single entity governs the compound exposure. The atlas's US infrastructure cases and cloud cases converge here.",
         "sources": [
-          { "publisher": "Data Center Frontier", "url": "https://www.datacenterfrontier.com/cloud/article/11427911/aws-has-spent-35-billion-on-its-northern-virginia-data-centers/", "date": "2025-01-01" },
-          { "publisher": "IEEFA", "url": "https://ieefa.org/resources/projected-data-center-growth-spurs-pjm-capacity-prices-factor-10", "date": "2025-03-18" }
+          {
+            "publisher": "IEEFA",
+            "url": "https://ieefa.org/resources/projected-data-center-growth-spurs-pjm-capacity-prices-factor-10",
+            "date": "2025-03-18",
+            "note": "$28.92 -> $269.92/MW-day for 2025/2026; described as a factor of ten"
+          },
+          {
+            "publisher": "PJM Interconnection",
+            "url": "https://insidelines.pjm.com/pjm-capacity-auction-procures-138318-mw-of-generation-resources-as-work-continues-to-address-growing-electricity-demand/",
+            "date": "2026-07-14",
+            "retrieved": "2026-08-14",
+            "note": "2028/2029 auction: $325/MW-day, 6,831 MW short of requirement"
+          },
+          {
+            "publisher": "Data Center Frontier",
+            "url": "https://www.datacenterfrontier.com/cloud/article/11427911/aws-has-spent-35-billion-on-its-northern-virginia-data-centers/",
+            "date": "2025-01-01"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-88.0, 42.0] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -88.0,
+          42.0
+        ]
+      },
       "properties": {
         "case_id": "healthcare-cloud-lock-in",
         "title": "Epic on Azure/AWS — 30 health systems, two vendors, no exit plan",
@@ -176,18 +301,35 @@
         "provider": "Epic Systems / Microsoft Azure / AWS",
         "affected_scope": "30 North American health systems, millions of patient records",
         "one_line": "30 major health systems now run Epic on AWS or Azure. Epic stopped Google Cloud integrations. Your medical records are downstream of two cloud vendors and one EHR monopoly.",
-        "dependency": "Epic Systems dominates US hospital EHR market. 30 health systems now run Epic on public cloud (90% AWS, some Azure). Epic stopped Google Cloud integrations, narrowing the vendor pool to two. Healthcare cloud market: $79.5B (2024) → $309.5B (2033).",
+        "dependency": "Epic Systems dominates the US hospital EHR market. KLAS's 2024 study found 30 health systems running Epic on public cloud, roughly 90% of them on AWS. That split has since moved: Epic shifted its Nebula and Cogito offerings to Microsoft Azure, and 2026 reporting indicates Azure now has more live Epic deployments by count than AWS. No current published total for health systems on public cloud could be found, so the 30 figure remains as of 2024. Epic stopped Google Cloud integrations, leaving two viable providers. Healthcare cloud market: $79.5B (2024) projected to $309.5B (2033).",
         "consequence": "Patient records, clinical workflows, medication ordering, and billing all run through one EHR vendor on one or two cloud providers. A cloud outage becomes a clinical safety event. Migration costs and vendor lock-in make exit prohibitively expensive.",
         "who_controls": "Epic Systems (EHR), AWS/Azure (infrastructure). Health systems choose Epic but inherit cloud vendor dependency. Patients have no say in any of it. Regulatory oversight (HIPAA) covers data handling, not infrastructure concentration.",
         "sources": [
-          { "publisher": "KLAS Research", "url": "https://klasresearch.com/report/epic-in-the-public-cloud-2024-are-aws-and-microsoft-azure-meeting-the-expectations-of-early-adopters/3575", "date": "2024-08-01" },
-          { "publisher": "Healthcare IT News", "url": "https://www.healthcareitnews.com/", "date": "2025-01-01" }
+          {
+            "publisher": "KLAS Research",
+            "url": "https://klasresearch.com/report/epic-in-the-public-cloud-2024-are-aws-and-microsoft-azure-meeting-the-expectations-of-early-adopters/3575",
+            "date": "2024-08-01",
+            "note": "Epic in the Public Cloud 2024"
+          },
+          {
+            "publisher": "EHC Consulting",
+            "url": "https://ehc.consulting/2026-predictions-whats-next-for-epic-on-public-cloud/",
+            "date": "2026-01-01",
+            "retrieved": "2026-08-14",
+            "note": "2026: Azure ahead of AWS by live Epic deployment count; Nebula/Cogito on Azure"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-74.0, 40.7] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0,
+          40.7
+        ]
+      },
       "properties": {
         "case_id": "dns-concentration-risk",
         "title": "DNS concentration — half the internet's domains depend on 10 providers",
@@ -203,14 +345,28 @@
         "consequence": "Facebook October 2021: BGP routing error → authoritative DNS failure → 3.5 billion users offline for 6 hours. Internal tools also went down, preventing engineers from fixing it remotely. Demonstrated that DNS concentration creates systemic risk invisible to users.",
         "who_controls": "A handful of DNS/CDN providers. No single authority verifies BGP route announcements. Domain owners choose one NS provider and inherit its failure modes. End users have no visibility into which DNS provider serves the sites they use.",
         "sources": [
-          { "publisher": "Cloud Security Alliance", "url": "https://cloudsecurityalliance.org/blog/2025/11/21/the-internet-is-a-single-point-of-failure", "date": "2025-11-21" },
-          { "publisher": "MDPI Applied Sciences", "url": "https://www.mdpi.com/2076-3417/13/9/5739", "date": "2023-05-01" }
+          {
+            "publisher": "Cloud Security Alliance",
+            "url": "https://cloudsecurityalliance.org/blog/2025/11/21/the-internet-is-a-single-point-of-failure",
+            "date": "2025-11-21"
+          },
+          {
+            "publisher": "MDPI Applied Sciences",
+            "url": "https://www.mdpi.com/2076-3417/13/9/5739",
+            "date": "2023-05-01"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-77.04, 38.90] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.04,
+          38.9
+        ]
+      },
       "properties": {
         "case_id": "egress-pricing-lock-in",
         "title": "Cloud egress pricing — the toll booth you can't avoid",
@@ -224,10 +380,20 @@
         "one_line": "Moving 50TB out of AWS costs $3,500-7,000 in egress fees. Cross-AZ pricing discourages resilient architectures. The billing model is a governance layer that shapes what you can build and whether you can leave.",
         "dependency": "$0.08-0.12/GB to move data out. 6-12% of typical cloud bills (20-40% for data-heavy orgs). Cross-region pricing incentivizes co-location in one region (reducing resilience). Reserved instances lock organizations into multi-year commitments. 2025: providers reduced egress fees under regulatory pressure, but cross-AZ/NAT gateway costs unchanged.",
         "consequence": "Organizations cannot afford to leave — migration cost exceeds switching benefit. Architecture decisions driven by billing rather than resilience. Cross-AZ pricing discourages the very redundancy that would protect against outages. The pricing model enforces concentration.",
-        "who_controls": "AWS, Azure, GCP set the prices. 62% of global cloud market controlled by three companies. Cloud market at $419B/year (2025), growing 25% YoY. Organizations report vendor lock-in as top concern but cannot afford to act on it.",
+        "who_controls": "AWS, Azure and GCP set the prices. The three hold 63% of the global cloud infrastructure market as of Q1 2026 (AWS 28%, Azure 21%, Google 14%). Cloud infrastructure spend reached $129B in Q1 2026 alone, up 35% year on year. Egress pricing is not regulated as a switching cost anywhere.",
         "sources": [
-          { "publisher": "CloudOptimo", "url": "https://www.cloudoptimo.com/blog/the-true-cost-of-cloud-data-egress-and-how-to-manage-it/", "date": "2025-01-01" },
-          { "publisher": "Synergy Research", "url": "https://www.srgresearch.com/articles/cloud-market-share-trends-big-three-together-hold-63-while-oracle-and-the-neoclouds-inch-higher", "date": "2025-12-01" }
+          {
+            "publisher": "Synergy Research Group",
+            "url": "https://www.srgresearch.com/articles/cloud-market-share-trends-big-three-together-hold-63-while-oracle-and-the-neoclouds-inch-higher",
+            "date": "2025-12-01",
+            "retrieved": "2026-08-14",
+            "note": "Big three 63%; Q1 2026 AWS 28 / Azure 21 / Google 14; $129B quarterly spend"
+          },
+          {
+            "publisher": "CloudOptimo",
+            "url": "https://www.cloudoptimo.com/blog/the-true-cost-of-cloud-data-egress-and-how-to-manage-it/",
+            "date": "2025-01-01"
+          }
         ]
       }
     }

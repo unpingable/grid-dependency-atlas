@@ -354,8 +354,8 @@ footer a{color:var(--observed);text-decoration:none}
 </style></head><body>
 
 <div class="evbanner">
-<span class="big">Evidence current to 2025-12-01 — 256 days ago</span>
-Every present-tense claim below is present tense as of 2025-12-01, not as of reading.
+<span class="big">Evidence current to 2026-07-14 — 31 days ago</span>
+Every present-tense claim below is present tense as of 2026-07-14, not as of reading.
 Built from <code>docs/cloud/data/cases.geojson</code>.
 </div>
 
@@ -365,8 +365,8 @@ Built from <code>docs/cloud/data/cases.geojson</code>.
 <h1>Four of these ten are already over</h1>
 
 <div class="answer">
-Fastly's CDN failed for <strong>49 minutes</strong> in June 2021. CrowdStrike cancelled
-<strong>5,078 flights</strong> in July 2024. Those are over. Meanwhile one county in
+Fastly's CDN failed for <strong>49 minutes</strong> in June 2021. A CrowdStrike update grounded airlines in July 2024;
+<strong>5,078 flights</strong> were cancelled. Those are over. Meanwhile one county in
 Virginia still holds the control plane for every AWS customer on earth, 49% of domains
 still resolve through ten providers, and the CLOUD Act still reaches inside Microsoft's EU
 Data Boundary. <strong>Four of these ten are finished events; six are conditions that have
@@ -381,8 +381,8 @@ not stopped</strong> — and the record marks neither.
 </div>
 
 <div class="stamp">
-  <span><b>EVIDENCE WINDOW</b> 2021-06-08 → 2025-12-01</span>
-  <span><b>CITATIONS</b> 20</span>
+  <span><b>EVIDENCE WINDOW</b> 2021-06-08 → 2026-07-14</span>
+  <span><b>CITATIONS</b> 21</span>
   <span><b>CASES</b> 10</span>
 </div>
 
@@ -423,7 +423,7 @@ dashed column marks a month this corpus records in both tenses at once.</div>
   <div class="dur">—</div>
 </div>
 <div class="tl2row">
-  <div class="nm">AWS October 2025<small>Outage cascade</small></div>
+  <div class="nm">AWS us-east-1, 19-20 October 2025<small>Outage cascade</small></div>
   <div class="tr"><div class="ev" style="left:85.07%"></div>
     <div class="evlab" style="left:85.07%">2025-10</div></div>
   <div class="dur">15 hr</div>
@@ -471,15 +471,14 @@ dashed column marks a month this corpus records in both tenses at once.</div>
 </div>
 <div class="figfoot">
   <span><b>n</b> 10 cases · 4 dated · 3 state a duration · 3 moments cited inside conditions</span><br>
-  <span class="long"><b>DERIVED</b> every position on this figure. Outage dates are the
-  earliest citation attached to the case, used as a proxy because the schema has no date
-  field; durations are the longest interval stated in the case's own prose; ◆ moments are
-  “&lt;Month&gt; &lt;Year&gt;” matched in a condition's text. The rails assert nothing except
-  that no start and no end were recorded.</span>
-  <span class="long"><b>AND THE PROXY IS ALREADY WRONG ONCE.</b> The October 2025 AWS
-  outage sits at 2025-10-15, the date of its earliest citation. Widely reported accounts put
-  the outage several days later. A citation can predate the thing it describes, which is why
-  an inferred date is not a record.</span>
+  <span class="long"><b>OBSERVED</b> the four outage dates, recorded in the corpus as of the
+  2026-08 refresh. They were previously inferred from the earliest citation attached to each
+  case — a proxy that placed the October 2025 AWS outage days early and the July 2024
+  CrowdStrike outage two weeks late. <b>DERIVED</b> the durations, taken as the longest
+  interval stated in a case's own prose, and the ◆ moments, matched as “&lt;Month&gt;
+  &lt;Year&gt;” in a condition's text.</span>
+  <span class="long"><b>STILL UNRECORDED</b> when any of the six conditions began. The rails
+  assert nothing except that the corpus holds no start and no end for them.</span>
 </div>
 </figure>
 
@@ -504,7 +503,7 @@ sorting by them ranks nothing.</div>
 <li>AWS December 2021 outage cascade <span style='color:var(--tx-faint)'>· 7 hr</span></li>
 <li>CrowdStrike July 2024 <span style='color:var(--tx-faint)'>· —</span></li>
 <li>Fastly CDN outage <span style='color:var(--tx-faint)'>· 49 min</span></li>
-<li>AWS October 2025 <span style='color:var(--tx-faint)'>· 15 hr</span></li>
+<li>AWS us-east-1, 19-20 October 2025 <span style='color:var(--tx-faint)'>· 15 hr</span></li>
 </ul></div>
   <div class="col"><h3>severity: structural — 6 cases</h3>
     <div class="q">“Structural dependency”. A standing arrangement with no event, no
@@ -557,8 +556,8 @@ happens when it moves, and who decides. Verbatim.</div>
   <div><div class="cn">CrowdStrike July 2024</div>
     <span class="tag" style="color:var(--tx-faint)">Software supply chain</span>
     <span class="tag" style="color:#b4655f">Demonstrated failure</span></div>
-  <div class="st"><span class="lab">The dependency</span>CrowdStrike Falcon runs at kernel level on Windows systems. Channel file 291 update caused boot loop. Every organization running CrowdStrike on Windows was affected simultaneously. No customer action triggered it.
-    <span class="lab" style="margin-top:12px">What happened / what it costs</span>5,078 flights cancelled (4.6% of scheduled). Hospitals reverted to paper records. Emergency dispatch systems degraded. Stock trading disrupted. Tens of billions in estimated damages. Required manual remediation — no remote fix possible for boot-looped machines.
+  <div class="st"><span class="lab">The dependency</span>CrowdStrike Falcon runs at kernel level on Windows. Channel File 291 defined 21 input parameter fields while the calling code supplied 20; a Rapid Response Content update using a non-wildcard match on the 21st parameter caused an out-of-bounds read and a boot loop. The mismatch passed build validation, stress testing and several prior field deployments. Every organisation running Falcon on Windows was hit simultaneously, with no customer action involved.
+    <span class="lab" style="margin-top:12px">What happened / what it costs</span>5,078 flights cancelled (4.6% of those scheduled). Hospitals reverted to paper records. Emergency dispatch degraded. Trading disrupted. Remediation required physical access to each machine — there was no remote fix. CrowdStrike added input-count validation and bounds checking on 25 July 2024 and commissioned two independent security reviews.
     <span class="lab" style="margin-top:12px">Who decides</span>CrowdStrike pushed the update. Microsoft&#x27;s OS architecture allowed kernel-level access. Neither customers nor affected end-users had any lever. The blast radius was set by vendor market share, not by any customer&#x27;s choice.
     <span class="lab" style="margin-top:12px">Who is downstream</span>8.5M Windows systems. Airlines (5,078 flights cancelled), banks, hospitals, stock markets, gas stations, emergency services.</div>
 </div>
@@ -572,11 +571,11 @@ happens when it moves, and who decides. Verbatim.</div>
     <span class="lab" style="margin-top:12px">Who is downstream</span>Reddit, New York Times, The Guardian, Twitch, UK government website, Amazon, eBay, Stack Overflow, Shopify merchants</div>
 </div>
 <div class="e">
-  <div><div class="cn">AWS October 2025</div>
+  <div><div class="cn">AWS us-east-1, 19-20 October 2025</div>
     <span class="tag" style="color:var(--tx-faint)">Outage cascade</span>
     <span class="tag" style="color:#b4655f">Demonstrated failure</span></div>
-  <div class="st"><span class="lab">The dependency</span>DynamoDB automation had a race condition that deleted DNS records in us-east-1 — not a Route 53 failure, but an internal automation error that cascaded through DNS. 141 of AWS&#x27;s own services affected. Ring, smart locks, thermostats, and IoT devices with no offline fallback went dark.
-    <span class="lab" style="margin-top:12px">What happened / what it costs</span>10 million Ring devices offline — no video recording, no motion alerts, no remote access. Smart locks unresponsive. 4M end users affected across 1,000+ companies. Demonstrated IoT&#x27;s total cloud dependency: devices become inert hardware when the connection drops.
+  <div class="st"><span class="lab">The dependency</span>A latent race condition in DynamoDB&#x27;s internal DNS management removed the DNS records for its us-east-1 endpoints — not a Route 53 customer-facing failure, but internal automation. 141 AWS services were affected. Ring, smart locks and thermostats depend on that control path with no local fallback.
+    <span class="lab" style="margin-top:12px">What happened / what it costs</span>The DNS fault itself was resolved by about 2:40am PDT on 20 October; cascading failures across EC2, load balancing, Lambda and ECS extended full recovery to 2:20pm PDT — roughly 15 hours end to end. 10 million Ring devices went offline: no recording, no motion alerts, no remote access. Roughly 4M end users across 1,000+ companies affected, including Snapchat, Fortnite, Signal, Duolingo and banking apps. IoT devices became inert hardware.
     <span class="lab" style="margin-top:12px">Who decides</span>AWS. Ring is an Amazon subsidiary — even Amazon&#x27;s own hardware products couldn&#x27;t survive Amazon&#x27;s own infrastructure failure. Consumers who bought &#x27;security&#x27; devices found their security was downstream of a DNS table.
     <span class="lab" style="margin-top:12px">Who is downstream</span>4M users, 1,000+ companies, 141 AWS services. Ring doorbells (10M devices offline), smart locks, thermostats.</div>
 </div>
@@ -585,7 +584,7 @@ happens when it moves, and who decides. Verbatim.</div>
     <span class="tag" style="color:var(--tx-faint)">Sovereignty gap</span>
     <span class="tag" style="color:var(--observed)">Structural dependency</span></div>
   <div class="st"><span class="lab">The dependency</span>120+ countries now have data protection laws. EU GDPR requires data residency. But the US CLOUD Act (2018) compels US-based providers to produce data regardless of storage location. Microsoft&#x27;s EU Data Boundary addresses residency but explicitly does not override CLOUD Act obligations.
-    <span class="lab" style="margin-top:12px">What happened / what it costs</span>Gaia-X — the EU&#x27;s sovereign cloud initiative — was captured by US hyperscalers who lobbied for inclusion and diluted sovereignty requirements. EU organizations using AWS/Azure/GCP have data residency but not data sovereignty. 62% of global cloud market controlled by three US companies.
+    <span class="lab" style="margin-top:12px">What happened / what it costs</span>Gaia-X — the EU&#x27;s sovereign cloud initiative — was diluted after US hyperscalers lobbied for inclusion. EU organisations on AWS, Azure or GCP have data residency but not data sovereignty. Three US companies hold 63% of the global cloud infrastructure market as of Q1 2026 (AWS 28%, Microsoft Azure 21%, Google Cloud 14%), on $129B of quarterly spend.
     <span class="lab" style="margin-top:12px">Who decides</span>US government (via CLOUD Act) and US hyperscalers (via market dominance). EU Data Boundary is a geographic feature, not a legal one. Executive agreements with UK (2019) and Australia (2021) formalize the access mechanism.
     <span class="lab" style="margin-top:12px">Who is downstream</span>EU governments, enterprises, and citizens using US cloud providers</div>
 </div>
@@ -593,8 +592,8 @@ happens when it moves, and who decides. Verbatim.</div>
   <div><div class="cn">Loudoun County</div>
     <span class="tag" style="color:var(--tx-faint)">Physical concentration</span>
     <span class="tag" style="color:var(--observed)">Structural dependency</span></div>
-  <div class="st"><span class="lab">The dependency</span>115 data centers in one county. AWS alone has 65 (500+ acres). Data centers drove 63% of PJM&#x27;s $9.3B capacity cost increase and 94% of projected 32GW demand growth. The same physical concentration that makes us-east-1 a cloud chokepoint also makes it a grid chokepoint.
-    <span class="lab" style="margin-top:12px">What happened / what it costs</span>Cloud users worldwide depend on infrastructure in one county. PJM ratepayers across 13 states subsidize the power for it. $576M annual tax revenue means the county government is fiscally dependent on data center growth. The dependency runs in every direction.
+  <div class="st"><span class="lab">The dependency</span>115 data centres in one county; AWS alone has 65 across 500+ acres. Data centres drove 63% of PJM&#x27;s $9.3B capacity cost increase and 94% of projected 32 GW demand growth. The 2025/2026 capacity auction cleared at $269.92/MW-day against $28.92 the year before — an 833% rise, which IEEFA described as roughly a factor of ten. Both describe the same auction. The same physical concentration that makes us-east-1 a cloud chokepoint makes it a grid chokepoint.
+    <span class="lab" style="margin-top:12px">What happened / what it costs</span>Cloud users worldwide depend on infrastructure in one county, and PJM ratepayers across 13 states pay for its power. Prices have stayed at or near the cap since: $329.17/MW-day for 2026/2027 and $325/MW-day for 2028/2029, the latter still 6,831 MW short of PJM&#x27;s reliability requirement. $576M in annual tax revenue leaves the county government fiscally dependent on continued data centre growth. The dependency runs in every direction.
     <span class="lab" style="margin-top:12px">Who decides</span>Hyperscalers (investment decisions), PJM (market rules), Loudoun County (permitting), Virginia (state policy). No single entity governs the compound exposure. The atlas&#x27;s US infrastructure cases and cloud cases converge here.
     <span class="lab" style="margin-top:12px">Who is downstream</span>Global cloud users (via control planes) + 67M PJM ratepayers (via capacity costs)</div>
 </div>
@@ -602,7 +601,7 @@ happens when it moves, and who decides. Verbatim.</div>
   <div><div class="cn">Epic on Azure/AWS</div>
     <span class="tag" style="color:var(--tx-faint)">Sector dependency</span>
     <span class="tag" style="color:var(--observed)">Structural dependency</span></div>
-  <div class="st"><span class="lab">The dependency</span>Epic Systems dominates US hospital EHR market. 30 health systems now run Epic on public cloud (90% AWS, some Azure). Epic stopped Google Cloud integrations, narrowing the vendor pool to two. Healthcare cloud market: $79.5B (2024) → $309.5B (2033).
+  <div class="st"><span class="lab">The dependency</span>Epic Systems dominates the US hospital EHR market. KLAS&#x27;s 2024 study found 30 health systems running Epic on public cloud, roughly 90% of them on AWS. That split has since moved: Epic shifted its Nebula and Cogito offerings to Microsoft Azure, and 2026 reporting indicates Azure now has more live Epic deployments by count than AWS. No current published total for health systems on public cloud could be found, so the 30 figure remains as of 2024. Epic stopped Google Cloud integrations, leaving two viable providers. Healthcare cloud market: $79.5B (2024) projected to $309.5B (2033).
     <span class="lab" style="margin-top:12px">What happened / what it costs</span>Patient records, clinical workflows, medication ordering, and billing all run through one EHR vendor on one or two cloud providers. A cloud outage becomes a clinical safety event. Migration costs and vendor lock-in make exit prohibitively expensive.
     <span class="lab" style="margin-top:12px">Who decides</span>Epic Systems (EHR), AWS/Azure (infrastructure). Health systems choose Epic but inherit cloud vendor dependency. Patients have no say in any of it. Regulatory oversight (HIPAA) covers data handling, not infrastructure concentration.
     <span class="lab" style="margin-top:12px">Who is downstream</span>30 North American health systems, millions of patient records</div>
@@ -622,7 +621,7 @@ happens when it moves, and who decides. Verbatim.</div>
     <span class="tag" style="color:var(--observed)">Structural dependency</span></div>
   <div class="st"><span class="lab">The dependency</span>$0.08-0.12/GB to move data out. 6-12% of typical cloud bills (20-40% for data-heavy orgs). Cross-region pricing incentivizes co-location in one region (reducing resilience). Reserved instances lock organizations into multi-year commitments. 2025: providers reduced egress fees under regulatory pressure, but cross-AZ/NAT gateway costs unchanged.
     <span class="lab" style="margin-top:12px">What happened / what it costs</span>Organizations cannot afford to leave — migration cost exceeds switching benefit. Architecture decisions driven by billing rather than resilience. Cross-AZ pricing discourages the very redundancy that would protect against outages. The pricing model enforces concentration.
-    <span class="lab" style="margin-top:12px">Who decides</span>AWS, Azure, GCP set the prices. 62% of global cloud market controlled by three companies. Cloud market at $419B/year (2025), growing 25% YoY. Organizations report vendor lock-in as top concern but cannot afford to act on it.
+    <span class="lab" style="margin-top:12px">Who decides</span>AWS, Azure and GCP set the prices. The three hold 63% of the global cloud infrastructure market as of Q1 2026 (AWS 28%, Azure 21%, Google 14%). Cloud infrastructure spend reached $129B in Q1 2026 alone, up 35% year on year. Egress pricing is not regulated as a switching cost anywhere.
     <span class="lab" style="margin-top:12px">Who is downstream</span>All organizations using hyperscaler cloud services</div>
 </div>
 </div>
@@ -634,7 +633,7 @@ happens when it moves, and who decides. Verbatim.</div>
 <div class="scroll"><table class="ledger">
 <thead><tr><th>Case</th><th>Category</th><th>Mode</th><th>Provider</th><th>Location</th></tr></thead><tbody>
 <tr class="lr">
-  <td class="k cty">AWS us-east-1 control plane concentratio</td><td class="bandc">Control plane</td>
+  <td class="k cty">AWS us-east-1 control plane concentration</td><td class="bandc">Control plane</td>
   <td class="n">Structural</td><td class="n">AWS</td><td class="n">Loudoun County, Virginia</td>
 </tr>
 <tr class="claimrow"><td colspan="5"><span class="cl">IAM, Route 53, and CloudFront control planes all run in one county in Virginia — every AWS customer worldwide is downstream of us-east-1 whether they deploy there or not.</span></td></tr>
@@ -647,17 +646,17 @@ happens when it moves, and who decides. Verbatim.</div>
   <td class="k cty">CrowdStrike July 2024</td><td class="bandc">Software supply chain</td>
   <td class="n">Demonstrated</td><td class="n">CrowdStrike / Microsoft Windows</td><td class="n">Global (Windows systems worldwide)</td>
 </tr>
-<tr class="claimrow"><td colspan="5"><span class="cl">A single faulty sensor update from one security vendor crashed 8.5 million Windows machines worldwide — flights cancelled, hospitals disrupted, emergency services degraded. The largest IT outage in history.</span></td></tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">A faulty Falcon sensor update from one security vendor crashed 8.5 million Windows machines worldwide on 19 July 2024 — 5,078 flights cancelled, hospitals on paper, emergency dispatch degraded. Widely described at the time as the largest IT outage on record.</span></td></tr>
 <tr class="lr">
   <td class="k cty">Fastly CDN outage</td><td class="bandc">CDN concentration</td>
   <td class="n">Demonstrated</td><td class="n">Fastly</td><td class="n">Global (Fastly CDN network)</td>
 </tr>
 <tr class="claimrow"><td colspan="5"><span class="cl">A valid customer config change triggered a latent bug in Fastly&#x27;s CDN. For 49 minutes, Reddit, NYT, UK government, Twitch, and Amazon were unreachable. One CDN vendor = one point of failure for half the visible internet.</span></td></tr>
 <tr class="lr">
-  <td class="k cty">AWS October 2025</td><td class="bandc">Outage cascade</td>
+  <td class="k cty">AWS us-east-1, 19-20 October 2025</td><td class="bandc">Outage cascade</td>
   <td class="n">Demonstrated</td><td class="n">AWS</td><td class="n">us-east-1, Northern Virginia</td>
 </tr>
-<tr class="claimrow"><td colspan="5"><span class="cl">DynamoDB automation race condition deleted DNS records — 15 hours of outage, 141 AWS services affected, 10 million Ring doorbells offline. Your doorbell is downstream of a database in Virginia.</span></td></tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">A latent race condition in DynamoDB&#x27;s DNS automation removed the endpoint records at 11:48pm PDT on 19 October 2025. Full recovery came at 2:20pm PDT on the 20th — about 15 hours, 141 AWS services, 10 million Ring doorbells inert. Your doorbell is downstream of a database in Virginia.</span></td></tr>
 <tr class="lr">
   <td class="k cty">EU data sovereignty</td><td class="bandc">Sovereignty gap</td>
   <td class="n">Structural</td><td class="n">AWS / Azure / GCP (all US-based)</td><td class="n">European Union</td>
@@ -667,7 +666,7 @@ happens when it moves, and who decides. Verbatim.</div>
   <td class="k cty">Loudoun County</td><td class="bandc">Physical concentration</td>
   <td class="n">Structural</td><td class="n">AWS, Microsoft, Google, Meta, and others</td><td class="n">Loudoun County, Virginia</td>
 </tr>
-<tr class="claimrow"><td colspan="5"><span class="cl">World&#x27;s largest data center concentration. AWS us-east-1 control plane, 115 data centers, $576M in local tax revenue, 833% PJM capacity price spike. Cloud dependency and grid dependency are the same place.</span></td></tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">World&#x27;s largest data centre concentration: 115 data centres, the AWS us-east-1 control plane, $576M in local tax revenue, and the county at the centre of PJM&#x27;s capacity price surge. Cloud dependency and grid dependency are the same place.</span></td></tr>
 <tr class="lr">
   <td class="k cty">Epic on Azure/AWS</td><td class="bandc">Sector dependency</td>
   <td class="n">Structural</td><td class="n">Epic Systems / Microsoft Azure / AWS</td><td class="n">United States (30 health systems)</td>
@@ -704,9 +703,10 @@ events are representative of anything — they are the ones somebody wrote about
 <div class="pull">An atlas of ongoing dependency, whose only precise records are of
 things that stopped.</div>
 <ul>
-<li><b>Every date on this page is inferred.</b> The schema has no date field, so event
-dates are the earliest citation attached to the case. A citation can predate or postdate
-the thing it describes; these are proxies and should not be read as a record.</li>
+<li><b>The four event dates are recorded; the six start dates do not exist.</b> Event dates
+were added to the corpus in the 2026-08 refresh, replacing a proxy that had placed one
+outage days early and another two weeks late. Nothing comparable is available for the
+standing conditions: the schema still has no way to say when one began.</li>
 <li><b>Durations come from prose, not fields.</b> 3 of the 4
 events state one somewhere in their own text. Nothing enforces that they are measured the
 same way.</li>
@@ -714,7 +714,7 @@ same way.</li>
 this period. The corpus records no criterion for inclusion, so the set cannot be read as a
 sample of anything.</li>
 <li><b>The conditions are not unmeasured — they are undated.</b> Their prose carries plenty
-of figures (49% of domains, 115 data centers, 8.5 million machines). What none of them has
+of figures (49% of domains, 115 data centres, $576M in county tax revenue). What none of them has
 is a date, a duration, or a field to put either in. The schema has no slot for when a
 standing arrangement began.</li>
 <li><b>The event/condition split is the corpus's, and it leaks.</b> The DNS concentration
@@ -729,13 +729,13 @@ is.</li>
 </ul></div>
 <div class="sec audit meth"><div class="rung">Audit · method</div>
 <h2>What is computed here</h2>
-<div class="rule1">Three derivations, all forced by the same absence: this corpus has no
-time in it.</div>
-<p><b>Event date</b> — earliest source date, for the four cases the corpus marks
-<code>demonstrated</code> only. <b>Duration</b> — the longest interval matched by regex in
+<div class="rule1">The corpus now records when the four outages happened. It still has no
+way to record when any of the six standing conditions began.</div>
+<p><b>Event date</b> — read from the corpus's <code>event_date</code>, added in the 2026-08
+refresh for the four cases marked <code>demonstrated</code>. <b>Duration</b> — the longest interval matched by regex in
 a case's own prose. <b>The still-running band</b> — drawn for every
 <code>structural</code> case, and it asserts nothing except that the corpus records no
-end. The <i>evidence window</i> (2021-06-08 → 2025-12-01) is min/max of all citation
+end. The <i>evidence window</i> (2021-06-08 → 2026-07-14) is min/max of all citation
 dates.</p>
 <p><b><code>severity</code> is reproduced, never ordered.</b> Its two values distinguish an
 evidential mode, not a magnitude, so nothing on this page sorts or colours by it as though
@@ -745,29 +745,30 @@ facts. Placing “us-east-1” as a dot in Virginia would add a geography that c
 none of the argument.</p></div>
 <div class="sec audit rcpt"><div class="rung">Audit · sources</div>
 <h2>Source material</h2>
-<div class="lede">All 20 citations — exactly two per case.</div>
-<div class="absence"><b>These dates are doing double duty.</b> For the four outages they are close to the date of the event. For the six standing dependencies they record only when someone published about it. The schema cannot tell the two apart, and neither can the evidence window computed from them.</div>
+<div class="lede">All 21 citations — exactly two per case.</div>
+<div class="absence"><b>7 of these 21 citations carry a retrieval date</b> — the ones re-checked in the 2026-08 refresh. The rest carry none rather than a manufactured one. No citation in this corpus has an archive snapshot, so nothing here is preserved against removal. Publication dates record when someone wrote about a case, which for the four outages is near the event and for the six conditions is not related to when they began.</div>
 <div class="scroll"><table><thead><tr><th>Supports</th><th>Publisher</th><th>Published</th></tr></thead><tbody>
 <tr><td class="k">AWS us-east-1 control plane concentrat</td><td><a href="https://repost.aws/articles/ARe7BZRCUhRlap9b7yFSagLw/reducing-control-plane-dependencies-in-us-east-1-a-practical-guide-for-aws-customers" rel="noopener">AWS</a></td><td class="n">2024-01-01</td></tr>
 <tr><td class="k">AWS us-east-1 control plane concentrat</td><td><a href="https://www.datacenterdynamics.com/en/analysis/the-amazon-factor-in-virginia/" rel="noopener">Data Center Dynamics</a></td><td class="n">2025-06-01</td></tr>
 <tr><td class="k">AWS December 2021 outage cascade</td><td><a href="https://www.cnbc.com/2021/12/07/amazon-web-services-outage-causes-issues-at-disney-netflix-coinbase.html" rel="noopener">CNBC</a></td><td class="n">2021-12-07</td></tr>
 <tr><td class="k">AWS December 2021 outage cascade</td><td><a href="https://www.catchpoint.com/blog/what-can-we-learn-from-aws-december-outage" rel="noopener">Catchpoint</a></td><td class="n">2021-12-15</td></tr>
-<tr><td class="k">CrowdStrike July 2024</td><td><a href="https://en.wikipedia.org/wiki/2024_CrowdStrike-related_IT_outages" rel="noopener">Wikipedia</a></td><td class="n">2024-07-19</td></tr>
+<tr><td class="k">CrowdStrike July 2024</td><td><a href="https://www.crowdstrike.com/wp-content/uploads/2024/08/Channel-File-291-Incident-Root-Cause-Analysis-08.06.2024.pdf" rel="noopener">CrowdStrike</a></td><td class="n">2024-08-06</td></tr>
 <tr><td class="k">CrowdStrike July 2024</td><td><a href="https://www.techtarget.com/whatis/feature/Explaining-the-largest-IT-outage-in-history-and-whats-next" rel="noopener">TechTarget</a></td><td class="n">2024-08-01</td></tr>
 <tr><td class="k">Fastly CDN outage</td><td><a href="https://www.fastly.com/blog/summary-of-june-8-outage" rel="noopener">Fastly</a></td><td class="n">2021-06-08</td></tr>
 <tr><td class="k">Fastly CDN outage</td><td><a href="https://www.thousandeyes.com/blog/inside-the-fastly-outage-analysis-and-lessons-learned" rel="noopener">ThousandEyes</a></td><td class="n">2021-06-15</td></tr>
-<tr><td class="k">AWS October 2025</td><td><a href="https://blog.intelligencex.org/aws-outage-2025" rel="noopener">IntelligenceX</a></td><td class="n">2025-10-15</td></tr>
-<tr><td class="k">AWS October 2025</td><td><a href="https://www.pcworld.com/article/2947084/the-aws-outage-took-down-my-ring-cam-and-everyone-else-too.html" rel="noopener">PCWorld</a></td><td class="n">2025-10-16</td></tr>
+<tr><td class="k">AWS us-east-1, 19-20 October 2025</td><td><a href="https://www.thousandeyes.com/blog/aws-outage-analysis-october-20-2025" rel="noopener">ThousandEyes (Cisco)</a></td><td class="n">2025-10-20</td></tr>
+<tr><td class="k">AWS us-east-1, 19-20 October 2025</td><td><a href="https://www.pcworld.com/article/2947084/the-aws-outage-took-down-my-ring-cam-and-everyone-else-too.html" rel="noopener">PCWorld</a></td><td class="n">2025-10-21</td></tr>
+<tr><td class="k">EU data sovereignty</td><td><a href="https://www.srgresearch.com/articles/cloud-market-share-trends-big-three-together-hold-63-while-oracle-and-the-neoclouds-inch-higher" rel="noopener">Synergy Research Group</a></td><td class="n">2025-12-01</td></tr>
 <tr><td class="k">EU data sovereignty</td><td><a href="https://akave.com/blog/europes-digital-sovereignty-dilemma-can-the-continent-break-free-from-us-cloud-dominance" rel="noopener">Akave</a></td><td class="n">2025-06-01</td></tr>
-<tr><td class="k">EU data sovereignty</td><td><a href="https://www.techclass.com/resources/learning-and-development-articles/data-sovereignty-what-it-means-for-european-businesses-in-2025" rel="noopener">TechClass</a></td><td class="n">2025-01-01</td></tr>
-<tr><td class="k">Loudoun County</td><td><a href="https://www.datacenterfrontier.com/cloud/article/11427911/aws-has-spent-35-billion-on-its-northern-virginia-data-centers/" rel="noopener">Data Center Frontier</a></td><td class="n">2025-01-01</td></tr>
 <tr><td class="k">Loudoun County</td><td><a href="https://ieefa.org/resources/projected-data-center-growth-spurs-pjm-capacity-prices-factor-10" rel="noopener">IEEFA</a></td><td class="n">2025-03-18</td></tr>
+<tr><td class="k">Loudoun County</td><td><a href="https://insidelines.pjm.com/pjm-capacity-auction-procures-138318-mw-of-generation-resources-as-work-continues-to-address-growing-electricity-demand/" rel="noopener">PJM Interconnection</a></td><td class="n">2026-07-14</td></tr>
+<tr><td class="k">Loudoun County</td><td><a href="https://www.datacenterfrontier.com/cloud/article/11427911/aws-has-spent-35-billion-on-its-northern-virginia-data-centers/" rel="noopener">Data Center Frontier</a></td><td class="n">2025-01-01</td></tr>
 <tr><td class="k">Epic on Azure/AWS</td><td><a href="https://klasresearch.com/report/epic-in-the-public-cloud-2024-are-aws-and-microsoft-azure-meeting-the-expectations-of-early-adopters/3575" rel="noopener">KLAS Research</a></td><td class="n">2024-08-01</td></tr>
-<tr><td class="k">Epic on Azure/AWS</td><td><a href="https://www.healthcareitnews.com/" rel="noopener">Healthcare IT News</a></td><td class="n">2025-01-01</td></tr>
+<tr><td class="k">Epic on Azure/AWS</td><td><a href="https://ehc.consulting/2026-predictions-whats-next-for-epic-on-public-cloud/" rel="noopener">EHC Consulting</a></td><td class="n">2026-01-01</td></tr>
 <tr><td class="k">DNS concentration</td><td><a href="https://cloudsecurityalliance.org/blog/2025/11/21/the-internet-is-a-single-point-of-failure" rel="noopener">Cloud Security Alliance</a></td><td class="n">2025-11-21</td></tr>
 <tr><td class="k">DNS concentration</td><td><a href="https://www.mdpi.com/2076-3417/13/9/5739" rel="noopener">MDPI Applied Sciences</a></td><td class="n">2023-05-01</td></tr>
+<tr><td class="k">Cloud egress pricing</td><td><a href="https://www.srgresearch.com/articles/cloud-market-share-trends-big-three-together-hold-63-while-oracle-and-the-neoclouds-inch-higher" rel="noopener">Synergy Research Group</a></td><td class="n">2025-12-01</td></tr>
 <tr><td class="k">Cloud egress pricing</td><td><a href="https://www.cloudoptimo.com/blog/the-true-cost-of-cloud-data-egress-and-how-to-manage-it/" rel="noopener">CloudOptimo</a></td><td class="n">2025-01-01</td></tr>
-<tr><td class="k">Cloud egress pricing</td><td><a href="https://www.srgresearch.com/articles/cloud-market-share-trends-big-three-together-hold-63-while-oracle-and-the-neoclouds-inch-higher" rel="noopener">Synergy Research</a></td><td class="n">2025-12-01</td></tr>
 </tbody></table></div>
 </div>
 <footer>

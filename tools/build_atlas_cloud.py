@@ -161,12 +161,16 @@ def duration_hours(c):
 
 
 def event_date(c):
-    """DERIVED, and only because the corpus forces it: there is no date field
-    anywhere in this atlas. For a case the corpus marks `demonstrated`, the
-    earliest source date is used as the date the thing happened — which is a
-    proxy, not a record. For `structural` cases the earliest source date is
-    merely when somebody wrote about it, and is NOT used as a date."""
-    return min(s["date"] for s in c["sources"])
+    """OBSERVED. The date the event happened, recorded in the corpus as
+    `event_date` and taken from the case's own cited sources.
+
+    This was previously DERIVED from the earliest citation date, which is
+    unreliable in both directions: a citation can predate the event it
+    describes, or post-date it by weeks. After the 2026-08 refresh the proxy
+    placed the CrowdStrike outage on 2024-08-01, two weeks after it happened.
+    A timeline cannot stay truthful on that, so the four dated cases now carry
+    the date explicitly."""
+    return c["event_date"]
 
 
 def embedded_moments(c):
@@ -181,6 +185,15 @@ def embedded_moments(c):
     for mon, yr in sorted(set(MONTH_RE.findall(txt))):
         out.append(("%s %s" % (mon, yr), int(yr) + (MONTH_N[mon] - 1) / 12.0))
     return out
+
+
+def short_title(c, n):
+    """Trim on a word boundary. A mid-word cut ('...concentratio') reads as a
+    rendering bug and undermines a page arguing for precision."""
+    t = c["title"].split("—")[0].strip()
+    if len(t) <= n:
+        return t
+    return t[:n].rsplit(" ", 1)[0].rstrip(",;:") + "…"
 
 
 def fmt_dur(h):
@@ -225,8 +238,8 @@ def render():
 <h1>Four of these ten are already over</h1>
 
 <div class="answer">
-Fastly's CDN failed for <strong>49 minutes</strong> in June 2021. CrowdStrike cancelled
-<strong>5,078 flights</strong> in July 2024. Those are over. Meanwhile one county in
+Fastly's CDN failed for <strong>49 minutes</strong> in June 2021. A CrowdStrike update grounded airlines in July 2024;
+<strong>5,078 flights</strong> were cancelled. Those are over. Meanwhile one county in
 Virginia still holds the control plane for every AWS customer on earth, 49% of domains
 still resolve through ten providers, and the CLOUD Act still reaches inside Microsoft's EU
 Data Boundary. <strong>Four of these ten are finished events; six are conditions that have
@@ -297,7 +310,7 @@ dashed column marks a month this corpus records in both tenses at once.</div>
   <div class="tr"><div class="ev" style="left:%.2f%%"></div>
     <div class="evlab" style="left:%.2f%%">%s</div></div>
   <div class="dur">%s</div>
-</div>""" % (e(c["title"].split("—")[0].strip()[:44]), e(c["category_label"]),
+</div>""" % (e(short_title(c, 44)), e(c["category_label"]),
              x, x, e(d[:7]), e(lab)))
 
     A('<div class="grp">Still true · %s of 10 <em>no recorded start, no recorded end</em></div>'
@@ -311,7 +324,7 @@ dashed column marks a month this corpus records in both tenses at once.</div>
   <div class="nm">%s<small>%s</small></div>
   <div class="tr"><div class="rail"></div>%s</div>
   <div class="dur">ongoing</div>
-</div>""" % (e(c["title"].split("—")[0].strip()[:44]), e(c["category_label"]), marks))
+</div>""" % (e(short_title(c, 44)), e(c["category_label"]), marks))
 
     A(f"""<div class="tl2axis"><div></div><div class="tr">
   <span class="tk" style="left:{fx(2021.0):.1f}%">2021</span>
@@ -325,15 +338,14 @@ dashed column marks a month this corpus records in both tenses at once.</div>
 </div>
 <div class="figfoot">
   <span><b>n</b> 10 cases · {len(events)} dated · {len(with_dur)} state a duration · {n_embedded} moments cited inside conditions</span><br>
-  <span class="long"><b>DERIVED</b> every position on this figure. Outage dates are the
-  earliest citation attached to the case, used as a proxy because the schema has no date
-  field; durations are the longest interval stated in the case's own prose; ◆ moments are
-  “&lt;Month&gt; &lt;Year&gt;” matched in a condition's text. The rails assert nothing except
-  that no start and no end were recorded.</span>
-  <span class="long"><b>AND THE PROXY IS ALREADY WRONG ONCE.</b> The October 2025 AWS
-  outage sits at 2025-10-15, the date of its earliest citation. Widely reported accounts put
-  the outage several days later. A citation can predate the thing it describes, which is why
-  an inferred date is not a record.</span>
+  <span class="long"><b>OBSERVED</b> the four outage dates, recorded in the corpus as of the
+  2026-08 refresh. They were previously inferred from the earliest citation attached to each
+  case — a proxy that placed the October 2025 AWS outage days early and the July 2024
+  CrowdStrike outage two weeks late. <b>DERIVED</b> the durations, taken as the longest
+  interval stated in a case's own prose, and the ◆ moments, matched as “&lt;Month&gt;
+  &lt;Year&gt;” in a condition's text.</span>
+  <span class="long"><b>STILL UNRECORDED</b> when any of the six conditions began. The rails
+  assert nothing except that the corpus holds no start and no end for them.</span>
 </div>
 </figure>
 
@@ -360,13 +372,13 @@ sorting by them ranks nothing.</div>
     casualty list.</div><ul>""")
     for c in dem:
         A("<li>%s <span style='color:var(--tx-faint)'>· %s</span></li>"
-          % (e(c["title"].split("—")[0].strip()[:44]), fmt_dur(duration_hours(c))))
+          % (e(short_title(c, 44)), fmt_dur(duration_hours(c))))
     A(f"""</ul></div>
   <div class="col"><h3>severity: structural — {len(conditions)} cases</h3>
     <div class="q">“Structural dependency”. A standing arrangement with no event, no
     duration, and no end.</div><ul>""")
     for c in conditions:
-        A("<li>%s</li>" % e(c["title"].split("—")[0].strip()[:44]))
+        A("<li>%s</li>" % e(short_title(c, 44)))
     A("""</ul></div>
 </div>
 <div class="figfoot">
@@ -421,7 +433,7 @@ happens when it moves, and who decides. Verbatim.</div>
   <td class="n%s">%s</td><td class="n">%s</td><td class="n">%s</td>
 </tr>
 <tr class="claimrow"><td colspan="5"><span class="cl">%s</span></td></tr>""" % (
-            e(c["title"].split("—")[0].strip()[:40]), e(c["category_label"]),
+            e(short_title(c, 44)), e(c["category_label"]),
             "" if c["severity"] == "demonstrated" else "",
             e(c["severity_label"].split()[0]), e(c["provider"]),
             e(c["location"]), e(c["one_line"])))
@@ -442,9 +454,10 @@ events are representative of anything — they are the ones somebody wrote about
 <div class="pull">An atlas of ongoing dependency, whose only precise records are of
 things that stopped.</div>
 <ul>
-<li><b>Every date on this page is inferred.</b> The schema has no date field, so event
-dates are the earliest citation attached to the case. A citation can predate or postdate
-the thing it describes; these are proxies and should not be read as a record.</li>
+<li><b>The four event dates are recorded; the six start dates do not exist.</b> Event dates
+were added to the corpus in the 2026-08 refresh, replacing a proxy that had placed one
+outage days early and another two weeks late. Nothing comparable is available for the
+standing conditions: the schema still has no way to say when one began.</li>
 <li><b>Durations come from prose, not fields.</b> {len(with_dur)} of the {len(events)}
 events state one somewhere in their own text. Nothing enforces that they are measured the
 same way.</li>
@@ -452,7 +465,7 @@ same way.</li>
 this period. The corpus records no criterion for inclusion, so the set cannot be read as a
 sample of anything.</li>
 <li><b>The conditions are not unmeasured — they are undated.</b> Their prose carries plenty
-of figures (49% of domains, 115 data centers, 8.5 million machines). What none of them has
+of figures (49% of domains, 115 data centres, $576M in county tax revenue). What none of them has
 is a date, a duration, or a field to put either in. The schema has no slot for when a
 standing arrangement began.</li>
 <li><b>The event/condition split is the corpus's, and it leaks.</b> The DNS concentration
@@ -468,10 +481,10 @@ is.</li>
 
     A(f"""<div class="sec audit meth"><div class="rung">Audit · method</div>
 <h2>What is computed here</h2>
-<div class="rule1">Three derivations, all forced by the same absence: this corpus has no
-time in it.</div>
-<p><b>Event date</b> — earliest source date, for the four cases the corpus marks
-<code>demonstrated</code> only. <b>Duration</b> — the longest interval matched by regex in
+<div class="rule1">The corpus now records when the four outages happened. It still has no
+way to record when any of the six standing conditions began.</div>
+<p><b>Event date</b> — read from the corpus's <code>event_date</code>, added in the 2026-08
+refresh for the four cases marked <code>demonstrated</code>. <b>Duration</b> — the longest interval matched by regex in
 a case's own prose. <b>The still-running band</b> — drawn for every
 <code>structural</code> case, and it asserts nothing except that the corpus records no
 end. The <i>evidence window</i> ({window_lo} → {window_hi}) is min/max of all citation
@@ -488,11 +501,14 @@ none of the argument.</p></div>""")
     A(f"""<div class="sec audit rcpt"><div class="rung">Audit · sources</div>
 <h2>Source material</h2>
 <div class="lede">All {n_receipts} citations — exactly two per case.</div>""")
+    n_ret = sum(1 for c in cs for s_ in c["sources"] if s_.get("retrieved"))
     A(receipts_table(rows, absence_note=(
-        "<b>These dates are doing double duty.</b> For the four outages they are close to "
-        "the date of the event. For the six standing dependencies they record only when "
-        "someone published about it. The schema cannot tell the two apart, and neither "
-        "can the evidence window computed from them.")))
+        "<b>%d of these %d citations carry a retrieval date</b> — the ones re-checked in the "
+        "2026-08 refresh. The rest carry none rather than a manufactured one. No citation in "
+        "this corpus has an archive snapshot, so nothing here is preserved against removal. "
+        "Publication dates record when someone wrote about a case, which for the four outages "
+        "is near the event and for the six conditions is not related to when they began."
+        % (n_ret, n_receipts))))
     A("</div>")
 
     A("""<footer>
