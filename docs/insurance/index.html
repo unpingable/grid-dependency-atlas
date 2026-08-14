@@ -1,643 +1,656 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Insurance Dependency — Infrastructure Dependency Atlas</title>
-  <meta name="description" content="Where insurer exit becomes a hidden governance layer over housing, mortgages, and community stability. Stress bands for US states facing insurance market retreat.">
-  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.css">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #0a0a0a;
-      color: #e0e0e0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    header {
-      padding: 12px 20px;
-      background: #111;
-      border-bottom: 1px solid #222;
-      display: flex;
-      align-items: baseline;
-      gap: 16px;
-      flex-shrink: 0;
-    }
-
-    header a {
-      color: #666;
-      text-decoration: none;
-      font-size: 13px;
-    }
-
-    header a:hover { color: #aaa; }
-
-    header h1 {
-      font-size: 18px;
-      font-weight: 600;
-      color: #fff;
-      letter-spacing: -0.01em;
-    }
-
-    header .subtitle {
-      font-size: 14px;
-      color: #888;
-    }
-
-    .main {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    #map {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .panel {
-      width: 440px;
-      flex-shrink: 0;
-      background: #111;
-      border-left: 1px solid #222;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .panel-placeholder {
-      padding: 40px 24px;
-      color: #555;
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    .placeholder-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: #888;
-      margin-bottom: 16px;
-    }
-
-    .placeholder-stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-
-    .placeholder-stat {
-      font-size: 13px;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 3px;
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
-    }
-
-    .placeholder-desc {
-      font-size: 15px;
-      color: #666;
-      line-height: 1.6;
-      margin-bottom: 16px;
-    }
-
-    .placeholder-note {
-      font-size: 12px;
-      color: #444;
-      line-height: 1.5;
-      border-top: 1px solid #1a1a1a;
-      padding-top: 16px;
-    }
-
-    .panel-content { display: none; }
-    .panel-content.active { display: block; }
-
-    .panel-header {
-      padding: 20px 24px 16px;
-      border-bottom: 1px solid #222;
-    }
-
-    .stress-badge {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 3px 10px;
-      border-radius: 3px;
-      margin-bottom: 8px;
-    }
-
-    .panel-header h2 {
-      font-size: 20px;
-      font-weight: 600;
-      color: #fff;
-      line-height: 1.3;
-      margin-bottom: 8px;
-    }
-
-    .panel-header .one-line {
-      font-size: 14px;
-      color: #aaa;
-      line-height: 1.5;
-      font-style: italic;
-    }
-
-    .panel-body { padding: 16px 24px 24px; }
-
-    .panel-body .field { margin-bottom: 14px; }
-
-    .panel-body .field-label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #666;
-      margin-bottom: 3px;
-    }
-
-    .panel-body .field-value {
-      font-size: 14px;
-      color: #ccc;
-      line-height: 1.5;
-    }
-
-    .panel-body .field-value a {
-      color: #4fc3f7;
-      text-decoration: none;
-    }
-
-    .panel-body .field-value a:hover { text-decoration: underline; }
-
-    .meta-row {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 14px;
-    }
-
-    .meta-row .field { flex: 1; margin-bottom: 0; }
-
-    .confidence-badge {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 2px 6px;
-      border-radius: 3px;
-    }
-
-    .confidence-high { background: #0a1a0a; color: #66bb6a; }
-    .confidence-medium { background: #2a1a00; color: #f5a623; }
-    .confidence-low { background: #2a0a0a; color: #ef5350; }
-
-    .filters {
-      padding: 10px 20px;
-      background: #111;
-      border-bottom: 1px solid #222;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-shrink: 0;
-      flex-wrap: wrap;
-    }
-
-    .filter-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .filter-group label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #666;
-    }
-
-    .filter-group select {
-      font-size: 13px;
-      background: #1a1a1a;
-      color: #ccc;
-      border: 1px solid #333;
-      border-radius: 4px;
-      padding: 4px 8px;
-      cursor: pointer;
-    }
-
-    .legend {
-      display: flex;
-      gap: 12px;
-      margin-left: auto;
-      flex-wrap: wrap;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 12px;
-      color: #888;
-    }
-
-    .legend-swatch {
-      width: 12px;
-      height: 12px;
-      border-radius: 2px;
-    }
-
-    .filter-count {
-      font-size: 13px;
-      color: #666;
-      margin-left: 4px;
-    }
-
-    /* Mobile */
-    .panel-drag-handle { display: none; }
-    .panel-close {
-      display: none;
-      position: absolute;
-      top: 10px;
-      right: 12px;
-      width: 28px;
-      height: 28px;
-      align-items: center;
-      justify-content: center;
-      background: #222;
-      border: 1px solid #333;
-      border-radius: 6px;
-      color: #888;
-      font-size: 16px;
-      cursor: pointer;
-      z-index: 2;
-    }
-    .panel-close:hover { color: #ccc; background: #2a2a2a; }
-
-    @media (max-width: 900px) {
-      header { flex-direction: column; gap: 4px; padding: 10px 16px; }
-      header h1 { font-size: 14px; }
-      header .subtitle { font-size: 11px; line-height: 1.4; }
-      .filters { padding: 8px 12px; gap: 8px; }
-      .filter-group select { font-size: 13px; padding: 6px 8px; }
-      .filter-count { display: none; }
-      .legend { display: none; }
-      .main { flex-direction: column; position: relative; }
-      #map { flex: 1; min-height: 0; }
-      .panel {
-        position: absolute; bottom: 0; left: 0; right: 0; width: 100%;
-        max-height: 55vh; border-left: none; border-top: 1px solid #333;
-        border-radius: 12px 12px 0 0; transform: translateY(100%);
-        transition: transform 0.3s ease; z-index: 10;
-      }
-      .panel.mobile-open { transform: translateY(0); }
-      .panel-placeholder { display: none; }
-      .panel-drag-handle {
-        display: flex; justify-content: center; padding: 10px 0 4px; cursor: grab;
-      }
-      .panel-drag-handle::after {
-        content: ''; width: 36px; height: 4px; background: #444; border-radius: 2px;
-      }
-      .panel-close { display: flex; }
-      .panel-header { padding: 12px 16px 12px; }
-      .panel-header h2 { font-size: 16px; }
-      .panel-body { padding: 12px 16px 24px; }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <a href="../">&larr; Atlas</a>
-    <h1>Insurance Dependency</h1>
-    <span class="subtitle">Where insurer exit becomes a hidden governance layer over housing, mortgages, and community stability.</span>
-  </header>
-
-  <div class="filters">
-    <div class="filter-group">
-      <label>Stress Band</label>
-      <select id="filter-band">
-        <option value="all">All</option>
-        <option value="systemic_retreat">Systemic insurer retreat</option>
-        <option value="accelerating_withdrawal">Accelerating withdrawal</option>
-        <option value="growing_residual_exposure">Growing residual exposure</option>
-        <option value="underinsurance_crisis">Underinsurance crisis</option>
-      </select>
-    </div>
-    <div class="filter-group">
-      <label>Confidence</label>
-      <select id="filter-confidence">
-        <option value="all">All</option>
-        <option value="high">High</option>
-        <option value="medium">Medium</option>
-        <option value="low">Low</option>
-      </select>
-    </div>
-    <div class="legend">
-      <div class="legend-item"><div class="legend-swatch" style="background:#ef5350"></div>Systemic retreat</div>
-      <div class="legend-item"><div class="legend-swatch" style="background:#f5a623"></div>Accelerating withdrawal</div>
-      <div class="legend-item"><div class="legend-swatch" style="background:#fdd835"></div>Growing residual</div>
-      <div class="legend-item"><div class="legend-swatch" style="background:#bd7dff"></div>Underinsurance crisis</div>
-    </div>
-  </div>
-
-  <div class="main">
-    <div id="map"></div>
-    <div class="panel" id="panel">
-      <div class="panel-drag-handle" id="drag-handle"></div>
-      <button class="panel-close" id="panel-close" aria-label="Close">&times;</button>
-      <div class="panel-placeholder" id="placeholder">
-        <div class="placeholder-title">Select a state</div>
-        <div class="placeholder-stats" id="placeholder-stats"></div>
-        <div class="placeholder-desc">
-          Each state is classified into stress bands based on insurer withdrawal patterns,
-          FAIR plan growth, rate increases, and the downstream impact on mortgages
-          and community stability.
-        </div>
-        <div class="placeholder-note">
-          Stress bands indicate market retreat severity and governance exposure, not
-          predicted collapse dates. Assessment confidence varies by state and is shown
-          in each panel.
-        </div>
-      </div>
-      <div class="panel-content" id="panel-content">
-        <div class="panel-header">
-          <span class="stress-badge" id="p-badge"></span>
-          <h2 id="p-state"></h2>
-          <div class="one-line" id="p-oneline"></div>
-        </div>
-        <div class="panel-body">
-          <div class="meta-row">
-            <div class="field">
-              <div class="field-label">Confidence</div>
-              <div class="field-value"><span class="confidence-badge" id="p-confidence"></span></div>
-            </div>
-            <div class="field">
-              <div class="field-label">FAIR Plan Policies</div>
-              <div class="field-value" id="p-fairpolicies"></div>
-            </div>
-            <div class="field">
-              <div class="field-label">Rate Change %</div>
-              <div class="field-value" id="p-ratechange"></div>
-            </div>
-          </div>
-          <div class="field">
-            <div class="field-label">FAIR Plan Name</div>
-            <div class="field-value" id="p-fairname"></div>
-          </div>
-          <div class="field">
-            <div class="field-label">Insurer Exits</div>
-            <div class="field-value" id="p-exits"></div>
-          </div>
-          <div class="field">
-            <div class="field-label">Regulatory Response</div>
-            <div class="field-value" id="p-regulatory"></div>
-          </div>
-          <div class="field">
-            <div class="field-label">Mortgage Impact</div>
-            <div class="field-value" id="p-mortgage"></div>
-          </div>
-          <div class="field">
-            <div class="field-label">Confidence Note</div>
-            <div class="field-value" id="p-confnote" style="font-style:italic;color:#888"></div>
-          </div>
-          <div class="field">
-            <div class="field-label">Sources</div>
-            <div class="field-value" id="p-sources"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.js"></script>
-  <script>
-    const BAND_COLORS = {
-      systemic_retreat: '#ef5350',
-      accelerating_withdrawal: '#f5a623',
-      growing_residual_exposure: '#fdd835',
-      underinsurance_crisis: '#bd7dff'
-    };
-
-    const BAND_STYLES = {
-      systemic_retreat: { bg: '#2a0a0a', fg: '#ef5350' },
-      accelerating_withdrawal: { bg: '#2a1a00', fg: '#f5a623' },
-      growing_residual_exposure: { bg: '#2a2a00', fg: '#fdd835' },
-      underinsurance_crisis: { bg: '#1a0a2a', fg: '#bd7dff' }
-    };
-
-    const map = new maplibregl.Map({
-      container: 'map',
-      style: {
-        version: 8,
-        sources: {
-          'carto-dark': {
-            type: 'raster',
-            tiles: ['https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png'],
-            tileSize: 256,
-            attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
-          }
-        },
-        layers: [{
-          id: 'carto-dark-layer',
-          type: 'raster',
-          source: 'carto-dark',
-          minzoom: 0,
-          maxzoom: 19
-        }]
-      },
-      center: [-98, 38],
-      zoom: 3.8,
-      maxZoom: 8,
-      minZoom: 2
-    });
-
-    map.addControl(new maplibregl.NavigationControl(), 'top-left');
-
-    let geojsonData = null;
-
-    map.on('load', async () => {
-      const resp = await fetch('data/states.geojson');
-      geojsonData = await resp.json();
-
-      map.addSource('states', { type: 'geojson', data: geojsonData });
-
-      // Choropleth fill
-      map.addLayer({
-        id: 'state-fill',
-        type: 'fill',
-        source: 'states',
-        paint: {
-          'fill-color': ['match', ['get', 'stress_band'],
-            'systemic_retreat', BAND_COLORS.systemic_retreat,
-            'accelerating_withdrawal', BAND_COLORS.accelerating_withdrawal,
-            'growing_residual_exposure', BAND_COLORS.growing_residual_exposure,
-            'underinsurance_crisis', BAND_COLORS.underinsurance_crisis,
-            '#444'
-          ],
-          'fill-opacity': 0.35
-        }
-      });
-
-      // State outlines
-      map.addLayer({
-        id: 'state-outline',
-        type: 'line',
-        source: 'states',
-        paint: {
-          'line-color': ['match', ['get', 'stress_band'],
-            'systemic_retreat', BAND_COLORS.systemic_retreat,
-            'accelerating_withdrawal', BAND_COLORS.accelerating_withdrawal,
-            'growing_residual_exposure', BAND_COLORS.growing_residual_exposure,
-            'underinsurance_crisis', BAND_COLORS.underinsurance_crisis,
-            '#444'
-          ],
-          'line-width': 1.5,
-          'line-opacity': 0.7
-        }
-      });
-
-      // Populate placeholder
-      const features = geojsonData.features;
-      const byBand = {};
-      features.forEach(f => {
-        const b = f.properties.stress_label;
-        byBand[b] = (byBand[b] || 0) + 1;
-      });
-      document.getElementById('placeholder-stats').innerHTML =
-        `<span class="placeholder-stat" style="color:#ccc">${features.length} states</span>` +
-        Object.entries(byBand).map(([k, v]) =>
-          `<span class="placeholder-stat">${v} ${k.toLowerCase()}</span>`
-        ).join('');
-
-      updateFilterCount();
-
-      // Hover
-      map.on('mouseenter', 'state-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
-      map.on('mouseleave', 'state-fill', () => { map.getCanvas().style.cursor = ''; });
-
-      // Click
-      map.on('click', 'state-fill', (e) => {
-        const props = e.features[0].properties;
-        showPanel(props);
-        const geom = e.features[0].geometry;
-        const bounds = new maplibregl.LngLatBounds();
-        const coords = geom.type === 'MultiPolygon'
-          ? geom.coordinates.flat(1)
-          : geom.coordinates;
-        coords.forEach(ring => ring.forEach(c => bounds.extend(c)));
-        const padding = isMobile()
-          ? { top: 40, bottom: 60, left: 20, right: 20 }
-          : { top: 60, bottom: 60, left: 60, right: 460 };
-        map.fitBounds(bounds, { padding, duration: 600, maxZoom: 6 });
-      });
-
-      map.on('click', (e) => {
-        const features = map.queryRenderedFeatures(e.point, { layers: ['state-fill'] });
-        if (features.length === 0) hidePanel();
-      });
-    });
-
-    const isMobile = () => window.innerWidth <= 900;
-    const panelEl = document.getElementById('panel');
-
-    document.getElementById('panel-close').addEventListener('click', hidePanel);
-
-    let dragStartY = null;
-    const dragHandle = document.getElementById('drag-handle');
-    dragHandle.addEventListener('touchstart', (e) => { dragStartY = e.touches[0].clientY; }, { passive: true });
-    dragHandle.addEventListener('touchmove', (e) => {
-      if (dragStartY === null) return;
-      if (e.touches[0].clientY - dragStartY > 60) { hidePanel(); dragStartY = null; }
-    }, { passive: true });
-    dragHandle.addEventListener('touchend', () => { dragStartY = null; });
-
-    function formatNumber(n) {
-      if (n == null) return 'N/A';
-      return Number(n).toLocaleString();
-    }
-
-    function showPanel(props) {
-      document.getElementById('placeholder').style.display = 'none';
-      document.getElementById('panel-content').classList.add('active');
-      if (isMobile()) panelEl.classList.add('mobile-open');
-
-      const band = props.stress_band;
-      const style = BAND_STYLES[band] || BAND_STYLES.systemic_retreat;
-      const badge = document.getElementById('p-badge');
-      badge.textContent = props.stress_label;
-      badge.style.background = style.bg;
-      badge.style.color = style.fg;
-
-      document.getElementById('p-state').textContent = props.state;
-      document.getElementById('p-oneline').textContent = props.one_line;
-
-      const confEl = document.getElementById('p-confidence');
-      confEl.textContent = props.confidence;
-      confEl.className = 'confidence-badge confidence-' + props.confidence;
-
-      document.getElementById('p-fairpolicies').textContent = formatNumber(props.fair_plan_policies);
-      document.getElementById('p-ratechange').textContent = props.rate_change_pct != null ? props.rate_change_pct + '%' : 'N/A';
-      document.getElementById('p-fairname').textContent = props.fair_plan_name || 'N/A';
-      document.getElementById('p-exits').textContent = props.insurer_exits;
-      document.getElementById('p-regulatory').textContent = props.regulatory_response;
-      document.getElementById('p-mortgage').textContent = props.mortgage_impact;
-      document.getElementById('p-confnote').textContent = props.confidence_note;
-
-      const sources = typeof props.sources === 'string' ? JSON.parse(props.sources) : props.sources;
-      document.getElementById('p-sources').innerHTML = sources.map(s =>
-        `<a href="${s.url}" target="_blank" rel="noopener">${s.publisher}</a> (${s.date})`
-      ).join('<br>');
-    }
-
-    function hidePanel() {
-      if (!isMobile()) document.getElementById('placeholder').style.display = 'block';
-      document.getElementById('panel-content').classList.remove('active');
-      panelEl.classList.remove('mobile-open');
-    }
-
-    // Filters
-    const filterBand = document.getElementById('filter-band');
-    const filterConf = document.getElementById('filter-confidence');
-
-    function applyFilters() {
-      if (!geojsonData) return;
-      const b = filterBand.value;
-      const c = filterConf.value;
-      const filters = ['all'];
-      if (b !== 'all') filters.push(['==', ['get', 'stress_band'], b]);
-      if (c !== 'all') filters.push(['==', ['get', 'confidence'], c]);
-      const f = filters.length === 1 ? null : filters;
-      map.setFilter('state-fill', f);
-      map.setFilter('state-outline', f);
-      updateFilterCount();
-    }
-
-    filterBand.addEventListener('change', applyFilters);
-    filterConf.addEventListener('change', applyFilters);
-
-    function updateFilterCount() {
-      if (!geojsonData) return;
-      const b = filterBand.value;
-      const c = filterConf.value;
-      let count = geojsonData.features.filter(f => {
-        const p = f.properties;
-        if (b !== 'all' && p.stress_band !== b) return false;
-        if (c !== 'all' && p.confidence !== c) return false;
-        return true;
-      }).length;
-      let el = document.getElementById('filter-count');
-      if (!el) {
-        el = document.createElement('span');
-        el.id = 'filter-count';
-        el.className = 'filter-count';
-        document.querySelector('.filters').insertBefore(el, document.querySelector('.legend'));
-      }
-      const total = geojsonData.features.length;
-      el.textContent = count === total ? `${total} states` : `${count} of ${total} states`;
-    }
-  </script>
-</body>
-</html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Which state is worst? The atlas says two of them</title>
+<meta name="description" content="Six states under insurer retreat: the corpus records two of them as the highest rate increase in the nation, and cannot say which is right.">
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link rel="stylesheet" href="https://fonts.bunny.net/css?family=newsreader:400,500,600&display=swap">
+<style>
+:root{
+  --ink:#0a0a0a; --panel:#101215; --rule:#22262b; --rule-soft:#171a1e;
+  --tx:#e2e7ed; --tx-mid:#98a1ab; --tx-dim:#69727c; --tx-faint:#525b64;
+  --observed:#4fc3f7; --derived:#e0a03a; --interpreted:#b9c2cc; --refused:#79828c;
+  --hot:#ef5350;
+  --serif:'Newsreader',Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ink);color:var(--tx);font-family:var(--sans);
+  font-size:15px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 24px 110px}
+
+.evbanner,.evbanner{background:#2a1c05;border-bottom:2px solid #6b4d12;color:#f0cf8d;
+  font-family:var(--mono);font-size:12px;letter-spacing:.02em;
+  padding:13px 24px;line-height:1.55}
+.evbanner b{color:#ffdf9c}
+.evbanner .big{display:block;font-size:14px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:#ffd98a;margin-bottom:3px}
+
+/* ---------- question + answer ---------- */
+.kicker{font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.19em;color:var(--tx-dim);padding-top:62px}
+h1{font-family:var(--serif);font-size:47px;font-weight:600;line-height:1.04;
+  letter-spacing:-.02em;color:#fff;margin:20px 0 22px;max-width:19ch}
+.answer{font-family:var(--serif);font-size:21px;line-height:1.48;
+  color:#ccd4dd;max-width:56ch;margin-bottom:38px}
+.answer strong{color:#fff;font-weight:600}
+
+/* ---------- summary strip: the 20-second read ---------- */
+.strip{display:grid;grid-template-columns:repeat(5,1fr);
+  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  margin-bottom:16px}
+.strip .s{padding:16px 16px 15px 0}
+.strip .s+.s{padding-left:18px;border-left:1px solid var(--rule-soft)}
+.strip .n{font-family:var(--serif);font-size:33px;font-weight:600;color:#fff;
+  line-height:1;letter-spacing:-.02em}
+.strip .l{font-size:12px;color:var(--tx-dim);line-height:1.38;margin-top:8px}
+.strip .anom .n{color:var(--derived)}
+.strip .anom .l{color:#a8853f}
+.strip .n .den{font-size:19px;color:var(--tx-dim)}
+
+.stamp{display:flex;flex-wrap:wrap;gap:0 22px;font-family:var(--mono);
+  font-size:11px;color:var(--tx-faint);margin-bottom:46px}
+.stamp b{color:var(--tx-dim);font-weight:400}
+.stamp .stale{color:var(--hot)}
+
+/* ---------- refusal + register key ---------- */
+.refusal{border-left:2px solid var(--refused);padding:1px 0 1px 17px;
+  margin:0 0 30px;font-family:var(--serif);font-size:17.5px;line-height:1.48;
+  color:#a9b2bc;max-width:60ch}
+.refusal b{color:#e2e7ed;font-weight:600}
+
+.regkey{display:grid;grid-template-columns:repeat(4,1fr);gap:0 26px;
+  border-top:1px solid var(--rule);padding-top:13px;margin-bottom:24px}
+.regkey .rl{font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.11em;text-transform:uppercase;margin-bottom:4px}
+.regkey .rd{font-size:12px;color:var(--tx-faint);line-height:1.42}
+.r-observed .rl{color:var(--observed)} .r-derived .rl{color:var(--derived)}
+.r-interpreted .rl{color:var(--interpreted)} .r-refused .rl{color:var(--refused)}
+
+.mk{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;vertical-align:.18em;padding:1px 4px;margin-left:5px;
+  border:1px solid currentColor;white-space:nowrap}
+.mk-o{color:var(--observed)} .mk-d{color:var(--derived)}
+.mk-i{color:var(--interpreted)} .mk-r{color:var(--refused)}
+
+/* ---------- section rhythm: air between evidentiary moves ---------- */
+.sec{margin-top:104px}
+.rung{font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--tx-faint);margin-bottom:12px}
+h2{font-family:var(--serif);font-size:27px;font-weight:600;color:#fff;
+  line-height:1.18;margin:0 0 10px;letter-spacing:-.012em;max-width:24ch}
+.lede{font-family:var(--serif);font-size:17.5px;color:#a4aeb8;line-height:1.5;
+  max-width:60ch;margin-bottom:26px}
+p{max-width:64ch;margin-bottom:14px}
+
+/* ---------- figures: finding is loud, apparatus is quiet ---------- */
+figure{margin:0}
+figcaption{font-family:var(--serif);font-size:23px;font-weight:600;color:#fff;
+  line-height:1.22;margin-bottom:8px;max-width:27ch}
+.fignote{font-size:13.5px;color:var(--tx-dim);max-width:58ch;margin-bottom:26px}
+.figfoot{border-top:1px solid var(--rule-soft);margin-top:20px;padding-top:11px;
+  font-family:var(--mono);font-size:10.5px;color:var(--tx-faint);line-height:1.8}
+.figfoot b{color:var(--tx-dim);font-weight:400}
+.figfoot span{display:inline-block;margin-right:20px;max-width:100%;
+  vertical-align:top}
+.figfoot span.long{white-space:normal;display:block;margin-right:0}
+
+/* ---------- bar rows ---------- */
+.bars{border-top:1px solid var(--rule)}
+.row{display:grid;grid-template-columns:110px 1fr 58px;gap:14px;
+  align-items:baseline;padding:10px 0;border-bottom:1px solid var(--rule-soft)}
+.row .nm{font-size:14.5px;color:var(--tx)}
+.row .tr{position:relative;height:16px;top:3px}
+.row .bar{position:absolute;left:0;top:3px;height:11px;background:var(--observed);
+  opacity:.85}
+/* a published range: drawn as the span it is, with the stored point marked */
+.row .span{position:absolute;top:3px;height:11px;background:var(--observed);opacity:.34;
+  border-left:1px solid rgba(79,195,247,.85);border-right:1px solid rgba(79,195,247,.85)}
+.row .pt{position:absolute;top:0px;height:17px;width:2px;background:var(--observed)}
+/* figures that count something else: no axis, no bar, no implied comparison */
+.offaxis{margin-top:22px;padding:16px 0 4px;border-top:1px solid var(--rule)}
+.offaxis .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--tx-mid);margin-bottom:5px}
+.offaxis .d{font-size:13px;color:var(--tx-dim);max-width:58ch;line-height:1.5;
+  margin-bottom:10px}
+.offtbl{font-size:13px}
+.offtbl td{border-bottom:1px solid var(--rule-soft);padding:8px 14px 8px 0}
+.offtbl .wq{color:var(--tx-faint);font-size:12px}
+.offtbl .wq q{font-style:italic;quotes:none}
+.row .val{font-family:var(--mono);font-size:13px;color:var(--tx);text-align:right}
+.row .note{grid-column:2/4;font-size:11.5px;color:#93763b;margin-top:3px;
+  line-height:1.4}
+.row.null .tr{background:repeating-linear-gradient(45deg,transparent,transparent 4px,
+  #1e2227 5px,#1e2227 6px);height:11px;top:6px;border:1px dashed #2b3037}
+.row.null .val{color:var(--refused);font-size:10.5px}
+.row.null .note{color:var(--tx-faint)}
+.sixty{position:absolute;top:-4px;bottom:-4px;width:1px;background:var(--hot);
+  opacity:.5}
+.axis{display:grid;grid-template-columns:110px 1fr 58px;gap:14px;
+  font-family:var(--mono);font-size:10px;color:var(--tx-faint);padding-top:6px}
+.axis .tr{position:relative;height:12px}
+.axis .tick{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.bandsplit{padding:18px 0 9px;border-bottom:1px solid var(--rule);margin-top:5px}
+.bandsplit .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--tx-mid);margin-bottom:5px}
+.bandsplit .d{font-size:13px;color:var(--tx-dim);max-width:58ch;line-height:1.5}
+
+/* ---------- interpretation: authored, subordinate to the finding ---------- */
+.interp{border-left:2px solid #3b434c;padding:2px 0 2px 18px;margin:30px 0 0;
+  max-width:58ch}
+.interp p{font-family:var(--serif);font-size:17.5px;line-height:1.5;
+  color:#b6bfc9;margin-bottom:0}
+.interp .by{font-family:var(--mono);font-size:10px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--tx-faint);margin-top:11px}
+
+/* ---------- tables ---------- */
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th{text-align:left;font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--tx-faint);
+  border-bottom:1px solid var(--rule);padding:0 12px 8px 0;vertical-align:bottom}
+td{border-bottom:1px solid var(--rule-soft);padding:10px 12px 10px 0;
+  vertical-align:top;line-height:1.5;color:var(--tx-mid)}
+td.k{color:var(--tx);white-space:nowrap}
+td.n{font-family:var(--mono);color:var(--tx);white-space:nowrap}
+td q{color:#aab3bd;font-style:italic;quotes:none}
+.scroll{overflow-x:auto}
+
+/* ---------- supporting figure: quieter than a major beat ---------- */
+figure.support{max-width:660px}
+figure.support figcaption{font-family:var(--sans);font-size:16px;font-weight:600;
+  color:#c3ccd5;max-width:46ch;line-height:1.35}
+figure.support .fignote{font-size:12.5px;max-width:52ch;margin-bottom:18px}
+
+/* ---------- country ledger ---------- */
+table.ledger{font-size:13px}
+table.ledger th{padding-bottom:9px}
+table.ledger tr.lr>td{border-bottom:none;padding:12px 12px 2px 0}
+table.ledger tr.claimrow>td{padding:0 0 13px 0;border-bottom:1px solid var(--rule-soft)}
+.ledger .cty{font-family:var(--serif);font-size:17px;font-weight:600;color:#fff;
+  padding-right:16px}
+.ledger .bandc{font-family:var(--mono);font-size:10.5px;color:var(--interpreted);
+  letter-spacing:.02em;white-space:nowrap}
+.ledger .bandc::before{content:"▌";color:#3b434c;margin-right:5px}
+.ledger td.n{font-size:11.5px;text-align:right;color:var(--tx-mid);padding-right:14px}
+.ledger td.miss{color:#b4655f}
+.ledger .cf-low{color:#c97a72} .ledger .cf-medium{color:#b6924e}
+.ledger .cf-high{color:var(--tx-faint)}
+.ledger .cl{font-size:14px;color:var(--tx-mid);line-height:1.5}
+.ledger .qn{display:block;font-family:var(--mono);font-size:10.5px;color:var(--tx-faint);
+  margin-top:5px;line-height:1.45}
+
+/* ---------- audit register: deliberate, not another chapter ---------- */
+.sec.audit{border-top:2px solid #39414a;padding-top:30px;margin-top:96px}
+.sec.audit .rung{color:#8d97a1}
+.sec.audit h2{font-size:25px}
+.sec.audit+.sec.audit{margin-top:68px}
+
+/* ---------- country index (retired; ledger replaces it) ---------- */
+.idx{border-top:1px solid var(--rule)}
+.idx .c{padding:16px 0;border-bottom:1px solid var(--rule-soft)}
+.idx .h{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;margin-bottom:5px}
+.idx .cn{font-family:var(--serif);font-size:19.5px;font-weight:600;color:#fff}
+.idx .band{font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+  color:var(--interpreted);border:1px solid #2b3138;padding:1px 6px}
+.idx .conf{font-family:var(--mono);font-size:10px;color:var(--tx-faint)}
+.idx .cl{font-size:14.5px;color:var(--tx-mid);max-width:64ch;line-height:1.5;
+  margin-bottom:5px}
+.idx .meta{font-family:var(--mono);font-size:10.5px;color:var(--tx-faint)}
+.idx .meta .miss{color:#b4655f}
+
+/* ---------- boundary / method ---------- */
+.bound li,.meth li{margin:0 0 12px 20px;max-width:62ch;color:var(--tx-mid)}
+.pull{font-family:var(--serif);font-size:22px;line-height:1.36;color:#fff;
+  max-width:44ch;margin:0 0 26px}
+.rule1{border-left:2px solid var(--interpreted);padding:3px 0 3px 18px;
+  margin:0 0 24px;font-family:var(--serif);font-size:19px;line-height:1.45;
+  color:#e2e7ed;max-width:58ch}
+
+.absence{border-left:2px solid #b4655f;padding:2px 0 2px 17px;margin:0 0 26px;
+  font-size:14px;line-height:1.55;color:var(--tx-mid);max-width:62ch}
+.absence b{color:#e2e7ed}
+.rcpt a{color:var(--observed);text-decoration:none}
+.rcpt a:hover{text-decoration:underline}
+.rcpt td{font-size:12.5px}
+
+footer{margin-top:96px;border-top:1px solid var(--rule);padding-top:22px;
+  font-size:12.5px;color:var(--tx-faint);line-height:1.7}
+footer a{color:var(--observed);text-decoration:none}
+
+@media (max-width:760px){
+  h1{font-size:33px}
+  .answer{font-size:18.5px}
+  .strip{grid-template-columns:1fr 1fr}
+  .strip .s+.s{padding-left:0;border-left:none}
+  .strip .s{border-top:1px solid var(--rule-soft);padding:13px 14px 13px 0}
+  .strip .s:nth-child(-n+2){border-top:none}
+  .regkey{grid-template-columns:1fr 1fr;gap:14px 20px}
+  .sec{margin-top:72px}
+  .row,.axis{grid-template-columns:86px 1fr 50px;gap:10px}
+  .row .nm{font-size:13px}
+  .figfoot span{display:block;margin-right:0}
+  table.ledger{font-size:12px}
+  .ledger .cty{font-size:15px;padding-right:10px}
+  .ledger .bandc{font-size:9.5px}
+  .ledger td.n{padding-right:8px;font-size:10.5px}
+  .ledger .cl{font-size:13px}
+  figure.support .fignote{max-width:none}
+}
+@media print{body{background:#fff;color:#000}.evbanner{background:#eee;color:#000}}
+
+/* ---------- compact register line: infrastructure, not protagonist ---------- */
+.regline{font-family:var(--mono);font-size:10.5px;color:var(--tx-faint);
+  letter-spacing:.04em;margin-bottom:44px}
+.regline b{font-weight:400}
+.regline .o{color:var(--observed)} .regline .d{color:var(--derived)}
+.regline .i{color:var(--interpreted)} .regline .r{color:var(--refused)}
+
+/* ---------- audit divider ---------- */
+.auditline{margin-top:110px;border-top:2px solid #39414a;padding-top:14px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:#8d97a1}
+.auditline span{color:var(--tx-faint);letter-spacing:.02em;text-transform:none;
+  margin-left:14px}
+.sec.audit{border-top:none;padding-top:0;margin-top:64px}
+.sec.audit .rung{color:#8d97a1}
+
+/* register definitions, demoted to the audit floor */
+.regdefs{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 26px;
+  margin:0 0 26px}
+.regdefs .rl{font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.11em;text-transform:uppercase;margin-bottom:3px}
+.regdefs .rd{font-size:12.5px;color:var(--tx-dim);line-height:1.45}
+
+@media (max-width:760px){
+  .turn .e{grid-template-columns:1fr;gap:8px}
+  .regdefs{grid-template-columns:1fr}
+  .payoff{font-size:21px}
+}
+
+/* ---------- insurance-only: the contradiction block ---------- */
+.claimoff{border-top:1px solid var(--rule)}
+.claimoff .row2{display:grid;grid-template-columns:132px 96px 1fr;gap:20px;
+  padding:19px 0;border-bottom:1px solid var(--rule-soft);align-items:baseline}
+.claimoff .st{font-family:var(--serif);font-size:20px;font-weight:600;color:#fff}
+.claimoff .pc{font-family:var(--serif);font-size:31px;font-weight:600;
+  color:var(--observed);line-height:1;letter-spacing:-.02em}
+.claimoff .pc.dim{color:var(--tx-dim)}
+.claimoff .says{font-size:13.5px;color:var(--tx-mid);line-height:1.5}
+.claimoff .says q{font-style:italic;color:#c3ccd5;quotes:none}
+.claimoff .missing{color:#b4655f;font-family:var(--mono);font-size:11.5px}
+.claimoff .row2.clash{background:linear-gradient(90deg,rgba(224,139,118,.07),transparent 70%)}
+.claimoff .flag{display:block;font-family:var(--mono);font-size:9.5px;
+  letter-spacing:.09em;text-transform:uppercase;color:#e08b76;margin-top:6px}
+
+/* prose-vs-record ledger */
+.pv .b{padding:16px 0;border-bottom:1px solid var(--rule-soft)}
+.pv .h{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-bottom:7px}
+.pv .s{font-family:var(--serif);font-size:19px;font-weight:600;color:#fff}
+.pv .cnt{font-family:var(--mono);font-size:10.5px;color:var(--tx-faint)}
+.pv .toks{display:flex;flex-wrap:wrap;gap:6px}
+.pv .t{font-family:var(--mono);font-size:11.5px;padding:2px 7px;
+  border:1px solid #2b3138;color:var(--tx-dim)}
+.pv .t.backed{border-color:#2b4a5a;color:var(--observed)}
+</style></head><body>
+
+<div class="evbanner">
+<span class="big">Evidence current to 2026-01-01 — 225 days ago</span>
+Every present-tense claim below is present tense as of 2026-01-01, not as of reading.
+Built from <code>docs/insurance/data/states.geojson</code>.
+</div>
+
+<div class="wrap">
+
+<div class="kicker">Insurance Dependency · Infrastructure Dependency Atlas</div>
+<h1>Which state is worst? The atlas says two of them</h1>
+
+<div class="answer">
+Louisiana's record says its <strong>58%</strong> rate rise is “the highest rate increase in
+the nation.” Colorado's says its <strong>76.6%</strong> is. Both are in this atlas; both are
+painted on the same map, on the same scale. Colorado's figure at least carries a period —
+six years — but only inside a sentence of prose. Louisiana's carries none at all, and
+<strong>neither period is stored in any field a map can read.</strong>
+</div>
+
+<div class="strip">
+  <div class="s"><div class="n">6</div><div class="l">states assessed</div></div>
+  <div class="s anom"><div class="n">2</div><div class="l">claim “highest in the nation”</div></div>
+  <div class="s anom"><div class="n">3</div><div class="l">record no policy count at all</div></div>
+  <div class="s anom"><div class="n">7</div><div class="l">of 12 citations point at a home page</div></div>
+</div>
+
+<div class="stamp">
+  <span><b>EVIDENCE WINDOW OPENS</b> 2024-12-01</span>
+  <span><b>CITATIONS</b> 12</span>
+  <span><b>STATES</b> 6</span>
+</div>
+
+<div class="regline">
+  <span class="o">●</span> observed &nbsp;·&nbsp; <span class="d">◌</span> derived
+  &nbsp;·&nbsp; <span class="i">▌</span> interpreted &nbsp;·&nbsp;
+  <span class="r">⊘</span> refused &nbsp;— marks appear beside claims; defined under Method.
+</div>
+
+<div class="sec"><div class="rung">Primary evidence · observed</div>
+<figure>
+<figcaption>One field, six states, six different meanings.</figcaption>
+<div class="fignote">Each state's stored <code>rate_change_pct</code>, beside every
+sentence in that state's own record that mentions rates. <b>These are deliberately not
+drawn on a shared axis.</b> Putting them on one would assert a comparison the corpus
+cannot support — which is what the published map does.</div>
+<div class="claimoff">
+<div class="row2 clash">
+  <div class="st">Colorado</div>
+  <div class="pc">77%</div>
+  <div class="says"><q>Highest cumulative rate increase in nation: 76.6% over 6 years (2019-2024).</q><span class="flag">claims “highest in the nation”</span></div>
+</div>
+<div class="row2 clash">
+  <div class="st">Louisiana</div>
+  <div class="pc">58%</div>
+  <div class="says"><q>Dozen+ insurers went insolvent, then the state repealed consumer protections to attract replacements — 58% rate increase followed.</q> <q>Highest rate increase in nation: 58%.</q><span class="flag">claims “highest in the nation”</span></div>
+</div>
+<div class="row2">
+  <div class="st">California</div>
+  <div class="pc dim">36%</div>
+  <div class="says"><q>9 new consumer protection laws effective 2026. &#x27;Sustainable insurance strategy&#x27; trades rate hikes for writing commitments.</q><span class="flag" style="color:var(--tx-faint)">stored value appears nowhere in the prose</span></div>
+</div>
+<div class="row2">
+  <div class="st">Florida</div>
+  <div class="pc dim">18%</div>
+  <div class="says"><span class="missing">nothing in this state's record says what this number measures</span><span class="flag" style="color:var(--tx-faint)">stored value appears nowhere in the prose</span></div>
+</div>
+<div class="row2">
+  <div class="st">North Carolina</div>
+  <div class="pc dim">15%</div>
+  <div class="says"><q>Rate regulation remains commonplace.</q> <q>Outer Banks and coastal communities face rising premiums and shrinking coverage options.</q><span class="flag" style="color:var(--tx-faint)">stored value appears nowhere in the prose</span></div>
+</div>
+<div class="row2">
+  <div class="st">Texas</div>
+  <div class="pc dim">3%</div>
+  <div class="says"><q>Residential rates deemed inadequate by 38%.</q> <q>Written premiums $779M projected 2025. Rising reinsurance costs and construction inflation compounding.</q><span class="flag" style="color:var(--tx-faint)">stored value appears nowhere in the prose</span></div>
+</div>
+</div>
+<div class="figfoot">
+  <span><b>n</b> 6 states · 2 anchored to a sentence</span>
+  <span><b>WINDOW</b> 2024-12-01 → 2026-01-01</span><br>
+  <span class="long"><b>DERIVED</b> the anchoring flag: a figure counts as anchored when its
+  stored value appears in one of its own state's rate sentences. Colorado's stored <b>77</b>
+  is the prose's <b>76.6%</b> rounded, and its six-year window is the only period the corpus
+  states anywhere. No shared axis and no severity sort — the values are not one quantity.</span>
+</div>
+</figure>
+
+<div class="interp">
+<p>Texas's stored figure is <b>3</b>. The only rate sentence in its record says residential
+rates were “deemed inadequate by 38%” — a regulator's judgment about a shortfall, not an
+increase paid by anyone. Whatever the 3 is, the corpus does not say, and the published map
+paints it in the same scale as Colorado's 77.</p>
+<div class="by">▌Interpreted</div>
+</div></div>
+<div class="sec"><div class="rung">What the six records describe</div>
+<h2>The backstop is becoming the market</h2>
+<div class="lede">Underneath the schema argument there is a story the corpus tells
+plainly: what insurers did, what the state did back, and what it costs the people who
+live there. Verbatim, in the corpus's own words.</div>
+<div class="turn">
+<div class="e">
+  <div><div class="cn">Florida</div><span class="tag" style="color:var(--tx-faint)">Systemic insurer retreat</span></div>
+  <div class="st"><span class="lab">Insurer behaviour</span>Dozen+ carriers insolvent post-hurricanes Laura, Delta, Ida, Zeta (2020-2022). Citizens became largest insurer in state at 1.41M policies.
+    <span class="lab" style="margin-top:12px">State response</span>Aggressive depopulation program: 677,920 policies transferred to private market since Jan 2024. Citizens down from 1.41M to 395K policies.
+    <span class="lab" style="margin-top:12px">What it costs households</span>Coastal property values under pressure. Insurance costs now material factor in home affordability. Citizens wins 90%+ of arbitration cases it helps fund.</div>
+</div>
+<div class="e">
+  <div><div class="cn">California</div><span class="tag" style="color:var(--tx-faint)">Accelerating insurer withdrawal</span></div>
+  <div class="st"><span class="lab">Insurer behaviour</span>State Farm stopped new policies (2023), nonrenewing 72,000. Allstate, Farmers retreated. FAIR Plan up 139% since Sept 2021. 14% of FAIR policies now in lower-fire-risk urban zones — retreat beyond wildfire areas.
+    <span class="lab" style="margin-top:12px">State response</span>25 moratorium declarations. SB 824 (2018) prohibits fire-risk nonrenewals. 9 new consumer protection laws effective 2026. &#x27;Sustainable insurance strategy&#x27; trades rate hikes for writing commitments.
+    <span class="lab" style="margin-top:12px">What it costs households</span>Orinda ZIP 94563: 55% of homeowner policies nonrenewed by State Farm. LA fire zones (Brentwood, Beverly Hills) saw largest FAIR Plan growth. 26% of ZIP codes with $100M+ exposure growth.</div>
+</div>
+<div class="e">
+  <div><div class="cn">Texas</div><span class="tag" style="color:var(--tx-faint)">Growing residual market exposure</span></div>
+  <div class="st"><span class="lab">Insurer behaviour</span>Private insurers exiting coastal market. TWIA market share &gt;50% in designated catastrophe areas. 276,000+ policies (record), projected 285,000 by end 2025.
+    <span class="lab" style="margin-top:12px">State response</span>TWIA entered 2025 with $413.5M deficit (reversed from $45.9M surplus). Residential rates deemed inadequate by 38%. Hurricane Beryl (July 2024) drained Catastrophe Reserve Trust Fund.
+    <span class="lab" style="margin-top:12px">What it costs households</span>Total TWIA exposure: $117B+ (record). Written premiums $779M projected 2025. Rising reinsurance costs and construction inflation compounding.</div>
+</div>
+<div class="e">
+  <div><div class="cn">Louisiana</div><span class="tag" style="color:var(--tx-faint)">Systemic insurer retreat</span></div>
+  <div class="st"><span class="lab">Insurer behaviour</span>Dozen+ carriers insolvent after Hurricanes Laura, Delta, Ida, Zeta. Many others stopped writing in high-risk areas. Highest rate increase in nation: 58%.
+    <span class="lab" style="margin-top:12px">State response</span>Repealed three-year protection rule (Jan 2025). Now allows up to 5% annual cancellations per insurer. Described as shift to &#x27;business-friendly&#x27; climate — regulators chose market access over consumer protection.
+    <span class="lab" style="margin-top:12px">What it costs households</span>Highest rates in nation. Coastal communities face compounding exposure: hurricane risk + insurer exit + regulatory deprotection.</div>
+</div>
+<div class="e">
+  <div><div class="cn">Colorado</div><span class="tag" style="color:var(--tx-faint)">Post-disaster underinsurance crisis</span></div>
+  <div class="st"><span class="lab">Insurer behaviour</span>Not primarily an exit story — Colorado is the underinsurance story. 1,105 homes destroyed in Marshall Fire (2021). Insurance gaps averaged &gt;$100K per household. 87% had extended coverage but 75% still fell short.
+    <span class="lab" style="margin-top:12px">State response</span>Colorado Housing Recovery Program grants stopped new applications July 2024. Community Foundation rebuild fund running out (&lt;$5M remaining). Xcel Energy + telecoms settled for $640M.
+    <span class="lab" style="margin-top:12px">What it costs households</span>Highest cumulative rate increase in nation: 76.6% over 6 years (2019-2024). Underinsured households significantly less likely to rebuild. Recovery funds expiring one by one.</div>
+</div>
+<div class="e">
+  <div><div class="cn">North Carolina</div><span class="tag" style="color:var(--tx-faint)">Growing residual market exposure</span></div>
+  <div class="st"><span class="lab">Insurer behaviour</span>Private carriers reducing coastal exposure. Wind Pool absorbing increasing share of coastal risk. Hurricane season exposure compounding with development pressure on barrier islands.
+    <span class="lab" style="margin-top:12px">State response</span>Rate regulation remains commonplace. Coastal building codes updated post-hurricanes. But development pressure on barrier islands continues largely unchecked.
+    <span class="lab" style="margin-top:12px">What it costs households</span>Outer Banks and coastal communities face rising premiums and shrinking coverage options. Flood insurance (NFIP) costs rising separately. Compound exposure: wind + flood + sea level.</div>
+</div>
+</div>
+<div class="figfoot">
+  <span><b>OBSERVED</b> reproduced verbatim from the corpus, per-state receipts</span>
+</div>
+
+<div class="interp">
+<p>Two of these accounts carry figures the record cannot check. California's headline —
+<q>FAIR Plan up 139% in 4 years</q> — is a claim about a trend, and the corpus stores one
+snapshot with no baseline. Florida's <q>1.41M policies to 395K</q> is the largest movement
+on the page, and both of its citations are home pages. Neither is likely to be wrong.
+Neither can be verified from here.</p>
+<div class="by">▌Interpreted</div>
+</div></div>
+<div class="sec"><div class="rung">Secondary evidence · interpreted</div>
+<figure>
+<figcaption>The classification, mapped. The shading is an authored class, not a measurement.</figcaption>
+<div class="fignote">Fill encodes the corpus's <span class="mk mk-i">stress_band</span> —
+an assessment class with no derivation rule. The colours are <b>categorical, not a
+scale</b>. Hatching marks the states with no FAIR-plan policy counts recorded at all.</div>
+<svg viewBox="0 0 800 400" width="100%" role="img"
+ aria-label="Map of six US states shaded by an authored insurer-stress class, with hatching on the three that record no FAIR-plan policy counts.">
+<defs>
+  <pattern id="hatch" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+    <line x1="0" y1="0" x2="0" y2="6" stroke="#0a0a0a" stroke-width="2.6" opacity="0.6"/>
+  </pattern>
+</defs>
+<rect x="0" y="0" width="800" height="400" fill="#0c0e11"/>
+  <path d="M584.4,250.7 L584.6,250.0 L585.1,249.4 L585.3,248.8 L585.3,247.5 L585.6,245.7 L585.4,245.1 L583.3,242.8 L582.8,241.5 L582.7,240.3 L582.9,238.9 L587.7,238.9 L592.5,238.9 L597.3,238.9 L602.2,238.9 L607.0,238.9 L611.8,238.9 L616.6,238.9 L621.4,238.9 L622.0,240.4 L623.2,243.5 L623.3,244.2 L624.7,244.3 L627.0,244.5 L629.4,244.7 L631.8,244.8 L634.2,245.0 L636.5,245.2 L638.9,245.4 L641.3,245.5 L643.7,245.7 L646.0,245.9 L648.4,246.1 L650.8,246.2 L653.2,246.4 L655.5,246.6 L657.9,246.8 L660.3,246.9 L662.7,247.1 L662.7,247.7 L663.1,248.7 L663.2,249.8 L663.3,250.4 L663.8,250.7 L664.6,250.8 L665.3,250.2 L665.8,248.8 L665.9,247.2 L665.6,245.5 L665.7,244.0 L666.0,243.1 L666.5,242.9 L666.9,242.4 L667.2,242.3 L668.0,242.6 L671.1,243.8 L673.6,244.0 L674.3,245.7 L675.4,252.7 L676.1,255.1 L677.4,261.7 L679.6,268.0 L682.6,275.7 L687.6,285.0 L688.2,286.3 L687.6,287.5 L687.4,288.6 L687.3,290.4 L687.5,292.1 L688.1,294.2 L689.2,297.4 L688.6,296.8 L686.9,292.2 L686.8,289.5 L687.0,285.7 L686.6,285.7 L686.3,287.0 L686.1,288.4 L685.7,289.0 L685.1,286.8 L685.2,285.8 L685.8,284.6 L685.6,284.2 L684.6,283.6 L684.4,282.6 L684.5,281.7 L684.0,281.2 L683.6,281.2 L683.8,283.5 L684.3,284.9 L684.9,288.3 L685.8,290.4 L686.4,292.1 L692.7,310.5 L694.2,312.8 L694.7,314.5 L695.3,318.0 L695.4,322.5 L694.4,330.8 L694.2,336.4 L694.0,336.2 L693.9,335.6 L693.7,335.5 L692.8,338.1 L691.6,340.4 L691.2,344.1 L690.6,345.9 L688.8,347.8 L687.7,347.7 L685.1,349.2 L683.2,348.8 L681.0,349.6 L679.5,349.5 L678.6,347.8 L678.8,347.0 L679.1,346.3 L679.7,346.1 L681.7,347.9 L682.0,347.1 L681.4,346.2 L680.3,345.7 L679.5,345.2 L677.8,341.1 L676.0,338.3 L675.7,336.4 L672.7,335.3 L670.5,333.6 L669.1,330.5 L668.2,325.0 L667.3,324.4 L666.8,324.0 L667.8,322.0 L668.8,320.3 L668.0,320.7 L667.4,321.3 L666.7,322.8 L666.1,323.1 L665.6,322.8 L665.1,320.0 L665.2,316.4 L666.0,315.1 L664.8,315.1 L663.5,315.6 L663.7,316.8 L663.5,317.4 L662.6,317.2 L661.9,316.8 L661.0,315.6 L659.7,313.2 L657.0,306.8 L656.5,305.9 L655.6,304.9 L656.0,304.7 L656.8,304.5 L658.5,301.6 L659.8,299.8 L660.3,298.6 L660.2,298.1 L659.6,297.3 L658.8,298.0 L658.5,297.8 L657.6,296.3 L656.8,295.9 L656.2,296.2 L656.8,297.4 L657.3,297.9 L657.1,299.7 L656.9,300.3 L656.4,300.8 L655.6,300.6 L655.2,301.0 L654.7,300.5 L654.2,299.7 L653.7,298.4 L655.1,291.0 L656.4,286.3 L656.5,281.0 L656.6,280.2 L656.5,278.8 L654.8,275.7 L647.0,268.1 L641.0,259.2 L635.8,255.8 L631.8,256.6 L631.1,257.2 L630.8,258.1 L631.1,259.1 L630.7,259.5 L629.7,259.5 L628.2,259.7 L624.5,262.1 L623.2,262.0 L622.0,262.6 L621.1,263.1 L618.8,263.3 L616.8,263.8 L615.9,263.5 L615.4,262.2 L615.4,260.8 L615.8,261.8 L616.5,262.7 L616.8,262.4 L617.0,261.6 L616.3,260.1 L614.0,258.2 L611.5,255.5 L612.2,255.6 L612.4,255.0 L611.6,254.2 L612.0,253.3 L612.5,252.4 L611.5,252.5 L610.5,253.2 L610.5,254.0 L610.3,254.6 L609.7,254.5 L608.8,253.8 L604.0,251.5 L599.9,250.3 L603.1,249.7 L604.8,250.1 L604.6,249.5 L604.2,249.0 L602.8,248.5 L601.1,248.7 L600.0,248.4 L598.8,249.0 L597.6,249.8 L596.5,250.2 L592.2,250.8 L588.7,251.4 L589.3,250.7 L589.9,250.3 L591.9,249.7 L592.2,248.3 L591.8,247.0 L591.2,247.3 L590.7,248.4 L590.0,247.6 L589.2,247.6 L589.0,249.2 L588.0,250.3 L587.5,251.4 L584.6,252.2 L584.3,252.0 L585.1,250.9 L585.0,250.4 L584.4,250.7 Z M622.9,264.5 L621.4,265.2 L619.8,264.7 L620.8,264.6 L621.5,264.8 L623.4,263.8 L624.3,263.1 L625.4,262.8 L622.9,264.5 Z M693.3,309.1 L693.5,310.5 L692.1,307.3 L690.4,302.3 L689.5,298.3 L690.1,299.4 L690.7,301.6 L693.3,309.1 Z M665.0,322.8 L665.0,323.9 L664.2,322.1 L663.7,320.0 L664.4,320.7 L665.0,322.8 Z M665.7,324.7 L665.1,325.2 L664.1,324.8 L663.5,324.2 L663.2,322.9 L664.2,324.2 L664.5,324.5 L665.7,324.7 Z M690.3,349.4 L687.4,353.0 L687.7,352.1 L688.9,350.2 L689.2,349.3 L690.0,348.7 L690.7,347.7 L690.8,346.5 L691.9,345.7 L692.2,345.5 L690.3,349.4 Z M680.5,357.4 L679.8,357.9 L679.1,357.6 L679.9,357.1 L682.2,356.7 L681.3,357.2 L680.5,357.4 Z M676.1,358.7 L675.7,359.1 L675.5,359.0 L675.5,358.4 L674.8,357.1 L674.9,356.8 L676.3,358.0 L676.4,358.4 L676.1,358.7 Z M672.7,359.7 L671.7,359.8 L672.5,359.1 L672.8,358.0 L673.2,358.9 L673.2,359.4 L672.7,359.7 Z" fill="#e08b76" fill-opacity="0.7" stroke="#818b96" stroke-width="0.7" stroke-opacity="0.95" stroke-linejoin="round"/>
+  <path d="M180.3,163.6 L180.3,165.2 L181.1,167.3 L183.4,171.2 L183.7,172.1 L183.8,172.2 L183.8,173.1 L184.8,174.2 L187.0,175.6 L187.5,176.4 L187.5,176.4 L187.5,176.9 L186.9,177.6 L184.5,179.7 L183.1,181.4 L181.8,184.1 L182.0,186.4 L181.9,188.3 L181.6,189.7 L181.1,191.1 L180.4,192.3 L179.7,193.1 L178.9,193.3 L178.7,195.0 L178.9,198.0 L179.7,199.8 L181.2,200.5 L182.1,201.5 L182.4,202.9 L182.2,204.2 L181.7,205.5 L180.7,206.2 L178.6,206.4 L178.6,206.4 L178.6,206.6 L176.9,206.8 L172.6,207.2 L168.3,207.6 L164.1,208.0 L159.8,208.4 L155.5,208.8 L151.3,209.2 L147.0,209.6 L142.8,210.0 L142.7,209.9 L142.6,207.8 L141.9,207.1 L141.0,207.5 L140.6,204.9 L140.9,203.6 L140.7,202.4 L139.9,199.3 L137.7,195.6 L132.9,191.1 L130.5,189.5 L128.6,187.6 L127.4,187.0 L125.8,186.9 L125.4,187.8 L123.7,187.2 L123.9,185.0 L122.2,182.0 L120.8,181.7 L117.4,181.9 L112.7,180.2 L111.3,179.2 L110.9,177.5 L108.7,175.9 L105.8,174.5 L104.2,174.8 L102.2,174.6 L99.2,173.5 L97.4,173.4 L94.1,173.7 L92.8,173.4 L91.6,172.1 L90.3,171.4 L90.6,169.7 L90.5,168.2 L90.6,167.0 L90.1,164.4 L90.5,162.0 L90.1,161.2 L89.4,160.5 L87.2,159.5 L86.8,158.3 L87.1,156.6 L86.5,155.5 L84.7,154.4 L83.0,152.0 L80.8,150.7 L79.9,148.5 L78.6,147.2 L78.1,146.0 L75.2,141.7 L72.0,138.4 L71.5,136.4 L71.4,133.8 L72.6,132.2 L73.3,130.8 L73.2,129.5 L73.0,128.6 L71.9,126.9 L67.7,125.9 L64.3,121.8 L64.1,118.7 L62.7,115.5 L62.7,113.4 L62.5,111.2 L63.5,110.7 L64.4,110.9 L64.3,111.8 L64.6,113.4 L65.7,114.6 L66.7,115.1 L67.7,116.3 L68.4,116.6 L69.1,116.7 L68.7,116.0 L68.3,115.5 L67.8,113.9 L66.8,111.9 L65.7,110.8 L65.2,108.8 L64.7,108.4 L64.4,107.6 L65.5,106.8 L66.9,106.1 L68.9,105.9 L74.4,106.2 L75.6,105.7 L76.5,105.9 L77.2,105.8 L75.7,105.3 L74.9,105.5 L73.9,105.4 L71.9,105.5 L71.1,105.2 L70.3,104.6 L69.7,104.5 L67.9,105.6 L67.1,105.5 L65.1,104.3 L64.3,104.1 L62.9,104.8 L62.8,107.8 L63.2,109.9 L62.4,110.2 L61.5,109.3 L60.0,108.7 L58.8,107.9 L57.1,106.4 L56.3,105.8 L55.3,107.1 L55.2,106.5 L55.7,105.1 L55.6,102.6 L57.1,104.6 L56.6,103.2 L55.4,101.7 L54.6,101.1 L53.5,98.4 L50.9,96.8 L48.9,94.1 L44.8,89.8 L44.5,85.9 L43.0,81.1 L43.7,78.3 L43.6,76.3 L42.8,73.4 L42.1,71.8 L38.7,67.4 L35.5,64.4 L35.0,62.2 L34.8,59.9 L35.5,57.9 L36.1,55.7 L36.6,55.2 L36.7,55.4 L36.6,55.9 L37.1,56.0 L37.3,55.1 L37.5,54.6 L37.0,54.5 L37.1,54.2 L37.4,53.7 L38.4,50.9 L38.3,47.4 L39.3,43.1 L39.3,41.6 L38.6,38.6 L37.9,36.7 L36.7,35.4 L37.2,33.5 L37.2,31.7 L37.0,31.4 L41.0,31.4 L44.9,31.4 L48.9,31.4 L52.8,31.4 L56.7,31.4 L60.7,31.4 L64.6,31.4 L68.5,31.4 L72.5,31.4 L76.4,31.4 L80.3,31.4 L84.2,31.4 L88.2,31.4 L92.1,31.4 L96.0,31.4 L99.9,31.4 L99.9,35.0 L99.9,38.5 L99.9,42.0 L99.9,45.6 L99.9,49.1 L99.9,52.7 L99.9,56.2 L100.0,59.7 L100.0,63.3 L100.0,66.8 L100.0,70.3 L100.0,73.9 L100.0,77.4 L100.0,80.9 L100.0,84.5 L100.0,88.0 L103.4,91.1 L106.9,94.2 L110.4,97.3 L113.9,100.4 L117.4,103.4 L120.9,106.5 L124.4,109.6 L127.9,112.7 L130.6,115.3 L133.3,117.9 L136.1,120.5 L138.8,123.1 L141.5,125.7 L144.3,128.3 L147.0,130.9 L149.7,133.5 L153.5,137.2 L157.3,141.0 L161.1,144.7 L164.9,148.4 L168.7,152.2 L172.4,155.9 L176.2,159.6 L180.3,163.6 Z M101.7,180.8 L104.7,181.8 L106.4,181.3 L106.7,181.8 L106.5,182.2 L102.8,182.9 L101.7,182.4 L101.6,181.7 L101.2,181.1 L101.7,180.8 Z M95.4,181.9 L94.6,181.9 L93.4,181.7 L93.8,181.3 L94.5,181.0 L94.7,181.2 L95.4,181.9 Z M99.3,183.9 L98.3,184.1 L97.5,183.9 L96.2,182.1 L98.9,181.8 L100.1,182.6 L100.2,182.8 L99.3,183.9 Z M124.6,193.9 L125.3,195.3 L124.3,195.1 L123.1,195.2 L122.8,194.5 L122.4,193.4 L122.2,193.1 L121.4,193.1 L121.4,193.0 L121.3,192.4 L121.5,192.2 L123.9,193.4 L124.6,193.9 Z M108.3,197.1 L107.7,197.1 L106.8,197.0 L106.3,196.0 L107.0,195.9 L107.7,196.0 L108.3,196.8 L108.3,197.1 Z M124.5,204.4 L123.7,204.6 L122.7,204.2 L121.9,202.4 L121.0,201.0 L121.5,200.6 L122.2,202.0 L124.1,204.0 L124.5,204.4 Z" fill="#d7b169" fill-opacity="0.7" stroke="#818b96" stroke-width="0.7" stroke-opacity="0.95" stroke-linejoin="round"/>
+  <path d="M480.2,189.0 L481.0,189.9 L481.6,190.1 L481.8,190.5 L482.1,190.6 L482.4,190.5 L483.0,190.1 L483.9,190.2 L484.6,190.1 L485.9,190.3 L486.7,190.8 L486.7,193.3 L486.8,195.9 L486.8,198.4 L486.8,201.0 L486.8,203.4 L486.8,205.7 L486.8,208.1 L486.8,210.5 L486.8,212.9 L486.8,215.3 L486.8,217.7 L486.8,220.1 L488.8,222.4 L489.7,224.0 L490.0,224.8 L490.1,227.5 L490.3,228.2 L491.3,229.2 L491.3,229.9 L492.4,231.9 L492.4,232.8 L493.4,235.0 L494.0,235.5 L494.1,237.0 L494.4,238.1 L493.9,238.8 L494.1,239.9 L493.8,240.9 L493.7,242.2 L493.0,244.3 L492.4,245.3 L491.6,247.3 L491.7,248.9 L491.2,250.6 L491.1,251.3 L491.6,252.5 L491.7,255.7 L491.5,256.3 L490.5,258.2 L489.8,258.2 L488.2,261.3 L489.1,263.0 L489.1,263.7 L485.9,264.0 L478.9,267.5 L476.1,269.4 L476.2,268.8 L479.6,266.3 L478.4,265.9 L476.5,266.6 L475.8,266.3 L476.6,264.3 L476.4,262.5 L475.0,262.4 L474.1,263.9 L473.6,263.8 L472.8,263.2 L472.2,263.4 L472.6,266.6 L473.5,268.0 L474.2,269.7 L472.2,271.8 L470.4,273.5 L470.2,275.2 L468.4,277.3 L466.7,278.6 L462.7,281.5 L461.6,282.1 L459.8,283.4 L457.3,284.4 L454.9,286.0 L454.1,286.3 L455.6,284.9 L457.4,283.6 L455.9,283.8 L453.5,283.2 L452.0,283.1 L452.0,283.6 L450.9,284.3 L449.8,283.3 L449.3,282.6 L449.0,282.0 L448.5,281.9 L448.1,282.1 L449.8,286.3 L450.5,286.5 L451.3,286.9 L450.3,287.9 L449.2,288.6 L447.5,289.1 L446.1,287.6 L445.8,289.5 L445.6,291.4 L445.1,291.9 L444.3,292.5 L443.9,292.0 L443.7,291.3 L443.2,291.9 L442.5,292.4 L441.3,292.5 L440.4,292.8 L440.4,293.6 L440.6,294.4 L442.2,293.7 L441.6,295.8 L440.2,297.8 L439.0,298.3 L437.1,298.0 L436.7,298.2 L436.3,298.6 L438.4,301.7 L437.0,306.5 L436.2,308.2 L435.6,308.4 L434.9,308.5 L432.5,306.9 L431.3,305.8 L432.4,309.0 L435.5,309.9 L435.6,311.1 L435.6,312.2 L435.0,313.4 L434.4,315.0 L434.9,316.1 L435.3,318.9 L435.8,320.2 L436.2,324.1 L436.7,325.8 L439.5,332.0 L440.5,332.0 L440.6,332.7 L440.5,334.0 L438.5,334.3 L437.7,334.9 L437.5,335.4 L437.4,335.7 L437.1,335.7 L436.1,335.3 L434.0,333.5 L430.8,332.5 L426.6,332.0 L423.7,331.1 L422.2,329.8 L420.6,329.0 L418.9,328.8 L417.5,328.0 L416.4,326.8 L414.8,326.1 L412.7,325.7 L411.3,324.8 L410.3,322.6 L410.3,322.6 L409.5,318.9 L408.4,316.5 L406.3,313.7 L406.1,313.3 L406.1,313.3 L406.1,312.8 L406.3,311.2 L406.1,310.0 L405.5,309.0 L405.3,308.0 L405.7,306.9 L405.7,305.6 L405.4,304.0 L404.0,302.4 L401.7,300.6 L399.6,298.0 L398.0,294.6 L396.3,292.3 L394.7,290.9 L393.6,289.3 L393.0,287.4 L392.8,286.3 L393.1,286.0 L392.1,283.9 L389.8,280.0 L388.5,277.2 L388.2,275.4 L386.7,273.2 L384.2,270.7 L382.9,269.1 L382.5,268.0 L382.5,268.0 L378.6,264.7 L377.4,262.6 L376.5,262.0 L375.5,262.1 L375.0,261.9 L375.0,261.4 L374.6,261.4 L374.0,261.8 L371.9,261.9 L368.3,261.6 L365.8,261.1 L364.2,260.2 L363.1,260.3 L362.4,261.4 L361.1,262.1 L359.0,262.5 L357.3,264.5 L355.8,268.3 L355.1,270.7 L355.3,271.8 L354.9,272.6 L353.9,273.1 L353.0,274.2 L352.0,275.9 L350.8,276.7 L349.4,276.6 L347.0,275.3 L343.4,272.7 L340.6,271.2 L338.5,270.6 L336.7,269.4 L335.2,267.6 L333.7,266.4 L332.4,265.8 L330.9,263.9 L329.1,260.5 L328.2,258.0 L328.2,255.3 L325.9,249.3 L324.7,246.8 L323.8,245.6 L322.0,244.2 L319.4,242.6 L315.8,239.3 L311.4,234.4 L308.2,231.4 L306.4,230.4 L304.8,228.6 L303.4,226.1 L302.1,224.5 L302.0,224.4 L300.2,223.5 L300.2,223.5 L298.6,220.0 L298.7,220.0 L302.1,220.0 L305.4,220.0 L308.8,220.0 L312.1,220.0 L315.5,220.0 L318.8,220.0 L322.2,220.0 L325.5,220.0 L328.9,220.0 L332.2,220.0 L335.6,220.0 L338.9,220.0 L342.3,220.0 L345.6,220.0 L349.0,220.0 L352.3,220.0 L352.3,214.7 L352.4,209.4 L352.4,204.1 L352.4,198.8 L352.4,193.5 L352.4,188.2 L352.5,182.9 L352.5,177.6 L352.5,172.3 L352.5,167.0 L352.6,161.7 L352.6,156.4 L352.6,151.1 L352.6,145.8 L352.6,140.5 L352.7,135.2 L353.3,135.2 L356.1,135.2 L358.9,135.2 L361.7,135.2 L364.5,135.2 L367.3,135.2 L370.0,135.2 L372.8,135.2 L375.6,135.2 L378.4,135.2 L381.2,135.2 L384.0,135.2 L386.8,135.2 L389.6,135.2 L392.4,135.2 L395.2,135.2 L398.0,135.2 L398.0,137.4 L398.0,139.7 L398.0,141.9 L398.0,144.2 L398.0,146.4 L398.0,148.7 L398.0,151.0 L398.0,153.2 L398.0,155.5 L398.0,157.7 L398.0,160.0 L398.0,162.2 L398.0,164.5 L398.0,166.8 L398.0,169.0 L398.0,171.3 L398.9,171.5 L400.0,172.1 L402.7,174.5 L403.5,175.0 L404.9,174.7 L406.5,175.0 L406.9,174.9 L407.2,173.9 L407.3,173.7 L407.5,173.7 L408.9,174.7 L409.1,175.0 L409.9,176.3 L410.1,177.9 L410.5,178.1 L411.4,178.3 L413.4,178.4 L415.9,179.4 L416.9,179.6 L418.7,179.3 L420.4,180.7 L421.0,180.9 L421.5,180.7 L422.5,179.7 L424.6,179.8 L426.3,179.6 L426.5,180.8 L426.8,181.6 L428.2,182.5 L428.5,182.9 L428.6,184.3 L429.0,184.6 L429.5,184.8 L430.2,184.7 L430.9,184.2 L432.4,182.9 L432.9,182.5 L433.2,182.5 L433.4,182.6 L433.7,182.9 L434.2,183.9 L435.5,184.5 L436.3,185.4 L436.8,185.5 L437.3,185.4 L438.1,184.8 L438.8,184.8 L439.5,184.3 L439.8,184.4 L439.9,184.8 L439.7,186.0 L439.8,186.4 L440.1,186.9 L440.5,187.3 L440.9,187.3 L441.2,187.1 L441.8,185.6 L441.8,185.0 L442.4,184.8 L442.7,184.6 L443.0,183.5 L443.7,183.2 L444.0,183.3 L444.3,183.6 L445.0,184.5 L446.5,185.1 L446.9,185.1 L447.3,184.9 L447.9,184.1 L448.3,184.0 L448.6,184.1 L448.7,184.2 L448.8,185.2 L450.4,186.3 L451.5,186.6 L452.6,187.7 L452.9,187.8 L453.5,186.9 L454.5,186.6 L455.5,185.7 L458.5,184.5 L459.6,184.9 L460.8,184.9 L461.1,184.4 L463.2,183.7 L463.7,183.4 L464.2,183.7 L464.4,184.3 L464.7,184.5 L466.1,184.7 L466.9,184.7 L468.4,184.0 L469.0,183.2 L469.3,183.1 L470.3,183.5 L473.1,185.3 L474.5,186.7 L476.0,187.4 L476.8,188.0 L480.2,189.0 Z M471.9,273.9 L471.2,274.1 L474.4,271.2 L475.1,270.2 L476.0,270.3 L474.5,271.9 L471.9,273.9 Z M446.2,292.6 L445.7,292.7 L446.3,291.7 L447.4,291.2 L449.9,289.2 L450.9,289.1 L451.4,288.4 L451.6,288.3 L451.5,289.1 L449.5,290.3 L446.2,292.6 Z M442.5,297.4 L442.2,297.4 L442.9,295.9 L443.0,295.3 L444.2,293.3 L444.8,293.0 L445.1,293.8 L443.9,295.2 L442.5,297.4 Z M437.4,308.7 L437.0,309.8 L437.1,308.2 L438.3,304.5 L440.8,299.7 L441.8,298.9 L439.0,304.2 L437.4,308.7 Z M440.2,330.2 L439.9,331.1 L438.7,327.0 L436.7,317.8 L436.6,312.5 L437.0,310.7 L437.5,318.1 L439.7,327.6 L440.2,330.2 Z" fill="#8fae8c" fill-opacity="0.7" stroke="#818b96" stroke-width="0.7" stroke-opacity="0.95" stroke-linejoin="round"/>
+  <path d="M486.8,201.0 L489.5,201.0 L492.2,201.0 L494.8,201.0 L497.5,201.0 L500.2,201.0 L502.9,201.0 L505.5,201.0 L508.2,200.9 L510.9,200.9 L513.6,200.9 L516.2,200.9 L518.9,200.9 L521.6,200.9 L524.3,200.9 L527.0,200.9 L529.9,200.9 L530.0,201.8 L530.7,202.4 L530.7,203.4 L530.1,204.8 L530.1,205.8 L530.7,206.4 L530.7,207.0 L530.0,207.6 L529.9,208.3 L530.4,209.0 L530.6,209.9 L530.6,210.8 L531.2,212.1 L532.3,212.9 L532.9,213.8 L533.0,214.3 L533.0,214.8 L532.9,215.5 L532.0,216.6 L531.4,217.3 L531.0,217.6 L530.8,218.1 L530.7,219.2 L529.8,220.6 L527.9,222.3 L526.6,224.3 L525.9,226.9 L525.3,228.5 L524.6,229.1 L524.2,230.5 L524.2,232.4 L523.8,233.5 L522.9,233.7 L522.7,234.8 L523.2,236.9 L523.0,237.7 L522.4,238.4 L522.3,238.9 L525.9,238.9 L529.5,238.9 L533.1,238.9 L536.6,238.9 L540.2,238.9 L543.8,238.9 L547.4,238.9 L551.0,238.9 L550.5,241.1 L549.5,244.0 L549.4,244.8 L549.7,245.7 L549.7,246.3 L550.1,247.1 L550.9,247.8 L551.7,249.1 L552.4,251.2 L552.5,252.2 L553.1,253.6 L553.4,253.8 L553.8,254.0 L554.2,254.1 L553.2,254.7 L547.7,252.7 L546.3,251.2 L545.1,250.8 L543.7,250.6 L542.1,252.5 L540.9,255.1 L542.8,256.6 L544.4,257.2 L547.1,256.7 L548.6,255.4 L549.8,255.5 L550.4,255.2 L550.9,254.5 L552.0,255.1 L552.0,255.6 L551.3,256.3 L550.3,256.9 L549.8,257.7 L550.8,259.1 L552.5,259.6 L553.1,259.4 L553.5,257.8 L554.6,256.7 L555.9,256.9 L555.8,257.6 L555.9,258.2 L556.6,259.3 L556.5,260.8 L556.6,261.2 L555.1,261.9 L554.0,262.1 L553.1,263.0 L553.6,263.5 L552.7,263.9 L552.1,263.8 L551.7,263.9 L551.7,264.5 L551.2,265.0 L551.9,266.5 L553.3,267.5 L554.3,268.7 L558.3,270.4 L559.2,270.3 L560.2,272.0 L561.0,272.5 L561.7,272.8 L561.6,274.0 L560.3,274.8 L559.9,275.8 L559.6,276.3 L559.0,275.6 L558.4,275.1 L557.0,276.7 L556.3,277.0 L556.6,275.3 L556.1,274.7 L555.3,273.0 L554.1,272.0 L553.3,271.6 L552.7,271.0 L551.9,270.7 L551.2,270.7 L550.1,270.4 L550.0,269.5 L549.7,268.8 L548.9,268.0 L544.7,266.5 L544.6,267.1 L544.9,267.6 L545.5,267.9 L546.2,268.5 L546.2,270.3 L545.9,271.1 L545.8,272.1 L545.5,273.2 L545.0,274.1 L543.8,274.7 L543.3,274.2 L542.5,271.8 L541.4,271.1 L539.5,271.0 L538.3,271.5 L536.9,273.8 L535.8,274.2 L532.1,273.0 L527.8,271.2 L527.9,270.6 L528.6,270.4 L529.9,270.7 L529.8,270.0 L528.5,268.0 L528.2,267.1 L528.4,266.0 L528.0,266.0 L527.2,267.0 L524.5,266.2 L523.7,265.2 L522.1,262.6 L519.8,262.5 L518.8,260.9 L517.0,261.6 L516.0,262.3 L515.2,263.5 L515.5,264.1 L516.3,265.0 L516.0,265.5 L513.3,266.1 L507.2,265.4 L505.4,264.7 L503.0,263.2 L499.7,262.0 L498.1,261.8 L496.5,262.0 L492.0,262.1 L490.9,262.4 L490.0,263.0 L489.4,262.4 L489.1,261.4 L489.7,261.2 L490.3,260.6 L490.8,259.4 L490.9,258.7 L490.5,258.2 L491.5,256.3 L491.7,255.7 L491.6,252.5 L491.1,251.3 L491.2,250.6 L491.7,248.9 L491.6,247.3 L492.4,245.3 L493.0,244.3 L493.7,242.2 L493.8,240.9 L494.1,239.9 L493.9,238.8 L494.4,238.1 L494.1,237.0 L494.0,235.5 L493.4,235.0 L492.4,232.8 L492.4,231.9 L491.3,229.9 L491.3,229.2 L490.3,228.2 L490.1,227.5 L490.0,224.8 L489.7,224.0 L488.8,222.4 L486.8,220.1 L486.8,217.7 L486.8,215.3 L486.8,212.9 L486.8,210.5 L486.8,208.1 L486.8,205.7 L486.8,203.4 L486.8,201.0 Z M558.6,256.2 L558.6,257.1 L557.9,256.6 L556.8,256.6 L557.3,256.3 L557.6,256.0 L557.8,255.7 L559.2,254.6 L558.8,255.4 L558.6,256.2 Z M564.5,261.4 L564.1,262.0 L564.5,259.1 L563.9,256.7 L564.5,257.8 L564.7,259.1 L564.5,261.4 Z M563.6,263.2 L562.8,264.2 L562.8,263.8 L563.4,262.8 L563.8,262.4 L563.6,263.2 Z M520.3,267.2 L519.7,267.5 L517.3,265.8 L517.1,265.1 L518.3,264.5 L519.1,264.6 L520.2,265.4 L520.7,265.6 L520.9,266.0 L520.8,266.5 L520.3,267.2 Z" fill="#e08b76" fill-opacity="0.7" stroke="#818b96" stroke-width="0.7" stroke-opacity="0.95" stroke-linejoin="round"/>
+  <path d="M486.8,201.0 L489.5,201.0 L492.2,201.0 L494.8,201.0 L497.5,201.0 L500.2,201.0 L502.9,201.0 L505.5,201.0 L508.2,200.9 L510.9,200.9 L513.6,200.9 L516.2,200.9 L518.9,200.9 L521.6,200.9 L524.3,200.9 L527.0,200.9 L529.9,200.9 L530.0,201.8 L530.7,202.4 L530.7,203.4 L530.1,204.8 L530.1,205.8 L530.7,206.4 L530.7,207.0 L530.0,207.6 L529.9,208.3 L530.4,209.0 L530.6,209.9 L530.6,210.8 L531.2,212.1 L532.3,212.9 L532.9,213.8 L533.0,214.3 L533.0,214.8 L532.9,215.5 L532.0,216.6 L531.4,217.3 L531.0,217.6 L530.8,218.1 L530.7,219.2 L529.8,220.6 L527.9,222.3 L526.6,224.3 L525.9,226.9 L525.3,228.5 L524.6,229.1 L524.2,230.5 L524.2,232.4 L523.8,233.5 L522.9,233.7 L522.7,234.8 L523.2,236.9 L523.0,237.7 L522.4,238.4 L522.3,238.9 L525.9,238.9 L529.5,238.9 L533.1,238.9 L536.6,238.9 L540.2,238.9 L543.8,238.9 L547.4,238.9 L551.0,238.9 L550.5,241.1 L549.5,244.0 L549.4,244.8 L549.7,245.7 L549.7,246.3 L550.1,247.1 L550.9,247.8 L551.7,249.1 L552.4,251.2 L552.5,252.2 L553.1,253.6 L553.4,253.8 L553.8,254.0 L554.2,254.1 L553.2,254.7 L547.7,252.7 L546.3,251.2 L545.1,250.8 L543.7,250.6 L542.1,252.5 L540.9,255.1 L542.8,256.6 L544.4,257.2 L547.1,256.7 L548.6,255.4 L549.8,255.5 L550.4,255.2 L550.9,254.5 L552.0,255.1 L552.0,255.6 L551.3,256.3 L550.3,256.9 L549.8,257.7 L550.8,259.1 L552.5,259.6 L553.1,259.4 L553.5,257.8 L554.6,256.7 L555.9,256.9 L555.8,257.6 L555.9,258.2 L556.6,259.3 L556.5,260.8 L556.6,261.2 L555.1,261.9 L554.0,262.1 L553.1,263.0 L553.6,263.5 L552.7,263.9 L552.1,263.8 L551.7,263.9 L551.7,264.5 L551.2,265.0 L551.9,266.5 L553.3,267.5 L554.3,268.7 L558.3,270.4 L559.2,270.3 L560.2,272.0 L561.0,272.5 L561.7,272.8 L561.6,274.0 L560.3,274.8 L559.9,275.8 L559.6,276.3 L559.0,275.6 L558.4,275.1 L557.0,276.7 L556.3,277.0 L556.6,275.3 L556.1,274.7 L555.3,273.0 L554.1,272.0 L553.3,271.6 L552.7,271.0 L551.9,270.7 L551.2,270.7 L550.1,270.4 L550.0,269.5 L549.7,268.8 L548.9,268.0 L544.7,266.5 L544.6,267.1 L544.9,267.6 L545.5,267.9 L546.2,268.5 L546.2,270.3 L545.9,271.1 L545.8,272.1 L545.5,273.2 L545.0,274.1 L543.8,274.7 L543.3,274.2 L542.5,271.8 L541.4,271.1 L539.5,271.0 L538.3,271.5 L536.9,273.8 L535.8,274.2 L532.1,273.0 L527.8,271.2 L527.9,270.6 L528.6,270.4 L529.9,270.7 L529.8,270.0 L528.5,268.0 L528.2,267.1 L528.4,266.0 L528.0,266.0 L527.2,267.0 L524.5,266.2 L523.7,265.2 L522.1,262.6 L519.8,262.5 L518.8,260.9 L517.0,261.6 L516.0,262.3 L515.2,263.5 L515.5,264.1 L516.3,265.0 L516.0,265.5 L513.3,266.1 L507.2,265.4 L505.4,264.7 L503.0,263.2 L499.7,262.0 L498.1,261.8 L496.5,262.0 L492.0,262.1 L490.9,262.4 L490.0,263.0 L489.4,262.4 L489.1,261.4 L489.7,261.2 L490.3,260.6 L490.8,259.4 L490.9,258.7 L490.5,258.2 L491.5,256.3 L491.7,255.7 L491.6,252.5 L491.1,251.3 L491.2,250.6 L491.7,248.9 L491.6,247.3 L492.4,245.3 L493.0,244.3 L493.7,242.2 L493.8,240.9 L494.1,239.9 L493.9,238.8 L494.4,238.1 L494.1,237.0 L494.0,235.5 L493.4,235.0 L492.4,232.8 L492.4,231.9 L491.3,229.9 L491.3,229.2 L490.3,228.2 L490.1,227.5 L490.0,224.8 L489.7,224.0 L488.8,222.4 L486.8,220.1 L486.8,217.7 L486.8,215.3 L486.8,212.9 L486.8,210.5 L486.8,208.1 L486.8,205.7 L486.8,203.4 L486.8,201.0 Z M558.6,256.2 L558.6,257.1 L557.9,256.6 L556.8,256.6 L557.3,256.3 L557.6,256.0 L557.8,255.7 L559.2,254.6 L558.8,255.4 L558.6,256.2 Z M564.5,261.4 L564.1,262.0 L564.5,259.1 L563.9,256.7 L564.5,257.8 L564.7,259.1 L564.5,261.4 Z M563.6,263.2 L562.8,264.2 L562.8,263.8 L563.4,262.8 L563.8,262.4 L563.6,263.2 Z M520.3,267.2 L519.7,267.5 L517.3,265.8 L517.1,265.1 L518.3,264.5 L519.1,264.6 L520.2,265.4 L520.7,265.6 L520.9,266.0 L520.8,266.5 L520.3,267.2 Z" fill="url(#hatch)" stroke="#e8eef4" stroke-width="1" stroke-dasharray="3 2.5" stroke-opacity="0.8"/>
+  <path d="M263.2,125.7 L263.2,121.0 L263.2,116.3 L263.2,111.6 L263.2,106.9 L263.2,102.1 L263.2,97.4 L263.2,92.7 L263.2,88.0 L263.2,83.3 L263.2,78.6 L263.2,73.9 L263.2,69.1 L263.2,64.4 L263.2,59.7 L263.2,55.0 L263.2,50.3 L267.9,50.3 L272.6,50.3 L277.2,50.3 L281.9,50.3 L286.6,50.3 L291.3,50.3 L296.0,50.3 L300.6,50.3 L305.3,50.3 L310.0,50.3 L314.7,50.3 L319.3,50.3 L324.0,50.3 L328.7,50.3 L333.4,50.3 L338.1,50.3 L341.8,50.3 L345.5,50.3 L349.2,50.3 L353.0,50.3 L356.7,50.3 L360.4,50.3 L364.1,50.3 L367.8,50.3 L367.8,52.6 L367.8,55.0 L367.8,57.3 L367.8,59.7 L367.8,62.1 L367.8,64.4 L367.8,66.8 L367.8,69.1 L367.8,72.7 L367.9,76.2 L367.9,79.7 L367.9,83.3 L367.9,86.8 L367.9,90.4 L367.9,93.9 L367.9,97.4 L367.9,101.0 L367.9,104.5 L368.0,108.1 L368.0,111.6 L368.0,115.1 L368.0,118.7 L368.0,122.2 L368.0,125.7 L364.3,125.7 L360.6,125.7 L357.0,125.7 L353.3,125.7 L347.6,125.7 L342.0,125.7 L336.4,125.7 L330.8,125.7 L325.1,125.7 L319.5,125.7 L313.9,125.7 L308.2,125.7 L302.6,125.7 L297.0,125.7 L291.3,125.7 L285.7,125.7 L280.1,125.7 L274.4,125.7 L268.8,125.7 L263.2,125.7 Z" fill="#7fb3c9" fill-opacity="0.7" stroke="#818b96" stroke-width="0.7" stroke-opacity="0.95" stroke-linejoin="round"/>
+  <path d="M263.2,125.7 L263.2,121.0 L263.2,116.3 L263.2,111.6 L263.2,106.9 L263.2,102.1 L263.2,97.4 L263.2,92.7 L263.2,88.0 L263.2,83.3 L263.2,78.6 L263.2,73.9 L263.2,69.1 L263.2,64.4 L263.2,59.7 L263.2,55.0 L263.2,50.3 L267.9,50.3 L272.6,50.3 L277.2,50.3 L281.9,50.3 L286.6,50.3 L291.3,50.3 L296.0,50.3 L300.6,50.3 L305.3,50.3 L310.0,50.3 L314.7,50.3 L319.3,50.3 L324.0,50.3 L328.7,50.3 L333.4,50.3 L338.1,50.3 L341.8,50.3 L345.5,50.3 L349.2,50.3 L353.0,50.3 L356.7,50.3 L360.4,50.3 L364.1,50.3 L367.8,50.3 L367.8,52.6 L367.8,55.0 L367.8,57.3 L367.8,59.7 L367.8,62.1 L367.8,64.4 L367.8,66.8 L367.8,69.1 L367.8,72.7 L367.9,76.2 L367.9,79.7 L367.9,83.3 L367.9,86.8 L367.9,90.4 L367.9,93.9 L367.9,97.4 L367.9,101.0 L367.9,104.5 L368.0,108.1 L368.0,111.6 L368.0,115.1 L368.0,118.7 L368.0,122.2 L368.0,125.7 L364.3,125.7 L360.6,125.7 L357.0,125.7 L353.3,125.7 L347.6,125.7 L342.0,125.7 L336.4,125.7 L330.8,125.7 L325.1,125.7 L319.5,125.7 L313.9,125.7 L308.2,125.7 L302.6,125.7 L297.0,125.7 L291.3,125.7 L285.7,125.7 L280.1,125.7 L274.4,125.7 L268.8,125.7 L263.2,125.7 Z" fill="url(#hatch)" stroke="#e8eef4" stroke-width="1" stroke-dasharray="3 2.5" stroke-opacity="0.8"/>
+  <path d="M649.6,163.5 L645.1,163.5 L640.6,163.6 L636.1,163.6 L631.6,163.7 L632.2,159.7 L632.5,158.8 L633.0,158.6 L634.5,158.6 L635.5,158.1 L636.4,155.7 L638.4,153.8 L639.2,153.3 L640.6,152.9 L643.7,152.5 L647.1,150.6 L649.5,148.9 L651.5,148.4 L652.1,147.7 L652.5,146.9 L652.8,145.8 L653.0,145.5 L654.1,145.6 L655.0,144.6 L655.8,144.0 L656.6,143.7 L657.1,143.7 L657.3,144.0 L657.5,144.9 L657.6,145.1 L658.0,145.2 L658.5,145.0 L659.1,144.4 L660.8,142.7 L661.8,142.1 L663.5,141.7 L664.7,142.6 L665.5,142.3 L667.6,138.8 L668.5,138.2 L669.1,138.0 L670.2,137.9 L670.2,137.0 L670.6,135.5 L670.6,134.5 L671.3,133.1 L671.6,133.4 L677.0,133.4 L682.4,133.5 L687.8,133.5 L693.1,133.6 L698.5,133.7 L703.9,133.7 L709.3,133.8 L714.7,133.8 L720.1,133.9 L725.5,133.9 L730.9,134.0 L736.3,134.0 L741.7,134.1 L747.0,134.1 L752.4,134.2 L756.2,134.2 L755.8,135.7 L756.0,136.5 L756.8,137.4 L757.6,139.6 L758.3,142.5 L757.4,141.3 L756.4,140.7 L754.8,140.2 L753.4,139.3 L753.5,140.6 L753.4,141.9 L752.3,141.5 L751.6,141.0 L752.3,142.4 L750.9,142.0 L749.9,142.1 L749.3,143.3 L748.5,144.1 L747.3,144.3 L745.5,143.2 L744.9,141.8 L744.7,140.3 L744.6,142.1 L744.9,144.0 L744.8,145.4 L746.5,145.7 L748.1,145.4 L750.3,145.5 L751.7,145.2 L752.6,144.8 L754.6,145.2 L754.8,146.9 L754.5,148.6 L754.4,150.4 L755.0,150.4 L755.6,149.9 L756.0,146.6 L757.8,145.4 L758.4,145.4 L759.0,146.5 L759.2,147.6 L759.4,149.0 L759.0,151.3 L756.2,153.9 L754.1,156.3 L753.1,156.8 L751.5,156.5 L749.8,155.9 L749.0,155.8 L748.4,156.0 L748.0,155.2 L747.7,153.9 L747.0,153.4 L746.5,153.5 L746.2,154.9 L744.6,155.3 L742.4,154.7 L740.1,153.5 L741.1,154.8 L746.8,157.2 L747.4,157.7 L748.0,158.4 L747.2,159.4 L746.6,160.6 L746.5,161.5 L746.3,162.1 L744.0,163.7 L742.8,163.4 L739.7,160.6 L741.1,163.0 L742.3,164.0 L744.5,164.6 L748.8,163.7 L750.3,164.7 L749.1,166.4 L747.9,167.7 L746.4,167.8 L745.1,168.2 L744.7,169.0 L743.8,169.1 L742.3,169.1 L740.0,169.2 L738.7,169.0 L737.0,170.7 L736.3,171.0 L735.4,170.6 L735.0,169.2 L734.6,168.5 L734.6,171.2 L734.8,171.9 L735.1,172.4 L733.0,173.8 L731.1,175.6 L730.4,176.1 L729.6,177.0 L727.9,179.5 L727.5,181.4 L726.9,183.5 L726.8,182.5 L726.9,181.0 L726.5,179.1 L726.3,182.5 L725.6,184.0 L719.8,183.9 L717.4,184.7 L715.3,182.4 L713.3,180.2 L711.3,178.1 L709.3,175.9 L707.2,173.8 L705.2,171.6 L703.2,169.5 L701.2,167.3 L699.1,167.2 L697.0,167.2 L694.9,167.1 L692.8,167.0 L690.7,166.9 L688.6,166.9 L686.5,166.8 L684.4,166.7 L684.3,165.2 L684.2,164.2 L682.9,162.4 L682.1,161.3 L680.5,162.2 L680.4,161.8 L680.4,161.0 L680.3,160.7 L679.8,160.5 L677.5,160.4 L675.1,160.3 L672.7,160.2 L670.4,160.1 L668.0,160.0 L665.7,159.9 L663.3,159.8 L660.9,159.7 L660.4,159.5 L659.3,160.1 L656.5,161.1 L655.1,161.9 L654.6,161.8 L652.3,162.6 L649.9,163.4 L649.6,163.5 Z M757.3,134.2 L757.8,134.2 L759.3,140.3 L762.2,146.9 L762.6,148.0 L761.9,147.0 L759.7,142.6 L758.5,139.5 L757.3,134.2 Z M761.1,147.3 L760.8,147.7 L759.9,145.6 L760.9,146.3 L761.1,146.9 L761.1,147.3 Z M762.4,158.9 L760.4,159.5 L760.3,159.3 L762.6,158.2 L763.3,154.4 L763.4,152.7 L763.0,149.6 L763.0,149.0 L763.4,150.0 L763.8,152.8 L763.6,155.0 L763.0,158.2 L762.4,158.9 Z M758.9,159.9 L756.2,161.2 L755.9,161.2 L757.7,160.2 L758.9,159.9 Z M748.1,170.2 L747.8,170.4 L749.1,168.1 L751.8,165.1 L752.6,164.6 L750.3,167.2 L748.1,170.2 Z M747.5,170.0 L747.2,170.0 L746.6,169.8 L745.8,169.4 L745.6,169.1 L746.4,169.2 L747.5,170.0 Z" fill="#8fae8c" fill-opacity="0.7" stroke="#818b96" stroke-width="0.7" stroke-opacity="0.95" stroke-linejoin="round"/>
+  <path d="M649.6,163.5 L645.1,163.5 L640.6,163.6 L636.1,163.6 L631.6,163.7 L632.2,159.7 L632.5,158.8 L633.0,158.6 L634.5,158.6 L635.5,158.1 L636.4,155.7 L638.4,153.8 L639.2,153.3 L640.6,152.9 L643.7,152.5 L647.1,150.6 L649.5,148.9 L651.5,148.4 L652.1,147.7 L652.5,146.9 L652.8,145.8 L653.0,145.5 L654.1,145.6 L655.0,144.6 L655.8,144.0 L656.6,143.7 L657.1,143.7 L657.3,144.0 L657.5,144.9 L657.6,145.1 L658.0,145.2 L658.5,145.0 L659.1,144.4 L660.8,142.7 L661.8,142.1 L663.5,141.7 L664.7,142.6 L665.5,142.3 L667.6,138.8 L668.5,138.2 L669.1,138.0 L670.2,137.9 L670.2,137.0 L670.6,135.5 L670.6,134.5 L671.3,133.1 L671.6,133.4 L677.0,133.4 L682.4,133.5 L687.8,133.5 L693.1,133.6 L698.5,133.7 L703.9,133.7 L709.3,133.8 L714.7,133.8 L720.1,133.9 L725.5,133.9 L730.9,134.0 L736.3,134.0 L741.7,134.1 L747.0,134.1 L752.4,134.2 L756.2,134.2 L755.8,135.7 L756.0,136.5 L756.8,137.4 L757.6,139.6 L758.3,142.5 L757.4,141.3 L756.4,140.7 L754.8,140.2 L753.4,139.3 L753.5,140.6 L753.4,141.9 L752.3,141.5 L751.6,141.0 L752.3,142.4 L750.9,142.0 L749.9,142.1 L749.3,143.3 L748.5,144.1 L747.3,144.3 L745.5,143.2 L744.9,141.8 L744.7,140.3 L744.6,142.1 L744.9,144.0 L744.8,145.4 L746.5,145.7 L748.1,145.4 L750.3,145.5 L751.7,145.2 L752.6,144.8 L754.6,145.2 L754.8,146.9 L754.5,148.6 L754.4,150.4 L755.0,150.4 L755.6,149.9 L756.0,146.6 L757.8,145.4 L758.4,145.4 L759.0,146.5 L759.2,147.6 L759.4,149.0 L759.0,151.3 L756.2,153.9 L754.1,156.3 L753.1,156.8 L751.5,156.5 L749.8,155.9 L749.0,155.8 L748.4,156.0 L748.0,155.2 L747.7,153.9 L747.0,153.4 L746.5,153.5 L746.2,154.9 L744.6,155.3 L742.4,154.7 L740.1,153.5 L741.1,154.8 L746.8,157.2 L747.4,157.7 L748.0,158.4 L747.2,159.4 L746.6,160.6 L746.5,161.5 L746.3,162.1 L744.0,163.7 L742.8,163.4 L739.7,160.6 L741.1,163.0 L742.3,164.0 L744.5,164.6 L748.8,163.7 L750.3,164.7 L749.1,166.4 L747.9,167.7 L746.4,167.8 L745.1,168.2 L744.7,169.0 L743.8,169.1 L742.3,169.1 L740.0,169.2 L738.7,169.0 L737.0,170.7 L736.3,171.0 L735.4,170.6 L735.0,169.2 L734.6,168.5 L734.6,171.2 L734.8,171.9 L735.1,172.4 L733.0,173.8 L731.1,175.6 L730.4,176.1 L729.6,177.0 L727.9,179.5 L727.5,181.4 L726.9,183.5 L726.8,182.5 L726.9,181.0 L726.5,179.1 L726.3,182.5 L725.6,184.0 L719.8,183.9 L717.4,184.7 L715.3,182.4 L713.3,180.2 L711.3,178.1 L709.3,175.9 L707.2,173.8 L705.2,171.6 L703.2,169.5 L701.2,167.3 L699.1,167.2 L697.0,167.2 L694.9,167.1 L692.8,167.0 L690.7,166.9 L688.6,166.9 L686.5,166.8 L684.4,166.7 L684.3,165.2 L684.2,164.2 L682.9,162.4 L682.1,161.3 L680.5,162.2 L680.4,161.8 L680.4,161.0 L680.3,160.7 L679.8,160.5 L677.5,160.4 L675.1,160.3 L672.7,160.2 L670.4,160.1 L668.0,160.0 L665.7,159.9 L663.3,159.8 L660.9,159.7 L660.4,159.5 L659.3,160.1 L656.5,161.1 L655.1,161.9 L654.6,161.8 L652.3,162.6 L649.9,163.4 L649.6,163.5 Z M757.3,134.2 L757.8,134.2 L759.3,140.3 L762.2,146.9 L762.6,148.0 L761.9,147.0 L759.7,142.6 L758.5,139.5 L757.3,134.2 Z M761.1,147.3 L760.8,147.7 L759.9,145.6 L760.9,146.3 L761.1,146.9 L761.1,147.3 Z M762.4,158.9 L760.4,159.5 L760.3,159.3 L762.6,158.2 L763.3,154.4 L763.4,152.7 L763.0,149.6 L763.0,149.0 L763.4,150.0 L763.8,152.8 L763.6,155.0 L763.0,158.2 L762.4,158.9 Z M758.9,159.9 L756.2,161.2 L755.9,161.2 L757.7,160.2 L758.9,159.9 Z M748.1,170.2 L747.8,170.4 L749.1,168.1 L751.8,165.1 L752.6,164.6 L750.3,167.2 L748.1,170.2 Z M747.5,170.0 L747.2,170.0 L746.6,169.8 L745.8,169.4 L745.6,169.1 L746.4,169.2 L747.5,170.0 Z" fill="url(#hatch)" stroke="#e8eef4" stroke-width="1" stroke-dasharray="3 2.5" stroke-opacity="0.8"/>
+  <line x1="646.6" y1="279.0" x2="646.6" y2="286.0" stroke="#59636e" stroke-width="0.9"/>
+  <text x="646.6" y="295.0" text-anchor="middle" font-size="11" font-family="-apple-system,sans-serif" fill="#0d1116" stroke="#e9eff5" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke" font-weight="500">Florida</text>
+  <line x1="99.9" y1="124.6" x2="99.9" y2="131.6" stroke="#59636e" stroke-width="0.9"/>
+  <text x="99.9" y="140.6" text-anchor="middle" font-size="11" font-family="-apple-system,sans-serif" fill="#0d1116" stroke="#e9eff5" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke" font-weight="500">California</text>
+  <line x1="419.4" y1="234.6" x2="419.4" y2="241.6" stroke="#59636e" stroke-width="0.9"/>
+  <text x="419.4" y="250.6" text-anchor="middle" font-size="11" font-family="-apple-system,sans-serif" fill="#0d1116" stroke="#e9eff5" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke" font-weight="500">Texas</text>
+  <line x1="528.4" y1="246.2" x2="528.4" y2="253.2" stroke="#59636e" stroke-width="0.9"/>
+  <text x="528.4" y="262.2" text-anchor="middle" font-size="11" font-family="-apple-system,sans-serif" fill="#0d1116" stroke="#e9eff5" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke" font-weight="500">Louisiana</text>
+  <line x1="321.3" y1="85.8" x2="321.3" y2="92.8" stroke="#59636e" stroke-width="0.9"/>
+  <text x="321.3" y="101.8" text-anchor="middle" font-size="11" font-family="-apple-system,sans-serif" fill="#0d1116" stroke="#e9eff5" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke" font-weight="500">Colorado</text>
+  <line x1="710.0" y1="154.8" x2="710.0" y2="161.8" stroke="#59636e" stroke-width="0.9"/>
+  <text x="710.0" y="170.8" text-anchor="middle" font-size="11" font-family="-apple-system,sans-serif" fill="#0d1116" stroke="#e9eff5" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke" font-weight="500">North Carolina</text>
+  <text x="30" y="280" font-size="9.5" font-family="ui-monospace,monospace" fill="#8b949e" letter-spacing="1">ASSESSMENT CLASS — CATEGORICAL</text>
+  <rect x="30" y="288" width="11" height="11" fill="#e08b76" fill-opacity="0.7"/><text x="46" y="297.5" font-size="9" font-family="-apple-system,sans-serif" fill="#97a0aa">Systemic insurer retreat</text>
+  <rect x="30" y="305" width="11" height="11" fill="#d7b169" fill-opacity="0.7"/><text x="46" y="314.5" font-size="9" font-family="-apple-system,sans-serif" fill="#97a0aa">Accelerating insurer withdrawal</text>
+  <rect x="30" y="322" width="11" height="11" fill="#7fb3c9" fill-opacity="0.7"/><text x="46" y="331.5" font-size="9" font-family="-apple-system,sans-serif" fill="#97a0aa">Post-disaster underinsurance crisis</text>
+  <rect x="30" y="339" width="11" height="11" fill="#8fae8c" fill-opacity="0.7"/><text x="46" y="348.5" font-size="9" font-family="-apple-system,sans-serif" fill="#97a0aa">Growing residual market exposure</text>
+  <rect x="30" y="362" width="11" height="11" fill="#3a424b" stroke="#e8eef4" stroke-width="1" stroke-dasharray="2 2" stroke-opacity="0.8"/><text x="46" y="371.5" font-size="9" font-family="-apple-system,sans-serif" fill="#97a0aa">no FAIR-plan counts recorded</text>
+</svg>
+<div class="figfoot">
+  <span><b>n</b> 6 states</span>
+  <span><b>SUBSTRATE</b> boundaries are reference geography, not evidence (source in Method)</span><br>
+  <span class="long"><b>INTERPRETED</b> every fill. Neither shade nor land area encodes a
+  measured quantity.</span>
+  <span class="long"><b>OBSERVED</b> only the hatch — whether FAIR-plan counts exist.</span>
+</div>
+</figure></div>
+<div class="sec"><div class="rung">Policy counts</div>
+<h2>Two numbers, no dates</h2>
+<div class="lede">FAIR plans are the insurer of last resort — the residual market that
+absorbs what private carriers drop. Their policy counts are the nearest thing here to a
+measurement. They are not a series: no date is attached to either number, so the interval
+between them is unknown, and half the states record neither.</div>
+<div class="scroll"><table>
+<thead><tr><th>State</th><th>Plan</th><th>Policies</th><th>Recorded peak</th><th>Reading</th></tr></thead><tbody>
+<tr><td class="k">Florida</td><td>Citizens Property Insurance</td><td class="n">395,000</td>
+<td class="n">1,410,000</td><td>72% below the recorded peak</td></tr>
+<tr><td class="k">California</td><td>California FAIR Plan</td><td class="n">573,700</td>
+<td class="n">573,700</td><td><span style="color:var(--derived)">peak equals current — the record holds one point, so no trend can be read from it</span></td></tr>
+<tr><td class="k">Texas</td><td>Texas Windstorm Insurance Association (TWIA)</td><td class="n">276,000</td>
+<td class="n">285,000</td><td>3% below the recorded peak</td></tr>
+<tr><td class="k">Louisiana</td><td>Louisiana Citizens Property Insurance</td><td class="n"><span style="color:#b4655f">none</span></td>
+<td class="n"><span style="color:#b4655f">none</span></td><td><span class="missing" style="color:#b4655f">no count recorded</span></td></tr>
+<tr><td class="k">Colorado</td><td></td><td class="n"><span style="color:#b4655f">none</span></td>
+<td class="n"><span style="color:#b4655f">none</span></td><td><span class="missing" style="color:#b4655f">no count recorded</span></td></tr>
+<tr><td class="k">North Carolina</td><td>NC Insurance Underwriting Association (Wind Pool)</td><td class="n"><span style="color:#b4655f">none</span></td>
+<td class="n"><span style="color:#b4655f">none</span></td><td><span class="missing" style="color:#b4655f">no count recorded</span></td></tr>
+</tbody></table></div>
+<div class="figfoot">
+  <span><b>OBSERVED</b> both counts, where recorded</span>
+  <span><b>DERIVED</b> the “% below peak” reading</span><br>
+  <span class="long"><b>DENOM</b> policies in force. No date is attached to either count
+  anywhere in the corpus, so “peak” is undated and the interval between the two numbers is
+  unknown.</span>
+</div></div>
+<div class="sec"><div class="rung">State evidence</div>
+<h2>The six</h2>
+<div class="lede">Each claim as the corpus states it. Every class is an authored
+judgment.</div>
+<div class="scroll"><table class="ledger">
+<thead><tr><th>State</th><th>Assessment class</th><th>Conf.</th><th>Rate</th><th>FAIR policies</th></tr></thead><tbody>
+<tr class="lr">
+  <td class="k cty">Florida</td><td class="bandc">Systemic insurer retreat</td>
+  <td class="n cf-high">high</td><td class="n">18%</td>
+  <td class="n">395,000</td>
+</tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">Citizens went from 1.41M policies to 395K via forced depopulation — the state transferred risk back to a market that had already fled.</span>
+<span class="qn">Citizens data public; depopulation program documented; ProPublica investigation on arbitration</span></td></tr>
+<tr class="lr">
+  <td class="k cty">Louisiana</td><td class="bandc">Systemic insurer retreat</td>
+  <td class="n cf-high">high</td><td class="n">58%</td>
+  <td class="n miss">none</td>
+</tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">Dozen+ insurers went insolvent, then the state repealed consumer protections to attract replacements — 58% rate increase followed.</span>
+<span class="qn">Post-hurricane insolvency wave documented; regulatory changes tracked; rate data available</span></td></tr>
+<tr class="lr">
+  <td class="k cty">California</td><td class="bandc">Accelerating insurer withdrawal</td>
+  <td class="n cf-high">high</td><td class="n">36%</td>
+  <td class="n">573,700</td>
+</tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">FAIR Plan up 139% in 4 years, now expanding beyond wildfire zones into normal urban areas — the retreat has its own momentum.</span>
+<span class="qn">FAIR Plan statistics public; State Farm nonrenewal data available; CDI press releases detailed</span></td></tr>
+<tr class="lr">
+  <td class="k cty">Colorado</td><td class="bandc">Post-disaster underinsurance crisis</td>
+  <td class="n cf-high">high</td><td class="n">77%</td>
+  <td class="n miss">none</td>
+</tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">87% of Marshall Fire victims had extended coverage — 75% still fell short. The coverage people thought they had was a fiction.</span>
+<span class="qn">Marshall Fire data well-documented; insurance gap data from Boulder Reporting Lab; Xcel settlement public</span></td></tr>
+<tr class="lr">
+  <td class="k cty">Texas</td><td class="bandc">Growing residual market exposure</td>
+  <td class="n cf-high">high</td><td class="n">3%</td>
+  <td class="n">276,000</td>
+</tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">TWIA holds $117B in coastal exposure with a $413M deficit — the insurer of last resort is itself underinsured.</span>
+<span class="qn">TWIA annual reports public; deficit and exposure data detailed; rate inadequacy documented</span></td></tr>
+<tr class="lr">
+  <td class="k cty">North Carolina</td><td class="bandc">Growing residual market exposure</td>
+  <td class="n cf-medium">medium</td><td class="n">15%</td>
+  <td class="n miss">none</td>
+</tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">Barrier island development continues while insurers retreat — the state is building into exposure it&#x27;s simultaneously losing coverage for.</span>
+<span class="qn">Wind Pool data less publicly detailed than FL/TX; coastal exposure documented but granularity limited</span></td></tr>
+</tbody></table></div></div>
+<div class="auditline">Audit<span>Everything below is the page checking itself: limits, method, and the source record.</span></div>
+
+<div class="sec audit"><div class="rung">Audit · what the marks mean</div>
+<div class="regdefs">
+  <div class="r-observed"><div class="rl">● Observed</div><div class="rd">Read off a cited source. Has a unit and a receipt.</div></div>
+  <div class="r-derived"><div class="rl">◌ Derived</div><div class="rd">Computed here. Shows its rule; carries no receipt.</div></div>
+  <div class="r-interpreted"><div class="rl">▌ Interpreted</div><div class="rd">Authored judgment. Publishable — and not evidence.</div></div>
+  <div class="r-refused"><div class="rl">⊘ Refused</div><div class="rd">Declined or unavailable. Shown, not omitted.</div></div>
+</div>
+
+<div class="refusal">
+<b>What this page does not claim.</b> That one state is worse off than another, or that the
+assessment classes rank anything. It reports what the corpus can and cannot substantiate.
+</div></div>
+<div class="sec audit bound"><div class="rung">Audit · boundary conditions</div>
+<h2>What this page does not show</h2>
+<div class="pull">The atlas is six individually researched essays wearing one schema.
+The schema is the part that does not fit.</div>
+<ul>
+<li><b>Unverifiable is not wrong.</b> Of the 30 figures asserted in prose, 3
+appear in a structured field. The rest may be perfectly accurate; the record simply cannot
+confirm them, and neither can this page.</li>
+<li><b><code>rate_change_pct</code> has no period and no base.</b> One state's prose gives
+a window (Colorado, six years). The other five give none, so the field cannot be compared
+across rows — and this page does not compare it.</li>
+<li><b>Half the states record no FAIR-plan count</b> — Louisiana, Colorado, North Carolina —
+and two of those carry <code>confidence: high</code> anyway.</li>
+<li><b>Colorado disclaims the atlas's own subject.</b> Its record opens “Not primarily an
+exit story — Colorado is the underinsurance story,” inside an atlas about insurer exit. It
+is kept because the corpus keeps it, marked <span class="mk mk-r">refused</span> rather
+than dropped.</li>
+<li><b>Seven of
+12 citations point at a home page, not a document</b> — including both of
+Florida's, the state with the largest figures on the page.</li>
+</ul></div>
+<div class="sec audit meth"><div class="rung">Audit · method</div>
+<h2>What is computed here, and what is not</h2>
+<div class="rule1">Nothing on this page ranks the six states, because the corpus provides
+no basis on which they could be ranked.</div>
+<p><b><code>stress_band</code> is interpreted.</b> No derivation rule was ever specified
+for it — the repository history records the class assignments and no threshold, weight, or
+ordering. The classes are also not commensurable — “systemic insurer retreat” is a market state,
+“accelerating withdrawal” a rate-of-change claim, “post-disaster underinsurance crisis” a
+different mechanism entirely. So the map's colours are categorical.</p>
+<p><b>Two derivations, both stated where they appear.</b> The <i>rate-anchoring flag</i>
+(rule under the first figure) and the <i>prose-token backing flag</i> (rule under the
+second). The <i>evidence window</i> (2024-12-01 → 2026-01-01) is min/max of all receipt
+dates. Everything else is presentational.</p>
+<p><b>Geography is substrate.</b> The corpus's own state outlines are coarse hand sketches;
+drawing them implied a precision it does not have. Boundaries here are vendored —
+Natural Earth 1:50m Admin 1, v5.1.2, public domain (vendor/boundaries/PROVENANCE.md) — and carry no claim. The corpus polygons are untouched in the data.</p>
+<p><b>Confidence</b> is the corpus's own field, unchanged. It rates a state's inputs, never
+the class assignment — which is why Colorado can be <code>confidence: high</code> with no
+FAIR-plan count recorded.</p></div>
+<div class="sec audit rcpt"><div class="rung">Audit · sources</div>
+<h2>Source material</h2>
+<div class="lede">All 12 citations — exactly two per state, for every state, which
+is itself a sign of a quota rather than a search.</div>
+<div class="absence"><b>Seven of these twelve point at a home page rather than a document.</b> A citation to <code>propublica.org/</code> or <code>ncdoi.gov/</code> cannot be checked and will never break, which makes it invisible to link-checking. No citation in this corpus has a retrieval date or an archive snapshot either.</div>
+<div class="scroll"><table><thead><tr><th>Supports</th><th>Publisher</th><th>Published</th></tr></thead><tbody>
+<tr><td class="k">California</td><td><a href="https://www.cfpnet.com/key-statistics-data/" rel="noopener">California FAIR Plan</a></td><td class="n">2025-09-01</td></tr>
+<tr><td class="k">California</td><td><a href="https://www.insurance.ca.gov/" rel="noopener">California Dept of Insurance</a></td><td class="n">2026-01-01</td></tr>
+<tr><td class="k">Colorado</td><td><a href="https://hazards.colorado.edu/mitigation-matters-report/colorados-marshall-fire" rel="noopener">Boulder Reporting Lab</a></td><td class="n">2024-12-01</td></tr>
+<tr><td class="k">Colorado</td><td><a href="https://www.insurance.com/home-and-renters-insurance/home-insurance-rate-increases" rel="noopener">Insurance.com</a></td><td class="n">2026-01-01</td></tr>
+<tr><td class="k">Florida</td><td><a href="https://www.citizensfla.com/" rel="noopener">Citizens Property Insurance</a></td><td class="n">2026-01-01</td></tr>
+<tr><td class="k">Florida</td><td><a href="https://www.propublica.org/" rel="noopener">ProPublica</a></td><td class="n">2025-06-01</td></tr>
+<tr><td class="k">Louisiana</td><td><a href="https://www.ldi.la.gov/" rel="noopener">Louisiana Dept of Insurance</a></td><td class="n">2025-01-01</td></tr>
+<tr><td class="k">Louisiana</td><td><a href="https://www.insurance.com/home-and-renters-insurance/home-insurance-rate-increases" rel="noopener">Insurance.com</a></td><td class="n">2026-01-01</td></tr>
+<tr><td class="k">North Carolina</td><td><a href="https://www.insurancejournal.com/" rel="noopener">Insurance Journal</a></td><td class="n">2025-01-01</td></tr>
+<tr><td class="k">North Carolina</td><td><a href="https://www.ncdoi.gov/" rel="noopener">NC DOI</a></td><td class="n">2025-01-01</td></tr>
+<tr><td class="k">Texas</td><td><a href="https://www.twia.org/wp-content/uploads/2025-TWIA-Annual-Report.pdf" rel="noopener">TWIA</a></td><td class="n">2025-01-01</td></tr>
+<tr><td class="k">Texas</td><td><a href="https://www.insurancejournal.com/" rel="noopener">Insurance Journal</a></td><td class="n">2025-06-01</td></tr>
+</tbody></table></div>
+</div>
+<footer>
+Built from <code>docs/insurance/data/states.geojson</code> by
+<code>tools/build_atlas_insurance.py</code>. Case prose is reproduced verbatim from the
+corpus; every derived value states its rule on the page.<br>
+<a href="../hormuz/">Hormuz</a> · <a href="../cloud/">Cloud &amp; CDN</a> ·
+<a href="../">All atlases</a>
+</footer>
+
+</div></body></html>

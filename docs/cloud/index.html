@@ -1,784 +1,781 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cloud & CDN Dependency — Infrastructure Dependency Atlas</title>
-  <meta name="description" content="Your local institution is operationally downstream of somebody else's region policy and billing model. 10 documented cases across cloud, CDN, DNS, and software supply chain.">
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Cloud & CDN Dependency — Infrastructure Dependency Atlas">
-  <meta property="og:description" content="Your local institution is operationally downstream of somebody else's region policy and billing model.">
-  <meta property="og:url" content="https://unpingable.github.io/grid-dependency-atlas/cloud/">
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Cloud & CDN Dependency — Infrastructure Dependency Atlas">
-  <meta name="twitter:description" content="Your local institution is operationally downstream of somebody else's region policy and billing model.">
-  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.css">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #0a0a0a;
-      color: #e0e0e0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    header {
-      padding: 12px 20px;
-      background: #111;
-      border-bottom: 1px solid #222;
-      display: flex;
-      align-items: baseline;
-      gap: 16px;
-      flex-shrink: 0;
-    }
-
-    header a {
-      color: #666;
-      text-decoration: none;
-      font-size: 13px;
-    }
-
-    header a:hover { color: #aaa; }
-
-    header h1 {
-      font-size: 18px;
-      font-weight: 600;
-      color: #fff;
-      letter-spacing: -0.01em;
-    }
-
-    header .subtitle {
-      font-size: 14px;
-      color: #888;
-    }
-
-    .main {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    #map {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .panel {
-      width: 420px;
-      flex-shrink: 0;
-      background: #111;
-      border-left: 1px solid #222;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .panel-placeholder {
-      padding: 40px 24px;
-      color: #555;
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    .placeholder-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: #888;
-      margin-bottom: 16px;
-    }
-
-    .placeholder-stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-
-    .placeholder-stat {
-      font-size: 13px;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 3px;
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
-      color: #999;
-    }
-
-    .placeholder-desc {
-      font-size: 15px;
-      color: #666;
-      line-height: 1.6;
-      margin-bottom: 16px;
-    }
-
-    .placeholder-note {
-      font-size: 12px;
-      color: #444;
-      line-height: 1.5;
-      border-top: 1px solid #1a1a1a;
-      padding-top: 16px;
-    }
-
-    .placeholder-note a {
-      color: #4fc3f7;
-      text-decoration: none;
-    }
-
-    .placeholder-note a:hover {
-      text-decoration: underline;
-    }
-
-    .placeholder-note .handoff {
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px dashed #1a1a1a;
-      color: #555;
-    }
-
-    .scope-note {
-      padding: 6px 20px;
-      background: #0a0a0a;
-      border-top: 1px solid #1a1a1a;
-      font-size: 11px;
-      color: #555;
-      line-height: 1.4;
-      flex-shrink: 0;
-      text-align: center;
-    }
-
-    @media (max-width: 900px) {
-      .scope-note { padding: 6px 12px; font-size: 10px; }
-    }
-
-    .filter-count {
-      font-size: 13px;
-      color: #666;
-      margin-left: 4px;
-    }
-
-    .panel-content { display: none; }
-
-    .panel-content.active { display: block; }
-
-    .panel-header {
-      padding: 20px 24px 16px;
-      border-bottom: 1px solid #222;
-    }
-
-    .panel-header .category-badge {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 3px 8px;
-      border-radius: 3px;
-      margin-bottom: 8px;
-    }
-
-    .badge-control_plane, .badge-concentration { background: #2a0a0a; color: #ef5350; }
-    .badge-outage { background: #2a1a00; color: #f5a623; }
-    .badge-supply_chain { background: #2a2a00; color: #fdd835; }
-    .badge-cdn { background: #001a2e; color: #4fc3f7; }
-    .badge-sovereignty { background: #1a0a2e; color: #bd7dff; }
-    .badge-sector_dependency { background: #0a1a0a; color: #66bb6a; }
-    .badge-pricing { background: #1a1a1a; color: #888888; }
-
-    .panel-header h2 {
-      font-size: 17px;
-      font-weight: 600;
-      color: #fff;
-      line-height: 1.4;
-      margin-bottom: 8px;
-    }
-
-    .panel-header .one-line {
-      font-size: 14px;
-      color: #aaa;
-      line-height: 1.5;
-      font-style: italic;
-    }
-
-    .panel-body {
-      padding: 16px 24px 24px;
-    }
-
-    .panel-body .field {
-      margin-bottom: 14px;
-    }
-
-    .panel-body .field-label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #666;
-      margin-bottom: 3px;
-    }
-
-    .panel-body .field-value {
-      font-size: 14px;
-      color: #ccc;
-      line-height: 1.5;
-    }
-
-    .panel-body .field-value a {
-      color: #4fc3f7;
-      text-decoration: none;
-    }
-
-    .panel-body .field-value a:hover {
-      text-decoration: underline;
-    }
-
-    .meta-row {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 14px;
-    }
-
-    .meta-row .field { flex: 1; margin-bottom: 0; }
-
-    .severity-badge {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 2px 6px;
-      border-radius: 3px;
-    }
-
-    .severity-structural { background: #2a0a0a; color: #ef5350; }
-    .severity-demonstrated { background: #2a1a00; color: #f5a623; }
-
-    .filters {
-      padding: 10px 20px;
-      background: #111;
-      border-bottom: 1px solid #222;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-shrink: 0;
-      flex-wrap: wrap;
-    }
-
-    .filter-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .filter-group label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #666;
-    }
-
-    .filter-group select {
-      font-size: 13px;
-      background: #1a1a1a;
-      color: #ccc;
-      border: 1px solid #333;
-      border-radius: 4px;
-      padding: 4px 8px;
-      cursor: pointer;
-    }
-
-    .legend {
-      display: flex;
-      gap: 14px;
-      margin-left: auto;
-      flex-wrap: wrap;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 12px;
-      color: #888;
-    }
-
-    .legend-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-
-    /* Mobile: panel becomes a slide-up drawer */
-    @media (max-width: 900px) {
-      header { flex-direction: column; gap: 4px; padding: 10px 16px; }
-      header h1 { font-size: 14px; }
-      header .subtitle { font-size: 11px; line-height: 1.4; }
-
-      .filters { padding: 8px 12px; gap: 8px; }
-      .filter-group { gap: 4px; }
-      .filter-group select { font-size: 13px; padding: 6px 8px; }
-      .filter-count { display: none; }
-      .legend { display: none; }
-
-      .main { flex-direction: column; position: relative; }
-      #map { flex: 1; min-height: 0; }
-
-      .panel {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        max-height: 55vh;
-        border-left: none;
-        border-top: 1px solid #333;
-        border-radius: 12px 12px 0 0;
-        transform: translateY(100%);
-        transition: transform 0.3s ease;
-        z-index: 10;
-      }
-
-      .panel.mobile-open {
-        transform: translateY(0);
-      }
-
-      .panel-placeholder { display: none; }
-
-      .panel-drag-handle {
-        display: flex;
-        justify-content: center;
-        padding: 10px 0 4px;
-        cursor: grab;
-      }
-
-      .panel-drag-handle::after {
-        content: '';
-        width: 36px;
-        height: 4px;
-        background: #444;
-        border-radius: 2px;
-      }
-
-      .panel-close {
-        display: flex;
-      }
-
-      .panel-header { padding: 12px 16px 12px; }
-      .panel-header h2 { font-size: 14px; }
-      .panel-body { padding: 12px 16px 24px; }
-      .panel-body .field { margin-bottom: 12px; }
-      .meta-row { gap: 10px; }
-    }
-
-    @media (min-width: 901px) {
-      .panel-drag-handle { display: none; }
-      .panel-close { display: none; }
-    }
-
-    .panel-close {
-      display: none;
-      position: absolute;
-      top: 10px;
-      right: 12px;
-      width: 28px;
-      height: 28px;
-      align-items: center;
-      justify-content: center;
-      background: #222;
-      border: 1px solid #333;
-      border-radius: 6px;
-      color: #888;
-      font-size: 16px;
-      cursor: pointer;
-      z-index: 2;
-    }
-
-    .panel-close:hover { color: #ccc; background: #2a2a2a; }
-  </style>
-</head>
-<body>
-  <header>
-    <a href="../">&larr; Atlas</a>
-    <h1>Cloud & CDN Dependency</h1>
-    <span class="subtitle">Your local institution is operationally downstream of somebody else's region policy and billing model.</span>
-  </header>
-
-  <div class="filters">
-    <div class="filter-group">
-      <label>Category</label>
-      <select id="filter-category">
-        <option value="all">All</option>
-        <option value="control_plane">Control Plane</option>
-        <option value="outage">Outage Cascade</option>
-        <option value="supply_chain">Supply Chain</option>
-        <option value="cdn">CDN / DNS</option>
-        <option value="sovereignty">Sovereignty</option>
-        <option value="concentration">Concentration</option>
-        <option value="sector_dependency">Sector Dependency</option>
-        <option value="pricing">Pricing</option>
-      </select>
-    </div>
-    <div class="filter-group">
-      <label>Severity</label>
-      <select id="filter-severity">
-        <option value="all">All</option>
-        <option value="structural">Structural</option>
-        <option value="demonstrated">Demonstrated</option>
-      </select>
-    </div>
-    <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#ef5350"></div>Concentration / Control Plane</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#f5a623"></div>Outage</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#fdd835"></div>Supply Chain</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#4fc3f7"></div>CDN / DNS</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#bd7dff"></div>Sovereignty</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#66bb6a"></div>Sector</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#888"></div>Pricing</div>
-    </div>
-  </div>
-
-  <div class="scope-note">
-    Documented events and structural dependencies only. Absence of a marker does not mean absence of dependency.
-  </div>
-
-  <div class="main">
-    <div id="map"></div>
-    <div class="panel" id="panel">
-      <div class="panel-drag-handle" id="drag-handle"></div>
-      <button class="panel-close" id="panel-close" aria-label="Close">&times;</button>
-      <div class="panel-placeholder" id="placeholder">
-        <div class="placeholder-title">Select a case</div>
-        <div class="placeholder-stats" id="placeholder-stats"></div>
-        <div class="placeholder-desc">
-          10 cases. Three cloud providers control 62% of the global market.
-          The rest of the internet is downstream.
-        </div>
-        <div class="placeholder-note">
-          <div class="handoff" style="margin-top:0; padding-top:0; border-top:none; color:#555;">
-            Data-center siting — the physical substrate underneath "cloud" — is
-            tracked live, county by county, at
-            <a href="https://trackdatacenters.com/" target="_blank" rel="noopener">trackdatacenters.com</a>.
-            The atlas names the pattern; specialist observatories show where
-            it's filing permits.
-          </div>
-        </div>
-      </div>
-      <div class="panel-content" id="panel-content">
-        <div class="panel-header">
-          <span class="category-badge" id="p-badge"></span>
-          <h2 id="p-title"></h2>
-          <div class="one-line" id="p-oneline"></div>
-        </div>
-        <div class="panel-body">
-          <div class="meta-row">
-            <div class="field">
-              <div class="field-label">Severity</div>
-              <div class="field-value"><span class="severity-badge" id="p-severity"></span></div>
-            </div>
-            <div class="field">
-              <div class="field-label">Provider</div>
-              <div class="field-value" id="p-provider"></div>
-            </div>
-            <div class="field">
-              <div class="field-label">Location</div>
-              <div class="field-value" id="p-location"></div>
-            </div>
-          </div>
-          <div class="field">
-            <div class="field-label">Dependency</div>
-            <div class="field-value" id="p-dependency"></div>
-          </div>
-          <div class="field">
-            <div class="field-label">Consequence</div>
-            <div class="field-value" id="p-consequence"></div>
-          </div>
-          <div class="field">
-            <div class="field-label">Who Controls</div>
-            <div class="field-value" id="p-who-controls"></div>
-          </div>
-          <div class="field">
-            <div class="field-label">Affected Scope</div>
-            <div class="field-value" id="p-affected-scope"></div>
-          </div>
-          <div class="field">
-            <div class="field-label">Sources</div>
-            <div class="field-value" id="p-sources"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.js"></script>
-  <script>
-    const COLORS = {
-      control_plane: '#ef5350',
-      outage: '#f5a623',
-      supply_chain: '#fdd835',
-      cdn: '#4fc3f7',
-      sovereignty: '#bd7dff',
-      concentration: '#ef5350',
-      sector_dependency: '#66bb6a',
-      pricing: '#888888'
-    };
-
-    const map = new maplibregl.Map({
-      container: 'map',
-      style: {
-        version: 8,
-        sources: {
-          'carto-dark': {
-            type: 'raster',
-            tiles: ['https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png'],
-            tileSize: 256,
-            attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
-          }
-        },
-        layers: [{
-          id: 'carto-dark-layer',
-          type: 'raster',
-          source: 'carto-dark',
-          minzoom: 0,
-          maxzoom: 19
-        }]
-      },
-      center: [-40, 35],
-      zoom: 2.5,
-      minZoom: 2,
-      maxZoom: 12
-    });
-
-    map.addControl(new maplibregl.NavigationControl(), 'top-left');
-
-    let geojsonData = null;
-
-    map.on('load', async () => {
-      const resp = await fetch('data/cases.geojson');
-      geojsonData = await resp.json();
-
-      map.addSource('cases', { type: 'geojson', data: geojsonData });
-
-      // Populate placeholder stats
-      const features = geojsonData.features;
-      const total = features.length;
-      const byCat = {};
-      features.forEach(f => {
-        const t = f.properties.category;
-        const label = f.properties.category_label;
-        if (!byCat[t]) byCat[t] = { count: 0, label: label };
-        byCat[t].count++;
-      });
-      const statsEl = document.getElementById('placeholder-stats');
-      statsEl.innerHTML =
-        `<span class="placeholder-stat">${total} cases</span>` +
-        Object.entries(byCat).map(([k, v]) =>
-          `<span class="placeholder-stat" style="color:${COLORS[k]}">${v.count} ${v.label}</span>`
-        ).join('');
-
-      updateFilterCount();
-
-      const mobile = isMobile();
-
-      // Invisible hit area for easier mobile tapping
-      map.addLayer({
-        id: 'cases-hit',
-        type: 'circle',
-        source: 'cases',
-        paint: {
-          'circle-radius': mobile ? 24 : 16,
-          'circle-color': 'transparent'
-        }
-      });
-
-      // Outer glow
-      map.addLayer({
-        id: 'cases-glow',
-        type: 'circle',
-        source: 'cases',
-        paint: {
-          'circle-radius': mobile ? 20 : 16,
-          'circle-color': ['match', ['get', 'category'],
-            'control_plane', COLORS.control_plane,
-            'outage', COLORS.outage,
-            'supply_chain', COLORS.supply_chain,
-            'cdn', COLORS.cdn,
-            'sovereignty', COLORS.sovereignty,
-            'concentration', COLORS.concentration,
-            'sector_dependency', COLORS.sector_dependency,
-            'pricing', COLORS.pricing,
-            '#888'
-          ],
-          'circle-opacity': 0.15,
-          'circle-blur': 1
-        }
-      });
-
-      // Main dot
-      map.addLayer({
-        id: 'cases-dot',
-        type: 'circle',
-        source: 'cases',
-        paint: {
-          'circle-radius': mobile ? 11 : 9,
-          'circle-color': ['match', ['get', 'category'],
-            'control_plane', COLORS.control_plane,
-            'outage', COLORS.outage,
-            'supply_chain', COLORS.supply_chain,
-            'cdn', COLORS.cdn,
-            'sovereignty', COLORS.sovereignty,
-            'concentration', COLORS.concentration,
-            'sector_dependency', COLORS.sector_dependency,
-            'pricing', COLORS.pricing,
-            '#888'
-          ],
-          'circle-opacity': 0.9,
-          'circle-stroke-color': '#fff',
-          'circle-stroke-width': 1.5,
-          'circle-stroke-opacity': 0.4
-        }
-      });
-
-      const clickLayers = ['cases-dot', 'cases-hit'];
-
-      // Hover state (desktop)
-      map.on('mouseenter', 'cases-dot', () => {
-        map.getCanvas().style.cursor = 'pointer';
-      });
-      map.on('mouseleave', 'cases-dot', () => {
-        map.getCanvas().style.cursor = '';
-      });
-      map.on('mouseenter', 'cases-hit', () => {
-        map.getCanvas().style.cursor = 'pointer';
-      });
-      map.on('mouseleave', 'cases-hit', () => {
-        map.getCanvas().style.cursor = '';
-      });
-
-      // Click handler
-      clickLayers.forEach(layer => {
-        map.on('click', layer, (e) => {
-          const props = e.features[0].properties;
-          showPanel(props);
-          const mobile = isMobile();
-          const targetZoom = mobile ? Math.max(map.getZoom(), 5) : Math.max(map.getZoom(), 6);
-          const padding = mobile
-            ? { top: 40, bottom: 40, left: 20, right: 20 }
-            : { top: 40, bottom: 40, left: 40, right: 440 };
-          map.flyTo({ center: e.lngLat, zoom: targetZoom, duration: 600, padding: padding });
-        });
-      });
-
-      // Click on empty space closes panel
-      map.on('click', (e) => {
-        const features = map.queryRenderedFeatures(e.point, { layers: clickLayers });
-        if (features.length === 0) hidePanel();
-      });
-    });
-
-    const isMobile = () => window.innerWidth <= 900;
-    const panelEl = document.getElementById('panel');
-
-    // Mobile close button
-    document.getElementById('panel-close').addEventListener('click', hidePanel);
-
-    // Mobile drag-to-dismiss
-    let dragStartY = null;
-    const dragHandle = document.getElementById('drag-handle');
-    dragHandle.addEventListener('touchstart', (e) => {
-      dragStartY = e.touches[0].clientY;
-    }, { passive: true });
-    dragHandle.addEventListener('touchmove', (e) => {
-      if (dragStartY === null) return;
-      const dy = e.touches[0].clientY - dragStartY;
-      if (dy > 60) { hidePanel(); dragStartY = null; }
-    }, { passive: true });
-    dragHandle.addEventListener('touchend', () => { dragStartY = null; });
-
-    function showPanel(props) {
-      document.getElementById('placeholder').style.display = 'none';
-      const panel = document.getElementById('panel-content');
-      panel.classList.add('active');
-      if (isMobile()) panelEl.classList.add('mobile-open');
-
-      const badge = document.getElementById('p-badge');
-      badge.textContent = props.category_label;
-      badge.className = 'category-badge badge-' + props.category;
-
-      document.getElementById('p-title').textContent = props.title;
-      document.getElementById('p-oneline').textContent = props.one_line;
-
-      const severityEl = document.getElementById('p-severity');
-      severityEl.textContent = props.severity_label;
-      severityEl.className = 'severity-badge severity-' + props.severity;
-
-      document.getElementById('p-provider').textContent = props.provider;
-      document.getElementById('p-location').textContent = props.location;
-      document.getElementById('p-dependency').textContent = props.dependency;
-      document.getElementById('p-consequence').textContent = props.consequence;
-      document.getElementById('p-who-controls').textContent = props.who_controls;
-      document.getElementById('p-affected-scope').textContent = props.affected_scope;
-
-      const sources = typeof props.sources === 'string' ? JSON.parse(props.sources) : props.sources;
-      const sourcesEl = document.getElementById('p-sources');
-      sourcesEl.innerHTML = sources.map(s =>
-        `<a href="${s.url}" target="_blank" rel="noopener">${s.publisher}</a> (${s.date})`
-      ).join('<br>');
-    }
-
-    function hidePanel() {
-      if (!isMobile()) document.getElementById('placeholder').style.display = 'block';
-      document.getElementById('panel-content').classList.remove('active');
-      panelEl.classList.remove('mobile-open');
-    }
-
-    // Filters
-    const filterCategory = document.getElementById('filter-category');
-    const filterSeverity = document.getElementById('filter-severity');
-
-    function applyFilters() {
-      if (!geojsonData) return;
-      const c = filterCategory.value;
-      const s = filterSeverity.value;
-
-      const filters = ['all'];
-      if (c !== 'all') filters.push(['==', ['get', 'category'], c]);
-      if (s !== 'all') filters.push(['==', ['get', 'severity'], s]);
-
-      const f = filters.length === 1 ? null : filters;
-      map.setFilter('cases-dot', f);
-      map.setFilter('cases-glow', f);
-      map.setFilter('cases-hit', f);
-      updateFilterCount();
-    }
-
-    filterCategory.addEventListener('change', applyFilters);
-    filterSeverity.addEventListener('change', applyFilters);
-
-    function updateFilterCount() {
-      if (!geojsonData) return;
-      const c = filterCategory.value;
-      const s = filterSeverity.value;
-      let count = geojsonData.features.filter(f => {
-        const p = f.properties;
-        if (c !== 'all' && p.category !== c) return false;
-        if (s !== 'all' && p.severity !== s) return false;
-        return true;
-      }).length;
-      let el = document.getElementById('filter-count');
-      if (!el) {
-        el = document.createElement('span');
-        el.id = 'filter-count';
-        el.className = 'filter-count';
-        document.querySelector('.filters').insertBefore(el, document.querySelector('.legend'));
-      }
-      const total = geojsonData.features.length;
-      el.textContent = count === total ? `${total} cases` : `${count} of ${total} cases`;
-    }
-  </script>
-</body>
-</html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Four of these ten are already over</title>
+<meta name="description" content="Ten cloud dependency cases: four are outages that ended, six are conditions that persist, and the corpus records no date for any of them.">
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link rel="stylesheet" href="https://fonts.bunny.net/css?family=newsreader:400,500,600&display=swap">
+<style>
+:root{
+  --ink:#0a0a0a; --panel:#101215; --rule:#22262b; --rule-soft:#171a1e;
+  --tx:#e2e7ed; --tx-mid:#98a1ab; --tx-dim:#69727c; --tx-faint:#525b64;
+  --observed:#4fc3f7; --derived:#e0a03a; --interpreted:#b9c2cc; --refused:#79828c;
+  --hot:#ef5350;
+  --serif:'Newsreader',Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ink);color:var(--tx);font-family:var(--sans);
+  font-size:15px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 24px 110px}
+
+.evbanner,.evbanner{background:#2a1c05;border-bottom:2px solid #6b4d12;color:#f0cf8d;
+  font-family:var(--mono);font-size:12px;letter-spacing:.02em;
+  padding:13px 24px;line-height:1.55}
+.evbanner b{color:#ffdf9c}
+.evbanner .big{display:block;font-size:14px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:#ffd98a;margin-bottom:3px}
+
+/* ---------- question + answer ---------- */
+.kicker{font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.19em;color:var(--tx-dim);padding-top:62px}
+h1{font-family:var(--serif);font-size:47px;font-weight:600;line-height:1.04;
+  letter-spacing:-.02em;color:#fff;margin:20px 0 22px;max-width:19ch}
+.answer{font-family:var(--serif);font-size:21px;line-height:1.48;
+  color:#ccd4dd;max-width:56ch;margin-bottom:38px}
+.answer strong{color:#fff;font-weight:600}
+
+/* ---------- summary strip: the 20-second read ---------- */
+.strip{display:grid;grid-template-columns:repeat(5,1fr);
+  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  margin-bottom:16px}
+.strip .s{padding:16px 16px 15px 0}
+.strip .s+.s{padding-left:18px;border-left:1px solid var(--rule-soft)}
+.strip .n{font-family:var(--serif);font-size:33px;font-weight:600;color:#fff;
+  line-height:1;letter-spacing:-.02em}
+.strip .l{font-size:12px;color:var(--tx-dim);line-height:1.38;margin-top:8px}
+.strip .anom .n{color:var(--derived)}
+.strip .anom .l{color:#a8853f}
+.strip .n .den{font-size:19px;color:var(--tx-dim)}
+
+.stamp{display:flex;flex-wrap:wrap;gap:0 22px;font-family:var(--mono);
+  font-size:11px;color:var(--tx-faint);margin-bottom:46px}
+.stamp b{color:var(--tx-dim);font-weight:400}
+.stamp .stale{color:var(--hot)}
+
+/* ---------- refusal + register key ---------- */
+.refusal{border-left:2px solid var(--refused);padding:1px 0 1px 17px;
+  margin:0 0 30px;font-family:var(--serif);font-size:17.5px;line-height:1.48;
+  color:#a9b2bc;max-width:60ch}
+.refusal b{color:#e2e7ed;font-weight:600}
+
+.regkey{display:grid;grid-template-columns:repeat(4,1fr);gap:0 26px;
+  border-top:1px solid var(--rule);padding-top:13px;margin-bottom:24px}
+.regkey .rl{font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.11em;text-transform:uppercase;margin-bottom:4px}
+.regkey .rd{font-size:12px;color:var(--tx-faint);line-height:1.42}
+.r-observed .rl{color:var(--observed)} .r-derived .rl{color:var(--derived)}
+.r-interpreted .rl{color:var(--interpreted)} .r-refused .rl{color:var(--refused)}
+
+.mk{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;vertical-align:.18em;padding:1px 4px;margin-left:5px;
+  border:1px solid currentColor;white-space:nowrap}
+.mk-o{color:var(--observed)} .mk-d{color:var(--derived)}
+.mk-i{color:var(--interpreted)} .mk-r{color:var(--refused)}
+
+/* ---------- section rhythm: air between evidentiary moves ---------- */
+.sec{margin-top:104px}
+.rung{font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--tx-faint);margin-bottom:12px}
+h2{font-family:var(--serif);font-size:27px;font-weight:600;color:#fff;
+  line-height:1.18;margin:0 0 10px;letter-spacing:-.012em;max-width:24ch}
+.lede{font-family:var(--serif);font-size:17.5px;color:#a4aeb8;line-height:1.5;
+  max-width:60ch;margin-bottom:26px}
+p{max-width:64ch;margin-bottom:14px}
+
+/* ---------- figures: finding is loud, apparatus is quiet ---------- */
+figure{margin:0}
+figcaption{font-family:var(--serif);font-size:23px;font-weight:600;color:#fff;
+  line-height:1.22;margin-bottom:8px;max-width:27ch}
+.fignote{font-size:13.5px;color:var(--tx-dim);max-width:58ch;margin-bottom:26px}
+.figfoot{border-top:1px solid var(--rule-soft);margin-top:20px;padding-top:11px;
+  font-family:var(--mono);font-size:10.5px;color:var(--tx-faint);line-height:1.8}
+.figfoot b{color:var(--tx-dim);font-weight:400}
+.figfoot span{display:inline-block;margin-right:20px;max-width:100%;
+  vertical-align:top}
+.figfoot span.long{white-space:normal;display:block;margin-right:0}
+
+/* ---------- bar rows ---------- */
+.bars{border-top:1px solid var(--rule)}
+.row{display:grid;grid-template-columns:110px 1fr 58px;gap:14px;
+  align-items:baseline;padding:10px 0;border-bottom:1px solid var(--rule-soft)}
+.row .nm{font-size:14.5px;color:var(--tx)}
+.row .tr{position:relative;height:16px;top:3px}
+.row .bar{position:absolute;left:0;top:3px;height:11px;background:var(--observed);
+  opacity:.85}
+/* a published range: drawn as the span it is, with the stored point marked */
+.row .span{position:absolute;top:3px;height:11px;background:var(--observed);opacity:.34;
+  border-left:1px solid rgba(79,195,247,.85);border-right:1px solid rgba(79,195,247,.85)}
+.row .pt{position:absolute;top:0px;height:17px;width:2px;background:var(--observed)}
+/* figures that count something else: no axis, no bar, no implied comparison */
+.offaxis{margin-top:22px;padding:16px 0 4px;border-top:1px solid var(--rule)}
+.offaxis .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--tx-mid);margin-bottom:5px}
+.offaxis .d{font-size:13px;color:var(--tx-dim);max-width:58ch;line-height:1.5;
+  margin-bottom:10px}
+.offtbl{font-size:13px}
+.offtbl td{border-bottom:1px solid var(--rule-soft);padding:8px 14px 8px 0}
+.offtbl .wq{color:var(--tx-faint);font-size:12px}
+.offtbl .wq q{font-style:italic;quotes:none}
+.row .val{font-family:var(--mono);font-size:13px;color:var(--tx);text-align:right}
+.row .note{grid-column:2/4;font-size:11.5px;color:#93763b;margin-top:3px;
+  line-height:1.4}
+.row.null .tr{background:repeating-linear-gradient(45deg,transparent,transparent 4px,
+  #1e2227 5px,#1e2227 6px);height:11px;top:6px;border:1px dashed #2b3037}
+.row.null .val{color:var(--refused);font-size:10.5px}
+.row.null .note{color:var(--tx-faint)}
+.sixty{position:absolute;top:-4px;bottom:-4px;width:1px;background:var(--hot);
+  opacity:.5}
+.axis{display:grid;grid-template-columns:110px 1fr 58px;gap:14px;
+  font-family:var(--mono);font-size:10px;color:var(--tx-faint);padding-top:6px}
+.axis .tr{position:relative;height:12px}
+.axis .tick{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.bandsplit{padding:18px 0 9px;border-bottom:1px solid var(--rule);margin-top:5px}
+.bandsplit .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--tx-mid);margin-bottom:5px}
+.bandsplit .d{font-size:13px;color:var(--tx-dim);max-width:58ch;line-height:1.5}
+
+/* ---------- interpretation: authored, subordinate to the finding ---------- */
+.interp{border-left:2px solid #3b434c;padding:2px 0 2px 18px;margin:30px 0 0;
+  max-width:58ch}
+.interp p{font-family:var(--serif);font-size:17.5px;line-height:1.5;
+  color:#b6bfc9;margin-bottom:0}
+.interp .by{font-family:var(--mono);font-size:10px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--tx-faint);margin-top:11px}
+
+/* ---------- tables ---------- */
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th{text-align:left;font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--tx-faint);
+  border-bottom:1px solid var(--rule);padding:0 12px 8px 0;vertical-align:bottom}
+td{border-bottom:1px solid var(--rule-soft);padding:10px 12px 10px 0;
+  vertical-align:top;line-height:1.5;color:var(--tx-mid)}
+td.k{color:var(--tx);white-space:nowrap}
+td.n{font-family:var(--mono);color:var(--tx);white-space:nowrap}
+td q{color:#aab3bd;font-style:italic;quotes:none}
+.scroll{overflow-x:auto}
+
+/* ---------- supporting figure: quieter than a major beat ---------- */
+figure.support{max-width:660px}
+figure.support figcaption{font-family:var(--sans);font-size:16px;font-weight:600;
+  color:#c3ccd5;max-width:46ch;line-height:1.35}
+figure.support .fignote{font-size:12.5px;max-width:52ch;margin-bottom:18px}
+
+/* ---------- country ledger ---------- */
+table.ledger{font-size:13px}
+table.ledger th{padding-bottom:9px}
+table.ledger tr.lr>td{border-bottom:none;padding:12px 12px 2px 0}
+table.ledger tr.claimrow>td{padding:0 0 13px 0;border-bottom:1px solid var(--rule-soft)}
+.ledger .cty{font-family:var(--serif);font-size:17px;font-weight:600;color:#fff;
+  padding-right:16px}
+.ledger .bandc{font-family:var(--mono);font-size:10.5px;color:var(--interpreted);
+  letter-spacing:.02em;white-space:nowrap}
+.ledger .bandc::before{content:"▌";color:#3b434c;margin-right:5px}
+.ledger td.n{font-size:11.5px;text-align:right;color:var(--tx-mid);padding-right:14px}
+.ledger td.miss{color:#b4655f}
+.ledger .cf-low{color:#c97a72} .ledger .cf-medium{color:#b6924e}
+.ledger .cf-high{color:var(--tx-faint)}
+.ledger .cl{font-size:14px;color:var(--tx-mid);line-height:1.5}
+.ledger .qn{display:block;font-family:var(--mono);font-size:10.5px;color:var(--tx-faint);
+  margin-top:5px;line-height:1.45}
+
+/* ---------- audit register: deliberate, not another chapter ---------- */
+.sec.audit{border-top:2px solid #39414a;padding-top:30px;margin-top:96px}
+.sec.audit .rung{color:#8d97a1}
+.sec.audit h2{font-size:25px}
+.sec.audit+.sec.audit{margin-top:68px}
+
+/* ---------- country index (retired; ledger replaces it) ---------- */
+.idx{border-top:1px solid var(--rule)}
+.idx .c{padding:16px 0;border-bottom:1px solid var(--rule-soft)}
+.idx .h{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;margin-bottom:5px}
+.idx .cn{font-family:var(--serif);font-size:19.5px;font-weight:600;color:#fff}
+.idx .band{font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+  color:var(--interpreted);border:1px solid #2b3138;padding:1px 6px}
+.idx .conf{font-family:var(--mono);font-size:10px;color:var(--tx-faint)}
+.idx .cl{font-size:14.5px;color:var(--tx-mid);max-width:64ch;line-height:1.5;
+  margin-bottom:5px}
+.idx .meta{font-family:var(--mono);font-size:10.5px;color:var(--tx-faint)}
+.idx .meta .miss{color:#b4655f}
+
+/* ---------- boundary / method ---------- */
+.bound li,.meth li{margin:0 0 12px 20px;max-width:62ch;color:var(--tx-mid)}
+.pull{font-family:var(--serif);font-size:22px;line-height:1.36;color:#fff;
+  max-width:44ch;margin:0 0 26px}
+.rule1{border-left:2px solid var(--interpreted);padding:3px 0 3px 18px;
+  margin:0 0 24px;font-family:var(--serif);font-size:19px;line-height:1.45;
+  color:#e2e7ed;max-width:58ch}
+
+.absence{border-left:2px solid #b4655f;padding:2px 0 2px 17px;margin:0 0 26px;
+  font-size:14px;line-height:1.55;color:var(--tx-mid);max-width:62ch}
+.absence b{color:#e2e7ed}
+.rcpt a{color:var(--observed);text-decoration:none}
+.rcpt a:hover{text-decoration:underline}
+.rcpt td{font-size:12.5px}
+
+footer{margin-top:96px;border-top:1px solid var(--rule);padding-top:22px;
+  font-size:12.5px;color:var(--tx-faint);line-height:1.7}
+footer a{color:var(--observed);text-decoration:none}
+
+@media (max-width:760px){
+  h1{font-size:33px}
+  .answer{font-size:18.5px}
+  .strip{grid-template-columns:1fr 1fr}
+  .strip .s+.s{padding-left:0;border-left:none}
+  .strip .s{border-top:1px solid var(--rule-soft);padding:13px 14px 13px 0}
+  .strip .s:nth-child(-n+2){border-top:none}
+  .regkey{grid-template-columns:1fr 1fr;gap:14px 20px}
+  .sec{margin-top:72px}
+  .row,.axis{grid-template-columns:86px 1fr 50px;gap:10px}
+  .row .nm{font-size:13px}
+  .figfoot span{display:block;margin-right:0}
+  table.ledger{font-size:12px}
+  .ledger .cty{font-size:15px;padding-right:10px}
+  .ledger .bandc{font-size:9.5px}
+  .ledger td.n{padding-right:8px;font-size:10.5px}
+  .ledger .cl{font-size:13px}
+  figure.support .fignote{max-width:none}
+}
+@media print{body{background:#fff;color:#000}.evbanner{background:#eee;color:#000}}
+
+/* ---------- compact register line: infrastructure, not protagonist ---------- */
+.regline{font-family:var(--mono);font-size:10.5px;color:var(--tx-faint);
+  letter-spacing:.04em;margin-bottom:44px}
+.regline b{font-weight:400}
+.regline .o{color:var(--observed)} .regline .d{color:var(--derived)}
+.regline .i{color:var(--interpreted)} .regline .r{color:var(--refused)}
+
+/* ---------- audit divider ---------- */
+.auditline{margin-top:110px;border-top:2px solid #39414a;padding-top:14px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:#8d97a1}
+.auditline span{color:var(--tx-faint);letter-spacing:.02em;text-transform:none;
+  margin-left:14px}
+.sec.audit{border-top:none;padding-top:0;margin-top:64px}
+.sec.audit .rung{color:#8d97a1}
+
+/* register definitions, demoted to the audit floor */
+.regdefs{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 26px;
+  margin:0 0 26px}
+.regdefs .rl{font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.11em;text-transform:uppercase;margin-bottom:3px}
+.regdefs .rd{font-size:12.5px;color:var(--tx-dim);line-height:1.45}
+
+@media (max-width:760px){
+  .turn .e{grid-template-columns:1fr;gap:8px}
+  .regdefs{grid-template-columns:1fr}
+  .payoff{font-size:21px}
+}
+
+/* ---------- cloud-only: one timeline, two tenses ---------- */
+.tl2{border-top:1px solid var(--rule);padding-top:4px;position:relative;
+  --c1:212px; --c3:104px; --g:16px}
+/* a month the corpus records in two tenses at once */
+.tl2 .twice{position:absolute;top:34px;bottom:34px;width:1px;
+  background:repeating-linear-gradient(180deg,#e9c46a 0 4px,transparent 4px 9px);
+  opacity:.5;pointer-events:none;
+  left:calc(var(--c1) + var(--g) + (100% - var(--c1) - var(--c3) - 2*var(--g))
+        * var(--x) / 100)}
+.tl2 .twice span{position:absolute;top:-26px;transform:translateX(-50%);
+  font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:#c9a45e;
+  white-space:nowrap}
+.tl2row{display:grid;grid-template-columns:212px 1fr 104px;gap:16px;
+  align-items:center;padding:13px 0;border-bottom:1px solid var(--rule-soft)}
+.tl2row .nm{font-size:14px;color:var(--tx);line-height:1.3}
+.tl2row .nm small{display:block;font-family:var(--mono);font-size:9.5px;
+  color:var(--tx-faint);margin-top:3px}
+.tl2row .tr{position:relative;height:20px}
+.tl2row .ev{position:absolute;top:2px;height:16px;width:2px;background:var(--hot)}
+.tl2row .evlab{position:absolute;top:0;transform:translateX(-50%);
+  font-family:var(--mono);font-size:9px;color:#c98d84;white-space:nowrap;
+  margin-top:-2px}
+/* a condition: fades in on the left (no recorded start), capped at today */
+.tl2row .rail{position:absolute;top:8px;height:5px;left:0;right:0;
+  background:linear-gradient(90deg,rgba(79,195,247,0) 0%,rgba(79,195,247,.30) 22%,
+    rgba(79,195,247,.55) 100%);
+  border-right:3px solid var(--observed)}
+.tl2row .mo{position:absolute;top:5.5px;width:10px;height:10px;
+  transform:translateX(-50%) rotate(45deg);background:#0c0e11;
+  border:1.6px solid #e9c46a}
+.tl2row .molab{position:absolute;bottom:-3px;transform:translateX(-50%);
+  font-family:var(--mono);font-size:9px;color:#b1904e;white-space:nowrap}
+.tl2row .dur{font-family:var(--mono);font-size:11.5px;color:var(--tx-mid);
+  text-align:right}
+.tl2row.cond .dur{color:var(--observed)}
+.tl2 .grp{font-family:var(--mono);font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--tx-mid);padding:20px 0 8px}
+.tl2 .grp em{font-style:normal;text-transform:none;letter-spacing:0;
+  color:var(--tx-faint);margin-left:10px}
+.tl2axis{display:grid;grid-template-columns:212px 1fr 104px;gap:16px;
+  font-family:var(--mono);font-size:10px;color:var(--tx-faint);padding-top:9px}
+.tl2axis .tr{position:relative;height:12px}
+.tl2axis .tk{position:absolute;transform:translateX(-50%)}
+.tl2axis .tk.now{color:var(--observed);transform:translateX(-100%)}
+@media (max-width:760px){.tl2row,.tl2axis{grid-template-columns:132px 1fr 74px;gap:9px}
+  .tl2row .nm{font-size:12.5px} .tl2row .molab,.tl2row .evlab{font-size:8px}
+  .tl2{--c1:132px; --c3:74px; --g:9px}}
+
+/* ---------- old two-list timeline (retired) ---------- */
+.tl{border-top:1px solid var(--rule);padding-top:6px}
+.tlrow{display:grid;grid-template-columns:210px 1fr 96px;gap:16px;
+  align-items:baseline;padding:11px 0;border-bottom:1px solid var(--rule-soft)}
+.tlrow .nm{font-size:14px;color:var(--tx)}
+.tlrow .nm small{display:block;font-family:var(--mono);font-size:10px;
+  color:var(--tx-faint);margin-top:3px}
+.tlrow .tr{position:relative;height:15px;top:2px}
+.tlrow .ev{position:absolute;top:0;height:16px;width:2px;background:var(--hot);
+  opacity:.95}
+.tlrow .ongoing{position:absolute;top:3px;height:10px;right:0;
+  background:linear-gradient(90deg,rgba(79,195,247,.12),rgba(79,195,247,.5));
+  border-right:2px solid var(--observed)}
+.tlrow .dur{font-family:var(--mono);font-size:12px;color:var(--tx-mid);
+  text-align:right}
+.tlrow.cond .dur{color:var(--observed)}
+.tlaxis{display:grid;grid-template-columns:210px 1fr 96px;gap:16px;
+  font-family:var(--mono);font-size:10px;color:var(--tx-faint);padding-top:7px}
+.tlaxis .tr{position:relative;height:12px}
+.tlaxis .tk{position:absolute;transform:translateX(-50%)}
+.split{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--tx-mid);padding:20px 0 7px}
+.split span{display:block;text-transform:none;letter-spacing:0;font-size:13px;
+  color:var(--tx-dim);margin-top:5px;max-width:60ch;line-height:1.5}
+
+/* severity-axis exhibit */
+.sev{display:grid;grid-template-columns:1fr 1fr;gap:0 30px;border-top:1px solid var(--rule);
+  padding-top:16px}
+.sev .col h3{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--tx-mid);margin-bottom:4px;font-weight:700}
+.sev .col .q{font-size:13px;color:var(--tx-dim);line-height:1.5;margin-bottom:12px}
+.sev .col li{margin:0 0 6px 18px;font-size:13.5px;color:var(--tx-mid)}
+@media (max-width:760px){.sev{grid-template-columns:1fr;gap:22px}
+  .tlrow,.tlaxis{grid-template-columns:150px 1fr 72px;gap:10px}}
+</style></head><body>
+
+<div class="evbanner">
+<span class="big">Evidence current to 2025-12-01 — 256 days ago</span>
+Every present-tense claim below is present tense as of 2025-12-01, not as of reading.
+Built from <code>docs/cloud/data/cases.geojson</code>.
+</div>
+
+<div class="wrap">
+
+<div class="kicker">Cloud &amp; CDN Dependency · Infrastructure Dependency Atlas</div>
+<h1>Four of these ten are already over</h1>
+
+<div class="answer">
+Fastly's CDN failed for <strong>49 minutes</strong> in June 2021. CrowdStrike cancelled
+<strong>5,078 flights</strong> in July 2024. Those are over. Meanwhile one county in
+Virginia still holds the control plane for every AWS customer on earth, 49% of domains
+still resolve through ten providers, and the CLOUD Act still reaches inside Microsoft's EU
+Data Boundary. <strong>Four of these ten are finished events; six are conditions that have
+not stopped</strong> — and the record marks neither.
+</div>
+
+<div class="strip">
+  <div class="s"><div class="n">10</div><div class="l">cases</div></div>
+  <div class="s anom"><div class="n">4</div><div class="l">are outages that ended</div></div>
+  <div class="s"><div class="n">6</div><div class="l">are conditions that persist</div></div>
+  <div class="s anom"><div class="n">0</div><div class="l">date fields in the schema</div></div>
+</div>
+
+<div class="stamp">
+  <span><b>EVIDENCE WINDOW</b> 2021-06-08 → 2025-12-01</span>
+  <span><b>CITATIONS</b> 20</span>
+  <span><b>CASES</b> 10</span>
+</div>
+
+<div class="regline">
+  <span class="o">●</span> observed &nbsp;·&nbsp; <span class="d">◌</span> derived
+  &nbsp;·&nbsp; <span class="i">▌</span> interpreted &nbsp;·&nbsp;
+  <span class="r">⊘</span> refused &nbsp;— marks appear beside claims; defined under Method.
+</div>
+
+<div class="sec"><div class="rung">Primary evidence · derived from sources</div>
+<figure>
+<figcaption>Four things that happened. Six things that are still true.</figcaption>
+<div class="fignote">Every case in the atlas on one axis. The outages are marks at a moment;
+each lasted between 49 minutes and 15 hours, too brief to draw at this scale, so the
+duration is written instead. The conditions have no recorded beginning — the rail fades in
+rather than starting — and no recorded end, so it runs to today.
+<b>◆ marks a dated moment a standing condition cites inside its own text</b> — and the
+dashed column marks a month this corpus records in both tenses at once.</div>
+<div class="tl2">
+<div class="twice" style="--x:16.418"><span>December 2021 — recorded twice</span></div>
+<div class="grp">Ended · four of 10</div>
+<div class="tl2row">
+  <div class="nm">Fastly CDN outage<small>CDN concentration</small></div>
+  <div class="tr"><div class="ev" style="left:7.46%"></div>
+    <div class="evlab" style="left:7.46%">2021-06</div></div>
+  <div class="dur">49 min</div>
+</div>
+<div class="tl2row">
+  <div class="nm">AWS December 2021 outage cascade<small>Outage cascade</small></div>
+  <div class="tr"><div class="ev" style="left:16.42%"></div>
+    <div class="evlab" style="left:16.42%">2021-12</div></div>
+  <div class="dur">7 hr</div>
+</div>
+<div class="tl2row">
+  <div class="nm">CrowdStrike July 2024<small>Software supply chain</small></div>
+  <div class="tr"><div class="ev" style="left:62.69%"></div>
+    <div class="evlab" style="left:62.69%">2024-07</div></div>
+  <div class="dur">—</div>
+</div>
+<div class="tl2row">
+  <div class="nm">AWS October 2025<small>Outage cascade</small></div>
+  <div class="tr"><div class="ev" style="left:85.07%"></div>
+    <div class="evlab" style="left:85.07%">2025-10</div></div>
+  <div class="dur">15 hr</div>
+</div>
+<div class="grp">Still true · six of 10 <em>no recorded start, no recorded end</em></div>
+<div class="tl2row cond">
+  <div class="nm">AWS us-east-1 control plane concentration<small>Control plane</small></div>
+  <div class="tr"><div class="rail"></div><div class="mo" style="left:16.42%" title="December 2021"></div><div class="molab" style="left:16.42%">December 2021</div></div>
+  <div class="dur">ongoing</div>
+</div>
+<div class="tl2row cond">
+  <div class="nm">EU data sovereignty<small>Sovereignty gap</small></div>
+  <div class="tr"><div class="rail"></div><div class="mo" style="left:73.13%" title="February 2025"></div><div class="molab" style="left:73.13%">February 2025</div></div>
+  <div class="dur">ongoing</div>
+</div>
+<div class="tl2row cond">
+  <div class="nm">Loudoun County<small>Physical concentration</small></div>
+  <div class="tr"><div class="rail"></div></div>
+  <div class="dur">ongoing</div>
+</div>
+<div class="tl2row cond">
+  <div class="nm">Epic on Azure/AWS<small>Sector dependency</small></div>
+  <div class="tr"><div class="rail"></div></div>
+  <div class="dur">ongoing</div>
+</div>
+<div class="tl2row cond">
+  <div class="nm">DNS concentration<small>CDN / DNS concentration</small></div>
+  <div class="tr"><div class="rail"></div><div class="mo" style="left:13.43%" title="October 2021"></div><div class="molab" style="left:13.43%">October 2021</div></div>
+  <div class="dur">ongoing</div>
+</div>
+<div class="tl2row cond">
+  <div class="nm">Cloud egress pricing<small>Pricing as governance</small></div>
+  <div class="tr"><div class="rail"></div></div>
+  <div class="dur">ongoing</div>
+</div>
+<div class="tl2axis"><div></div><div class="tr">
+  <span class="tk" style="left:0.0%">2021</span>
+  <span class="tk" style="left:17.9%">2022</span>
+  <span class="tk" style="left:35.8%">2023</span>
+  <span class="tk" style="left:53.7%">2024</span>
+  <span class="tk" style="left:71.6%">2025</span>
+  <span class="tk" style="left:89.6%">2026</span>
+  <span class="tk now" style="left:100%">today</span>
+</div><div></div></div>
+</div>
+<div class="figfoot">
+  <span><b>n</b> 10 cases · 4 dated · 3 state a duration · 3 moments cited inside conditions</span><br>
+  <span class="long"><b>DERIVED</b> every position on this figure. Outage dates are the
+  earliest citation attached to the case, used as a proxy because the schema has no date
+  field; durations are the longest interval stated in the case's own prose; ◆ moments are
+  “&lt;Month&gt; &lt;Year&gt;” matched in a condition's text. The rails assert nothing except
+  that no start and no end were recorded.</span>
+  <span class="long"><b>AND THE PROXY IS ALREADY WRONG ONCE.</b> The October 2025 AWS
+  outage sits at 2025-10-15, the date of its earliest citation. Widely reported accounts put
+  the outage several days later. A citation can predate the thing it describes, which is why
+  an inferred date is not a record.</span>
+</div>
+</figure>
+
+<div class="interp">
+<p>Look at the column above <b>December 2021</b>. The AWS cascade is there as a finished
+event, seven hours long, closed. It is also there as a ◆ on the control-plane rail, cited
+as evidence that the dependency exists — a rail with no end. The same three weeks are in
+this corpus twice, once as something that happened and once as proof of something that has
+not stopped. Nothing in the schema distinguishes the two readings, and the published map
+draws both as the same dot.</p>
+<div class="by">▌Interpreted</div>
+</div></div>
+<div class="sec"><div class="rung">Qualification</div>
+<h2>“Severity” is not measuring severity</h2>
+<div class="lede">The field is called <code>severity</code> and takes two values. Neither
+is a magnitude. They answer a different question — <i>has this already happened?</i> — and
+sorting by them ranks nothing.</div>
+<div class="sev">
+  <div class="col"><h3>severity: demonstrated — 4 cases</h3>
+    <div class="q">“Demonstrated failure”. An event with a date, a duration and a
+    casualty list.</div><ul>
+<li>AWS December 2021 outage cascade <span style='color:var(--tx-faint)'>· 7 hr</span></li>
+<li>CrowdStrike July 2024 <span style='color:var(--tx-faint)'>· —</span></li>
+<li>Fastly CDN outage <span style='color:var(--tx-faint)'>· 49 min</span></li>
+<li>AWS October 2025 <span style='color:var(--tx-faint)'>· 15 hr</span></li>
+</ul></div>
+  <div class="col"><h3>severity: structural — 6 cases</h3>
+    <div class="q">“Structural dependency”. A standing arrangement with no event, no
+    duration, and no end.</div><ul>
+<li>AWS us-east-1 control plane concentration</li>
+<li>EU data sovereignty</li>
+<li>Loudoun County</li>
+<li>Epic on Azure/AWS</li>
+<li>DNS concentration</li>
+<li>Cloud egress pricing</li>
+</ul></div>
+</div>
+<div class="figfoot">
+  <span class="long"><b>OBSERVED</b> the field values, verbatim. <b>NOT DERIVED</b> any
+  ordering — a 49-minute CDN failure and a control-plane concentration with no recorded end are
+  not two points on one scale, and this page does not place them on one.</span>
+</div>
+
+<div class="interp">
+<p>A demonstrated failure is <em>better</em> evidenced than a structural one — it has a
+date, a duration, and named casualties. A structural dependency is arguably the more
+serious finding and the harder one to prove. Reading the field as severity gets the
+relationship backwards: it is an axis of proof, not of harm.</p>
+<div class="by">▌Interpreted</div>
+</div></div>
+<div class="sec"><div class="rung">What the ten records describe</div>
+<h2>Somebody else's region policy, somebody else's billing model</h2>
+<div class="lede">The corpus's own account of each dependency: what runs through it, what
+happens when it moves, and who decides. Verbatim.</div>
+<div class="turn">
+<div class="e">
+  <div><div class="cn">AWS us-east-1 control plane concentration</div>
+    <span class="tag" style="color:var(--tx-faint)">Control plane</span>
+    <span class="tag" style="color:var(--observed)">Structural dependency</span></div>
+  <div class="st"><span class="lab">The dependency</span>AWS Identity &amp; Access Management (IAM), Route 53 DNS management, CloudFront provisioning, AWS Organizations, and DynamoDB Global Tables all have control planes that require us-east-1. Customers deploying in eu-west-1 or ap-southeast-1 still depend on us-east-1 for authentication, DNS changes, and account management.
+    <span class="lab" style="margin-top:12px">What happened / what it costs</span>When us-east-1 fails, services in other regions can&#x27;t authenticate, can&#x27;t update DNS, can&#x27;t provision new resources. The December 2021 outage proved this: services not explicitly using us-east-1 failed because their control plane dependencies lived there.
+    <span class="lab" style="margin-top:12px">Who decides</span>Amazon Web Services. $35B invested in Northern Virginia alone. 65 data centers in Loudoun County. $576M in annual local tax revenue (30%+ of county budget). Same county driving PJM capacity cost explosion.
+    <span class="lab" style="margin-top:12px">Who is downstream</span>All AWS customers globally</div>
+</div>
+<div class="e">
+  <div><div class="cn">AWS December 2021 outage cascade</div>
+    <span class="tag" style="color:var(--tx-faint)">Outage cascade</span>
+    <span class="tag" style="color:#b4655f">Demonstrated failure</span></div>
+  <div class="st"><span class="lab">The dependency</span>Dec 7: us-east-1 network device overload cascaded to EC2, S3, DynamoDB, ELB (7+ hours). Dec 15: us-west-2 impacted Slack, DoorDash, PlayStation, Zoom (1+ hour). Dec 22: us-east-1 power failure took down Slack, Okta, NY Court System.
+    <span class="lab" style="margin-top:12px">What happened / what it costs</span>Billions in estimated economic losses. Ring doorbells stopped working. Robinhood trading halted. IRS website went down. NY state court filing system offline. Each outage revealed new dependency chains nobody had mapped.
+    <span class="lab" style="margin-top:12px">Who decides</span>AWS. Customers had no visibility into the control plane dependency until it failed. Post-incident, AWS published guidance on reducing us-east-1 dependencies — effectively admitting the concentration risk they&#x27;d built.
+    <span class="lab" style="margin-top:12px">Who is downstream</span>Disney+, Netflix, Slack, Robinhood, Coinbase, Ticketmaster, Venmo, Instacart, Roku, Kindle, IRS, NY Court System</div>
+</div>
+<div class="e">
+  <div><div class="cn">CrowdStrike July 2024</div>
+    <span class="tag" style="color:var(--tx-faint)">Software supply chain</span>
+    <span class="tag" style="color:#b4655f">Demonstrated failure</span></div>
+  <div class="st"><span class="lab">The dependency</span>CrowdStrike Falcon runs at kernel level on Windows systems. Channel file 291 update caused boot loop. Every organization running CrowdStrike on Windows was affected simultaneously. No customer action triggered it.
+    <span class="lab" style="margin-top:12px">What happened / what it costs</span>5,078 flights cancelled (4.6% of scheduled). Hospitals reverted to paper records. Emergency dispatch systems degraded. Stock trading disrupted. Tens of billions in estimated damages. Required manual remediation — no remote fix possible for boot-looped machines.
+    <span class="lab" style="margin-top:12px">Who decides</span>CrowdStrike pushed the update. Microsoft&#x27;s OS architecture allowed kernel-level access. Neither customers nor affected end-users had any lever. The blast radius was set by vendor market share, not by any customer&#x27;s choice.
+    <span class="lab" style="margin-top:12px">Who is downstream</span>8.5M Windows systems. Airlines (5,078 flights cancelled), banks, hospitals, stock markets, gas stations, emergency services.</div>
+</div>
+<div class="e">
+  <div><div class="cn">Fastly CDN outage</div>
+    <span class="tag" style="color:var(--tx-faint)">CDN concentration</span>
+    <span class="tag" style="color:#b4655f">Demonstrated failure</span></div>
+  <div class="st"><span class="lab">The dependency</span>Fastly CDN serves as the edge layer between users and origin servers. Bug deployed May 12 lay dormant until triggered June 8 by a valid config change. 85% of Fastly&#x27;s network returned errors simultaneously.
+    <span class="lab" style="margin-top:12px">What happened / what it costs</span>Major news, government, e-commerce, and social platforms unreachable for ~49 minutes. NYT redirected to Google Cloud origin as workaround. UK government services offline. Demonstrated that CDN concentration creates systemic fragility across unrelated organizations.
+    <span class="lab" style="margin-top:12px">Who decides</span>Fastly. The triggering customer didn&#x27;t do anything wrong. The bug was in Fastly&#x27;s own deployment from a month earlier. Every Fastly customer inherited the risk.
+    <span class="lab" style="margin-top:12px">Who is downstream</span>Reddit, New York Times, The Guardian, Twitch, UK government website, Amazon, eBay, Stack Overflow, Shopify merchants</div>
+</div>
+<div class="e">
+  <div><div class="cn">AWS October 2025</div>
+    <span class="tag" style="color:var(--tx-faint)">Outage cascade</span>
+    <span class="tag" style="color:#b4655f">Demonstrated failure</span></div>
+  <div class="st"><span class="lab">The dependency</span>DynamoDB automation had a race condition that deleted DNS records in us-east-1 — not a Route 53 failure, but an internal automation error that cascaded through DNS. 141 of AWS&#x27;s own services affected. Ring, smart locks, thermostats, and IoT devices with no offline fallback went dark.
+    <span class="lab" style="margin-top:12px">What happened / what it costs</span>10 million Ring devices offline — no video recording, no motion alerts, no remote access. Smart locks unresponsive. 4M end users affected across 1,000+ companies. Demonstrated IoT&#x27;s total cloud dependency: devices become inert hardware when the connection drops.
+    <span class="lab" style="margin-top:12px">Who decides</span>AWS. Ring is an Amazon subsidiary — even Amazon&#x27;s own hardware products couldn&#x27;t survive Amazon&#x27;s own infrastructure failure. Consumers who bought &#x27;security&#x27; devices found their security was downstream of a DNS table.
+    <span class="lab" style="margin-top:12px">Who is downstream</span>4M users, 1,000+ companies, 141 AWS services. Ring doorbells (10M devices offline), smart locks, thermostats.</div>
+</div>
+<div class="e">
+  <div><div class="cn">EU data sovereignty</div>
+    <span class="tag" style="color:var(--tx-faint)">Sovereignty gap</span>
+    <span class="tag" style="color:var(--observed)">Structural dependency</span></div>
+  <div class="st"><span class="lab">The dependency</span>120+ countries now have data protection laws. EU GDPR requires data residency. But the US CLOUD Act (2018) compels US-based providers to produce data regardless of storage location. Microsoft&#x27;s EU Data Boundary addresses residency but explicitly does not override CLOUD Act obligations.
+    <span class="lab" style="margin-top:12px">What happened / what it costs</span>Gaia-X — the EU&#x27;s sovereign cloud initiative — was captured by US hyperscalers who lobbied for inclusion and diluted sovereignty requirements. EU organizations using AWS/Azure/GCP have data residency but not data sovereignty. 62% of global cloud market controlled by three US companies.
+    <span class="lab" style="margin-top:12px">Who decides</span>US government (via CLOUD Act) and US hyperscalers (via market dominance). EU Data Boundary is a geographic feature, not a legal one. Executive agreements with UK (2019) and Australia (2021) formalize the access mechanism.
+    <span class="lab" style="margin-top:12px">Who is downstream</span>EU governments, enterprises, and citizens using US cloud providers</div>
+</div>
+<div class="e">
+  <div><div class="cn">Loudoun County</div>
+    <span class="tag" style="color:var(--tx-faint)">Physical concentration</span>
+    <span class="tag" style="color:var(--observed)">Structural dependency</span></div>
+  <div class="st"><span class="lab">The dependency</span>115 data centers in one county. AWS alone has 65 (500+ acres). Data centers drove 63% of PJM&#x27;s $9.3B capacity cost increase and 94% of projected 32GW demand growth. The same physical concentration that makes us-east-1 a cloud chokepoint also makes it a grid chokepoint.
+    <span class="lab" style="margin-top:12px">What happened / what it costs</span>Cloud users worldwide depend on infrastructure in one county. PJM ratepayers across 13 states subsidize the power for it. $576M annual tax revenue means the county government is fiscally dependent on data center growth. The dependency runs in every direction.
+    <span class="lab" style="margin-top:12px">Who decides</span>Hyperscalers (investment decisions), PJM (market rules), Loudoun County (permitting), Virginia (state policy). No single entity governs the compound exposure. The atlas&#x27;s US infrastructure cases and cloud cases converge here.
+    <span class="lab" style="margin-top:12px">Who is downstream</span>Global cloud users (via control planes) + 67M PJM ratepayers (via capacity costs)</div>
+</div>
+<div class="e">
+  <div><div class="cn">Epic on Azure/AWS</div>
+    <span class="tag" style="color:var(--tx-faint)">Sector dependency</span>
+    <span class="tag" style="color:var(--observed)">Structural dependency</span></div>
+  <div class="st"><span class="lab">The dependency</span>Epic Systems dominates US hospital EHR market. 30 health systems now run Epic on public cloud (90% AWS, some Azure). Epic stopped Google Cloud integrations, narrowing the vendor pool to two. Healthcare cloud market: $79.5B (2024) → $309.5B (2033).
+    <span class="lab" style="margin-top:12px">What happened / what it costs</span>Patient records, clinical workflows, medication ordering, and billing all run through one EHR vendor on one or two cloud providers. A cloud outage becomes a clinical safety event. Migration costs and vendor lock-in make exit prohibitively expensive.
+    <span class="lab" style="margin-top:12px">Who decides</span>Epic Systems (EHR), AWS/Azure (infrastructure). Health systems choose Epic but inherit cloud vendor dependency. Patients have no say in any of it. Regulatory oversight (HIPAA) covers data handling, not infrastructure concentration.
+    <span class="lab" style="margin-top:12px">Who is downstream</span>30 North American health systems, millions of patient records</div>
+</div>
+<div class="e">
+  <div><div class="cn">DNS concentration</div>
+    <span class="tag" style="color:var(--tx-faint)">CDN / DNS concentration</span>
+    <span class="tag" style="color:var(--observed)">Structural dependency</span></div>
+  <div class="st"><span class="lab">The dependency</span>DNS is the phone book of the internet. 49% of all domains depend on Top 10 NS providers. 98% of domains use a single NS provider — no redundancy. 5% of indirect resolvers support 90% of all forwarding. BGP routing errors cascade through DNS: one misconfiguration can make entire networks unreachable.
+    <span class="lab" style="margin-top:12px">What happened / what it costs</span>Facebook October 2021: BGP routing error → authoritative DNS failure → 3.5 billion users offline for 6 hours. Internal tools also went down, preventing engineers from fixing it remotely. Demonstrated that DNS concentration creates systemic risk invisible to users.
+    <span class="lab" style="margin-top:12px">Who decides</span>A handful of DNS/CDN providers. No single authority verifies BGP route announcements. Domain owners choose one NS provider and inherit its failure modes. End users have no visibility into which DNS provider serves the sites they use.
+    <span class="lab" style="margin-top:12px">Who is downstream</span>49% of all domain names. 90% of DNS forwarding through 5% of resolvers.</div>
+</div>
+<div class="e">
+  <div><div class="cn">Cloud egress pricing</div>
+    <span class="tag" style="color:var(--tx-faint)">Pricing as governance</span>
+    <span class="tag" style="color:var(--observed)">Structural dependency</span></div>
+  <div class="st"><span class="lab">The dependency</span>$0.08-0.12/GB to move data out. 6-12% of typical cloud bills (20-40% for data-heavy orgs). Cross-region pricing incentivizes co-location in one region (reducing resilience). Reserved instances lock organizations into multi-year commitments. 2025: providers reduced egress fees under regulatory pressure, but cross-AZ/NAT gateway costs unchanged.
+    <span class="lab" style="margin-top:12px">What happened / what it costs</span>Organizations cannot afford to leave — migration cost exceeds switching benefit. Architecture decisions driven by billing rather than resilience. Cross-AZ pricing discourages the very redundancy that would protect against outages. The pricing model enforces concentration.
+    <span class="lab" style="margin-top:12px">Who decides</span>AWS, Azure, GCP set the prices. 62% of global cloud market controlled by three companies. Cloud market at $419B/year (2025), growing 25% YoY. Organizations report vendor lock-in as top concern but cannot afford to act on it.
+    <span class="lab" style="margin-top:12px">Who is downstream</span>All organizations using hyperscaler cloud services</div>
+</div>
+</div>
+<div class="figfoot">
+  <span><b>OBSERVED</b> reproduced verbatim from the corpus, per-case citations</span>
+</div></div>
+<div class="sec"><div class="rung">Case evidence</div>
+<h2>The ten</h2>
+<div class="scroll"><table class="ledger">
+<thead><tr><th>Case</th><th>Category</th><th>Mode</th><th>Provider</th><th>Location</th></tr></thead><tbody>
+<tr class="lr">
+  <td class="k cty">AWS us-east-1 control plane concentratio</td><td class="bandc">Control plane</td>
+  <td class="n">Structural</td><td class="n">AWS</td><td class="n">Loudoun County, Virginia</td>
+</tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">IAM, Route 53, and CloudFront control planes all run in one county in Virginia — every AWS customer worldwide is downstream of us-east-1 whether they deploy there or not.</span></td></tr>
+<tr class="lr">
+  <td class="k cty">AWS December 2021 outage cascade</td><td class="bandc">Outage cascade</td>
+  <td class="n">Demonstrated</td><td class="n">AWS</td><td class="n">us-east-1 / us-west-1 / us-west-2</td>
+</tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">Three major AWS outages in three weeks (Dec 7, 15, 22). The first took down Netflix and Disney+ for 7 hours. The blast radius proved that most of the internet is one region failure away from dark.</span></td></tr>
+<tr class="lr">
+  <td class="k cty">CrowdStrike July 2024</td><td class="bandc">Software supply chain</td>
+  <td class="n">Demonstrated</td><td class="n">CrowdStrike / Microsoft Windows</td><td class="n">Global (Windows systems worldwide)</td>
+</tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">A single faulty sensor update from one security vendor crashed 8.5 million Windows machines worldwide — flights cancelled, hospitals disrupted, emergency services degraded. The largest IT outage in history.</span></td></tr>
+<tr class="lr">
+  <td class="k cty">Fastly CDN outage</td><td class="bandc">CDN concentration</td>
+  <td class="n">Demonstrated</td><td class="n">Fastly</td><td class="n">Global (Fastly CDN network)</td>
+</tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">A valid customer config change triggered a latent bug in Fastly&#x27;s CDN. For 49 minutes, Reddit, NYT, UK government, Twitch, and Amazon were unreachable. One CDN vendor = one point of failure for half the visible internet.</span></td></tr>
+<tr class="lr">
+  <td class="k cty">AWS October 2025</td><td class="bandc">Outage cascade</td>
+  <td class="n">Demonstrated</td><td class="n">AWS</td><td class="n">us-east-1, Northern Virginia</td>
+</tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">DynamoDB automation race condition deleted DNS records — 15 hours of outage, 141 AWS services affected, 10 million Ring doorbells offline. Your doorbell is downstream of a database in Virginia.</span></td></tr>
+<tr class="lr">
+  <td class="k cty">EU data sovereignty</td><td class="bandc">Sovereignty gap</td>
+  <td class="n">Structural</td><td class="n">AWS / Azure / GCP (all US-based)</td><td class="n">European Union</td>
+</tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">Microsoft completed its EU Data Boundary in February 2025. The data stays in Europe. The CLOUD Act still applies. Residency is not sovereignty.</span></td></tr>
+<tr class="lr">
+  <td class="k cty">Loudoun County</td><td class="bandc">Physical concentration</td>
+  <td class="n">Structural</td><td class="n">AWS, Microsoft, Google, Meta, and others</td><td class="n">Loudoun County, Virginia</td>
+</tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">World&#x27;s largest data center concentration. AWS us-east-1 control plane, 115 data centers, $576M in local tax revenue, 833% PJM capacity price spike. Cloud dependency and grid dependency are the same place.</span></td></tr>
+<tr class="lr">
+  <td class="k cty">Epic on Azure/AWS</td><td class="bandc">Sector dependency</td>
+  <td class="n">Structural</td><td class="n">Epic Systems / Microsoft Azure / AWS</td><td class="n">United States (30 health systems)</td>
+</tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">30 major health systems now run Epic on AWS or Azure. Epic stopped Google Cloud integrations. Your medical records are downstream of two cloud vendors and one EHR monopoly.</span></td></tr>
+<tr class="lr">
+  <td class="k cty">DNS concentration</td><td class="bandc">CDN / DNS concentration</td>
+  <td class="n">Structural</td><td class="n">Cloudflare, AWS Route 53, Akamai, and others</td><td class="n">Global (DNS infrastructure)</td>
+</tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">49% of all domain names rely on 10 nameserver providers. 98% use a single NS provider. When Facebook&#x27;s BGP misconfiguration took out its DNS in October 2021, 3.5 billion users lost access for 6 hours.</span></td></tr>
+<tr class="lr">
+  <td class="k cty">Cloud egress pricing</td><td class="bandc">Pricing as governance</td>
+  <td class="n">Structural</td><td class="n">AWS, Azure, GCP</td><td class="n">Global (all cloud customers)</td>
+</tr>
+<tr class="claimrow"><td colspan="5"><span class="cl">Moving 50TB out of AWS costs $3,500-7,000 in egress fees. Cross-AZ pricing discourages resilient architectures. The billing model is a governance layer that shapes what you can build and whether you can leave.</span></td></tr>
+</tbody></table></div></div>
+<div class="auditline">Audit<span>Everything below is the page checking itself.</span></div>
+
+<div class="sec audit"><div class="rung">Audit · what the marks mean</div>
+<div class="regdefs">
+  <div class="r-observed"><div class="rl">● Observed</div><div class="rd">Read off a cited source. Has a unit and a receipt.</div></div>
+  <div class="r-derived"><div class="rl">◌ Derived</div><div class="rd">Computed here. Shows its rule; carries no receipt.</div></div>
+  <div class="r-interpreted"><div class="rl">▌ Interpreted</div><div class="rd">Authored judgment. Publishable — and not evidence.</div></div>
+  <div class="r-refused"><div class="rl">⊘ Refused</div><div class="rd">Declined or unavailable. Shown, not omitted.</div></div>
+</div>
+
+<div class="refusal">
+<b>What this page does not claim.</b> That any of these outages will recur, or that a
+structural dependency will fail. That one case is worse than another. That the four dated
+events are representative of anything — they are the ones somebody wrote about.
+</div></div>
+<div class="sec audit bound"><div class="rung">Audit · boundary conditions</div>
+<h2>What this page does not show</h2>
+<div class="pull">An atlas of ongoing dependency, whose only precise records are of
+things that stopped.</div>
+<ul>
+<li><b>Every date on this page is inferred.</b> The schema has no date field, so event
+dates are the earliest citation attached to the case. A citation can predate or postdate
+the thing it describes; these are proxies and should not be read as a record.</li>
+<li><b>Durations come from prose, not fields.</b> 3 of the 4
+events state one somewhere in their own text. Nothing enforces that they are measured the
+same way.</li>
+<li><b>Selection is invisible.</b> Four outages appear out of the many that occurred in
+this period. The corpus records no criterion for inclusion, so the set cannot be read as a
+sample of anything.</li>
+<li><b>The conditions are not unmeasured — they are undated.</b> Their prose carries plenty
+of figures (49% of domains, 115 data centers, 8.5 million machines). What none of them has
+is a date, a duration, or a field to put either in. The schema has no slot for when a
+standing arrangement began.</li>
+<li><b>The event/condition split is the corpus's, and it leaks.</b> The DNS concentration
+case is marked <code>structural</code>, yet its own prose contains a dated, timed event —
+Facebook's October 2021 BGP misconfiguration, “3.5 billion users offline for 6 hours”. The
+duration rule on the figure above is applied only to cases the corpus marks
+<code>demonstrated</code>, so that event gets no tick. Tense collapse happens inside single
+records too, not only across them.</li>
+<li><b>Nothing records how sure anyone was.</b> This atlas has no confidence field at
+all, so every case is presented at the same footing regardless of how well attested it
+is.</li>
+</ul></div>
+<div class="sec audit meth"><div class="rung">Audit · method</div>
+<h2>What is computed here</h2>
+<div class="rule1">Three derivations, all forced by the same absence: this corpus has no
+time in it.</div>
+<p><b>Event date</b> — earliest source date, for the four cases the corpus marks
+<code>demonstrated</code> only. <b>Duration</b> — the longest interval matched by regex in
+a case's own prose. <b>The still-running band</b> — drawn for every
+<code>structural</code> case, and it asserts nothing except that the corpus records no
+end. The <i>evidence window</i> (2021-06-08 → 2025-12-01) is min/max of all citation
+dates.</p>
+<p><b><code>severity</code> is reproduced, never ordered.</b> Its two values distinguish an
+evidential mode, not a magnitude, so nothing on this page sorts or colours by it as though
+it were a scale.</p>
+<p><b>There is no map</b> because this atlas's cases are global services and concentration
+facts. Placing “us-east-1” as a dot in Virginia would add a geography that carries almost
+none of the argument.</p></div>
+<div class="sec audit rcpt"><div class="rung">Audit · sources</div>
+<h2>Source material</h2>
+<div class="lede">All 20 citations — exactly two per case.</div>
+<div class="absence"><b>These dates are doing double duty.</b> For the four outages they are close to the date of the event. For the six standing dependencies they record only when someone published about it. The schema cannot tell the two apart, and neither can the evidence window computed from them.</div>
+<div class="scroll"><table><thead><tr><th>Supports</th><th>Publisher</th><th>Published</th></tr></thead><tbody>
+<tr><td class="k">AWS us-east-1 control plane concentrat</td><td><a href="https://repost.aws/articles/ARe7BZRCUhRlap9b7yFSagLw/reducing-control-plane-dependencies-in-us-east-1-a-practical-guide-for-aws-customers" rel="noopener">AWS</a></td><td class="n">2024-01-01</td></tr>
+<tr><td class="k">AWS us-east-1 control plane concentrat</td><td><a href="https://www.datacenterdynamics.com/en/analysis/the-amazon-factor-in-virginia/" rel="noopener">Data Center Dynamics</a></td><td class="n">2025-06-01</td></tr>
+<tr><td class="k">AWS December 2021 outage cascade</td><td><a href="https://www.cnbc.com/2021/12/07/amazon-web-services-outage-causes-issues-at-disney-netflix-coinbase.html" rel="noopener">CNBC</a></td><td class="n">2021-12-07</td></tr>
+<tr><td class="k">AWS December 2021 outage cascade</td><td><a href="https://www.catchpoint.com/blog/what-can-we-learn-from-aws-december-outage" rel="noopener">Catchpoint</a></td><td class="n">2021-12-15</td></tr>
+<tr><td class="k">CrowdStrike July 2024</td><td><a href="https://en.wikipedia.org/wiki/2024_CrowdStrike-related_IT_outages" rel="noopener">Wikipedia</a></td><td class="n">2024-07-19</td></tr>
+<tr><td class="k">CrowdStrike July 2024</td><td><a href="https://www.techtarget.com/whatis/feature/Explaining-the-largest-IT-outage-in-history-and-whats-next" rel="noopener">TechTarget</a></td><td class="n">2024-08-01</td></tr>
+<tr><td class="k">Fastly CDN outage</td><td><a href="https://www.fastly.com/blog/summary-of-june-8-outage" rel="noopener">Fastly</a></td><td class="n">2021-06-08</td></tr>
+<tr><td class="k">Fastly CDN outage</td><td><a href="https://www.thousandeyes.com/blog/inside-the-fastly-outage-analysis-and-lessons-learned" rel="noopener">ThousandEyes</a></td><td class="n">2021-06-15</td></tr>
+<tr><td class="k">AWS October 2025</td><td><a href="https://blog.intelligencex.org/aws-outage-2025" rel="noopener">IntelligenceX</a></td><td class="n">2025-10-15</td></tr>
+<tr><td class="k">AWS October 2025</td><td><a href="https://www.pcworld.com/article/2947084/the-aws-outage-took-down-my-ring-cam-and-everyone-else-too.html" rel="noopener">PCWorld</a></td><td class="n">2025-10-16</td></tr>
+<tr><td class="k">EU data sovereignty</td><td><a href="https://akave.com/blog/europes-digital-sovereignty-dilemma-can-the-continent-break-free-from-us-cloud-dominance" rel="noopener">Akave</a></td><td class="n">2025-06-01</td></tr>
+<tr><td class="k">EU data sovereignty</td><td><a href="https://www.techclass.com/resources/learning-and-development-articles/data-sovereignty-what-it-means-for-european-businesses-in-2025" rel="noopener">TechClass</a></td><td class="n">2025-01-01</td></tr>
+<tr><td class="k">Loudoun County</td><td><a href="https://www.datacenterfrontier.com/cloud/article/11427911/aws-has-spent-35-billion-on-its-northern-virginia-data-centers/" rel="noopener">Data Center Frontier</a></td><td class="n">2025-01-01</td></tr>
+<tr><td class="k">Loudoun County</td><td><a href="https://ieefa.org/resources/projected-data-center-growth-spurs-pjm-capacity-prices-factor-10" rel="noopener">IEEFA</a></td><td class="n">2025-03-18</td></tr>
+<tr><td class="k">Epic on Azure/AWS</td><td><a href="https://klasresearch.com/report/epic-in-the-public-cloud-2024-are-aws-and-microsoft-azure-meeting-the-expectations-of-early-adopters/3575" rel="noopener">KLAS Research</a></td><td class="n">2024-08-01</td></tr>
+<tr><td class="k">Epic on Azure/AWS</td><td><a href="https://www.healthcareitnews.com/" rel="noopener">Healthcare IT News</a></td><td class="n">2025-01-01</td></tr>
+<tr><td class="k">DNS concentration</td><td><a href="https://cloudsecurityalliance.org/blog/2025/11/21/the-internet-is-a-single-point-of-failure" rel="noopener">Cloud Security Alliance</a></td><td class="n">2025-11-21</td></tr>
+<tr><td class="k">DNS concentration</td><td><a href="https://www.mdpi.com/2076-3417/13/9/5739" rel="noopener">MDPI Applied Sciences</a></td><td class="n">2023-05-01</td></tr>
+<tr><td class="k">Cloud egress pricing</td><td><a href="https://www.cloudoptimo.com/blog/the-true-cost-of-cloud-data-egress-and-how-to-manage-it/" rel="noopener">CloudOptimo</a></td><td class="n">2025-01-01</td></tr>
+<tr><td class="k">Cloud egress pricing</td><td><a href="https://www.srgresearch.com/articles/cloud-market-share-trends-big-three-together-hold-63-while-oracle-and-the-neoclouds-inch-higher" rel="noopener">Synergy Research</a></td><td class="n">2025-12-01</td></tr>
+</tbody></table></div>
+</div>
+<footer>
+Built from <code>docs/cloud/data/cases.geojson</code> by
+<code>tools/build_atlas_cloud.py</code>. Case prose is reproduced verbatim from the
+corpus; every derived value states its rule on the page.<br>
+<a href="../hormuz/">Hormuz</a> · <a href="../insurance/">Insurance</a> ·
+<a href="../">All atlases</a>
+</footer>
+
+</div></body></html>

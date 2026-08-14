@@ -1,682 +1,905 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hormuz Energy Chokepoint — Infrastructure Dependency Atlas</title>
-  <meta name="description" content="Which countries have the least margin between disrupted supply and forced rationing. Stress bands for 12 countries exposed to Strait of Hormuz energy disruption.">
-  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.css">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #0a0a0a;
-      color: #e0e0e0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    header {
-      padding: 12px 20px;
-      background: #111;
-      border-bottom: 1px solid #222;
-      display: flex;
-      align-items: baseline;
-      gap: 16px;
-      flex-shrink: 0;
-    }
-
-    header a {
-      color: #666;
-      text-decoration: none;
-      font-size: 13px;
-    }
-
-    header a:hover { color: #aaa; }
-
-    header h1 {
-      font-size: 18px;
-      font-weight: 600;
-      color: #fff;
-      letter-spacing: -0.01em;
-    }
-
-    header .subtitle {
-      font-size: 14px;
-      color: #888;
-    }
-
-    .main {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    #map {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .panel {
-      width: 440px;
-      flex-shrink: 0;
-      background: #111;
-      border-left: 1px solid #222;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .panel-placeholder {
-      padding: 40px 24px;
-      color: #555;
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    .placeholder-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: #888;
-      margin-bottom: 16px;
-    }
-
-    .placeholder-stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-
-    .placeholder-stat {
-      font-size: 13px;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 3px;
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
-    }
-
-    .placeholder-desc {
-      font-size: 15px;
-      color: #666;
-      line-height: 1.6;
-      margin-bottom: 16px;
-    }
-
-    .placeholder-note {
-      font-size: 12px;
-      color: #444;
-      line-height: 1.5;
-      border-top: 1px solid #1a1a1a;
-      padding-top: 16px;
-    }
-
-    .panel-content { display: none; }
-    .panel-content.active { display: block; }
-
-    .panel-header {
-      padding: 20px 24px 16px;
-      border-bottom: 1px solid #222;
-    }
-
-    .stress-badge {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 3px 10px;
-      border-radius: 3px;
-      margin-bottom: 8px;
-    }
-
-    .panel-header h2 {
-      font-size: 20px;
-      font-weight: 600;
-      color: #fff;
-      line-height: 1.3;
-      margin-bottom: 8px;
-    }
-
-    .panel-header .one-line {
-      font-size: 14px;
-      color: #aaa;
-      line-height: 1.5;
-      font-style: italic;
-    }
-
-    .panel-body { padding: 16px 24px 24px; }
-
-    .panel-body .field { margin-bottom: 14px; }
-
-    .panel-body .field-label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #666;
-      margin-bottom: 3px;
-    }
-
-    .panel-body .field-value {
-      font-size: 14px;
-      color: #ccc;
-      line-height: 1.5;
-    }
-
-    .panel-body .field-value a {
-      color: #4fc3f7;
-      text-decoration: none;
-    }
-
-    .panel-body .field-value a:hover { text-decoration: underline; }
-
-    .meta-row {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 14px;
-    }
-
-    .meta-row .field { flex: 1; margin-bottom: 0; }
-
-    .confidence-badge {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 2px 6px;
-      border-radius: 3px;
-    }
-
-    .confidence-high { background: #0a1a0a; color: #66bb6a; }
-    .confidence-medium { background: #2a1a00; color: #f5a623; }
-    .confidence-low { background: #2a0a0a; color: #ef5350; }
-
-    .dimension-bar {
-      margin-bottom: 10px;
-    }
-
-    .dimension-bar .dim-label {
-      font-size: 11px;
-      color: #666;
-      margin-bottom: 3px;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .dimension-bar .dim-track {
-      height: 6px;
-      background: #1a1a1a;
-      border-radius: 3px;
-      overflow: hidden;
-    }
-
-    .dimension-bar .dim-fill {
-      height: 100%;
-      border-radius: 3px;
-    }
-
-    .filters {
-      padding: 10px 20px;
-      background: #111;
-      border-bottom: 1px solid #222;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex-shrink: 0;
-      flex-wrap: wrap;
-    }
-
-    .filter-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .filter-group label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #666;
-    }
-
-    .filter-group select {
-      font-size: 13px;
-      background: #1a1a1a;
-      color: #ccc;
-      border: 1px solid #333;
-      border-radius: 4px;
-      padding: 4px 8px;
-      cursor: pointer;
-    }
-
-    .legend {
-      display: flex;
-      gap: 12px;
-      margin-left: auto;
-      flex-wrap: wrap;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 12px;
-      color: #888;
-    }
-
-    .legend-swatch {
-      width: 12px;
-      height: 12px;
-      border-radius: 2px;
-    }
-
-    .filter-count {
-      font-size: 13px;
-      color: #666;
-      margin-left: 4px;
-    }
-
-    /* Mobile */
-    .panel-drag-handle { display: none; }
-    .panel-close {
-      display: none;
-      position: absolute;
-      top: 10px;
-      right: 12px;
-      width: 28px;
-      height: 28px;
-      align-items: center;
-      justify-content: center;
-      background: #222;
-      border: 1px solid #333;
-      border-radius: 6px;
-      color: #888;
-      font-size: 16px;
-      cursor: pointer;
-      z-index: 2;
-    }
-    .panel-close:hover { color: #ccc; background: #2a2a2a; }
-
-    @media (max-width: 900px) {
-      header { flex-direction: column; gap: 4px; padding: 10px 16px; }
-      header h1 { font-size: 14px; }
-      header .subtitle { font-size: 11px; line-height: 1.4; }
-      .filters { padding: 8px 12px; gap: 8px; }
-      .filter-group select { font-size: 13px; padding: 6px 8px; }
-      .filter-count { display: none; }
-      .legend { display: none; }
-      .main { flex-direction: column; position: relative; }
-      #map { flex: 1; min-height: 0; }
-      .panel {
-        position: absolute; bottom: 0; left: 0; right: 0; width: 100%;
-        max-height: 55vh; border-left: none; border-top: 1px solid #333;
-        border-radius: 12px 12px 0 0; transform: translateY(100%);
-        transition: transform 0.3s ease; z-index: 10;
-      }
-      .panel.mobile-open { transform: translateY(0); }
-      .panel-placeholder { display: none; }
-      .panel-drag-handle {
-        display: flex; justify-content: center; padding: 10px 0 4px; cursor: grab;
-      }
-      .panel-drag-handle::after {
-        content: ''; width: 36px; height: 4px; background: #444; border-radius: 2px;
-      }
-      .panel-close { display: flex; }
-      .panel-header { padding: 12px 16px 12px; }
-      .panel-header h2 { font-size: 16px; }
-      .panel-body { padding: 12px 16px 24px; }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <a href="../">&larr; Atlas</a>
-    <h1>Hormuz Energy Chokepoint</h1>
-    <span class="subtitle">Which countries have the least margin between disrupted supply and forced rationing.</span>
-  </header>
-
-  <div class="filters">
-    <div class="filter-group">
-      <label>Stress Band</label>
-      <select id="filter-band">
-        <option value="all">All</option>
-        <option value="already_stressed">Already stressed</option>
-        <option value="acute_if_persists">Acute if persists</option>
-        <option value="price_shock_first">Price shock first</option>
-        <option value="resilient_but_expensive">Resilient but expensive</option>
-        <option value="special_case">Special case</option>
-      </select>
-    </div>
-    <div class="filter-group">
-      <label>Confidence</label>
-      <select id="filter-confidence">
-        <option value="all">All</option>
-        <option value="high">High</option>
-        <option value="medium">Medium</option>
-        <option value="low">Low</option>
-      </select>
-    </div>
-    <div class="legend">
-      <div class="legend-item"><div class="legend-swatch" style="background:#ef5350"></div>Already stressed</div>
-      <div class="legend-item"><div class="legend-swatch" style="background:#f5a623"></div>Acute if persists</div>
-      <div class="legend-item"><div class="legend-swatch" style="background:#fdd835"></div>Price shock first</div>
-      <div class="legend-item"><div class="legend-swatch" style="background:#4fc3f7"></div>Resilient / expensive</div>
-      <div class="legend-item"><div class="legend-swatch" style="background:#888"></div>Special case</div>
-    </div>
-  </div>
-
-  <div class="main">
-    <div id="map"></div>
-    <div class="panel" id="panel">
-      <div class="panel-drag-handle" id="drag-handle"></div>
-      <button class="panel-close" id="panel-close" aria-label="Close">&times;</button>
-      <div class="panel-placeholder" id="placeholder">
-        <div class="placeholder-title">Select a country</div>
-        <div class="placeholder-stats" id="placeholder-stats"></div>
-        <div class="placeholder-desc">
-          Each country is classified into stress bands based on import dependency,
-          reserve depth, generation mix, and current grid condition under Strait of
-          Hormuz energy disruption.
-        </div>
-        <div class="placeholder-note">
-          Stress bands indicate exposure and margin, not predicted failure dates.
-          Assessment confidence varies by country and is shown in each panel.
-        </div>
-      </div>
-      <div class="panel-content" id="panel-content">
-        <div class="panel-header">
-          <span class="stress-badge" id="p-badge"></span>
-          <h2 id="p-country"></h2>
-          <div class="one-line" id="p-oneline"></div>
-        </div>
-        <div class="panel-body">
-          <div class="meta-row">
-            <div class="field">
-              <div class="field-label">Confidence</div>
-              <div class="field-value"><span class="confidence-badge" id="p-confidence"></span></div>
-            </div>
-            <div class="field">
-              <div class="field-label">Reserve Days</div>
-              <div class="field-value" id="p-reserves"></div>
-            </div>
-            <div class="field">
-              <div class="field-label">Fossil Gen %</div>
-              <div class="field-value" id="p-fossil"></div>
-            </div>
-          </div>
-          <div id="p-dimensions"></div>
-          <div class="field">
-            <div class="field-label">Generation Mix</div>
-            <div class="field-value" id="p-genmix"></div>
-          </div>
-          <div class="field">
-            <div class="field-label">Current Status</div>
-            <div class="field-value" id="p-status"></div>
-          </div>
-          <div class="field">
-            <div class="field-label">Alternative Supply Options</div>
-            <div class="field-value" id="p-alternatives"></div>
-          </div>
-          <div class="field">
-            <div class="field-label">Rationing Capacity</div>
-            <div class="field-value" id="p-rationing"></div>
-          </div>
-          <div class="field">
-            <div class="field-label">Confidence Note</div>
-            <div class="field-value" id="p-confnote" style="font-style:italic;color:#888"></div>
-          </div>
-          <div class="field">
-            <div class="field-label">Sources</div>
-            <div class="field-value" id="p-sources"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.js"></script>
-  <script>
-    const BAND_COLORS = {
-      already_stressed: '#ef5350',
-      acute_if_persists: '#f5a623',
-      price_shock_first: '#fdd835',
-      resilient_but_expensive: '#4fc3f7',
-      special_case: '#888888'
-    };
-
-    const BAND_STYLES = {
-      already_stressed: { bg: '#2a0a0a', fg: '#ef5350' },
-      acute_if_persists: { bg: '#2a1a00', fg: '#f5a623' },
-      price_shock_first: { bg: '#2a2a00', fg: '#fdd835' },
-      resilient_but_expensive: { bg: '#001a2e', fg: '#4fc3f7' },
-      special_case: { bg: '#1a1a1a', fg: '#888888' }
-    };
-
-    const map = new maplibregl.Map({
-      container: 'map',
-      style: {
-        version: 8,
-        sources: {
-          'carto-dark': {
-            type: 'raster',
-            tiles: ['https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png'],
-            tileSize: 256,
-            attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
-          }
-        },
-        layers: [{
-          id: 'carto-dark-layer',
-          type: 'raster',
-          source: 'carto-dark',
-          minzoom: 0,
-          maxzoom: 19
-        }]
-      },
-      center: [85, 18],
-      zoom: 3,
-      maxZoom: 8,
-      minZoom: 2
-    });
-
-    map.addControl(new maplibregl.NavigationControl(), 'top-left');
-
-    let geojsonData = null;
-
-    map.on('load', async () => {
-      const resp = await fetch('data/countries.geojson');
-      geojsonData = await resp.json();
-
-      map.addSource('countries', { type: 'geojson', data: geojsonData });
-
-      // Choropleth fill
-      map.addLayer({
-        id: 'country-fill',
-        type: 'fill',
-        source: 'countries',
-        paint: {
-          'fill-color': ['match', ['get', 'stress_band'],
-            'already_stressed', BAND_COLORS.already_stressed,
-            'acute_if_persists', BAND_COLORS.acute_if_persists,
-            'price_shock_first', BAND_COLORS.price_shock_first,
-            'resilient_but_expensive', BAND_COLORS.resilient_but_expensive,
-            'special_case', BAND_COLORS.special_case,
-            '#444'
-          ],
-          'fill-opacity': 0.35
-        }
-      });
-
-      // Country outlines
-      map.addLayer({
-        id: 'country-outline',
-        type: 'line',
-        source: 'countries',
-        paint: {
-          'line-color': ['match', ['get', 'stress_band'],
-            'already_stressed', BAND_COLORS.already_stressed,
-            'acute_if_persists', BAND_COLORS.acute_if_persists,
-            'price_shock_first', BAND_COLORS.price_shock_first,
-            'resilient_but_expensive', BAND_COLORS.resilient_but_expensive,
-            'special_case', BAND_COLORS.special_case,
-            '#444'
-          ],
-          'line-width': 1.5,
-          'line-opacity': 0.7
-        }
-      });
-
-      // Populate placeholder
-      const features = geojsonData.features;
-      const byBand = {};
-      features.forEach(f => {
-        const b = f.properties.stress_label;
-        byBand[b] = (byBand[b] || 0) + 1;
-      });
-      document.getElementById('placeholder-stats').innerHTML =
-        `<span class="placeholder-stat" style="color:#ccc">${features.length} countries</span>` +
-        Object.entries(byBand).map(([k, v]) =>
-          `<span class="placeholder-stat">${v} ${k.toLowerCase()}</span>`
-        ).join('');
-
-      updateFilterCount();
-
-      // Hover
-      map.on('mouseenter', 'country-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
-      map.on('mouseleave', 'country-fill', () => { map.getCanvas().style.cursor = ''; });
-
-      // Click
-      map.on('click', 'country-fill', (e) => {
-        const props = e.features[0].properties;
-        showPanel(props);
-        const coords = e.features[0].geometry.coordinates[0];
-        const bounds = new maplibregl.LngLatBounds();
-        coords.forEach(c => bounds.extend(c));
-        const padding = isMobile()
-          ? { top: 40, bottom: 60, left: 20, right: 20 }
-          : { top: 60, bottom: 60, left: 60, right: 460 };
-        map.fitBounds(bounds, { padding, duration: 600, maxZoom: 6 });
-      });
-
-      map.on('click', (e) => {
-        const features = map.queryRenderedFeatures(e.point, { layers: ['country-fill'] });
-        if (features.length === 0) hidePanel();
-      });
-    });
-
-    const isMobile = () => window.innerWidth <= 900;
-    const panelEl = document.getElementById('panel');
-
-    document.getElementById('panel-close').addEventListener('click', hidePanel);
-
-    let dragStartY = null;
-    const dragHandle = document.getElementById('drag-handle');
-    dragHandle.addEventListener('touchstart', (e) => { dragStartY = e.touches[0].clientY; }, { passive: true });
-    dragHandle.addEventListener('touchmove', (e) => {
-      if (dragStartY === null) return;
-      if (e.touches[0].clientY - dragStartY > 60) { hidePanel(); dragStartY = null; }
-    }, { passive: true });
-    dragHandle.addEventListener('touchend', () => { dragStartY = null; });
-
-    function showPanel(props) {
-      document.getElementById('placeholder').style.display = 'none';
-      document.getElementById('panel-content').classList.add('active');
-      if (isMobile()) panelEl.classList.add('mobile-open');
-
-      const band = props.stress_band;
-      const style = BAND_STYLES[band] || BAND_STYLES.special_case;
-      const badge = document.getElementById('p-badge');
-      badge.textContent = props.stress_label;
-      badge.style.background = style.bg;
-      badge.style.color = style.fg;
-
-      document.getElementById('p-country').textContent = props.country;
-      document.getElementById('p-oneline').textContent = props.one_line;
-
-      const confEl = document.getElementById('p-confidence');
-      confEl.textContent = props.confidence;
-      confEl.className = 'confidence-badge confidence-' + props.confidence;
-
-      document.getElementById('p-reserves').textContent = props.reserve_days != null ? props.reserve_days + ' days' : 'No public data';
-      document.getElementById('p-fossil').textContent = props.gen_fossil_pct + '%';
-
-      // Dimension bars
-      const dims = document.getElementById('p-dimensions');
-      const oilPct = props.hormuz_oil_pct;
-      const lngPct = typeof props.hormuz_lng_pct === 'string' ? JSON.parse(props.hormuz_lng_pct) : props.hormuz_lng_pct;
-      dims.innerHTML = '';
-      if (oilPct != null) dims.innerHTML += dimBar('Oil through Hormuz', oilPct, '%', '#ef5350');
-      if (lngPct != null) dims.innerHTML += dimBar('LNG through Hormuz', lngPct, '%', '#f5a623');
-      if (props.gen_fossil_pct != null) dims.innerHTML += dimBar('Fossil generation', props.gen_fossil_pct, '%', '#fdd835');
-
-      document.getElementById('p-genmix').textContent = props.gen_mix_summary;
-      document.getElementById('p-status').textContent = props.current_status;
-      document.getElementById('p-alternatives').textContent = props.alternative_supply;
-      document.getElementById('p-rationing').textContent = props.rationing_capacity;
-      document.getElementById('p-confnote').textContent = props.confidence_note;
-
-      const sources = typeof props.sources === 'string' ? JSON.parse(props.sources) : props.sources;
-      document.getElementById('p-sources').innerHTML = sources.map(s =>
-        `<a href="${s.url}" target="_blank" rel="noopener">${s.publisher}</a> (${s.date})`
-      ).join('<br>');
-    }
-
-    function dimBar(label, value, unit, color) {
-      return `<div class="dimension-bar">
-        <div class="dim-label"><span>${label}</span><span>${value}${unit}</span></div>
-        <div class="dim-track"><div class="dim-fill" style="width:${value}%;background:${color};opacity:0.7"></div></div>
-      </div>`;
-    }
-
-    function hidePanel() {
-      if (!isMobile()) document.getElementById('placeholder').style.display = 'block';
-      document.getElementById('panel-content').classList.remove('active');
-      panelEl.classList.remove('mobile-open');
-    }
-
-    // Filters
-    const filterBand = document.getElementById('filter-band');
-    const filterConf = document.getElementById('filter-confidence');
-
-    function applyFilters() {
-      if (!geojsonData) return;
-      const b = filterBand.value;
-      const c = filterConf.value;
-      const filters = ['all'];
-      if (b !== 'all') filters.push(['==', ['get', 'stress_band'], b]);
-      if (c !== 'all') filters.push(['==', ['get', 'confidence'], c]);
-      const f = filters.length === 1 ? null : filters;
-      map.setFilter('country-fill', f);
-      map.setFilter('country-outline', f);
-      updateFilterCount();
-    }
-
-    filterBand.addEventListener('change', applyFilters);
-    filterConf.addEventListener('change', applyFilters);
-
-    function updateFilterCount() {
-      if (!geojsonData) return;
-      const b = filterBand.value;
-      const c = filterConf.value;
-      let count = geojsonData.features.filter(f => {
-        const p = f.properties;
-        if (b !== 'all' && p.stress_band !== b) return false;
-        if (c !== 'all' && p.confidence !== c) return false;
-        return true;
-      }).length;
-      let el = document.getElementById('filter-count');
-      if (!el) {
-        el = document.createElement('span');
-        el.id = 'filter-count';
-        el.className = 'filter-count';
-        document.querySelector('.filters').insertBefore(el, document.querySelector('.legend'));
-      }
-      const total = geojsonData.features.length;
-      el.textContent = count === total ? `${total} countries` : `${count} of ${total} countries`;
-    }
-  </script>
-</body>
-</html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Where a Hormuz shock leaves the least room for error</title>
+<meta name="description" content="Twelve countries under a Strait of Hormuz disruption: published fuel margins, declared emergencies, and the countries whose condition looks worst but publish no figure at all.">
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link rel="stylesheet" href="https://fonts.bunny.net/css?family=newsreader:400,500,600&display=swap">
+<style>
+:root{
+  --ink:#0a0a0a; --panel:#101215; --rule:#22262b; --rule-soft:#171a1e;
+  --tx:#e2e7ed; --tx-mid:#98a1ab; --tx-dim:#69727c; --tx-faint:#525b64;
+  --observed:#4fc3f7; --derived:#e0a03a; --interpreted:#b9c2cc; --refused:#79828c;
+  --hot:#ef5350;
+  --serif:'Newsreader',Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ink);color:var(--tx);font-family:var(--sans);
+  font-size:15px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 24px 110px}
+
+.evbanner,.evbanner{background:#2a1c05;border-bottom:2px solid #6b4d12;color:#f0cf8d;
+  font-family:var(--mono);font-size:12px;letter-spacing:.02em;
+  padding:13px 24px;line-height:1.55}
+.evbanner b{color:#ffdf9c}
+.evbanner .big{display:block;font-size:14px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:#ffd98a;margin-bottom:3px}
+
+/* ---------- question + answer ---------- */
+.kicker{font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.19em;color:var(--tx-dim);padding-top:62px}
+h1{font-family:var(--serif);font-size:47px;font-weight:600;line-height:1.04;
+  letter-spacing:-.02em;color:#fff;margin:20px 0 22px;max-width:19ch}
+.answer{font-family:var(--serif);font-size:21px;line-height:1.48;
+  color:#ccd4dd;max-width:56ch;margin-bottom:38px}
+.answer strong{color:#fff;font-weight:600}
+
+/* ---------- summary strip: the 20-second read ---------- */
+.strip{display:grid;grid-template-columns:repeat(5,1fr);
+  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  margin-bottom:16px}
+.strip .s{padding:16px 16px 15px 0}
+.strip .s+.s{padding-left:18px;border-left:1px solid var(--rule-soft)}
+.strip .n{font-family:var(--serif);font-size:33px;font-weight:600;color:#fff;
+  line-height:1;letter-spacing:-.02em}
+.strip .l{font-size:12px;color:var(--tx-dim);line-height:1.38;margin-top:8px}
+.strip .anom .n{color:var(--derived)}
+.strip .anom .l{color:#a8853f}
+.strip .n .den{font-size:19px;color:var(--tx-dim)}
+
+.stamp{display:flex;flex-wrap:wrap;gap:0 22px;font-family:var(--mono);
+  font-size:11px;color:var(--tx-faint);margin-bottom:46px}
+.stamp b{color:var(--tx-dim);font-weight:400}
+.stamp .stale{color:var(--hot)}
+
+/* ---------- refusal + register key ---------- */
+.refusal{border-left:2px solid var(--refused);padding:1px 0 1px 17px;
+  margin:0 0 30px;font-family:var(--serif);font-size:17.5px;line-height:1.48;
+  color:#a9b2bc;max-width:60ch}
+.refusal b{color:#e2e7ed;font-weight:600}
+
+.regkey{display:grid;grid-template-columns:repeat(4,1fr);gap:0 26px;
+  border-top:1px solid var(--rule);padding-top:13px;margin-bottom:24px}
+.regkey .rl{font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.11em;text-transform:uppercase;margin-bottom:4px}
+.regkey .rd{font-size:12px;color:var(--tx-faint);line-height:1.42}
+.r-observed .rl{color:var(--observed)} .r-derived .rl{color:var(--derived)}
+.r-interpreted .rl{color:var(--interpreted)} .r-refused .rl{color:var(--refused)}
+
+.mk{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;vertical-align:.18em;padding:1px 4px;margin-left:5px;
+  border:1px solid currentColor;white-space:nowrap}
+.mk-o{color:var(--observed)} .mk-d{color:var(--derived)}
+.mk-i{color:var(--interpreted)} .mk-r{color:var(--refused)}
+
+/* ---------- section rhythm: air between evidentiary moves ---------- */
+.sec{margin-top:104px}
+.rung{font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--tx-faint);margin-bottom:12px}
+h2{font-family:var(--serif);font-size:27px;font-weight:600;color:#fff;
+  line-height:1.18;margin:0 0 10px;letter-spacing:-.012em;max-width:24ch}
+.lede{font-family:var(--serif);font-size:17.5px;color:#a4aeb8;line-height:1.5;
+  max-width:60ch;margin-bottom:26px}
+p{max-width:64ch;margin-bottom:14px}
+
+/* ---------- figures: finding is loud, apparatus is quiet ---------- */
+figure{margin:0}
+figcaption{font-family:var(--serif);font-size:23px;font-weight:600;color:#fff;
+  line-height:1.22;margin-bottom:8px;max-width:27ch}
+.fignote{font-size:13.5px;color:var(--tx-dim);max-width:58ch;margin-bottom:26px}
+.figfoot{border-top:1px solid var(--rule-soft);margin-top:20px;padding-top:11px;
+  font-family:var(--mono);font-size:10.5px;color:var(--tx-faint);line-height:1.8}
+.figfoot b{color:var(--tx-dim);font-weight:400}
+.figfoot span{display:inline-block;margin-right:20px;max-width:100%;
+  vertical-align:top}
+.figfoot span.long{white-space:normal;display:block;margin-right:0}
+
+/* ---------- bar rows ---------- */
+.bars{border-top:1px solid var(--rule)}
+.row{display:grid;grid-template-columns:110px 1fr 58px;gap:14px;
+  align-items:baseline;padding:10px 0;border-bottom:1px solid var(--rule-soft)}
+.row .nm{font-size:14.5px;color:var(--tx)}
+.row .tr{position:relative;height:16px;top:3px}
+.row .bar{position:absolute;left:0;top:3px;height:11px;background:var(--observed);
+  opacity:.85}
+/* a published range: drawn as the span it is, with the stored point marked */
+.row .span{position:absolute;top:3px;height:11px;background:var(--observed);opacity:.34;
+  border-left:1px solid rgba(79,195,247,.85);border-right:1px solid rgba(79,195,247,.85)}
+.row .pt{position:absolute;top:0px;height:17px;width:2px;background:var(--observed)}
+/* figures that count something else: no axis, no bar, no implied comparison */
+.offaxis{margin-top:22px;padding:16px 0 4px;border-top:1px solid var(--rule)}
+.offaxis .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--tx-mid);margin-bottom:5px}
+.offaxis .d{font-size:13px;color:var(--tx-dim);max-width:58ch;line-height:1.5;
+  margin-bottom:10px}
+.offtbl{font-size:13px}
+.offtbl td{border-bottom:1px solid var(--rule-soft);padding:8px 14px 8px 0}
+.offtbl .wq{color:var(--tx-faint);font-size:12px}
+.offtbl .wq q{font-style:italic;quotes:none}
+.row .val{font-family:var(--mono);font-size:13px;color:var(--tx);text-align:right}
+.row .note{grid-column:2/4;font-size:11.5px;color:#93763b;margin-top:3px;
+  line-height:1.4}
+.row.null .tr{background:repeating-linear-gradient(45deg,transparent,transparent 4px,
+  #1e2227 5px,#1e2227 6px);height:11px;top:6px;border:1px dashed #2b3037}
+.row.null .val{color:var(--refused);font-size:10.5px}
+.row.null .note{color:var(--tx-faint)}
+.sixty{position:absolute;top:-4px;bottom:-4px;width:1px;background:var(--hot);
+  opacity:.5}
+.axis{display:grid;grid-template-columns:110px 1fr 58px;gap:14px;
+  font-family:var(--mono);font-size:10px;color:var(--tx-faint);padding-top:6px}
+.axis .tr{position:relative;height:12px}
+.axis .tick{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.bandsplit{padding:18px 0 9px;border-bottom:1px solid var(--rule);margin-top:5px}
+.bandsplit .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--tx-mid);margin-bottom:5px}
+.bandsplit .d{font-size:13px;color:var(--tx-dim);max-width:58ch;line-height:1.5}
+
+/* ---------- interpretation: authored, subordinate to the finding ---------- */
+.interp{border-left:2px solid #3b434c;padding:2px 0 2px 18px;margin:30px 0 0;
+  max-width:58ch}
+.interp p{font-family:var(--serif);font-size:17.5px;line-height:1.5;
+  color:#b6bfc9;margin-bottom:0}
+.interp .by{font-family:var(--mono);font-size:10px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--tx-faint);margin-top:11px}
+
+/* ---------- tables ---------- */
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th{text-align:left;font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--tx-faint);
+  border-bottom:1px solid var(--rule);padding:0 12px 8px 0;vertical-align:bottom}
+td{border-bottom:1px solid var(--rule-soft);padding:10px 12px 10px 0;
+  vertical-align:top;line-height:1.5;color:var(--tx-mid)}
+td.k{color:var(--tx);white-space:nowrap}
+td.n{font-family:var(--mono);color:var(--tx);white-space:nowrap}
+td q{color:#aab3bd;font-style:italic;quotes:none}
+.scroll{overflow-x:auto}
+
+/* ---------- supporting figure: quieter than a major beat ---------- */
+figure.support{max-width:660px}
+figure.support figcaption{font-family:var(--sans);font-size:16px;font-weight:600;
+  color:#c3ccd5;max-width:46ch;line-height:1.35}
+figure.support .fignote{font-size:12.5px;max-width:52ch;margin-bottom:18px}
+
+/* ---------- country ledger ---------- */
+table.ledger{font-size:13px}
+table.ledger th{padding-bottom:9px}
+table.ledger tr.lr>td{border-bottom:none;padding:12px 12px 2px 0}
+table.ledger tr.claimrow>td{padding:0 0 13px 0;border-bottom:1px solid var(--rule-soft)}
+.ledger .cty{font-family:var(--serif);font-size:17px;font-weight:600;color:#fff;
+  padding-right:16px}
+.ledger .bandc{font-family:var(--mono);font-size:10.5px;color:var(--interpreted);
+  letter-spacing:.02em;white-space:nowrap}
+.ledger .bandc::before{content:"▌";color:#3b434c;margin-right:5px}
+.ledger td.n{font-size:11.5px;text-align:right;color:var(--tx-mid);padding-right:14px}
+.ledger td.miss{color:#b4655f}
+.ledger .cf-low{color:#c97a72} .ledger .cf-medium{color:#b6924e}
+.ledger .cf-high{color:var(--tx-faint)}
+.ledger .cl{font-size:14px;color:var(--tx-mid);line-height:1.5}
+.ledger .qn{display:block;font-family:var(--mono);font-size:10.5px;color:var(--tx-faint);
+  margin-top:5px;line-height:1.45}
+
+/* ---------- audit register: deliberate, not another chapter ---------- */
+.sec.audit{border-top:2px solid #39414a;padding-top:30px;margin-top:96px}
+.sec.audit .rung{color:#8d97a1}
+.sec.audit h2{font-size:25px}
+.sec.audit+.sec.audit{margin-top:68px}
+
+/* ---------- country index (retired; ledger replaces it) ---------- */
+.idx{border-top:1px solid var(--rule)}
+.idx .c{padding:16px 0;border-bottom:1px solid var(--rule-soft)}
+.idx .h{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;margin-bottom:5px}
+.idx .cn{font-family:var(--serif);font-size:19.5px;font-weight:600;color:#fff}
+.idx .band{font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+  color:var(--interpreted);border:1px solid #2b3138;padding:1px 6px}
+.idx .conf{font-family:var(--mono);font-size:10px;color:var(--tx-faint)}
+.idx .cl{font-size:14.5px;color:var(--tx-mid);max-width:64ch;line-height:1.5;
+  margin-bottom:5px}
+.idx .meta{font-family:var(--mono);font-size:10.5px;color:var(--tx-faint)}
+.idx .meta .miss{color:#b4655f}
+
+/* ---------- boundary / method ---------- */
+.bound li,.meth li{margin:0 0 12px 20px;max-width:62ch;color:var(--tx-mid)}
+.pull{font-family:var(--serif);font-size:22px;line-height:1.36;color:#fff;
+  max-width:44ch;margin:0 0 26px}
+.rule1{border-left:2px solid var(--interpreted);padding:3px 0 3px 18px;
+  margin:0 0 24px;font-family:var(--serif);font-size:19px;line-height:1.45;
+  color:#e2e7ed;max-width:58ch}
+
+.absence{border-left:2px solid #b4655f;padding:2px 0 2px 17px;margin:0 0 26px;
+  font-size:14px;line-height:1.55;color:var(--tx-mid);max-width:62ch}
+.absence b{color:#e2e7ed}
+.rcpt a{color:var(--observed);text-decoration:none}
+.rcpt a:hover{text-decoration:underline}
+.rcpt td{font-size:12.5px}
+
+footer{margin-top:96px;border-top:1px solid var(--rule);padding-top:22px;
+  font-size:12.5px;color:var(--tx-faint);line-height:1.7}
+footer a{color:var(--observed);text-decoration:none}
+
+@media (max-width:760px){
+  h1{font-size:33px}
+  .answer{font-size:18.5px}
+  .strip{grid-template-columns:1fr 1fr}
+  .strip .s+.s{padding-left:0;border-left:none}
+  .strip .s{border-top:1px solid var(--rule-soft);padding:13px 14px 13px 0}
+  .strip .s:nth-child(-n+2){border-top:none}
+  .regkey{grid-template-columns:1fr 1fr;gap:14px 20px}
+  .sec{margin-top:72px}
+  .row,.axis{grid-template-columns:86px 1fr 50px;gap:10px}
+  .row .nm{font-size:13px}
+  .figfoot span{display:block;margin-right:0}
+  table.ledger{font-size:12px}
+  .ledger .cty{font-size:15px;padding-right:10px}
+  .ledger .bandc{font-size:9.5px}
+  .ledger td.n{padding-right:8px;font-size:10.5px}
+  .ledger .cl{font-size:13px}
+  figure.support .fignote{max-width:none}
+}
+@media print{body{background:#fff;color:#000}.evbanner{background:#eee;color:#000}}
+
+/* ---------- compact register line: infrastructure, not protagonist ---------- */
+.regline{font-family:var(--mono);font-size:10.5px;color:var(--tx-faint);
+  letter-spacing:.04em;margin-bottom:44px}
+.regline b{font-weight:400}
+.regline .o{color:var(--observed)} .regline .d{color:var(--derived)}
+.regline .i{color:var(--interpreted)} .regline .r{color:var(--refused)}
+
+/* ---------- audit divider ---------- */
+.auditline{margin-top:110px;border-top:2px solid #39414a;padding-top:14px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:#8d97a1}
+.auditline span{color:var(--tx-faint);letter-spacing:.02em;text-transform:none;
+  margin-left:14px}
+.sec.audit{border-top:none;padding-top:0;margin-top:64px}
+.sec.audit .rung{color:#8d97a1}
+
+/* register definitions, demoted to the audit floor */
+.regdefs{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 26px;
+  margin:0 0 26px}
+.regdefs .rl{font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.11em;text-transform:uppercase;margin-bottom:3px}
+.regdefs .rd{font-size:12.5px;color:var(--tx-dim);line-height:1.45}
+
+@media (max-width:760px){
+  .turn .e{grid-template-columns:1fr;gap:8px}
+  .regdefs{grid-template-columns:1fr}
+  .payoff{font-size:21px}
+}
+
+.ledger .mix{display:block;font-family:var(--mono);font-size:10.5px;color:var(--tx-faint);
+  margin-top:5px}
+.ledger .cope{display:block;font-size:12.5px;color:var(--tx-dim);line-height:1.5;
+  margin-top:6px;max-width:88ch}
+.ledger .cope b{color:var(--tx-mid);font-weight:600}
+/* ---------- the turn ---------- */
+.turn{border-top:1px solid var(--rule)}
+.turn .e{padding:20px 0;border-bottom:1px solid var(--rule-soft);
+  display:grid;grid-template-columns:150px 1fr;gap:22px}
+.turn .cn{font-family:var(--serif);font-size:21px;font-weight:600;color:#fff;
+  line-height:1.15}
+.turn .tag{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:#b4655f;margin-top:6px}
+.turn .st{font-size:15px;color:#c3ccd5;line-height:1.55}
+.turn .st .lab{display:block;font-family:var(--mono);font-size:9.5px;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--tx-faint);margin-bottom:5px}
+.turn .refuse{color:var(--refused)}
+.payoff{font-family:var(--serif);font-size:25px;line-height:1.34;color:#fff;
+  max-width:40ch;margin:34px 0 0}
+.payoff span{color:var(--derived)}
+
+</style></head><body>
+
+<div class="evbanner">
+<span class="big">Evidence current to 2026-03-26 — 141 days ago</span>
+Every present-tense claim below is present tense as of 2026-03-26, not as of reading.
+Built from <code>docs/hormuz/data/countries.geojson</code>.
+</div>
+
+<div class="wrap">
+
+<div class="kicker">Hormuz Energy · Infrastructure Dependency Atlas</div>
+<h1>Where a Hormuz shock leaves the least room for error</h1>
+
+<div class="answer">
+The Philippines declared a national energy emergency with <strong>forty-five days</strong>
+of fuel in reserve. Thailand, at ninety-five, has ordered civil servants to take the
+stairs. Vietnam publishes a margin of twenty to forty-five days and is buying Russian
+crude. Those are the countries that publish a number at all — and across the twelve,
+<strong>the ones whose condition reads worst are the ones with no number to read.</strong>
+</div>
+
+<div class="strip">
+  <div class="s"><div class="n">12</div><div class="l">countries assessed</div></div>
+  <div class="s"><div class="n">7</div><div class="l">publish a reserve figure</div></div>
+  <div class="s anom"><div class="n">5</div><div class="l">publish none at all</div></div>
+  <div class="s anom"><div class="n">2</div><div class="l">of the seven count something else</div></div>
+</div>
+
+<div class="stamp">
+  <span><b>EVIDENCE WINDOW OPENS</b> 2026-01-01</span>
+  <span><b>RECEIPTS</b> 24</span>
+  <span><b>COUNTRIES</b> 12</span>
+</div>
+
+<div class="regline">
+  <span class="o">●</span> observed &nbsp;·&nbsp; <span class="d">◌</span> derived
+  &nbsp;·&nbsp; <span class="i">▌</span> interpreted &nbsp;·&nbsp;
+  <span class="r">⊘</span> refused &nbsp;— marks appear beside claims; defined under Method.
+</div>
+
+<div class="sec"><div class="rung">Published margins · observed</div>
+<figure>
+<figcaption>Two countries publish a margin entirely under sixty days. One straddles the line.</figcaption>
+<div class="fignote">Days of national reserve, for the five countries whose published figure
+counts that quantity. Where the source gives a range, the range is drawn; the tick marks
+the single value the corpus stores.</div>
+<div class="bars">
+<div class="row">
+  <div class="nm">Vietnam</div>
+  <div class="tr"><div class="sixty" style="left:21.43%"></div><div class="span" style="left:7.14%;width:8.93%"></div><div class="pt" style="left:10.71%"></div></div>
+  <div class="val">20–45 d</div>
+  <div class="note">source range; corpus stores 30</div>
+</div>
+<div class="row">
+  <div class="nm">India</div>
+  <div class="tr"><div class="sixty" style="left:21.43%"></div><div class="span" style="left:8.93%;width:17.50%"></div><div class="pt" style="left:17.86%"></div></div>
+  <div class="val">25–74 d</div>
+  <div class="note">source range; corpus stores 50</div>
+</div>
+<div class="row">
+  <div class="nm">Philippines</div>
+  <div class="tr"><div class="sixty" style="left:21.43%"></div><div class="bar" style="width:16.07%"></div></div>
+  <div class="val">45 d</div>
+  
+</div>
+<div class="row">
+  <div class="nm">Thailand</div>
+  <div class="tr"><div class="sixty" style="left:21.43%"></div><div class="bar" style="width:33.93%"></div></div>
+  <div class="val">95 d</div>
+  
+</div>
+<div class="row">
+  <div class="nm">Japan</div>
+  <div class="tr"><div class="sixty" style="left:21.43%"></div><div class="span" style="left:90.71%;width:2.14%"></div><div class="pt" style="left:91.79%"></div></div>
+  <div class="val">254–260 d</div>
+  <div class="note">source range; corpus stores 257</div>
+</div>
+</div>
+<div class="axis"><div></div><div class="tr">
+  <span class="tick" style="left:0%">0</span>
+  <span class="tick" style="left:21.43%">60</span>
+  <span class="tick" style="left:42.86%">120</span>
+  <span class="tick" style="left:64.29%">180</span>
+  <span class="tick" style="left:85.71%">240</span>
+</div><div></div></div>
+<div class="offaxis">
+  <div class="t">Published — but counting something else</div>
+  <div class="d">These have a number. It is not the number above, so it is not drawn
+  against that axis.</div>
+  <table class="offtbl"><tbody>
+<tr><td class="k">South Korea</td><td class="n">210 d</td>
+<td class="wq"><q>Comprehensive data; 210 days strategic oil but only 9 days working LNG inventory</q></td></tr>
+<tr><td class="k">Singapore</td><td class="n">245 d</td>
+<td class="wq"><q>Excellent data; 245 days reserves (includes foreign-owned storage); 95% gas generation is the exposure</q></td></tr>
+</tbody></table></div>
+<div class="figfoot">
+  <span><b>WINDOW</b> 2026-01-01 → 2026-03-26</span>
+  <span><b>n</b> 7 of 12 publish a figure — the other 5 are below</span>
+  <span><b>UNIT</b> days</span>
+</div>
+</figure>
+
+<div class="interp">
+<p>Reserve depth measures how long a country can absorb a shortfall, not whether it can
+distribute what it has. The Philippines declared an emergency at 45 days; Thailand, at 95,
+has not. Those are not two points on one scale.</p>
+<div class="by">▌Interpreted</div>
+</div></div>
+<div class="sec"><div class="rung">The other five</div>
+<h2>The missing bar is the bar</h2>
+<div class="lede">Five of the twelve publish no reserve figure. This is what
+the corpus records them doing instead — their own <code>current_status</code>, verbatim.</div>
+<div class="turn">
+<div class="e">
+  <div><div class="cn">Sri Lanka</div>
+    <span class="tag">no reserve figure</span></div>
+  <div class="st"><span class="lab">Current status · 2026-03-26</span>Tightened fuel rationing. Reintroduced queuing systems. Four-day government work week. Emergency spot fuel purchases.</div>
+</div>
+<div class="e">
+  <div><div class="cn">Bangladesh</div>
+    <span class="tag">no reserve figure</span></div>
+  <div class="st"><span class="lab">Current status · 2026-03-26</span>Fuel rationing imposed. Military deployed for anti-hoarding enforcement. Universities closed. Fertilizer plants temporarily shut. LNG costs forcing load-shedding.</div>
+</div>
+<div class="e">
+  <div><div class="cn">Pakistan</div>
+    <span class="tag">no reserve figure</span></div>
+  <div class="st"><span class="lab">Current status · 2026-03-26</span>Government claims 74% domestic power sources cushion LNG risk. Universities closed. Fertilizer plants shut. But LNG is 10% of generation and imported fuel critical for transport.</div>
+</div>
+<div class="e">
+  <div><div class="cn">Taiwan</div>
+    <span class="tag">no reserve figure</span></div>
+  <div class="st"><span class="lab">Current status · 2026-03-26</span>No public emergency declarations. Decommissioned nuclear fleet (restarting planned). 70% of crude from Middle East. Reserve data not publicly available.</div>
+</div>
+<div class="e">
+  <div><div class="cn">Cuba</div>
+    <span class="tag">⊘ not a hormuz case</span></div>
+  <div class="st refuse"><span class="lab">Current status · 2026-03-26</span>Repeated national grid collapses March 2026. Russia shipping fuel as humanitarian aid. US cut off Venezuelan oil supply to Cuba. Generation shortfall 1,300-1,700 MW during peak (half of demand).</div>
+</div>
+</div>
+<div class="figfoot">
+  <span><b>OBSERVED</b> status text and the absence of a reserve figure, per-country receipts</span>
+  <span><b>WINDOW</b> 2026-01-01 → 2026-03-26</span>
+</div>
+
+<div class="payoff">Military at the fuel depots, universities shut, queues reintroduced —
+and <span>no figure to rank any of it by</span>.</div>
+
+<div class="interp" style="margin-top:26px">
+<p>Cuba disclaims membership in its own entry, and is kept because the corpus keeps it —
+marked <span class="mk mk-r">refused</span> rather than quietly dropped. An atlas that
+silently drops its awkward row is not showing you the corpus.</p>
+<div class="by">▌Interpreted</div>
+</div></div>
+<div class="sec"><div class="rung">Secondary evidence · interpreted</div>
+<figure>
+<figcaption>The classification, mapped. Nothing in this shape is measured.</figcaption>
+<div class="fignote">Fill encodes the corpus's <span class="mk mk-i">stress_band</span> —
+an authored assessment class with no derivation rule (see Method). The colours are
+<b>categorical, not a scale</b>: the classes describe different kinds of thing, and nothing
+in the corpus ranks them. Hatching marks the countries with no published reserve
+figure.</div>
+<svg viewBox="0 0 800 452" width="100%" role="img"
+ aria-label="Schematic map of eleven Asian countries shaded by an authored stress classification, with hatching on the five that publish no reserve figure, and Cuba shown separately as a refused non-case.">
+<defs>
+  <pattern id="hatch" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+    <line x1="0" y1="0" x2="0" y2="6" stroke="#0a0a0a" stroke-width="2.6" opacity="0.6"/>
+  </pattern>
+</defs>
+<rect x="0" y="0" width="800" height="452" fill="#0c0e11"/>
+  <path d="M532.6,267.3 L533.9,267.7 L536.7,269.4 L537.7,269.8 L538.8,270.1 L539.6,270.2 L540.4,269.8 L540.7,269.5 L541.3,268.4 L541.9,268.3 L542.3,268.7 L542.6,269.2 L542.7,269.9 L542.5,270.7 L541.9,271.4 L541.6,272.2 L541.3,275.0 L541.3,275.8 L541.5,276.6 L542.0,277.8 L542.3,278.2 L543.1,278.6 L543.3,279.0 L543.3,279.6 L543.5,280.1 L544.0,280.4 L544.4,280.6 L544.2,281.2 L544.0,281.8 L543.6,283.3 L541.9,286.8 L541.8,287.5 L541.2,289.0 L539.9,289.3 L538.3,290.0 L537.5,290.6 L536.7,291.3 L536.4,292.2 L536.7,292.7 L536.8,293.1 L536.8,293.7 L536.6,294.1 L535.8,295.1 L535.5,295.9 L535.2,296.3 L535.0,296.8 L535.1,297.3 L535.4,297.7 L536.3,299.7 L537.3,301.5 L537.5,301.8 L537.5,302.0 L537.0,302.5 L537.0,303.4 L537.2,304.3 L538.0,306.5 L538.1,307.1 L538.4,307.6 L538.8,308.0 L539.3,308.4 L540.7,309.1 L541.3,309.2 L541.8,309.2 L542.0,308.8 L542.5,308.6 L542.3,308.2 L541.8,307.6 L541.7,307.3 L542.0,307.0 L542.4,306.9 L543.3,306.2 L544.1,305.7 L545.3,305.8 L546.4,306.1 L547.2,306.4 L547.8,306.9 L548.5,307.9 L549.0,309.0 L549.0,309.5 L548.8,310.0 L548.9,310.5 L549.2,310.8 L550.3,310.9 L550.8,310.1 L550.9,309.2 L550.5,308.8 L550.7,308.4 L551.0,308.1 L551.5,308.3 L552.0,308.9 L553.6,309.5 L554.1,309.5 L554.4,309.6 L555.1,310.1 L555.5,310.4 L555.1,311.1 L553.4,311.3 L552.9,311.8 L553.4,312.8 L554.2,313.7 L554.7,314.4 L555.2,315.2 L555.2,315.8 L554.9,316.6 L555.6,316.5 L556.3,316.7 L557.2,317.3 L557.5,317.3 L557.9,317.2 L557.8,319.4 L557.2,321.4 L556.4,321.2 L555.7,320.3 L555.8,319.3 L556.3,318.3 L556.0,318.1 L555.5,318.2 L555.0,318.4 L554.5,318.5 L553.6,318.4 L551.7,317.3 L551.0,317.2 L550.8,316.7 L550.8,315.6 L550.1,314.4 L550.0,314.0 L549.7,313.6 L547.5,312.3 L547.2,312.0 L546.6,311.0 L545.0,309.4 L544.6,309.3 L544.1,309.2 L544.0,309.6 L544.2,310.2 L544.3,310.7 L544.2,311.3 L544.3,311.7 L545.0,312.5 L545.1,312.9 L545.6,314.0 L545.7,315.3 L545.1,315.8 L544.3,315.2 L544.3,314.8 L544.2,314.3 L543.4,313.1 L543.2,312.9 L541.8,311.8 L540.7,310.5 L538.2,309.2 L537.9,309.1 L537.5,309.2 L537.1,309.4 L535.9,310.0 L535.5,310.5 L535.5,311.2 L534.6,311.8 L533.5,311.8 L532.6,311.5 L531.8,310.8 L531.2,310.7 L530.4,309.6 L529.5,309.5 L528.8,310.4 L528.6,308.7 L528.6,306.9 L528.8,306.4 L529.2,306.0 L531.1,304.2 L531.4,303.6 L531.3,302.8 L530.8,302.2 L530.1,301.8 L529.3,301.6 L528.8,301.3 L528.3,300.7 L528.0,301.7 L528.3,303.3 L528.4,304.3 L528.1,304.7 L527.6,304.7 L527.1,304.6 L526.8,304.2 L526.5,303.2 L525.8,302.5 L525.5,301.5 L525.2,301.4 L524.6,301.4 L524.1,301.0 L523.8,299.8 L523.8,298.6 L523.5,297.6 L523.1,296.6 L522.9,295.8 L522.6,292.1 L522.5,291.8 L522.3,291.5 L521.9,291.1 L521.5,290.6 L521.5,290.2 L521.6,288.4 L521.7,288.0 L522.1,287.8 L522.5,288.1 L522.9,288.6 L523.3,288.8 L523.7,289.0 L524.5,290.1 L524.8,290.3 L525.7,290.2 L526.3,290.1 L526.5,289.7 L526.7,289.3 L526.7,288.7 L526.2,287.1 L526.0,286.0 L526.0,284.9 L526.1,283.9 L526.9,282.1 L527.0,280.9 L526.9,279.3 L527.0,278.4 L527.0,277.8 L526.6,276.9 L526.4,276.0 L527.7,271.3 L528.0,270.4 L528.3,269.5 L528.4,268.2 L529.4,267.9 L530.2,267.4 L530.7,267.4 L531.1,267.5 L532.2,267.3 L532.6,267.3 Z M501.1,358.4 L500.4,359.1 L500.5,358.3 L500.7,357.5 L501.5,356.0 L502.0,355.5 L503.0,354.3 L503.5,353.7 L504.7,352.5 L505.9,351.2 L506.3,351.1 L506.7,351.1 L507.1,351.0 L507.8,350.3 L509.7,348.0 L511.3,346.3 L512.9,344.1 L513.7,343.5 L513.9,343.3 L515.4,341.3 L515.8,341.0 L516.3,340.8 L516.7,340.5 L517.0,340.2 L517.5,339.3 L517.8,338.3 L517.6,337.7 L517.3,336.9 L517.7,335.7 L518.0,335.2 L519.0,332.8 L519.3,332.4 L519.8,332.7 L519.8,333.1 L519.6,334.1 L519.6,334.6 L519.8,335.1 L519.5,335.9 L520.3,338.1 L520.8,339.5 L520.9,340.0 L520.1,340.8 L519.7,341.0 L518.7,341.3 L518.2,341.5 L517.5,342.2 L517.1,343.1 L517.0,343.5 L516.8,343.9 L514.7,344.5 L513.8,344.9 L513.4,345.2 L513.1,345.7 L513.3,346.5 L511.6,349.6 L511.0,350.4 L510.5,351.1 L509.8,351.6 L508.8,351.9 L508.0,352.5 L507.4,353.5 L506.8,354.5 L505.9,355.2 L505.0,355.8 L504.2,356.3 L503.3,356.6 L503.0,357.0 L502.8,357.5 L502.5,357.8 L502.0,357.9 L501.1,358.4 Z M544.2,330.0 L545.2,330.4 L546.1,330.0 L547.0,330.1 L547.8,330.7 L547.6,331.1 L547.5,331.5 L549.2,330.6 L549.7,330.7 L549.7,331.5 L549.6,332.2 L549.4,332.9 L549.0,333.7 L548.5,334.4 L547.9,335.0 L547.1,335.3 L546.7,335.6 L546.6,336.0 L546.6,336.6 L546.5,337.1 L545.7,337.3 L544.4,338.2 L541.7,338.9 L541.0,339.3 L540.5,339.8 L540.0,340.3 L539.7,340.5 L539.6,340.2 L539.5,340.0 L539.9,338.7 L539.8,338.2 L539.7,337.7 L539.8,336.6 L540.2,335.7 L540.5,334.6 L540.6,332.6 L540.9,329.7 L540.9,329.4 L540.6,329.0 L539.6,328.7 L539.2,328.4 L539.4,327.8 L539.8,327.4 L540.3,327.5 L540.8,327.8 L542.5,328.6 L543.4,329.2 L544.2,330.0 Z M549.5,352.8 L548.9,352.9 L548.3,352.9 L547.9,352.4 L547.3,350.5 L546.5,350.1 L545.6,349.7 L545.1,349.4 L544.7,349.1 L543.5,347.2 L543.4,346.0 L543.6,345.4 L544.0,344.8 L544.4,344.6 L545.4,344.6 L546.0,344.5 L547.2,343.7 L547.3,343.3 L547.3,341.9 L547.1,340.9 L546.9,339.9 L547.2,339.5 L547.6,339.0 L548.0,338.2 L548.1,337.6 L548.1,336.9 L548.2,336.5 L548.6,336.3 L550.2,335.6 L550.5,335.5 L552.6,336.2 L553.0,337.1 L553.1,337.4 L552.8,338.5 L552.5,339.2 L551.8,340.3 L551.2,341.5 L550.8,343.3 L550.6,343.9 L549.9,345.0 L549.7,345.7 L549.7,347.0 L549.6,347.5 L549.6,348.0 L550.9,350.2 L551.0,350.6 L551.0,350.9 L550.8,351.4 L550.3,352.3 L550.0,352.6 L549.5,352.8 Z M561.4,332.4 L562.0,332.7 L562.7,332.6 L563.5,331.9 L564.4,332.1 L564.9,333.2 L565.2,333.6 L565.3,334.3 L565.3,335.9 L565.1,337.4 L565.3,337.7 L565.7,338.0 L566.0,338.3 L566.3,338.7 L566.5,339.2 L566.6,340.3 L567.1,341.3 L567.2,341.7 L567.1,342.1 L566.2,342.0 L566.1,342.3 L566.2,342.7 L565.8,342.5 L565.3,341.5 L564.9,341.1 L565.0,342.7 L565.2,343.4 L565.2,344.1 L564.4,343.6 L563.4,343.2 L563.2,342.9 L563.3,342.0 L563.2,341.5 L562.8,340.5 L563.3,338.3 L563.3,337.9 L563.2,337.4 L562.8,336.6 L562.2,335.8 L561.8,335.8 L560.9,336.3 L560.4,336.2 L560.1,334.1 L559.7,332.2 L559.4,331.7 L559.2,331.1 L559.4,330.7 L559.8,330.9 L560.3,331.4 L560.9,331.7 L561.2,331.9 L561.4,332.4 Z M567.0,321.8 L567.6,322.5 L567.7,323.1 L567.6,323.6 L567.9,323.9 L568.4,324.0 L569.0,324.3 L569.4,324.8 L569.2,325.3 L569.2,326.0 L568.8,326.9 L568.8,328.6 L569.1,329.1 L569.1,329.6 L569.1,330.2 L569.2,330.6 L569.9,332.1 L570.0,332.6 L569.8,333.0 L569.7,333.3 L570.2,333.4 L570.8,334.0 L571.2,334.8 L571.1,335.0 L570.6,334.4 L570.2,334.3 L568.6,334.5 L567.6,334.2 L566.9,334.2 L566.3,333.1 L565.7,332.9 L565.3,332.4 L564.5,331.2 L564.3,330.5 L564.8,329.8 L565.0,329.2 L564.9,328.6 L564.4,328.7 L564.0,328.5 L563.5,327.8 L563.3,327.5 L562.9,327.1 L562.3,326.3 L561.4,326.0 L561.1,325.8 L560.4,325.2 L559.9,324.3 L559.4,322.9 L559.1,321.4 L561.4,321.8 L563.6,321.7 L566.2,321.4 L567.0,321.8 Z M529.3,313.3 L529.7,313.3 L531.1,313.1 L531.6,313.2 L532.0,313.7 L532.4,313.9 L532.8,314.2 L533.5,313.7 L534.1,314.2 L534.7,315.2 L535.4,315.9 L536.1,316.4 L536.2,316.8 L535.8,317.4 L535.7,318.2 L535.8,319.0 L536.3,320.8 L536.1,321.3 L535.6,322.0 L535.2,322.7 L535.2,323.0 L535.1,323.3 L535.0,323.8 L534.7,323.7 L534.4,323.8 L534.2,324.0 L533.7,324.6 L533.1,324.4 L532.7,324.3 L532.7,323.8 L532.5,323.5 L532.2,323.3 L531.5,322.5 L531.1,321.9 L531.1,321.3 L530.9,320.7 L530.6,320.2 L530.1,319.8 L529.9,319.4 L529.8,319.0 L529.8,317.8 L529.1,316.4 L528.9,316.1 L528.2,315.7 L527.7,315.2 L527.5,314.8 L527.2,314.0 L527.1,313.9 L526.7,314.0 L526.3,313.9 L526.4,313.3 L526.8,312.9 L527.4,312.9 L528.9,313.1 L529.3,313.3 Z M573.3,350.5 L574.0,351.1 L574.9,350.9 L574.9,352.3 L575.0,352.7 L575.8,353.8 L575.9,354.8 L575.5,355.7 L575.1,356.1 L574.5,356.7 L574.4,357.0 L574.7,357.3 L575.6,357.5 L576.3,358.0 L576.4,359.4 L577.1,360.5 L577.1,361.0 L576.8,363.0 L576.9,363.8 L577.4,364.5 L577.8,364.8 L578.0,365.2 L578.2,366.4 L578.2,368.4 L578.1,369.1 L577.8,369.7 L576.9,371.2 L575.7,372.4 L575.1,372.3 L574.9,372.6 L575.3,373.7 L575.1,375.9 L574.8,377.5 L574.5,376.7 L574.2,375.9 L573.9,373.7 L573.6,372.7 L573.2,371.8 L573.0,371.0 L572.5,370.3 L571.8,368.3 L571.4,368.4 L570.7,368.9 L570.5,369.3 L570.5,369.9 L570.3,370.4 L569.5,371.2 L568.8,372.1 L568.3,373.1 L568.1,374.1 L568.6,374.8 L569.0,375.1 L569.7,375.8 L569.9,376.1 L570.5,378.2 L570.5,380.4 L570.0,381.4 L568.8,383.3 L567.9,383.9 L567.4,383.6 L567.0,382.4 L566.9,382.0 L567.2,380.9 L567.2,380.0 L566.9,379.6 L566.6,379.7 L566.4,379.8 L565.6,381.1 L565.3,381.4 L564.8,381.5 L564.4,381.4 L562.0,380.3 L560.0,379.2 L558.4,378.2 L557.3,376.6 L557.1,375.5 L557.1,374.3 L556.6,372.5 L556.5,371.9 L556.6,371.4 L557.0,370.3 L557.7,369.7 L558.0,369.3 L558.3,368.9 L558.4,368.3 L558.4,367.8 L558.2,367.4 L557.2,366.1 L556.4,365.3 L554.7,364.6 L554.3,364.3 L553.9,364.0 L553.4,363.9 L553.0,363.9 L552.5,364.1 L552.3,364.5 L552.4,364.9 L552.3,365.3 L551.6,367.7 L550.7,367.1 L549.9,366.6 L549.6,366.2 L549.5,365.7 L549.4,365.3 L549.2,365.0 L548.8,365.8 L548.3,366.4 L547.7,366.5 L547.1,366.6 L546.9,366.3 L546.6,364.8 L546.0,364.4 L545.2,364.5 L544.2,365.3 L544.0,365.6 L543.8,366.3 L542.7,368.3 L542.2,369.8 L541.5,371.3 L541.2,371.8 L540.9,372.1 L540.3,371.9 L539.8,371.6 L539.3,370.6 L539.4,369.5 L540.0,368.8 L540.5,368.0 L541.0,365.4 L541.1,364.5 L541.2,364.0 L542.1,362.8 L542.9,362.1 L543.3,361.9 L545.0,361.5 L545.7,361.2 L546.7,361.1 L547.6,361.0 L548.3,360.4 L548.4,359.8 L548.4,359.2 L548.5,358.8 L548.8,358.5 L549.2,358.0 L549.6,357.7 L550.8,357.5 L551.2,357.2 L551.5,356.8 L552.0,356.1 L552.5,356.2 L553.1,356.6 L554.0,356.8 L554.9,357.4 L555.4,358.5 L555.5,359.0 L555.7,360.7 L555.5,361.0 L554.6,361.8 L555.0,361.9 L556.1,361.2 L556.7,360.9 L558.0,360.5 L558.3,360.3 L558.6,359.9 L559.0,358.9 L559.4,357.8 L559.6,357.3 L560.0,357.0 L560.4,356.9 L561.8,357.7 L562.7,357.3 L563.0,356.2 L563.2,354.5 L563.4,354.1 L563.9,353.6 L564.5,353.8 L565.4,354.4 L566.1,354.6 L566.4,354.1 L566.7,353.1 L567.0,353.1 L568.1,353.5 L569.1,353.3 L569.4,352.1 L569.2,350.9 L568.4,347.4 L568.9,346.6 L569.3,346.6 L570.3,347.5 L572.3,348.8 L572.9,349.6 L573.3,350.5 Z M551.4,349.4 L551.1,349.6 L551.0,349.0 L551.1,348.2 L551.7,345.4 L551.6,344.7 L552.6,343.2 L553.3,341.7 L554.3,340.2 L554.4,339.4 L555.3,337.9 L556.1,335.8 L556.1,335.1 L556.3,334.8 L556.4,334.3 L556.4,333.8 L557.0,333.0 L557.2,333.5 L557.0,334.5 L557.0,335.0 L557.1,335.2 L557.1,336.1 L556.9,337.6 L557.1,339.2 L556.7,340.9 L556.3,341.6 L555.6,342.1 L554.9,342.5 L554.2,343.3 L553.7,344.3 L553.6,345.1 L552.5,348.1 L551.4,349.4 Z M539.4,264.8 L538.9,265.4 L538.6,265.2 L538.9,264.6 L538.9,264.4 L539.1,263.9 L539.6,263.7 L540.0,264.2 L539.4,264.8 Z M536.1,260.6 L536.2,261.4 L535.7,261.4 L534.9,260.9 L534.9,260.6 L534.9,260.4 L535.0,260.3 L536.1,260.6 Z M539.7,251.6 L539.6,251.7 L539.4,251.7 L539.6,250.8 L540.0,250.6 L540.3,250.7 L539.7,251.6 Z M539.1,247.9 L538.7,248.6 L538.3,248.6 L538.4,248.2 L538.8,247.3 L539.0,247.4 L539.1,247.9 Z M533.1,379.6 L533.5,380.2 L534.1,380.1 L535.0,380.2 L535.2,380.6 L535.2,380.8 L534.2,381.4 L533.6,380.8 L532.5,381.2 L531.9,381.0 L531.2,381.2 L530.7,380.7 L530.9,380.2 L532.1,379.4 L533.1,379.6 Z M499.2,363.4 L498.8,364.1 L498.3,363.3 L498.4,362.2 L498.5,361.9 L499.2,361.7 L499.2,363.4 Z M522.8,340.1 L521.7,340.4 L521.5,339.5 L522.2,338.7 L523.0,339.0 L523.5,339.3 L523.3,339.6 L522.8,340.1 Z M524.3,325.0 L524.8,325.2 L525.1,325.0 L525.4,324.6 L525.6,325.2 L526.3,325.8 L526.1,326.4 L525.5,326.5 L524.9,326.3 L524.3,326.6 L523.6,326.5 L523.1,325.9 L522.6,324.9 L522.4,324.7 L522.4,324.3 L522.6,324.1 L522.5,324.0 L522.5,323.8 L522.6,323.7 L522.8,323.7 L523.2,324.1 L524.1,324.7 L524.3,325.0 Z M523.8,329.2 L523.2,329.5 L523.0,329.3 L522.9,328.9 L522.9,328.5 L522.3,326.9 L522.8,326.7 L523.1,326.9 L523.4,327.1 L523.8,327.3 L524.1,327.8 L524.0,328.1 L524.1,328.5 L523.8,329.2 Z M545.5,340.2 L545.2,340.3 L545.0,340.3 L544.5,340.6 L544.4,340.0 L544.5,339.0 L545.3,338.2 L545.4,338.0 L545.7,337.8 L545.9,337.8 L546.1,338.1 L546.2,338.6 L545.7,340.0 L545.5,340.2 Z M561.6,346.3 L561.5,346.7 L560.9,346.6 L560.6,346.7 L560.0,347.5 L559.7,347.7 L557.7,348.0 L556.1,347.8 L555.6,347.3 L555.3,346.6 L555.2,346.1 L555.5,345.5 L555.9,345.2 L557.2,344.4 L557.5,343.9 L558.1,343.2 L559.5,343.0 L559.6,343.2 L559.8,343.3 L560.0,343.3 L560.7,343.9 L561.5,344.2 L561.3,345.5 L561.5,346.0 L561.6,346.3 Z M525.5,386.9 L525.3,387.5 L525.1,387.7 L524.7,387.6 L524.4,387.3 L524.3,387.7 L523.6,387.9 L523.1,388.5 L522.5,388.7 L522.0,388.6 L522.0,388.0 L523.3,387.2 L524.1,386.9 L524.8,386.2 L525.2,386.2 L525.4,386.7 L525.5,386.9 Z M540.8,376.4 L540.0,376.5 L539.7,376.5 L539.1,375.6 L539.0,375.2 L538.5,374.8 L538.7,374.3 L539.4,374.2 L540.6,373.6 L542.5,374.5 L542.8,374.9 L542.2,375.1 L541.7,375.9 L540.8,376.4 Z M573.8,346.5 L573.7,346.6 L573.2,345.9 L573.3,345.1 L573.9,343.9 L574.4,344.9 L574.4,345.4 L574.3,345.6 L574.7,346.2 L574.4,346.5 L573.8,346.5 Z M570.7,345.2 L570.6,345.5 L570.4,344.9 L569.9,344.5 L569.4,343.6 L569.1,343.4 L569.3,342.7 L569.3,341.7 L569.8,341.2 L570.0,341.0 L570.4,340.5 L570.5,340.5 L570.7,340.9 L570.3,342.2 L570.8,343.8 L570.7,344.8 L570.7,345.0 L570.7,345.2 Z M525.7,310.8 L525.7,311.4 L524.3,310.6 L524.3,310.2 L524.3,310.0 L524.5,309.9 L525.2,310.2 L525.7,310.8 Z M539.4,312.7 L539.9,312.8 L540.0,312.7 L541.0,313.4 L541.0,313.8 L541.1,314.3 L540.5,315.2 L540.4,315.5 L540.1,315.7 L539.0,315.0 L538.7,314.6 L538.5,313.8 L539.0,312.5 L539.4,312.7 Z M540.9,323.3 L540.2,325.6 L539.7,324.8 L539.9,324.3 L539.5,323.9 L539.4,323.6 L539.6,323.1 L540.0,322.6 L540.1,321.2 L540.9,320.7 L541.3,320.7 L541.1,321.0 L541.2,321.7 L540.9,323.3 Z M545.5,323.8 L545.1,324.0 L544.2,323.1 L543.7,322.7 L543.6,322.4 L544.0,322.1 L545.1,322.1 L545.7,322.7 L545.7,323.1 L545.5,323.8 Z M550.7,318.9 L551.4,320.2 L550.6,319.3 L549.8,318.7 L548.8,317.6 L548.1,317.3 L547.9,317.0 L548.0,316.6 L548.5,316.5 L548.7,316.6 L550.1,318.4 L550.7,318.9 Z M554.8,322.5 L554.8,323.2 L554.5,322.9 L553.5,321.4 L553.2,320.9 L553.5,320.5 L554.3,321.0 L554.8,322.5 Z M554.3,324.0 L555.9,325.0 L557.0,326.8 L557.1,328.2 L557.1,328.7 L556.5,328.1 L555.4,327.3 L554.6,327.1 L554.4,327.0 L554.5,326.5 L554.0,326.1 L553.9,325.9 L553.5,325.7 L552.8,324.8 L552.3,324.6 L551.9,324.8 L550.8,326.2 L549.7,327.2 L549.7,326.8 L550.1,325.6 L550.4,323.6 L550.6,323.0 L550.4,322.1 L550.3,321.3 L551.2,321.7 L552.2,322.0 L553.0,322.5 L553.1,322.9 L554.3,324.0 Z M559.6,311.9 L559.4,312.5 L559.1,312.3 L558.7,312.3 L558.1,312.8 L557.1,312.1 L557.0,311.6 L557.7,310.5 L557.7,308.8 L558.0,308.4 L558.2,308.1 L558.5,307.9 L559.2,309.1 L559.5,309.2 L560.1,309.8 L560.0,310.8 L560.0,311.5 L559.6,311.9 Z M541.5,308.2 L541.5,308.5 L539.7,307.2 L539.6,307.0 L539.6,306.8 L539.7,306.6 L541.5,308.2 Z M540.3,299.6 L540.5,299.9 L540.3,299.9 L540.2,300.0 L539.8,300.6 L540.3,301.8 L540.0,302.7 L539.5,302.7 L539.3,302.6 L539.4,302.2 L539.5,302.0 L539.4,301.4 L539.1,301.1 L538.9,300.4 L538.6,300.0 L538.7,299.3 L539.8,299.2 L540.3,299.6 Z M559.3,339.0 L559.1,339.1 L559.5,338.1 L559.8,338.2 L559.8,338.3 L559.8,338.8 L559.3,339.0 Z M567.3,344.6 L567.4,345.0 L566.3,343.9 L566.1,343.0 L566.4,343.1 L566.9,343.4 L567.3,344.6 Z M547.8,367.6 L547.9,367.8 L547.9,368.1 L547.0,368.5 L546.8,368.5 L546.7,367.8 L546.9,367.5 L547.3,367.7 L547.7,367.4 L547.8,367.6 Z M571.5,371.6 L571.4,372.1 L570.9,370.9 L570.6,370.7 L570.9,369.6 L571.5,370.1 L571.5,371.6 Z M561.7,331.1 L560.7,331.1 L560.2,330.7 L559.7,329.5 L560.3,329.3 L560.9,329.3 L561.4,329.7 L561.8,330.6 L561.7,331.1 Z M563.4,352.1 L563.1,352.6 L562.2,352.2 L562.0,351.8 L562.1,351.4 L562.6,351.2 L562.8,351.2 L563.2,351.7 L563.4,352.1 Z M533.9,263.1 L533.8,263.7 L533.4,263.4 L533.3,262.9 L533.3,262.6 L533.5,262.2 L533.8,262.5 L533.9,263.1 Z M522.3,330.8 L522.5,331.3 L522.3,332.0 L522.1,332.1 L521.8,331.8 L521.2,331.6 L521.2,331.2 L521.5,331.2 L522.0,330.9 L522.3,330.8 Z M554.7,332.9 L555.1,334.1 L554.5,334.1 L554.3,333.3 L554.5,333.0 L554.7,332.9 Z M542.7,321.8 L542.4,322.1 L542.2,322.0 L542.1,321.5 L542.4,321.2 L542.5,321.2 L542.7,321.8 Z M573.0,348.1 L572.9,348.3 L572.6,347.8 L572.9,346.8 L573.0,346.6 L573.2,347.3 L573.0,348.1 Z M563.8,330.1 L563.6,330.6 L563.4,330.5 L563.2,330.3 L562.9,329.6 L562.7,329.1 L563.2,329.4 L563.5,329.9 L563.8,330.1 Z M501.5,360.4 L500.9,360.6 L500.8,360.1 L500.9,359.5 L501.3,359.6 L501.5,359.8 L501.5,360.4 Z M554.2,351.3 L554.2,352.2 L553.5,352.5 L552.9,352.2 L552.5,351.7 L552.5,351.5 L552.8,351.5 L553.6,351.0 L553.8,350.9 L554.2,351.3 Z" fill="#e08b76" fill-opacity="0.7" stroke="#818b96" stroke-width="0.7" stroke-opacity="0.95" stroke-linejoin="round"/>
+  <path d="M191.1,347.7 L190.6,347.8 L190.2,347.2 L190.1,347.0 L190.2,346.8 L190.3,346.7 L190.4,346.8 L190.6,347.3 L191.1,347.7 Z M190.3,352.9 L190.6,353.6 L189.9,353.1 L189.4,352.8 L189.3,352.5 L190.2,352.8 L190.3,352.9 Z M191.2,346.1 L192.0,346.2 L192.9,346.1 L193.5,346.3 L194.5,347.6 L197.3,350.1 L198.8,352.6 L198.9,353.2 L199.1,353.7 L199.5,353.8 L199.8,354.0 L201.3,356.4 L201.5,356.9 L201.5,357.4 L201.5,357.8 L201.9,358.0 L202.4,358.1 L202.8,358.5 L203.2,360.4 L203.2,361.0 L203.3,361.3 L205.2,364.3 L205.3,364.7 L205.3,364.9 L205.3,365.2 L205.7,365.7 L206.3,367.1 L206.6,367.5 L206.9,368.7 L206.9,371.1 L206.8,372.2 L206.5,373.5 L206.0,374.8 L205.6,375.7 L204.9,376.5 L202.8,378.1 L202.2,378.4 L199.4,379.5 L197.4,380.4 L195.5,380.7 L193.6,380.2 L192.1,378.9 L191.4,377.0 L190.9,375.0 L190.2,372.8 L189.6,366.1 L189.4,364.2 L188.9,361.8 L189.0,360.7 L189.3,359.7 L189.3,361.9 L189.6,362.2 L189.8,361.9 L190.0,359.6 L190.1,358.7 L190.9,356.1 L190.9,355.7 L190.8,354.8 L190.8,354.3 L191.9,352.5 L192.2,351.5 L192.3,350.5 L192.3,349.3 L192.1,348.2 L193.0,348.6 L193.5,349.0 L194.0,349.2 L194.4,349.1 L194.9,349.1 L194.6,348.5 L193.5,347.9 L191.7,347.6 L191.2,347.1 L191.0,346.7 L191.1,346.3 L191.2,346.1 Z" fill="#e08b76" fill-opacity="0.7" stroke="#818b96" stroke-width="0.7" stroke-opacity="0.95" stroke-linejoin="round"/>
+  <path d="M191.1,347.7 L190.6,347.8 L190.2,347.2 L190.1,347.0 L190.2,346.8 L190.3,346.7 L190.4,346.8 L190.6,347.3 L191.1,347.7 Z M190.3,352.9 L190.6,353.6 L189.9,353.1 L189.4,352.8 L189.3,352.5 L190.2,352.8 L190.3,352.9 Z M191.2,346.1 L192.0,346.2 L192.9,346.1 L193.5,346.3 L194.5,347.6 L197.3,350.1 L198.8,352.6 L198.9,353.2 L199.1,353.7 L199.5,353.8 L199.8,354.0 L201.3,356.4 L201.5,356.9 L201.5,357.4 L201.5,357.8 L201.9,358.0 L202.4,358.1 L202.8,358.5 L203.2,360.4 L203.2,361.0 L203.3,361.3 L205.2,364.3 L205.3,364.7 L205.3,364.9 L205.3,365.2 L205.7,365.7 L206.3,367.1 L206.6,367.5 L206.9,368.7 L206.9,371.1 L206.8,372.2 L206.5,373.5 L206.0,374.8 L205.6,375.7 L204.9,376.5 L202.8,378.1 L202.2,378.4 L199.4,379.5 L197.4,380.4 L195.5,380.7 L193.6,380.2 L192.1,378.9 L191.4,377.0 L190.9,375.0 L190.2,372.8 L189.6,366.1 L189.4,364.2 L188.9,361.8 L189.0,360.7 L189.3,359.7 L189.3,361.9 L189.6,362.2 L189.8,361.9 L190.0,359.6 L190.1,358.7 L190.9,356.1 L190.9,355.7 L190.8,354.8 L190.8,354.3 L191.9,352.5 L192.2,351.5 L192.3,350.5 L192.3,349.3 L192.1,348.2 L193.0,348.6 L193.5,349.0 L194.0,349.2 L194.4,349.1 L194.9,349.1 L194.6,348.5 L193.5,347.9 L191.7,347.6 L191.2,347.1 L191.0,346.7 L191.1,346.3 L191.2,346.1 Z" fill="url(#hatch)" stroke="#e8eef4" stroke-width="1" stroke-dasharray="3 2.5" stroke-opacity="0.8"/>
+  <path d="M266.5,236.1 L266.5,235.3 L266.5,234.5 L265.8,232.4 L265.4,231.3 L265.5,230.9 L265.4,230.8 L265.3,229.4 L265.0,228.5 L264.8,227.6 L265.5,226.3 L265.2,226.1 L264.5,225.9 L263.8,225.7 L263.6,225.4 L263.9,224.1 L263.6,223.6 L263.1,223.1 L262.9,222.9 L262.7,222.6 L262.5,222.0 L263.0,220.6 L263.6,219.0 L263.7,218.4 L263.8,217.4 L263.9,217.0 L263.8,216.6 L263.1,216.1 L261.9,215.9 L261.1,215.6 L260.6,215.0 L260.2,214.7 L259.6,214.9 L259.0,214.7 L258.4,214.1 L258.0,213.4 L258.0,213.1 L258.2,212.7 L259.0,210.8 L259.3,210.8 L260.1,211.1 L260.4,211.1 L260.9,210.4 L261.6,208.4 L262.5,208.4 L263.4,208.5 L264.0,208.6 L264.6,208.5 L265.2,208.3 L265.5,208.1 L265.7,207.8 L265.6,207.5 L264.9,207.1 L264.6,206.8 L264.4,206.0 L264.2,205.7 L262.7,205.7 L261.9,205.3 L261.5,204.9 L260.8,203.8 L259.9,203.0 L259.0,202.8 L258.7,202.6 L258.5,202.1 L258.6,201.5 L258.8,201.0 L259.0,200.4 L259.7,199.5 L260.6,198.8 L260.9,198.3 L261.4,197.8 L261.5,197.5 L261.4,197.2 L261.0,196.9 L260.7,196.8 L260.7,196.6 L260.9,196.1 L261.2,196.0 L262.1,196.5 L262.9,197.3 L263.4,198.0 L263.4,198.5 L263.8,198.6 L264.1,198.6 L264.7,198.9 L265.2,198.8 L265.6,198.9 L265.8,198.9 L265.9,198.6 L265.6,198.1 L265.4,197.8 L265.7,197.4 L265.9,197.4 L266.2,197.5 L266.6,197.8 L266.9,198.4 L267.0,199.3 L267.6,200.2 L268.5,200.8 L269.2,201.1 L270.0,201.3 L270.6,201.1 L271.0,200.5 L270.8,199.9 L270.9,199.5 L271.2,199.2 L271.7,199.2 L272.0,199.6 L272.9,201.7 L272.7,202.6 L272.9,205.1 L272.7,206.7 L272.7,207.1 L272.8,207.4 L273.0,207.5 L273.3,207.5 L274.4,207.8 L275.4,208.1 L276.5,208.4 L278.0,208.7 L279.0,208.6 L279.5,208.6 L280.4,208.7 L283.0,208.5 L285.1,208.5 L286.0,208.7 L286.7,208.8 L289.0,208.6 L291.4,208.6 L292.7,209.1 L294.1,210.0 L294.9,210.6 L295.0,211.0 L294.9,211.3 L294.7,211.4 L294.2,211.4 L293.1,211.0 L292.9,211.2 L292.9,212.0 L292.9,212.1 L292.6,212.9 L292.0,214.6 L291.8,215.4 L291.7,215.6 L291.5,215.7 L291.0,215.7 L290.6,215.8 L290.4,216.1 L290.2,216.7 L290.0,217.3 L289.7,217.5 L289.1,217.2 L288.7,217.2 L288.2,217.3 L287.8,217.7 L287.4,218.1 L287.1,218.2 L285.9,218.1 L285.7,218.2 L285.6,218.5 L285.5,218.9 L284.6,219.8 L284.3,221.2 L284.0,222.1 L284.1,222.8 L284.8,224.7 L285.3,227.1 L285.5,227.3 L285.7,227.4 L285.7,227.3 L285.7,226.8 L285.8,226.2 L286.0,226.1 L286.3,226.2 L286.6,226.7 L286.9,227.7 L287.3,228.1 L287.8,228.2 L288.5,228.0 L288.9,227.5 L289.1,227.1 L289.0,226.1 L288.9,225.4 L289.2,224.8 L290.3,223.8 L290.5,223.5 L290.4,222.6 L290.4,221.9 L290.8,221.8 L291.4,221.9 L292.0,221.5 L292.3,221.5 L292.5,221.9 L293.0,221.9 L293.4,223.6 L293.8,225.1 L293.8,225.8 L293.8,227.4 L294.0,228.6 L294.3,228.9 L294.6,229.6 L294.8,230.4 L295.1,230.8 L295.2,232.2 L295.4,233.3 L295.6,236.5 L295.8,237.2 L295.8,237.5 L295.8,240.5 L295.9,241.7 L296.2,242.8 L296.2,243.2 L296.0,243.5 L295.7,243.6 L295.5,243.0 L294.9,242.7 L294.1,242.2 L293.7,242.0 L293.3,242.1 L292.7,242.7 L292.5,243.3 L292.6,244.1 L292.8,244.9 L293.2,245.4 L293.2,245.9 L293.4,246.5 L293.6,247.1 L293.7,247.8 L293.5,247.8 L293.0,247.0 L292.6,246.1 L291.5,244.3 L291.1,241.3 L291.1,239.8 L290.3,238.0 L289.7,235.6 L289.5,234.9 L289.8,234.1 L289.9,233.8 L289.7,233.9 L289.3,234.3 L288.8,233.3 L288.4,232.4 L287.1,230.6 L286.7,229.8 L286.7,229.0 L286.1,229.8 L285.3,230.4 L284.5,231.2 L283.9,231.5 L282.2,231.6 L281.2,230.5 L279.8,227.8 L279.6,227.2 L279.8,225.6 L279.5,224.0 L279.5,223.2 L279.4,222.7 L279.1,222.8 L279.0,223.2 L279.1,223.8 L279.0,224.2 L277.8,224.1 L276.6,223.9 L277.6,224.7 L278.7,224.9 L279.3,225.6 L279.4,226.2 L279.3,226.8 L278.8,227.2 L278.3,227.5 L278.4,228.1 L279.0,228.9 L278.2,229.1 L278.0,229.5 L278.0,230.2 L278.4,230.8 L278.5,231.3 L278.4,231.7 L278.8,232.1 L279.3,233.1 L279.5,233.7 L279.3,234.6 L279.0,235.0 L278.5,235.4 L277.3,236.5 L276.8,237.9 L276.3,238.5 L275.7,238.6 L275.5,238.3 L275.0,238.0 L275.0,237.3 L275.1,236.8 L276.1,235.6 L275.6,235.7 L275.0,236.1 L274.0,236.8 L273.7,235.9 L273.5,235.1 L273.5,234.2 L274.3,232.8 L273.4,233.5 L273.2,234.4 L273.3,235.4 L273.2,236.1 L272.8,237.1 L272.4,237.7 L271.6,238.0 L271.3,238.6 L270.8,239.0 L270.8,238.2 L270.6,237.1 L270.1,234.5 L270.0,235.0 L270.3,236.7 L270.2,237.7 L269.8,238.6 L269.0,239.5 L268.4,239.6 L268.0,239.4 L267.5,238.9 L266.9,238.1 L266.8,236.8 L266.5,236.1 Z M283.9,235.4 L283.1,236.0 L283.3,232.3 L284.0,233.7 L284.2,234.4 L283.9,235.4 Z M287.3,233.5 L286.9,233.8 L286.6,233.6 L286.1,232.7 L286.3,231.6 L286.5,231.4 L286.7,231.8 L287.0,232.6 L287.2,233.2 L287.3,233.5 Z M280.8,236.2 L279.4,236.5 L278.7,236.4 L280.0,234.0 L280.0,233.0 L279.8,232.1 L279.1,231.4 L279.0,230.9 L278.7,230.3 L278.6,229.5 L279.3,229.2 L280.0,229.7 L280.1,229.9 L280.2,230.6 L280.5,231.2 L281.6,232.6 L281.6,233.5 L281.3,235.5 L280.8,236.2 Z M289.9,238.5 L289.6,239.2 L289.5,238.7 L289.6,238.0 L289.8,237.6 L289.8,237.6 L290.0,238.0 L289.9,238.5 Z M290.6,241.4 L290.1,241.4 L289.8,241.1 L289.9,240.8 L289.8,239.6 L290.2,239.4 L290.4,239.4 L290.6,239.8 L290.7,240.4 L290.6,241.4 Z M279.7,228.3 L279.9,228.7 L279.4,228.5 L279.0,228.2 L278.8,227.9 L279.2,227.7 L279.7,228.3 Z" fill="#e08b76" fill-opacity="0.7" stroke="#818b96" stroke-width="0.7" stroke-opacity="0.95" stroke-linejoin="round"/>
+  <path d="M266.5,236.1 L266.5,235.3 L266.5,234.5 L265.8,232.4 L265.4,231.3 L265.5,230.9 L265.4,230.8 L265.3,229.4 L265.0,228.5 L264.8,227.6 L265.5,226.3 L265.2,226.1 L264.5,225.9 L263.8,225.7 L263.6,225.4 L263.9,224.1 L263.6,223.6 L263.1,223.1 L262.9,222.9 L262.7,222.6 L262.5,222.0 L263.0,220.6 L263.6,219.0 L263.7,218.4 L263.8,217.4 L263.9,217.0 L263.8,216.6 L263.1,216.1 L261.9,215.9 L261.1,215.6 L260.6,215.0 L260.2,214.7 L259.6,214.9 L259.0,214.7 L258.4,214.1 L258.0,213.4 L258.0,213.1 L258.2,212.7 L259.0,210.8 L259.3,210.8 L260.1,211.1 L260.4,211.1 L260.9,210.4 L261.6,208.4 L262.5,208.4 L263.4,208.5 L264.0,208.6 L264.6,208.5 L265.2,208.3 L265.5,208.1 L265.7,207.8 L265.6,207.5 L264.9,207.1 L264.6,206.8 L264.4,206.0 L264.2,205.7 L262.7,205.7 L261.9,205.3 L261.5,204.9 L260.8,203.8 L259.9,203.0 L259.0,202.8 L258.7,202.6 L258.5,202.1 L258.6,201.5 L258.8,201.0 L259.0,200.4 L259.7,199.5 L260.6,198.8 L260.9,198.3 L261.4,197.8 L261.5,197.5 L261.4,197.2 L261.0,196.9 L260.7,196.8 L260.7,196.6 L260.9,196.1 L261.2,196.0 L262.1,196.5 L262.9,197.3 L263.4,198.0 L263.4,198.5 L263.8,198.6 L264.1,198.6 L264.7,198.9 L265.2,198.8 L265.6,198.9 L265.8,198.9 L265.9,198.6 L265.6,198.1 L265.4,197.8 L265.7,197.4 L265.9,197.4 L266.2,197.5 L266.6,197.8 L266.9,198.4 L267.0,199.3 L267.6,200.2 L268.5,200.8 L269.2,201.1 L270.0,201.3 L270.6,201.1 L271.0,200.5 L270.8,199.9 L270.9,199.5 L271.2,199.2 L271.7,199.2 L272.0,199.6 L272.9,201.7 L272.7,202.6 L272.9,205.1 L272.7,206.7 L272.7,207.1 L272.8,207.4 L273.0,207.5 L273.3,207.5 L274.4,207.8 L275.4,208.1 L276.5,208.4 L278.0,208.7 L279.0,208.6 L279.5,208.6 L280.4,208.7 L283.0,208.5 L285.1,208.5 L286.0,208.7 L286.7,208.8 L289.0,208.6 L291.4,208.6 L292.7,209.1 L294.1,210.0 L294.9,210.6 L295.0,211.0 L294.9,211.3 L294.7,211.4 L294.2,211.4 L293.1,211.0 L292.9,211.2 L292.9,212.0 L292.9,212.1 L292.6,212.9 L292.0,214.6 L291.8,215.4 L291.7,215.6 L291.5,215.7 L291.0,215.7 L290.6,215.8 L290.4,216.1 L290.2,216.7 L290.0,217.3 L289.7,217.5 L289.1,217.2 L288.7,217.2 L288.2,217.3 L287.8,217.7 L287.4,218.1 L287.1,218.2 L285.9,218.1 L285.7,218.2 L285.6,218.5 L285.5,218.9 L284.6,219.8 L284.3,221.2 L284.0,222.1 L284.1,222.8 L284.8,224.7 L285.3,227.1 L285.5,227.3 L285.7,227.4 L285.7,227.3 L285.7,226.8 L285.8,226.2 L286.0,226.1 L286.3,226.2 L286.6,226.7 L286.9,227.7 L287.3,228.1 L287.8,228.2 L288.5,228.0 L288.9,227.5 L289.1,227.1 L289.0,226.1 L288.9,225.4 L289.2,224.8 L290.3,223.8 L290.5,223.5 L290.4,222.6 L290.4,221.9 L290.8,221.8 L291.4,221.9 L292.0,221.5 L292.3,221.5 L292.5,221.9 L293.0,221.9 L293.4,223.6 L293.8,225.1 L293.8,225.8 L293.8,227.4 L294.0,228.6 L294.3,228.9 L294.6,229.6 L294.8,230.4 L295.1,230.8 L295.2,232.2 L295.4,233.3 L295.6,236.5 L295.8,237.2 L295.8,237.5 L295.8,240.5 L295.9,241.7 L296.2,242.8 L296.2,243.2 L296.0,243.5 L295.7,243.6 L295.5,243.0 L294.9,242.7 L294.1,242.2 L293.7,242.0 L293.3,242.1 L292.7,242.7 L292.5,243.3 L292.6,244.1 L292.8,244.9 L293.2,245.4 L293.2,245.9 L293.4,246.5 L293.6,247.1 L293.7,247.8 L293.5,247.8 L293.0,247.0 L292.6,246.1 L291.5,244.3 L291.1,241.3 L291.1,239.8 L290.3,238.0 L289.7,235.6 L289.5,234.9 L289.8,234.1 L289.9,233.8 L289.7,233.9 L289.3,234.3 L288.8,233.3 L288.4,232.4 L287.1,230.6 L286.7,229.8 L286.7,229.0 L286.1,229.8 L285.3,230.4 L284.5,231.2 L283.9,231.5 L282.2,231.6 L281.2,230.5 L279.8,227.8 L279.6,227.2 L279.8,225.6 L279.5,224.0 L279.5,223.2 L279.4,222.7 L279.1,222.8 L279.0,223.2 L279.1,223.8 L279.0,224.2 L277.8,224.1 L276.6,223.9 L277.6,224.7 L278.7,224.9 L279.3,225.6 L279.4,226.2 L279.3,226.8 L278.8,227.2 L278.3,227.5 L278.4,228.1 L279.0,228.9 L278.2,229.1 L278.0,229.5 L278.0,230.2 L278.4,230.8 L278.5,231.3 L278.4,231.7 L278.8,232.1 L279.3,233.1 L279.5,233.7 L279.3,234.6 L279.0,235.0 L278.5,235.4 L277.3,236.5 L276.8,237.9 L276.3,238.5 L275.7,238.6 L275.5,238.3 L275.0,238.0 L275.0,237.3 L275.1,236.8 L276.1,235.6 L275.6,235.7 L275.0,236.1 L274.0,236.8 L273.7,235.9 L273.5,235.1 L273.5,234.2 L274.3,232.8 L273.4,233.5 L273.2,234.4 L273.3,235.4 L273.2,236.1 L272.8,237.1 L272.4,237.7 L271.6,238.0 L271.3,238.6 L270.8,239.0 L270.8,238.2 L270.6,237.1 L270.1,234.5 L270.0,235.0 L270.3,236.7 L270.2,237.7 L269.8,238.6 L269.0,239.5 L268.4,239.6 L268.0,239.4 L267.5,238.9 L266.9,238.1 L266.8,236.8 L266.5,236.1 Z M283.9,235.4 L283.1,236.0 L283.3,232.3 L284.0,233.7 L284.2,234.4 L283.9,235.4 Z M287.3,233.5 L286.9,233.8 L286.6,233.6 L286.1,232.7 L286.3,231.6 L286.5,231.4 L286.7,231.8 L287.0,232.6 L287.2,233.2 L287.3,233.5 Z M280.8,236.2 L279.4,236.5 L278.7,236.4 L280.0,234.0 L280.0,233.0 L279.8,232.1 L279.1,231.4 L279.0,230.9 L278.7,230.3 L278.6,229.5 L279.3,229.2 L280.0,229.7 L280.1,229.9 L280.2,230.6 L280.5,231.2 L281.6,232.6 L281.6,233.5 L281.3,235.5 L280.8,236.2 Z M289.9,238.5 L289.6,239.2 L289.5,238.7 L289.6,238.0 L289.8,237.6 L289.8,237.6 L290.0,238.0 L289.9,238.5 Z M290.6,241.4 L290.1,241.4 L289.8,241.1 L289.9,240.8 L289.8,239.6 L290.2,239.4 L290.4,239.4 L290.6,239.8 L290.7,240.4 L290.6,241.4 Z M279.7,228.3 L279.9,228.7 L279.4,228.5 L279.0,228.2 L278.8,227.9 L279.2,227.7 L279.7,228.3 Z" fill="url(#hatch)" stroke="#e8eef4" stroke-width="1" stroke-dasharray="3 2.5" stroke-opacity="0.8"/>
+  <path d="M379.0,329.4 L378.9,330.4 L378.4,330.0 L378.5,329.5 L378.7,329.3 L379.0,329.4 Z M377.6,326.6 L377.6,326.8 L377.2,326.7 L377.0,326.8 L376.5,326.7 L376.3,325.5 L376.3,325.2 L376.7,325.2 L377.2,325.9 L377.4,326.3 L377.6,326.6 Z M344.2,363.2 L344.1,363.9 L343.8,363.9 L343.4,364.3 L343.3,364.4 L343.0,363.0 L343.3,361.1 L343.5,360.9 L343.7,361.4 L344.4,361.6 L344.1,362.7 L344.2,363.2 Z M358.4,252.0 L358.4,252.6 L358.6,252.7 L358.9,252.4 L359.2,251.8 L359.6,251.5 L360.1,251.4 L360.5,251.8 L361.0,252.7 L361.5,253.2 L361.7,253.3 L361.9,253.7 L361.9,254.1 L361.7,254.9 L361.3,255.9 L360.7,257.1 L360.9,258.1 L361.7,258.9 L362.6,259.3 L363.6,259.2 L364.1,259.0 L364.5,258.6 L364.9,258.4 L365.4,258.4 L367.0,258.6 L367.5,258.9 L367.5,259.5 L367.4,260.9 L367.6,261.9 L368.0,263.0 L368.1,264.0 L367.5,265.7 L367.1,267.2 L366.6,268.0 L366.2,268.5 L366.1,268.8 L366.1,269.1 L366.5,269.6 L366.9,270.2 L367.0,270.8 L366.9,271.5 L366.7,272.5 L365.7,274.6 L364.9,276.5 L365.3,276.9 L366.1,277.2 L366.6,277.4 L367.1,277.3 L368.2,276.1 L369.2,275.3 L370.3,274.5 L370.4,274.4 L371.4,273.8 L371.9,273.2 L372.1,272.5 L372.5,272.2 L373.0,272.4 L373.6,272.1 L374.3,271.3 L374.9,270.9 L375.2,271.0 L375.9,271.4 L376.9,272.4 L377.8,272.9 L378.6,273.1 L379.0,273.4 L379.0,273.9 L379.1,274.3 L379.5,274.4 L379.7,274.4 L379.6,274.1 L380.0,273.7 L380.7,273.3 L381.5,273.0 L382.2,272.9 L382.7,272.5 L383.1,271.5 L383.6,270.8 L384.0,270.5 L384.5,270.3 L384.6,270.1 L384.4,269.7 L384.4,269.4 L384.7,269.1 L385.4,269.0 L386.4,269.0 L387.5,269.4 L388.9,269.9 L389.8,270.1 L390.2,269.9 L391.0,270.8 L392.2,272.9 L393.3,274.4 L394.2,275.5 L395.1,276.3 L396.1,276.8 L396.8,277.6 L397.4,279.1 L396.9,281.0 L396.8,282.8 L396.9,284.9 L397.4,286.5 L398.5,287.7 L399.1,288.6 L399.3,289.3 L400.2,289.9 L401.7,290.4 L402.3,290.8 L402.0,291.2 L402.0,291.7 L402.2,292.2 L402.8,292.7 L403.6,293.0 L404.1,293.4 L404.2,293.8 L404.2,294.4 L404.0,295.3 L403.7,296.0 L403.2,296.4 L403.1,296.8 L403.0,297.4 L403.0,298.5 L403.3,299.3 L403.5,300.3 L403.3,301.1 L403.1,302.7 L403.1,303.3 L402.9,303.9 L402.4,304.4 L401.8,304.9 L400.9,305.3 L400.4,305.5 L400.3,305.6 L400.0,306.1 L399.5,306.6 L399.2,306.6 L398.9,306.3 L398.8,306.0 L398.7,305.3 L397.9,305.0 L397.1,304.8 L395.4,305.1 L394.0,305.3 L392.5,305.1 L391.1,305.4 L390.5,305.4 L389.8,305.4 L389.1,305.4 L388.5,305.3 L387.3,304.8 L386.9,304.9 L385.9,305.2 L384.9,305.5 L384.0,305.6 L382.6,306.3 L381.6,307.4 L381.3,308.1 L380.8,308.9 L380.1,310.0 L379.2,311.1 L378.5,311.7 L378.7,312.0 L378.6,312.3 L377.6,312.5 L376.8,312.5 L376.7,312.7 L376.8,315.0 L377.0,315.8 L377.5,316.9 L377.9,317.4 L378.1,319.1 L378.2,320.5 L379.2,321.4 L379.9,322.1 L380.3,322.7 L380.1,323.1 L379.9,324.2 L380.1,325.7 L381.6,328.9 L381.8,329.1 L381.6,329.2 L381.4,328.6 L380.6,327.5 L380.4,326.4 L379.5,325.2 L378.9,324.7 L378.8,325.1 L378.5,325.5 L377.6,324.9 L376.9,324.3 L376.2,323.0 L376.1,323.3 L375.9,323.5 L375.1,322.6 L374.3,321.8 L373.6,321.5 L373.1,321.2 L372.7,320.8 L371.7,320.4 L369.4,321.0 L366.5,320.5 L365.3,321.0 L364.9,320.7 L364.6,320.1 L364.8,319.2 L364.9,317.3 L365.3,315.9 L365.1,314.9 L365.3,314.4 L365.4,313.7 L364.9,313.4 L362.9,312.9 L362.4,312.5 L361.9,313.0 L359.4,313.2 L358.4,313.6 L357.6,314.4 L357.3,315.4 L357.8,316.0 L358.2,317.2 L357.3,319.6 L357.1,320.3 L357.5,323.3 L357.3,325.0 L356.8,326.1 L356.1,327.1 L355.7,328.8 L355.1,329.5 L354.3,331.3 L353.8,333.6 L353.4,334.6 L353.2,336.5 L351.5,339.3 L351.1,341.0 L350.5,341.6 L350.7,342.1 L350.7,342.9 L350.5,345.0 L350.4,346.8 L350.7,347.8 L351.5,349.7 L351.3,350.2 L351.2,351.0 L351.9,351.4 L352.4,351.5 L355.1,350.6 L356.0,350.8 L356.4,351.6 L356.6,352.4 L357.1,356.3 L357.3,357.1 L357.9,357.8 L358.5,358.5 L358.7,358.4 L358.7,358.1 L358.8,357.8 L359.3,358.5 L359.7,359.9 L361.2,367.3 L361.6,368.3 L361.9,369.3 L361.1,368.8 L360.8,367.1 L360.6,366.4 L360.3,366.4 L359.8,366.4 L359.7,366.1 L360.1,365.5 L360.0,364.9 L359.5,364.4 L358.7,364.8 L358.7,365.9 L359.1,366.8 L360.5,368.8 L360.9,369.6 L361.5,369.9 L362.3,369.7 L363.2,370.6 L364.0,371.3 L365.9,372.5 L367.0,372.4 L368.2,372.1 L369.0,372.2 L369.8,372.5 L370.8,373.5 L372.3,376.0 L374.9,378.1 L374.6,378.6 L374.5,379.4 L373.5,380.4 L373.3,381.1 L373.0,381.8 L372.3,382.2 L371.7,382.3 L371.3,382.2 L371.1,382.1 L370.7,381.4 L370.5,381.1 L370.3,381.1 L369.1,381.6 L367.8,382.2 L367.6,382.6 L367.3,383.2 L366.9,383.5 L366.7,383.5 L366.4,383.2 L365.9,382.7 L365.6,382.3 L365.7,381.6 L366.3,380.7 L366.4,380.0 L366.3,378.8 L366.2,378.1 L366.0,378.1 L365.6,378.0 L364.7,378.1 L364.2,377.3 L364.0,376.4 L363.7,376.1 L363.4,376.0 L362.6,376.2 L362.1,376.1 L360.3,375.3 L359.6,374.1 L359.2,374.1 L358.9,374.2 L358.7,374.5 L358.6,375.9 L358.4,376.3 L356.3,373.5 L354.9,372.4 L355.1,370.4 L354.7,370.0 L354.1,369.9 L353.7,369.3 L354.1,368.1 L353.5,368.4 L352.7,368.3 L352.1,368.0 L351.6,366.3 L351.3,365.8 L350.6,364.9 L349.8,364.9 L349.5,364.4 L349.5,363.4 L348.9,362.7 L348.0,362.1 L347.4,361.8 L346.7,360.0 L346.1,359.6 L345.6,359.3 L345.0,359.5 L344.7,360.1 L344.3,360.8 L343.8,360.7 L343.3,360.3 L342.8,358.6 L342.7,357.5 L342.8,355.5 L343.5,353.7 L343.9,350.8 L344.5,349.0 L344.9,348.4 L345.5,345.9 L346.6,342.7 L346.8,342.1 L347.0,341.3 L347.2,340.6 L347.2,339.4 L347.1,338.8 L347.1,338.5 L347.3,338.1 L348.2,337.4 L349.3,336.2 L350.7,334.5 L352.1,332.0 L352.8,330.5 L353.1,330.0 L353.4,329.8 L353.9,329.3 L354.2,328.8 L354.2,328.5 L353.5,325.7 L353.0,324.8 L352.7,323.8 L352.6,323.0 L352.4,322.3 L352.5,321.6 L352.2,321.2 L351.6,320.7 L350.9,319.9 L350.6,318.6 L350.6,317.9 L350.1,317.3 L350.0,316.6 L350.2,316.0 L350.6,315.5 L350.5,313.1 L350.4,312.4 L350.2,311.1 L349.8,310.2 L349.2,309.1 L348.6,308.2 L346.8,306.5 L345.5,305.4 L344.9,304.4 L344.1,303.2 L343.6,302.4 L342.8,301.3 L342.5,299.9 L342.3,298.3 L342.4,297.8 L342.7,297.5 L343.2,297.2 L343.5,297.2 L344.6,296.5 L345.3,296.5 L345.4,296.4 L345.5,296.0 L345.4,294.6 L345.4,292.8 L345.6,291.2 L345.7,290.2 L347.6,289.1 L348.0,288.6 L348.2,288.0 L348.2,287.5 L348.0,287.2 L347.7,287.0 L346.5,288.0 L346.3,287.7 L345.7,286.1 L345.5,285.6 L345.1,285.0 L344.8,284.1 L344.7,282.7 L344.5,282.0 L342.9,280.4 L342.3,279.6 L341.3,278.4 L340.2,277.0 L339.1,275.6 L338.6,274.8 L338.4,274.6 L338.3,274.3 L338.6,273.4 L338.5,272.5 L337.9,271.2 L337.7,270.5 L337.7,270.2 L337.5,270.1 L336.9,270.1 L336.2,269.6 L335.7,268.4 L335.6,268.1 L335.8,268.1 L336.5,268.4 L336.8,268.3 L337.3,268.0 L338.1,267.8 L338.5,267.7 L338.7,267.5 L338.8,267.2 L338.4,264.4 L338.4,263.9 L339.2,262.7 L339.1,261.4 L339.3,259.7 L340.1,258.5 L340.7,258.0 L340.9,257.1 L341.2,256.9 L341.7,257.0 L342.8,257.6 L343.2,257.7 L343.9,257.7 L344.6,257.6 L344.9,257.5 L347.1,256.9 L347.6,256.9 L348.1,256.9 L348.4,256.9 L348.8,256.6 L349.0,256.1 L349.3,254.5 L349.4,254.2 L349.7,254.0 L350.2,253.8 L350.7,253.8 L351.5,254.2 L351.9,254.2 L352.4,254.0 L352.9,253.8 L353.1,253.5 L353.3,253.2 L353.2,252.5 L352.8,251.7 L352.9,251.6 L353.5,251.8 L354.4,252.0 L355.1,252.0 L355.5,251.8 L356.0,251.4 L356.5,251.1 L357.0,251.2 L357.4,251.5 L358.4,252.0 Z M358.0,347.1 L357.9,347.3 L357.6,347.0 L357.4,346.7 L357.3,346.3 L357.8,346.3 L358.0,346.7 L358.0,347.1 Z M358.0,348.1 L358.0,348.7 L357.9,349.3 L357.1,349.6 L356.8,349.1 L356.9,348.4 L357.0,348.2 L357.8,348.2 L358.0,348.1 Z M354.6,375.6 L354.5,375.6 L354.1,374.9 L354.5,373.9 L354.9,375.1 L354.6,375.6 Z M345.7,362.9 L345.6,363.1 L345.2,361.4 L345.8,361.8 L345.7,362.9 Z M343.4,352.9 L342.9,353.0 L342.9,352.5 L343.1,352.2 L343.3,352.1 L343.4,352.7 L343.4,352.9 Z M349.8,366.0 L350.0,367.1 L349.7,366.9 L349.4,366.4 L349.4,365.7 L349.5,365.6 L349.8,366.0 Z" fill="#d7b169" fill-opacity="0.7" stroke="#818b96" stroke-width="0.7" stroke-opacity="0.95" stroke-linejoin="round"/>
+  <path d="M578.5,95.6 L578.8,95.4 L578.8,95.2 L578.8,94.4 L579.5,93.8 L580.6,92.7 L581.1,92.1 L581.7,91.5 L582.3,91.1 L583.0,90.9 L584.0,90.8 L586.0,90.9 L586.4,90.9 L587.8,90.8 L588.1,90.9 L589.1,91.0 L590.2,90.9 L590.8,90.7 L591.3,90.4 L591.7,89.9 L592.2,89.0 L592.7,88.2 L593.0,88.1 L595.0,92.1 L597.0,94.7 L598.6,96.5 L601.0,100.1 L601.7,102.1 L601.7,103.3 L602.1,104.9 L601.8,105.9 L601.9,107.3 L601.7,108.1 L601.5,108.7 L601.4,109.8 L601.5,110.3 L601.5,111.1 L601.7,111.4 L602.0,111.5 L602.4,111.2 L602.9,111.1 L602.9,112.0 L602.2,114.4 L601.7,116.1 L600.9,117.5 L600.0,118.9 L598.8,119.4 L598.0,119.6 L596.5,119.7 L595.2,119.4 L594.1,119.6 L593.7,119.9 L593.4,120.4 L593.6,121.1 L593.6,121.7 L593.1,121.6 L592.2,121.3 L591.1,121.3 L590.7,121.1 L590.2,120.3 L589.7,120.4 L588.8,120.8 L587.5,120.9 L587.1,121.2 L586.9,121.5 L587.1,121.9 L587.7,122.5 L587.5,123.0 L586.8,123.3 L586.3,122.6 L585.9,122.0 L585.5,121.9 L584.9,122.1 L584.8,122.8 L585.1,123.3 L585.6,123.9 L584.9,124.5 L584.7,125.0 L584.3,125.3 L583.0,124.6 L583.2,124.1 L583.8,123.5 L583.8,123.0 L583.6,122.7 L581.8,124.0 L580.7,125.5 L580.1,125.4 L579.9,125.1 L579.5,124.9 L578.4,125.9 L578.1,126.6 L577.7,126.7 L577.5,126.3 L577.5,125.6 L577.3,125.1 L576.0,124.2 L575.5,123.5 L575.8,123.0 L576.8,123.3 L577.6,123.2 L577.5,122.9 L577.2,122.7 L577.8,122.5 L578.2,122.1 L577.8,122.0 L577.3,122.2 L576.8,122.1 L576.6,121.1 L576.0,120.1 L575.7,119.1 L576.3,118.6 L576.6,117.7 L577.1,116.4 L577.4,116.0 L578.1,115.7 L578.4,115.4 L578.0,115.2 L577.3,115.1 L577.3,114.7 L577.8,114.5 L578.3,114.1 L579.2,113.6 L579.5,112.7 L579.3,112.5 L578.7,112.3 L578.8,111.8 L579.0,111.4 L578.9,111.2 L578.2,110.6 L577.8,110.1 L577.9,109.5 L577.8,108.5 L577.9,107.7 L577.8,107.3 L577.5,106.3 L577.3,105.3 L576.9,105.5 L576.5,105.7 L575.2,105.4 L574.8,105.4 L574.6,104.7 L575.1,103.8 L576.2,103.0 L576.8,102.9 L577.3,102.5 L578.1,102.4 L579.0,103.0 L579.8,103.1 L580.2,104.0 L580.5,104.2 L580.6,103.8 L581.2,103.5 L581.4,103.2 L581.3,103.0 L580.5,102.8 L579.8,101.7 L579.7,101.2 L579.5,100.9 L579.8,100.0 L579.1,98.9 L578.7,98.6 L578.7,97.7 L578.3,97.1 L578.1,96.8 L578.0,96.2 L578.1,95.9 L578.4,95.8 L578.5,95.6 Z M596.0,122.3 L595.3,122.9 L594.2,122.1 L593.9,121.7 L594.8,121.1 L595.4,120.4 L595.9,120.4 L596.0,122.3 Z M590.4,122.3 L590.3,123.1 L589.8,123.2 L589.4,122.6 L589.0,122.9 L588.8,122.9 L588.5,122.2 L588.5,121.6 L589.2,121.2 L589.6,121.5 L590.2,121.6 L590.4,122.3 Z M575.2,126.2 L574.7,126.3 L574.4,126.0 L574.2,125.9 L574.3,125.5 L575.2,124.7 L575.3,124.4 L576.1,124.6 L576.4,125.0 L576.1,125.7 L575.2,126.2 Z M577.6,96.0 L577.6,97.2 L577.1,97.1 L576.8,97.0 L576.7,96.8 L576.3,95.7 L576.7,95.2 L577.4,95.6 L577.6,96.0 Z M579.5,126.4 L579.7,126.8 L579.0,126.7 L578.6,126.3 L578.7,126.0 L579.1,125.9 L579.5,126.4 Z M588.2,124.0 L588.1,124.2 L587.7,123.8 L588.1,123.4 L588.2,124.0 Z M576.8,107.1 L576.6,107.7 L576.1,107.3 L575.9,106.1 L576.5,106.5 L576.8,107.1 Z M574.7,122.9 L574.6,123.1 L574.2,123.1 L573.9,122.5 L573.7,122.0 L573.3,121.7 L573.9,121.3 L574.7,122.0 L574.7,122.9 Z M614.1,98.3 L613.7,98.6 L613.3,98.3 L613.2,98.0 L613.4,97.8 L614.0,97.6 L614.2,97.9 L614.1,98.3 Z M576.0,136.4 L575.6,136.6 L575.3,136.5 L575.2,136.4 L574.8,135.9 L574.7,135.6 L574.9,135.1 L576.1,134.3 L579.1,133.5 L579.6,133.5 L580.8,133.8 L581.0,134.5 L580.8,135.0 L580.5,135.4 L579.2,136.0 L578.1,136.3 L576.0,136.4 Z" fill="#d7b169" fill-opacity="0.7" stroke="#818b96" stroke-width="0.7" stroke-opacity="0.95" stroke-linejoin="round"/>
+  <path d="M391.2,340.9 L391.3,341.4 L391.3,342.4 L390.9,343.4 L391.0,343.9 L390.8,344.2 L390.2,342.3 L389.5,341.4 L389.4,341.1 L389.8,341.1 L390.5,340.6 L390.9,340.6 L391.2,340.9 Z M423.6,241.4 L423.2,241.4 L422.2,241.5 L421.4,242.3 L420.8,242.6 L419.9,242.9 L418.9,243.4 L418.7,244.2 L418.6,244.8 L418.5,245.4 L416.9,246.4 L416.5,246.3 L416.2,245.9 L415.7,246.0 L415.4,246.2 L415.0,246.1 L414.6,246.4 L414.0,246.3 L413.5,246.0 L413.2,245.9 L412.9,245.9 L412.8,246.3 L413.3,247.7 L413.5,248.3 L411.8,250.1 L412.0,251.4 L411.5,252.3 L410.5,253.0 L408.6,254.9 L407.7,255.0 L407.1,255.4 L405.7,258.6 L405.7,259.6 L405.4,260.4 L405.5,261.2 L404.9,262.7 L404.2,263.3 L404.1,264.1 L405.0,265.8 L405.1,266.1 L405.6,267.0 L405.9,267.6 L406.3,268.3 L407.8,270.0 L408.4,270.5 L409.2,270.8 L410.6,272.3 L411.4,273.3 L411.0,273.9 L411.2,275.3 L410.2,274.9 L410.3,275.0 L411.5,275.8 L413.3,278.5 L414.9,279.8 L416.5,281.2 L417.0,282.7 L418.5,283.6 L420.1,284.9 L420.0,285.2 L420.5,285.6 L421.5,286.3 L422.2,287.1 L422.5,287.8 L422.9,287.9 L423.3,287.7 L423.8,287.7 L424.1,287.7 L424.6,288.5 L425.2,289.2 L425.6,289.9 L425.8,289.8 L426.0,289.9 L426.1,290.4 L426.2,290.8 L427.1,291.8 L427.5,292.8 L428.6,294.4 L429.4,295.3 L430.0,295.8 L430.6,296.3 L431.3,298.0 L431.6,299.6 L432.3,301.4 L432.8,302.2 L432.9,303.7 L433.3,305.2 L433.7,306.2 L433.9,307.2 L434.0,307.7 L434.2,308.1 L434.7,309.9 L434.5,310.7 L434.2,309.9 L434.2,312.3 L434.5,313.5 L434.4,315.1 L434.7,315.6 L435.3,317.3 L435.7,318.0 L435.6,320.1 L435.8,321.1 L435.3,320.5 L434.9,319.8 L434.4,320.2 L434.0,320.7 L434.7,323.0 L433.9,322.8 L433.9,325.9 L434.3,326.6 L434.3,326.9 L434.2,327.3 L434.0,326.9 L433.9,326.4 L433.8,326.5 L433.8,326.8 L433.5,327.3 L433.4,328.0 L433.7,328.6 L433.8,329.0 L433.6,329.5 L433.2,330.1 L432.5,330.2 L432.3,331.3 L432.0,332.5 L430.6,332.7 L429.6,333.7 L428.4,334.1 L427.3,335.1 L426.1,336.1 L425.3,336.2 L424.6,336.4 L423.8,338.0 L422.5,338.2 L420.2,339.5 L419.4,340.1 L418.7,340.3 L417.7,340.9 L417.5,340.7 L417.1,340.2 L416.3,340.0 L415.8,339.5 L415.7,338.8 L415.6,338.5 L415.4,338.9 L415.2,340.5 L415.1,340.9 L414.7,341.0 L414.0,340.6 L413.3,339.6 L412.3,340.3 L412.6,340.4 L413.0,340.3 L413.4,340.5 L413.7,341.1 L413.7,341.4 L413.5,341.8 L412.6,341.8 L411.3,341.7 L411.1,341.8 L412.2,342.4 L413.3,342.7 L413.7,343.1 L413.7,343.4 L413.2,343.9 L412.7,344.5 L412.7,344.9 L412.7,345.3 L412.2,345.7 L411.9,345.6 L411.0,345.0 L408.4,342.4 L408.8,343.2 L411.4,346.0 L411.9,347.0 L412.0,347.7 L411.7,348.0 L411.2,348.4 L410.4,348.4 L408.9,347.3 L406.6,344.8 L405.8,344.4 L408.2,347.4 L408.5,348.1 L408.9,348.9 L408.8,349.4 L408.6,349.8 L403.1,352.6 L402.3,353.7 L401.6,355.2 L400.5,356.0 L399.9,356.7 L398.0,357.1 L397.0,357.0 L398.1,355.7 L397.4,355.2 L397.4,351.7 L397.6,348.0 L398.1,346.1 L398.8,345.6 L399.7,345.3 L399.7,344.9 L399.6,344.5 L399.2,343.8 L398.6,343.5 L397.9,343.4 L397.3,342.6 L396.8,342.7 L396.1,342.9 L395.7,342.6 L395.6,342.0 L394.9,341.4 L394.2,340.8 L394.5,340.7 L394.9,340.3 L395.3,339.8 L396.4,339.8 L397.4,339.8 L397.7,339.7 L398.1,339.2 L398.8,338.5 L399.3,338.1 L399.4,337.9 L399.2,337.2 L399.1,336.5 L399.3,336.3 L400.2,336.4 L401.3,336.7 L401.5,336.9 L402.1,336.0 L402.3,335.9 L402.7,335.9 L403.7,335.8 L404.7,335.5 L405.2,335.6 L405.7,336.1 L406.0,336.7 L406.2,336.8 L406.7,336.5 L407.1,336.8 L408.0,337.3 L408.6,337.3 L408.3,336.2 L408.6,335.4 L408.6,335.1 L408.1,334.8 L406.3,333.3 L406.0,332.8 L406.1,332.1 L406.0,331.1 L405.9,330.5 L405.9,330.1 L406.0,329.8 L406.3,329.7 L406.6,329.6 L406.9,329.4 L407.3,328.7 L408.1,328.8 L409.2,329.1 L410.0,329.4 L410.5,329.3 L410.6,329.2 L410.6,328.9 L410.7,327.3 L410.7,327.0 L411.4,326.8 L412.5,326.8 L413.0,326.7 L413.6,326.1 L415.0,325.8 L416.0,324.9 L416.8,324.0 L417.3,323.8 L417.9,323.6 L418.3,323.7 L418.8,324.2 L419.2,323.9 L419.7,323.3 L420.0,322.7 L420.1,321.7 L420.0,320.2 L419.8,319.0 L419.5,318.2 L419.5,317.3 L420.1,315.6 L420.6,313.6 L420.5,312.9 L419.9,311.7 L419.4,310.3 L418.8,308.7 L418.5,308.4 L418.4,308.0 L418.3,307.5 L418.5,305.9 L418.6,305.3 L419.2,304.6 L419.6,303.7 L420.0,302.8 L419.8,302.3 L419.8,301.3 L419.9,300.8 L419.7,300.4 L419.5,299.8 L419.6,299.5 L420.1,299.1 L420.4,298.6 L420.8,298.0 L421.0,297.4 L420.7,296.9 L420.2,296.1 L419.3,295.5 L418.3,294.6 L417.8,294.1 L417.5,293.6 L417.1,293.0 L416.9,292.5 L417.1,292.1 L418.5,291.4 L418.8,291.1 L418.9,290.7 L418.8,290.3 L418.4,290.1 L418.0,289.9 L417.3,289.5 L416.1,288.2 L415.5,287.9 L415.0,287.5 L414.6,287.1 L414.3,286.1 L414.1,286.0 L413.8,286.3 L413.4,286.6 L413.0,286.6 L412.7,286.3 L412.5,285.9 L412.2,285.3 L411.8,284.9 L411.7,283.3 L411.6,282.8 L411.4,282.2 L411.1,281.9 L410.8,281.7 L410.0,280.4 L409.5,279.8 L407.3,278.0 L407.0,277.7 L406.4,277.0 L405.4,276.0 L404.7,275.1 L404.1,274.3 L403.9,273.5 L403.8,272.9 L403.2,272.1 L402.7,271.4 L402.2,271.2 L401.7,271.1 L401.2,270.7 L400.3,269.7 L399.9,269.2 L399.6,268.8 L399.6,268.3 L399.9,267.7 L400.1,267.3 L400.1,267.0 L399.9,266.7 L398.9,266.3 L396.6,265.6 L395.7,265.1 L394.9,264.4 L394.3,264.0 L391.5,262.1 L390.7,261.8 L389.9,261.4 L389.7,261.1 L389.8,260.8 L390.1,260.5 L390.9,260.1 L391.1,259.5 L391.1,258.8 L390.7,258.0 L390.9,257.8 L391.1,257.8 L391.7,257.7 L392.8,257.7 L395.2,258.4 L395.5,258.3 L396.8,257.1 L397.3,256.3 L397.4,255.7 L397.6,255.3 L398.3,254.7 L398.3,254.1 L398.0,253.4 L397.7,253.1 L397.4,252.9 L396.4,253.0 L396.2,252.9 L396.1,252.3 L396.1,251.9 L395.8,251.5 L394.7,251.2 L393.9,251.1 L393.7,250.9 L394.0,250.5 L394.6,250.1 L395.0,249.9 L395.4,249.5 L395.5,249.1 L395.0,248.7 L394.4,248.3 L393.5,247.5 L392.2,246.7 L391.5,246.4 L391.1,246.4 L389.6,247.2 L388.9,247.6 L388.2,248.4 L387.6,248.6 L386.9,248.3 L386.2,247.9 L384.1,247.3 L383.2,246.9 L381.4,244.1 L381.1,243.5 L381.3,242.9 L381.4,242.0 L381.6,241.4 L381.9,240.8 L382.0,240.3 L381.9,239.8 L381.6,239.5 L381.3,239.4 L381.0,239.3 L380.8,238.7 L380.6,238.8 L380.4,239.6 L380.2,239.8 L379.8,240.0 L379.5,239.9 L379.3,239.5 L379.3,239.0 L379.1,238.3 L378.9,237.8 L378.1,237.3 L377.7,236.7 L376.5,235.4 L375.5,234.4 L375.1,233.6 L375.5,233.2 L376.0,232.8 L376.5,232.1 L377.1,231.2 L377.4,230.6 L377.6,230.4 L377.9,230.2 L378.3,230.3 L379.0,230.7 L380.0,231.2 L380.9,231.7 L381.3,232.3 L381.8,232.8 L382.2,232.9 L382.4,232.9 L382.9,232.5 L383.4,232.1 L383.5,231.6 L383.9,231.2 L384.5,230.6 L384.8,230.1 L385.0,230.1 L385.3,230.2 L386.2,231.6 L386.4,231.7 L386.7,231.5 L387.1,230.4 L387.5,230.0 L387.6,230.1 L389.9,232.1 L390.1,232.1 L390.4,232.0 L390.5,231.7 L390.7,231.0 L391.1,230.2 L391.8,229.8 L392.4,229.7 L392.6,230.1 L393.1,230.6 L393.7,230.7 L395.0,229.8 L395.4,229.6 L395.9,229.6 L396.3,229.6 L396.8,229.3 L397.2,228.8 L397.4,227.9 L397.5,227.1 L397.8,226.8 L398.2,226.6 L398.9,226.3 L400.5,225.5 L400.9,225.1 L401.2,224.9 L401.8,225.2 L402.6,225.9 L403.0,226.4 L403.3,226.9 L403.5,227.3 L404.7,227.7 L405.4,228.3 L405.9,228.7 L406.4,228.7 L406.9,228.6 L407.2,228.2 L407.8,228.2 L408.5,228.3 L408.8,228.4 L409.3,229.2 L409.5,229.3 L410.0,229.2 L411.0,228.9 L411.7,228.8 L412.4,229.1 L413.7,230.0 L413.3,230.6 L413.1,231.2 L412.5,231.7 L412.1,231.8 L411.8,232.5 L411.7,233.4 L411.8,233.9 L412.2,234.0 L412.5,234.4 L412.7,234.8 L412.7,235.7 L412.7,236.8 L412.7,237.1 L413.0,237.1 L413.3,237.0 L413.8,237.1 L414.5,237.4 L414.9,237.7 L415.3,237.6 L415.6,237.9 L415.7,238.4 L416.0,238.8 L417.0,239.5 L417.8,239.5 L418.4,240.5 L419.1,240.2 L419.4,240.6 L420.9,240.4 L421.8,240.0 L422.2,240.1 L423.1,240.9 L423.6,241.4 Z M412.3,356.2 L412.1,356.2 L411.9,356.1 L412.7,355.5 L412.6,355.9 L412.6,356.1 L412.3,356.2 Z M416.9,340.9 L416.2,341.4 L416.2,341.0 L416.8,340.7 L417.0,340.4 L417.1,340.4 L416.9,340.9 Z M414.4,247.6 L414.3,247.7 L413.9,247.3 L413.6,247.1 L413.8,246.6 L414.3,247.2 L414.4,247.6 Z M420.5,244.0 L419.3,245.1 L418.9,245.1 L419.3,243.8 L419.5,243.5 L420.2,243.9 L420.5,244.0 Z M419.9,246.6 L419.4,246.8 L418.8,246.8 L419.5,246.3 L419.8,245.8 L420.1,245.6 L420.1,246.1 L419.9,246.6 Z M415.8,248.2 L415.4,248.2 L414.8,247.5 L415.1,247.1 L415.9,247.4 L416.1,247.6 L416.1,247.7 L415.9,248.1 L415.8,248.2 Z" fill="#d7b169" fill-opacity="0.7" stroke="#818b96" stroke-width="0.7" stroke-opacity="0.95" stroke-linejoin="round"/>
+  <path d="M93.1,220.3 L93.7,219.9 L94.1,219.7 L94.9,219.5 L95.8,219.3 L96.6,219.3 L97.7,219.4 L97.8,216.7 L97.9,216.4 L98.0,216.3 L98.2,216.2 L98.4,216.3 L98.6,216.7 L98.9,216.7 L99.2,216.4 L99.9,216.6 L100.5,216.5 L101.0,216.6 L102.0,216.6 L103.7,216.6 L104.7,216.6 L105.3,217.0 L106.0,217.5 L106.7,217.6 L107.8,217.5 L108.5,217.3 L108.9,216.9 L109.1,216.5 L110.7,215.9 L112.4,215.4 L112.9,215.3 L113.0,215.6 L112.9,216.1 L113.1,216.5 L113.8,216.8 L114.3,216.9 L114.7,216.8 L115.0,216.7 L115.7,216.0 L116.0,215.8 L116.5,215.8 L117.0,215.5 L117.0,215.2 L116.7,215.1 L116.4,214.7 L116.5,214.4 L116.4,213.9 L116.4,213.5 L116.6,213.2 L117.0,212.9 L116.8,212.3 L116.2,211.1 L115.6,209.5 L115.0,208.2 L114.2,207.1 L113.7,206.3 L113.8,204.5 L113.7,204.1 L113.4,203.9 L113.1,203.8 L112.5,204.0 L112.1,204.0 L111.0,203.9 L110.5,203.8 L109.2,201.9 L109.0,201.2 L109.0,200.5 L109.4,199.2 L109.6,198.0 L109.6,196.9 L109.6,196.6 L109.3,196.2 L108.8,195.9 L107.6,195.9 L106.1,195.5 L105.0,194.9 L104.2,194.5 L104.0,194.2 L103.9,193.9 L104.1,192.6 L104.5,191.1 L104.7,190.6 L105.2,190.1 L105.5,189.8 L106.0,189.4 L107.5,187.9 L108.7,185.9 L109.5,184.6 L109.9,184.2 L110.4,183.8 L111.0,183.4 L111.7,183.0 L112.4,183.0 L113.1,183.4 L113.6,183.8 L113.7,184.7 L114.1,185.3 L114.4,185.6 L115.0,185.8 L115.6,185.8 L118.2,184.7 L119.0,184.5 L121.1,184.4 L122.6,184.0 L123.9,183.6 L124.0,182.8 L124.5,181.6 L126.0,180.1 L126.4,179.4 L126.9,178.1 L127.4,177.0 L127.8,176.5 L130.1,175.2 L132.4,174.0 L132.8,173.5 L134.3,171.0 L135.2,169.3 L135.4,168.8 L135.9,167.3 L136.4,165.9 L137.1,165.6 L138.7,165.0 L140.0,164.5 L140.6,163.9 L141.0,163.3 L140.9,162.8 L140.6,162.2 L140.6,161.8 L140.7,161.4 L141.6,160.6 L143.3,158.4 L144.4,157.3 L144.7,157.3 L145.8,156.7 L146.8,156.0 L146.7,155.7 L146.6,155.3 L146.0,155.2 L145.8,154.7 L146.0,154.0 L146.5,152.2 L146.4,151.7 L145.8,150.0 L145.9,149.5 L146.2,149.0 L146.8,148.4 L147.7,147.8 L150.4,146.6 L151.0,146.5 L152.0,146.1 L152.5,145.5 L152.6,144.9 L152.4,144.5 L151.8,144.1 L150.7,143.6 L149.7,143.3 L148.1,143.3 L147.2,143.0 L147.0,142.7 L146.9,141.9 L147.0,140.6 L146.8,140.5 L146.4,140.6 L145.6,140.5 L144.5,140.5 L144.1,140.1 L144.3,139.7 L144.2,139.1 L144.1,138.5 L143.9,138.4 L143.4,138.3 L142.6,137.8 L141.9,137.2 L141.6,136.7 L141.5,136.5 L141.5,136.3 L142.0,135.7 L142.5,135.0 L142.7,134.4 L142.8,133.9 L142.6,133.6 L142.1,133.1 L141.6,132.8 L141.4,132.5 L141.3,132.0 L141.5,131.4 L142.2,130.9 L143.3,130.5 L143.6,130.0 L143.6,129.6 L143.3,129.5 L142.5,129.4 L141.1,129.3 L140.9,129.1 L140.7,128.8 L140.7,128.5 L141.0,128.2 L141.4,127.8 L141.3,127.4 L140.9,126.9 L140.0,126.6 L139.8,126.1 L140.0,125.7 L140.3,125.1 L140.6,124.7 L141.2,123.6 L142.0,123.4 L143.0,123.0 L144.0,122.6 L145.7,122.9 L146.5,123.1 L148.1,123.4 L149.4,123.7 L150.8,123.8 L151.4,123.8 L152.0,124.1 L153.6,124.7 L154.9,125.0 L155.7,125.0 L157.0,124.5 L157.6,124.0 L158.5,123.5 L159.6,123.5 L161.9,122.7 L162.4,122.8 L163.1,122.9 L163.9,122.4 L164.4,121.9 L164.4,121.6 L164.6,121.4 L165.6,121.1 L166.5,120.6 L166.7,120.0 L166.9,119.5 L167.9,119.0 L168.9,118.4 L170.0,117.8 L171.2,117.1 L172.2,116.6 L173.1,116.1 L173.1,116.1 L173.2,116.2 L173.5,116.4 L173.9,116.5 L174.3,116.3 L174.8,116.1 L175.1,116.2 L175.1,116.5 L174.8,117.8 L174.9,118.3 L175.4,119.3 L176.1,121.0 L176.7,122.6 L177.1,123.6 L177.5,124.1 L179.0,124.5 L180.3,124.8 L181.1,125.4 L181.9,126.0 L182.5,126.3 L182.8,126.8 L182.9,127.2 L182.8,127.4 L182.5,127.8 L181.0,128.7 L180.8,129.0 L180.8,129.4 L181.1,130.5 L181.3,131.2 L181.3,132.6 L181.4,134.0 L181.9,134.6 L182.4,135.0 L182.6,135.3 L183.2,135.8 L183.6,136.2 L184.0,136.4 L184.2,136.9 L184.1,137.5 L183.9,138.0 L184.0,138.2 L184.3,138.4 L184.7,138.9 L184.8,139.6 L184.8,140.1 L184.9,140.6 L185.0,141.1 L184.9,142.3 L184.9,142.8 L184.9,142.9 L184.5,142.9 L184.1,143.1 L183.6,143.9 L183.0,144.1 L182.4,144.2 L181.7,143.7 L181.2,143.2 L181.0,142.9 L180.9,142.4 L180.6,142.0 L180.0,142.2 L179.1,142.3 L178.2,142.4 L178.0,142.5 L178.0,142.7 L178.2,143.2 L178.4,143.8 L178.5,144.7 L178.8,145.3 L178.9,145.5 L180.4,147.2 L180.8,147.5 L180.9,147.8 L180.7,148.4 L180.5,149.1 L180.5,149.7 L181.0,150.4 L181.4,150.8 L181.0,151.4 L180.8,152.1 L181.1,152.4 L180.9,153.4 L181.0,153.6 L181.3,153.7 L181.8,153.6 L182.2,153.4 L182.6,153.3 L182.8,153.4 L183.1,152.6 L183.4,152.5 L183.9,152.7 L185.0,154.2 L185.9,155.4 L186.1,155.6 L186.3,155.8 L187.1,156.4 L187.7,156.8 L188.6,156.7 L189.7,156.6 L190.3,157.0 L190.7,157.3 L190.7,157.3 L190.7,157.3 L192.0,158.3 L192.6,158.2 L193.0,158.5 L193.1,159.2 L192.9,159.9 L192.9,160.2 L193.5,160.3 L194.8,160.7 L195.8,161.1 L196.4,161.3 L197.0,161.6 L197.6,162.1 L198.6,162.7 L199.5,163.2 L199.7,163.8 L199.4,163.7 L198.9,163.8 L198.4,164.1 L198.2,164.2 L197.0,165.4 L196.4,165.7 L195.9,166.2 L194.7,167.7 L194.0,169.1 L193.5,170.5 L193.5,171.4 L193.3,172.5 L192.8,173.2 L192.4,173.4 L192.1,174.3 L191.8,175.4 L191.9,175.8 L192.6,176.3 L193.2,176.7 L194.1,177.3 L194.8,177.7 L195.3,177.8 L195.5,177.5 L195.7,177.3 L196.2,177.4 L196.9,177.9 L197.4,178.3 L197.6,178.4 L198.8,179.0 L199.8,179.5 L201.1,180.2 L201.4,180.6 L201.6,181.1 L202.2,181.6 L203.7,182.7 L204.9,183.4 L205.9,184.0 L206.7,184.4 L207.1,184.3 L207.5,184.1 L207.9,184.0 L208.3,184.1 L208.9,184.4 L210.4,185.4 L211.7,186.2 L213.2,186.0 L213.6,186.1 L213.9,186.8 L214.0,187.5 L215.7,188.0 L216.8,188.2 L218.0,188.6 L218.7,188.9 L219.3,188.5 L219.5,188.2 L220.0,188.0 L220.8,188.1 L222.5,188.6 L223.1,188.8 L223.7,188.3 L224.8,188.0 L225.3,187.8 L226.5,188.3 L228.6,189.1 L229.6,189.5 L229.9,189.9 L230.0,190.3 L230.0,191.3 L230.3,191.8 L232.3,192.8 L233.0,193.3 L233.6,193.4 L233.9,193.4 L234.1,193.5 L234.3,194.1 L234.5,194.3 L234.9,194.4 L235.3,194.5 L236.7,194.0 L237.6,193.6 L238.3,193.7 L238.7,194.1 L238.7,194.7 L239.0,195.4 L239.5,195.7 L240.0,195.8 L241.2,195.3 L242.2,195.6 L243.2,195.8 L244.2,196.0 L244.6,196.2 L245.7,196.7 L247.0,197.2 L247.5,197.2 L249.6,196.2 L249.8,196.3 L250.2,197.3 L250.9,197.6 L251.9,197.9 L252.9,197.3 L253.7,197.5 L254.7,197.6 L255.7,197.3 L256.5,197.2 L257.7,197.7 L258.0,197.6 L258.2,197.3 L258.7,195.9 L259.1,194.6 L259.1,193.9 L258.7,192.8 L257.7,191.4 L257.6,191.0 L258.0,188.5 L258.3,187.1 L258.7,186.4 L259.0,185.5 L259.1,185.0 L259.0,184.6 L258.7,184.4 L258.6,184.1 L258.7,183.8 L258.9,183.7 L260.1,183.5 L261.3,183.1 L261.8,182.9 L262.2,182.7 L262.6,182.4 L262.9,182.4 L264.1,182.9 L264.5,183.2 L264.7,184.1 L264.8,184.4 L264.7,185.3 L264.0,187.5 L264.1,188.3 L264.7,188.9 L265.2,189.3 L265.1,189.5 L264.1,190.2 L263.9,190.6 L264.1,191.0 L264.5,191.3 L264.7,191.6 L264.9,192.5 L265.4,192.8 L266.4,193.4 L267.3,193.8 L268.8,193.5 L269.3,193.7 L270.0,193.9 L270.6,194.0 L270.9,194.2 L271.1,194.3 L271.1,194.5 L271.1,194.7 L272.0,194.7 L272.4,194.8 L273.9,194.6 L275.4,194.4 L276.1,193.5 L276.4,193.5 L277.3,193.2 L278.1,193.5 L279.0,194.0 L279.5,194.1 L280.5,194.2 L281.5,194.2 L283.8,193.9 L285.1,194.1 L286.2,193.4 L286.5,193.4 L287.0,193.9 L288.3,193.9 L288.9,193.7 L289.7,193.5 L290.2,193.4 L290.5,193.4 L291.0,193.5 L291.4,193.3 L291.6,192.9 L291.6,192.4 L291.2,191.8 L291.0,191.5 L290.9,191.3 L291.0,190.9 L291.2,190.3 L291.7,189.6 L291.4,188.9 L290.9,188.1 L290.6,188.1 L289.8,188.2 L288.9,188.2 L288.1,187.7 L287.6,187.2 L287.5,186.7 L287.7,186.1 L287.9,185.6 L287.9,185.4 L288.6,185.4 L289.5,185.5 L290.2,185.6 L290.8,185.6 L291.8,184.9 L292.3,184.9 L292.8,184.8 L293.1,184.6 L293.2,184.7 L293.8,184.8 L294.4,184.8 L295.0,184.6 L295.5,184.3 L296.5,183.7 L296.7,183.3 L296.7,183.0 L296.5,182.8 L296.3,182.7 L296.4,182.4 L296.8,181.9 L298.3,181.2 L299.6,180.3 L300.3,179.6 L300.6,178.8 L301.0,177.9 L301.4,177.6 L302.3,177.4 L304.8,177.0 L305.6,176.7 L306.8,176.0 L307.4,175.5 L307.7,175.1 L307.7,174.6 L308.5,174.5 L309.2,173.7 L310.0,173.0 L311.5,172.3 L312.8,171.5 L313.2,171.6 L313.7,172.0 L313.9,172.5 L314.0,172.7 L315.6,173.0 L315.9,172.9 L317.1,173.3 L318.2,173.8 L318.8,173.9 L319.1,173.9 L319.4,173.8 L319.7,173.3 L320.0,173.0 L320.2,172.9 L320.2,172.4 L321.8,171.4 L323.2,170.8 L324.5,170.3 L324.9,170.5 L325.3,170.8 L325.8,171.8 L326.2,172.1 L327.0,171.9 L327.2,172.0 L327.0,172.4 L326.4,172.8 L325.7,173.2 L325.2,173.5 L325.4,174.6 L325.3,175.0 L325.5,175.1 L327.1,174.0 L327.8,173.8 L328.1,174.1 L328.2,174.6 L328.8,175.8 L329.0,176.4 L327.5,177.8 L326.9,178.5 L326.9,178.8 L326.9,179.0 L326.5,179.4 L326.5,179.5 L326.9,179.8 L327.2,179.9 L327.4,179.9 L327.8,179.6 L329.2,179.1 L329.6,179.2 L330.6,179.9 L331.1,180.0 L332.3,180.2 L333.1,179.9 L333.7,180.2 L334.9,181.1 L335.2,181.3 L335.1,181.8 L335.0,182.4 L335.3,182.9 L335.4,183.4 L335.3,183.8 L335.0,184.1 L334.4,184.2 L333.8,184.7 L332.9,185.4 L332.2,185.9 L331.7,186.4 L331.5,186.9 L331.5,187.6 L331.7,188.2 L333.4,190.7 L333.3,191.1 L332.8,191.3 L332.1,191.0 L331.5,190.6 L330.8,189.5 L330.3,189.2 L329.7,189.1 L326.5,189.7 L325.8,189.8 L324.7,190.2 L324.0,191.0 L323.4,191.8 L322.8,192.0 L322.0,192.6 L319.7,194.4 L318.4,195.1 L317.6,195.4 L317.0,195.8 L316.6,196.4 L316.4,196.9 L316.3,198.0 L316.5,199.4 L316.8,200.3 L317.0,200.5 L317.0,200.8 L316.7,201.2 L316.2,201.7 L316.0,201.9 L315.8,203.2 L315.4,203.8 L314.7,204.7 L314.1,205.4 L313.1,206.0 L312.8,206.4 L312.4,207.2 L312.2,207.9 L312.2,208.2 L312.3,208.4 L312.7,208.6 L313.2,208.8 L313.4,209.2 L313.5,209.6 L313.1,210.7 L312.4,212.2 L311.7,213.3 L310.9,214.4 L310.7,214.8 L310.0,216.2 L309.4,218.0 L309.0,219.3 L308.7,220.2 L308.2,220.2 L307.7,219.9 L306.4,219.5 L305.6,219.2 L305.0,219.0 L304.5,219.0 L304.0,219.2 L303.4,219.3 L303.0,219.2 L302.2,218.4 L302.0,218.5 L301.8,218.8 L302.4,221.1 L302.7,221.9 L302.7,223.3 L302.5,225.0 L302.3,226.8 L302.2,227.2 L301.8,227.7 L301.4,227.9 L301.0,227.7 L300.7,227.7 L300.5,228.0 L300.6,228.8 L300.2,229.7 L299.9,230.5 L300.0,231.3 L300.2,232.1 L300.6,233.7 L300.6,234.3 L300.5,234.9 L300.3,235.1 L299.9,235.1 L299.6,235.3 L299.5,235.6 L299.0,236.9 L298.5,237.1 L298.1,236.9 L297.4,236.0 L297.0,235.8 L296.7,235.8 L296.6,236.0 L296.4,236.5 L296.2,236.9 L295.8,237.2 L295.6,236.5 L295.4,233.3 L295.2,232.2 L295.1,230.8 L294.8,230.4 L294.6,229.6 L294.3,228.9 L294.0,228.6 L293.8,227.4 L293.8,225.8 L293.8,225.1 L293.4,223.6 L293.0,221.9 L292.5,221.9 L292.3,221.5 L292.0,221.5 L291.4,221.9 L290.8,221.8 L290.4,221.9 L290.4,222.6 L290.5,223.5 L290.3,223.8 L289.2,224.8 L288.9,225.4 L289.0,226.1 L289.1,227.1 L288.9,227.5 L288.5,228.0 L287.8,228.2 L287.3,228.1 L286.9,227.7 L286.6,226.7 L286.3,226.2 L286.0,226.1 L285.8,226.2 L285.7,226.8 L285.7,227.3 L285.7,227.4 L285.5,227.3 L285.3,227.1 L284.8,224.7 L284.1,222.8 L284.0,222.1 L284.3,221.2 L284.6,219.8 L285.5,218.9 L285.6,218.5 L285.7,218.2 L285.9,218.1 L287.1,218.2 L287.4,218.1 L287.8,217.7 L288.2,217.3 L288.7,217.2 L289.1,217.2 L289.7,217.5 L290.0,217.3 L290.2,216.7 L290.4,216.1 L290.6,215.8 L291.0,215.7 L291.5,215.7 L291.7,215.6 L291.8,215.4 L292.0,214.6 L292.6,212.9 L292.9,212.1 L292.9,212.0 L292.9,211.2 L293.1,211.0 L294.2,211.4 L294.7,211.4 L294.9,211.3 L295.0,211.0 L294.9,210.6 L294.1,210.0 L292.7,209.1 L291.4,208.6 L289.0,208.6 L286.7,208.8 L286.0,208.7 L285.1,208.5 L283.0,208.5 L280.4,208.7 L279.5,208.6 L279.0,208.6 L278.0,208.7 L276.5,208.4 L275.4,208.1 L274.4,207.8 L273.3,207.5 L273.0,207.5 L272.8,207.4 L272.7,207.1 L272.7,206.7 L272.9,205.1 L272.7,202.6 L272.9,201.7 L272.0,199.6 L271.7,199.2 L271.2,199.2 L270.9,199.5 L270.8,199.9 L271.0,200.5 L270.6,201.1 L270.0,201.3 L269.2,201.1 L268.5,200.8 L267.6,200.2 L267.0,199.3 L266.9,198.4 L266.6,197.8 L266.2,197.5 L265.9,197.4 L265.7,197.4 L265.4,197.8 L265.6,198.1 L265.9,198.6 L265.8,198.9 L265.6,198.9 L265.2,198.8 L264.7,198.9 L264.1,198.6 L263.8,198.6 L263.4,198.5 L263.4,198.0 L262.9,197.3 L262.1,196.5 L261.2,196.0 L260.9,196.1 L260.7,196.6 L260.7,196.8 L261.0,196.9 L261.4,197.2 L261.5,197.5 L261.4,197.8 L260.9,198.3 L260.6,198.8 L259.7,199.5 L259.0,200.4 L258.8,201.0 L258.6,201.5 L258.5,202.1 L258.7,202.6 L259.0,202.8 L259.9,203.0 L260.8,203.8 L261.5,204.9 L261.9,205.3 L262.7,205.7 L264.2,205.7 L264.4,206.0 L264.6,206.8 L264.9,207.1 L265.6,207.5 L265.7,207.8 L265.5,208.1 L265.2,208.3 L264.6,208.5 L264.0,208.6 L263.4,208.5 L262.5,208.4 L261.6,208.4 L260.9,210.4 L260.4,211.1 L260.1,211.1 L259.3,210.8 L259.0,210.8 L258.2,212.7 L258.0,213.1 L258.0,213.4 L258.4,214.1 L259.0,214.7 L259.6,214.9 L260.2,214.7 L260.6,215.0 L261.1,215.6 L261.9,215.9 L263.1,216.1 L263.8,216.6 L263.9,217.0 L263.8,217.4 L263.7,218.4 L263.6,219.0 L263.0,220.6 L262.5,222.0 L262.7,222.6 L262.9,222.9 L263.1,223.1 L263.6,223.6 L263.9,224.1 L263.6,225.4 L263.8,225.7 L264.5,225.9 L265.2,226.1 L265.5,226.3 L264.8,227.6 L265.0,228.5 L265.3,229.4 L265.4,230.8 L265.5,230.9 L265.4,231.3 L265.8,232.4 L266.5,234.5 L266.5,235.3 L266.5,236.1 L266.3,237.5 L265.7,237.5 L266.2,238.4 L266.4,239.1 L266.5,240.1 L265.8,240.2 L265.3,240.1 L264.9,239.2 L264.7,240.0 L264.0,240.7 L263.7,240.3 L263.5,240.0 L263.5,239.3 L263.9,236.9 L263.8,236.6 L263.7,236.5 L263.3,236.4 L263.1,235.9 L262.5,238.5 L262.8,239.5 L262.6,240.0 L261.5,240.4 L260.3,239.4 L260.2,239.1 L260.1,239.7 L259.9,240.3 L258.8,240.2 L258.3,239.7 L258.6,238.8 L259.3,236.7 L259.4,235.7 L258.5,235.0 L257.7,234.6 L257.3,233.6 L257.5,234.7 L257.9,235.0 L258.5,235.3 L259.1,235.9 L258.6,236.5 L258.2,236.9 L257.3,238.5 L256.3,239.4 L255.1,240.1 L251.1,241.0 L250.3,241.4 L249.1,242.6 L248.3,243.8 L248.2,245.0 L248.6,246.2 L249.0,248.2 L249.3,248.6 L248.9,249.3 L248.1,250.1 L247.5,251.1 L247.6,251.7 L247.4,252.1 L245.3,253.3 L244.9,254.1 L244.3,254.8 L243.6,254.4 L243.2,254.4 L243.8,255.0 L243.7,255.4 L243.5,255.6 L243.0,255.8 L240.0,256.7 L237.6,257.6 L237.0,257.6 L237.1,257.3 L237.5,257.1 L237.5,256.1 L237.1,255.9 L236.7,255.8 L234.9,257.0 L234.2,258.3 L234.4,258.5 L234.8,258.4 L236.0,257.7 L236.5,257.9 L236.5,258.2 L234.7,259.3 L231.0,262.7 L230.8,263.4 L230.3,264.1 L229.6,264.9 L228.4,266.6 L226.1,269.2 L225.4,270.2 L221.7,272.2 L221.0,272.7 L219.5,274.7 L217.9,276.3 L216.1,277.6 L212.9,279.3 L211.0,280.9 L210.3,281.9 L210.3,282.3 L210.5,282.8 L210.9,283.3 L211.0,283.7 L210.8,284.4 L210.7,284.7 L210.1,285.7 L209.1,286.4 L206.0,287.7 L205.6,287.7 L203.0,287.4 L202.0,287.7 L201.6,288.3 L200.8,291.0 L199.9,291.8 L199.6,292.4 L199.5,292.9 L199.0,292.8 L198.5,292.6 L198.2,292.8 L197.8,291.9 L197.2,291.7 L196.7,291.6 L194.6,292.5 L193.8,293.3 L192.2,296.8 L191.8,299.0 L192.2,301.5 L192.7,303.4 L192.8,304.3 L192.8,305.5 L192.5,306.0 L192.3,306.7 L192.6,308.1 L193.2,309.9 L193.4,310.6 L193.4,311.4 L193.9,313.2 L193.6,312.9 L193.3,312.1 L192.7,311.2 L191.9,312.1 L192.3,312.8 L193.8,313.7 L194.2,314.3 L193.3,320.3 L192.5,322.5 L191.7,323.9 L191.2,324.4 L190.2,326.6 L189.5,329.3 L189.3,330.3 L189.6,331.5 L189.3,332.2 L188.8,332.7 L189.7,332.4 L190.0,333.1 L190.1,333.7 L190.1,337.5 L190.0,341.5 L189.3,341.7 L188.6,341.7 L187.9,341.6 L187.5,341.5 L186.3,341.7 L185.7,342.1 L185.2,342.9 L185.2,344.1 L183.0,347.3 L182.6,348.3 L182.4,349.3 L182.7,349.9 L183.2,350.4 L183.9,350.6 L185.3,350.8 L186.0,351.1 L186.5,351.7 L184.8,351.1 L182.9,351.0 L178.2,352.5 L177.0,353.5 L176.3,354.4 L175.9,356.4 L175.8,357.8 L175.2,358.9 L172.8,360.6 L171.3,361.2 L170.7,361.6 L168.9,361.0 L167.0,359.5 L166.2,358.7 L163.3,354.8 L162.7,354.3 L162.2,352.6 L162.1,351.9 L161.9,351.7 L161.6,351.5 L161.5,351.3 L160.8,349.3 L160.6,347.3 L160.2,345.1 L160.5,345.2 L161.0,346.0 L161.2,347.1 L161.3,348.6 L161.6,348.7 L162.0,348.6 L161.0,345.1 L160.2,344.3 L160.0,344.2 L159.8,343.7 L159.7,343.0 L159.8,342.6 L159.2,341.5 L158.9,340.8 L157.5,337.4 L156.9,335.0 L155.9,332.2 L155.2,331.3 L154.2,329.2 L153.4,328.2 L152.5,326.9 L151.8,326.3 L151.5,326.0 L149.4,321.5 L148.7,319.0 L148.2,317.8 L147.9,316.9 L147.2,313.0 L147.2,312.3 L147.1,311.6 L146.6,310.0 L145.7,308.2 L145.4,307.1 L145.4,306.7 L144.8,305.0 L144.7,304.2 L144.3,303.5 L143.9,302.8 L143.4,302.3 L142.3,300.5 L141.9,300.1 L141.1,299.0 L140.6,296.9 L139.9,296.1 L141.0,296.1 L140.3,295.3 L140.0,294.8 L139.6,294.5 L140.2,293.7 L139.3,293.8 L138.9,293.3 L138.3,291.9 L137.2,290.2 L137.0,289.3 L136.0,286.6 L135.2,280.0 L134.5,277.0 L134.5,276.2 L133.6,273.6 L133.2,271.9 L133.0,270.5 L132.8,269.5 L132.5,267.6 L132.2,267.0 L132.2,266.7 L132.4,265.8 L133.0,264.5 L133.3,263.6 L133.0,262.5 L132.4,263.7 L131.9,264.0 L131.6,263.1 L131.6,261.9 L131.5,261.6 L131.7,261.1 L133.1,261.3 L131.5,260.6 L131.3,260.1 L131.2,259.8 L131.6,259.2 L131.0,258.6 L130.7,257.0 L130.5,256.7 L130.5,256.4 L130.8,254.2 L132.2,249.8 L132.4,248.8 L132.2,247.4 L131.9,246.3 L131.8,245.2 L131.7,244.9 L131.2,244.8 L130.7,244.3 L130.1,242.6 L130.6,242.0 L131.0,241.7 L130.5,241.8 L130.0,241.8 L130.9,241.0 L131.7,240.4 L133.4,239.6 L134.2,239.2 L133.1,239.6 L131.9,239.8 L129.4,239.7 L129.9,238.0 L130.3,237.5 L130.7,237.2 L130.1,237.3 L129.3,237.2 L129.5,235.5 L130.1,235.2 L130.8,235.1 L131.7,234.9 L130.8,234.6 L129.8,234.5 L128.7,234.7 L127.7,234.5 L126.5,234.5 L127.0,234.8 L127.5,235.3 L127.2,236.2 L127.0,236.7 L126.3,237.1 L125.7,237.7 L125.6,238.2 L125.2,238.5 L125.8,238.8 L126.4,239.0 L126.7,239.4 L127.1,240.0 L127.0,241.2 L125.6,243.9 L125.1,244.5 L121.4,246.2 L119.9,247.1 L116.8,248.3 L115.6,248.5 L114.3,248.2 L112.4,247.3 L109.4,245.1 L108.6,244.3 L106.2,241.4 L104.5,239.8 L103.2,238.4 L101.6,237.0 L100.1,235.2 L99.8,234.4 L99.9,233.5 L100.5,233.0 L101.1,233.2 L101.6,233.9 L102.0,234.3 L102.3,234.4 L104.6,233.3 L105.5,233.3 L106.1,232.8 L106.8,232.9 L108.4,232.0 L109.0,232.0 L109.8,231.8 L111.1,229.6 L112.0,228.3 L112.6,228.0 L112.6,227.6 L112.4,227.2 L111.9,227.3 L111.6,227.7 L111.4,228.2 L111.1,228.5 L110.4,228.3 L109.9,228.3 L109.3,228.5 L107.1,229.3 L106.2,230.0 L105.5,230.2 L102.0,229.4 L98.5,227.5 L97.0,226.3 L96.1,224.7 L95.2,222.9 L95.5,222.4 L96.9,221.2 L98.2,220.4 L97.1,220.8 L95.9,221.3 L95.3,221.7 L94.6,222.5 L93.7,222.7 L93.3,221.5 L93.1,220.3 Z M306.7,372.8 L306.2,373.6 L305.2,371.3 L304.8,371.2 L304.7,370.1 L305.0,369.7 L306.1,369.2 L306.4,369.5 L307.0,371.5 L306.7,372.8 Z M305.4,368.1 L304.6,369.0 L304.2,368.4 L304.4,368.1 L304.7,367.9 L305.0,367.6 L305.4,368.1 Z M300.5,360.1 L300.7,360.4 L300.2,360.4 L299.8,359.9 L299.9,359.4 L300.1,359.2 L300.5,360.1 Z M303.0,363.4 L302.3,363.4 L302.1,363.1 L301.9,362.7 L302.1,362.3 L302.4,362.2 L302.9,362.8 L303.0,363.3 L303.0,363.4 Z M303.8,361.8 L303.4,362.2 L303.3,362.1 L303.2,361.9 L303.2,361.7 L303.1,361.4 L303.1,360.8 L303.4,360.3 L303.7,360.4 L303.5,360.9 L303.8,361.8 Z M297.5,352.2 L297.2,352.2 L296.9,351.9 L296.9,351.6 L297.1,351.3 L297.3,351.2 L297.5,351.2 L297.7,351.8 L297.5,352.2 Z M295.2,339.5 L294.9,339.8 L294.1,339.5 L294.1,338.6 L293.9,337.7 L294.1,337.3 L294.7,336.7 L295.2,336.4 L295.6,337.3 L295.8,338.1 L295.2,339.5 Z M296.7,332.1 L296.3,332.2 L295.9,332.0 L296.3,331.7 L296.3,330.9 L296.7,331.3 L296.7,331.8 L296.7,332.1 Z M297.0,330.7 L296.8,330.9 L296.5,330.7 L295.8,329.0 L295.6,328.0 L295.4,327.7 L295.7,327.1 L296.0,327.0 L296.2,326.4 L296.3,325.5 L296.6,324.8 L296.8,324.6 L297.4,324.6 L297.5,324.5 L297.4,323.8 L297.1,323.5 L297.0,323.3 L297.0,321.7 L297.1,321.0 L297.3,320.5 L297.1,319.5 L297.2,319.2 L297.7,318.6 L297.9,317.5 L297.7,317.2 L298.1,315.5 L298.1,314.4 L298.7,313.2 L299.5,312.7 L299.8,312.7 L299.8,313.7 L299.9,314.0 L299.4,314.6 L299.9,315.3 L299.8,315.6 L299.6,316.2 L299.3,316.8 L298.9,317.0 L298.5,317.8 L298.3,318.1 L299.0,318.9 L299.2,321.7 L298.7,322.5 L298.2,322.6 L298.3,324.5 L298.2,324.9 L297.6,325.8 L297.5,326.2 L297.2,326.6 L297.3,327.1 L297.6,327.3 L297.6,327.6 L297.4,328.6 L297.3,329.8 L297.0,330.7 Z M299.4,326.2 L299.8,327.4 L299.1,326.9 L298.9,326.5 L299.3,326.2 L299.4,326.2 Z M297.0,318.8 L296.7,319.4 L296.6,318.1 L296.8,318.0 L296.9,317.9 L297.1,318.0 L297.0,318.8 Z" fill="#7fb3c9" fill-opacity="0.7" stroke="#818b96" stroke-width="0.7" stroke-opacity="0.95" stroke-linejoin="round"/>
+  <path d="M634.5,109.7 L634.1,110.1 L633.4,110.0 L633.0,109.5 L633.1,108.9 L633.9,108.5 L634.6,109.4 L634.5,109.7 Z M675.8,95.2 L675.0,95.3 L674.8,95.2 L675.3,95.0 L675.3,94.6 L675.6,93.9 L675.6,93.7 L675.0,93.7 L675.0,93.0 L675.5,92.2 L676.7,91.0 L677.1,90.8 L677.1,91.3 L676.8,92.5 L676.7,93.0 L677.7,93.1 L677.0,94.5 L675.8,95.2 Z M647.4,126.9 L646.5,127.7 L645.8,127.6 L645.4,127.3 L645.2,126.8 L646.0,126.2 L646.6,125.2 L647.2,124.8 L647.7,124.6 L648.0,124.6 L647.2,125.9 L647.4,126.9 Z M611.7,162.9 L610.7,163.1 L610.2,162.9 L609.7,161.8 L610.6,161.1 L611.8,161.8 L612.1,162.0 L611.7,162.9 Z M614.5,161.7 L613.7,161.8 L613.7,161.3 L614.3,160.2 L614.4,159.3 L614.9,158.2 L615.1,158.0 L615.3,157.9 L615.5,158.2 L615.3,159.6 L614.7,160.6 L614.5,161.7 Z M607.2,145.3 L606.5,145.7 L606.4,145.3 L606.2,145.2 L606.6,144.8 L606.6,144.6 L606.3,144.3 L606.7,143.2 L606.6,142.7 L607.9,142.5 L608.1,143.0 L608.2,144.3 L607.2,145.3 Z M600.5,128.4 L600.0,128.7 L599.7,128.2 L600.0,126.6 L601.0,126.9 L601.0,127.4 L600.5,128.4 Z M601.4,126.3 L601.2,126.7 L600.7,126.4 L600.4,126.2 L600.9,124.8 L600.9,124.3 L600.9,124.0 L601.9,123.3 L602.1,123.5 L602.2,123.7 L602.1,124.0 L602.1,124.6 L601.4,125.8 L601.4,126.3 Z M595.4,140.4 L595.7,140.6 L596.2,140.5 L596.6,140.4 L596.9,140.6 L597.2,141.2 L597.3,141.6 L596.7,141.6 L596.4,141.7 L596.1,142.1 L595.6,142.0 L595.3,141.8 L595.3,141.5 L595.4,140.4 Z M609.7,143.6 L608.9,143.6 L608.6,143.5 L608.5,143.2 L609.5,142.7 L610.3,142.8 L610.0,143.3 L609.7,143.6 Z M698.4,28.0 L698.1,28.5 L697.7,27.7 L697.6,26.8 L697.8,26.8 L698.3,26.9 L698.4,27.4 L698.4,28.0 Z M700.3,29.9 L699.7,30.0 L699.0,29.6 L698.9,29.1 L699.4,28.7 L699.9,28.9 L700.4,29.4 L700.6,29.6 L700.3,29.9 Z M685.2,57.1 L685.0,57.1 L684.8,57.1 L684.6,56.4 L684.8,56.0 L685.3,55.8 L685.8,55.7 L685.4,57.0 L685.2,57.1 Z M642.6,125.1 L642.5,125.3 L642.3,125.3 L641.8,125.7 L641.7,125.3 L641.3,125.0 L641.2,124.8 L642.4,124.7 L642.8,124.8 L642.6,125.1 Z M685.0,123.0 L684.9,123.4 L684.5,123.3 L684.3,123.0 L684.3,122.5 L684.8,122.5 L685.0,123.0 Z M598.8,139.9 L598.6,140.0 L598.4,139.2 L598.2,138.9 L598.5,138.7 L599.1,137.2 L599.2,137.8 L599.5,138.4 L599.7,138.5 L599.5,138.9 L599.1,139.1 L598.8,139.9 Z M602.3,136.4 L601.7,136.9 L601.3,136.9 L601.7,136.4 L601.7,136.1 L602.0,135.5 L602.7,135.2 L602.9,135.2 L602.4,135.9 L602.3,136.4 Z M604.8,131.7 L604.2,132.1 L603.8,131.8 L604.0,131.0 L604.1,130.8 L604.6,131.0 L604.8,131.7 Z M627.9,128.4 L627.7,128.8 L626.9,128.7 L627.2,128.4 L627.4,128.0 L627.6,127.9 L627.7,128.3 L627.9,128.4 Z M625.3,130.0 L625.7,130.3 L626.7,130.2 L626.8,130.3 L626.5,130.6 L626.1,130.8 L625.3,130.6 L624.8,130.6 L624.8,130.1 L624.8,129.9 L625.3,130.0 Z M604.2,150.5 L603.9,150.6 L604.1,149.9 L604.7,149.3 L604.8,149.7 L604.2,150.5 Z M707.7,195.6 L707.5,195.6 L707.0,194.7 L707.2,194.6 L707.5,194.8 L707.8,195.3 L707.7,195.6 Z M721.3,38.9 L722.3,38.9 L722.8,38.9 L723.6,39.0 L726.7,40.4 L727.7,40.5 L728.7,40.6 L729.4,40.5 L730.0,40.1 L731.9,38.4 L733.9,36.9 L734.1,37.0 L734.1,37.4 L734.0,37.9 L733.1,39.2 L732.1,41.1 L731.9,42.0 L732.2,42.9 L732.8,43.7 L733.3,44.7 L733.9,46.2 L734.7,46.3 L735.1,46.4 L735.9,45.9 L736.6,45.4 L737.3,45.3 L737.9,45.4 L737.1,45.8 L736.2,46.3 L735.5,47.1 L735.2,47.3 L734.4,47.3 L733.9,47.3 L732.9,47.7 L732.1,48.1 L731.3,48.6 L730.4,48.9 L729.4,48.9 L728.0,49.3 L727.0,49.4 L725.2,49.0 L724.4,49.1 L722.5,49.9 L720.8,51.1 L719.3,52.5 L718.0,54.1 L717.5,54.9 L717.2,55.9 L717.1,56.5 L717.0,57.1 L716.7,57.5 L716.4,57.8 L715.4,57.6 L713.6,56.8 L710.3,55.5 L706.9,53.6 L704.9,52.6 L701.2,52.9 L697.7,54.8 L697.4,54.6 L696.1,53.3 L695.4,52.8 L694.6,52.7 L694.1,52.7 L693.5,52.8 L692.7,53.5 L692.4,53.9 L692.2,54.5 L692.1,54.8 L692.2,55.2 L693.0,56.0 L693.9,56.6 L694.3,56.8 L695.2,56.7 L695.6,56.8 L697.1,58.0 L698.7,59.2 L699.1,59.6 L698.5,60.0 L697.8,60.2 L697.1,60.1 L696.3,60.0 L695.0,59.5 L694.4,59.9 L693.6,60.8 L693.1,61.7 L692.7,62.1 L691.8,62.7 L690.8,63.0 L690.2,62.9 L689.8,62.5 L689.6,62.1 L689.5,61.6 L689.7,60.5 L690.2,59.6 L690.4,58.6 L690.0,57.2 L689.7,56.9 L688.6,56.1 L688.1,55.3 L688.0,54.4 L688.1,53.8 L688.4,52.6 L688.6,52.0 L689.1,51.8 L689.6,51.7 L690.5,51.3 L691.4,50.7 L692.2,50.1 L693.1,49.3 L693.6,48.4 L692.8,47.4 L692.7,46.7 L692.8,46.2 L693.6,45.8 L694.4,46.1 L696.0,46.9 L696.3,47.0 L697.4,47.1 L699.0,47.3 L699.9,47.2 L700.3,47.1 L700.9,46.4 L701.2,45.5 L701.1,44.3 L701.1,43.1 L701.5,42.2 L702.8,40.6 L703.2,39.7 L703.3,37.5 L703.8,36.6 L704.1,35.6 L704.3,33.5 L703.8,31.5 L703.3,30.5 L702.7,29.6 L702.8,28.7 L703.2,27.8 L703.3,27.6 L703.4,27.4 L704.3,27.2 L704.7,27.0 L705.1,26.6 L705.6,26.4 L706.0,26.6 L706.3,27.0 L707.6,28.0 L709.6,29.8 L712.0,32.6 L713.5,33.9 L715.0,35.1 L716.8,36.4 L718.7,37.4 L719.9,37.9 L720.7,38.7 L721.3,38.9 Z M616.2,133.0 L617.4,133.3 L617.8,133.3 L618.3,133.2 L618.9,132.8 L619.6,132.6 L620.1,132.7 L620.6,133.0 L620.8,133.5 L620.7,133.9 L619.9,134.9 L619.3,136.0 L620.7,136.2 L622.2,136.2 L621.9,136.8 L621.8,137.4 L622.3,137.6 L622.7,138.0 L622.6,138.3 L622.3,138.7 L623.2,139.2 L623.1,139.5 L622.9,139.8 L620.9,142.1 L620.3,143.2 L619.9,144.5 L619.5,145.4 L619.2,146.3 L619.0,147.4 L618.6,148.4 L618.7,149.4 L618.6,150.3 L617.6,152.7 L616.9,152.7 L616.0,152.4 L615.4,152.4 L615.1,153.0 L615.6,154.1 L614.0,155.3 L612.2,156.2 L612.2,155.8 L612.3,155.5 L612.6,155.3 L612.8,155.0 L613.1,153.9 L612.9,152.9 L612.4,151.6 L612.3,151.2 L612.7,151.0 L613.0,150.9 L613.1,150.8 L613.1,150.3 L612.9,150.0 L612.4,149.9 L611.9,149.9 L611.6,150.4 L611.1,151.3 L610.9,152.2 L611.0,152.7 L611.2,153.2 L611.8,154.0 L611.6,154.4 L611.4,154.7 L609.1,154.0 L608.6,153.9 L608.2,153.7 L607.7,152.7 L608.7,152.4 L608.9,152.3 L609.0,152.0 L609.2,151.0 L608.7,150.1 L608.4,149.8 L608.1,149.5 L608.2,148.7 L608.1,147.8 L608.1,146.6 L608.3,146.4 L609.1,146.1 L609.8,145.4 L610.3,144.7 L611.1,143.3 L611.8,141.8 L611.2,141.8 L610.6,141.5 L611.2,140.8 L611.0,139.9 L610.1,138.9 L609.7,137.6 L608.9,137.0 L608.5,136.8 L608.0,137.1 L607.5,137.5 L607.9,138.3 L607.9,139.0 L607.9,139.8 L608.3,139.8 L608.8,139.6 L609.2,139.8 L609.4,140.1 L609.5,140.6 L609.3,141.1 L609.0,141.3 L608.5,141.3 L608.1,141.1 L607.8,140.7 L606.9,140.5 L606.1,140.9 L605.3,141.8 L604.6,142.3 L604.9,141.6 L605.1,140.9 L604.7,140.4 L603.9,139.6 L603.7,139.1 L603.7,138.5 L603.8,137.9 L604.6,138.6 L605.1,139.4 L605.7,139.8 L606.4,139.8 L605.8,138.5 L605.6,138.2 L604.8,137.7 L603.7,136.8 L603.0,136.3 L603.3,135.4 L603.7,135.2 L604.0,135.2 L605.2,135.6 L605.3,135.1 L605.1,134.8 L605.0,134.5 L605.8,134.1 L607.1,133.8 L607.3,133.6 L607.6,133.3 L607.9,133.1 L608.8,133.1 L609.5,132.8 L610.1,131.9 L610.3,131.4 L610.5,131.0 L612.1,130.2 L612.4,130.1 L613.5,130.2 L614.4,130.6 L614.9,131.5 L615.3,132.4 L616.2,133.0 Z M642.7,127.2 L643.8,127.6 L645.0,127.4 L645.0,129.1 L645.1,129.6 L645.5,130.1 L645.3,130.8 L645.8,131.1 L644.3,131.9 L642.8,133.0 L642.3,133.7 L641.7,134.5 L641.4,135.3 L641.2,136.2 L640.7,135.9 L639.4,134.4 L638.5,134.0 L637.1,133.8 L636.6,133.9 L633.8,135.2 L633.4,136.2 L632.6,137.7 L632.2,138.2 L631.8,138.3 L631.5,138.6 L631.2,139.8 L630.3,140.6 L629.8,140.7 L628.8,140.4 L628.4,140.6 L629.0,139.3 L628.1,139.2 L627.2,139.2 L627.2,138.4 L626.7,137.9 L627.0,137.3 L627.1,136.8 L627.3,136.5 L627.4,136.2 L627.3,135.8 L626.8,135.7 L626.5,135.5 L626.5,134.6 L626.2,134.5 L625.4,134.7 L623.8,135.4 L623.4,135.4 L624.0,134.9 L625.5,134.2 L626.1,133.8 L627.5,132.8 L628.4,132.3 L628.9,131.4 L629.0,130.8 L629.3,130.3 L629.6,129.5 L630.1,129.3 L630.9,128.6 L631.3,128.7 L631.8,129.5 L632.5,130.1 L633.0,130.1 L633.9,129.8 L634.3,129.7 L635.3,129.7 L636.2,129.3 L636.6,128.9 L636.7,128.3 L636.4,127.3 L636.8,127.4 L637.3,127.4 L638.3,126.7 L639.3,126.4 L640.3,126.3 L641.5,126.6 L642.7,127.2 Z M699.7,63.4 L700.1,63.6 L701.6,63.2 L701.3,64.5 L701.1,65.9 L701.3,68.2 L701.4,69.3 L701.7,70.3 L702.3,71.0 L703.2,71.5 L704.4,73.1 L705.1,75.1 L705.6,76.1 L705.9,77.1 L706.0,77.6 L706.1,78.1 L705.9,78.7 L706.1,79.2 L705.9,80.9 L705.4,82.7 L705.3,83.7 L704.8,83.9 L704.5,84.3 L704.3,84.5 L704.0,84.7 L703.6,84.7 L703.3,84.9 L703.2,85.4 L703.0,85.9 L702.6,86.3 L702.4,86.8 L702.1,88.0 L702.0,89.2 L701.7,90.0 L700.9,90.2 L699.9,90.2 L698.7,90.6 L698.5,90.8 L697.5,92.3 L697.2,93.2 L697.2,94.1 L697.5,95.2 L697.8,96.4 L698.1,98.4 L697.8,101.6 L697.6,102.6 L696.9,103.3 L696.5,103.6 L696.1,104.0 L695.6,105.0 L694.7,107.1 L694.7,107.6 L694.7,108.1 L694.4,108.8 L694.3,109.5 L694.4,110.3 L694.7,111.0 L695.8,112.9 L696.3,113.5 L696.8,114.0 L694.8,114.6 L694.5,114.9 L693.3,116.0 L692.9,117.0 L693.0,118.1 L692.8,118.5 L692.5,118.9 L692.1,119.1 L690.8,119.7 L690.0,120.2 L689.2,121.0 L688.9,121.4 L688.2,121.3 L687.8,120.9 L688.2,120.4 L688.1,119.9 L688.3,118.4 L688.1,117.9 L688.7,117.4 L689.1,116.7 L689.7,116.2 L690.2,115.7 L690.3,115.3 L689.9,114.9 L689.4,114.5 L688.8,114.5 L688.1,114.6 L687.7,115.0 L687.6,115.6 L687.6,115.9 L687.6,116.1 L686.6,116.9 L686.7,117.7 L687.0,118.1 L687.4,118.3 L687.3,118.5 L686.8,119.2 L686.5,119.2 L685.9,118.3 L685.2,117.8 L684.2,117.9 L683.3,118.0 L682.6,118.6 L682.3,119.1 L682.2,119.7 L682.2,120.9 L681.9,122.0 L681.3,122.9 L681.1,123.2 L680.4,123.9 L679.9,123.9 L679.5,123.6 L679.2,123.2 L679.6,121.6 L679.6,120.7 L680.4,120.3 L679.7,119.7 L678.9,119.4 L677.7,119.8 L677.4,120.1 L677.1,120.6 L676.5,121.3 L675.8,121.9 L675.0,122.9 L674.5,124.1 L672.7,123.7 L671.8,123.6 L670.8,123.7 L669.1,123.5 L667.3,123.8 L665.1,124.3 L665.2,123.9 L667.0,123.2 L667.1,123.0 L666.9,122.6 L666.5,122.5 L665.4,122.7 L664.9,122.6 L664.7,122.2 L664.3,122.0 L664.1,122.2 L664.1,123.0 L663.9,123.1 L663.5,122.9 L663.7,122.3 L663.4,121.3 L663.4,120.7 L663.8,120.2 L663.4,120.0 L663.0,120.1 L662.5,120.3 L662.0,120.7 L661.1,122.4 L660.7,123.4 L661.4,124.2 L663.3,125.3 L663.6,125.6 L663.6,126.1 L663.4,126.6 L662.9,126.8 L660.8,127.2 L659.0,127.9 L658.5,128.6 L656.9,131.5 L655.6,133.4 L653.8,134.1 L651.8,133.5 L651.3,132.8 L650.9,132.0 L650.1,131.2 L649.5,130.4 L649.1,129.4 L649.1,127.8 L648.8,126.9 L649.1,126.6 L650.2,126.1 L650.6,125.7 L651.2,125.0 L651.4,124.6 L651.5,124.0 L651.0,123.6 L649.6,123.6 L648.4,123.8 L647.4,123.5 L646.2,122.8 L645.8,122.6 L644.6,122.6 L643.6,122.7 L642.7,123.0 L641.8,123.1 L641.4,123.2 L640.3,124.2 L639.4,124.8 L638.7,125.0 L637.0,125.1 L636.2,125.3 L635.3,125.6 L635.1,125.6 L634.2,126.0 L633.1,126.4 L632.6,126.8 L631.6,126.5 L629.5,127.2 L628.6,127.3 L627.5,126.9 L626.6,126.3 L625.7,126.6 L625.1,127.4 L624.8,129.2 L624.4,130.0 L624.3,130.9 L623.8,130.8 L621.1,129.1 L620.9,129.0 L618.7,129.3 L618.2,129.4 L617.5,129.8 L616.7,129.9 L616.0,129.7 L615.4,129.3 L614.8,129.4 L614.1,129.7 L613.9,127.1 L614.0,126.8 L614.4,126.3 L614.8,126.0 L615.9,125.8 L617.0,126.0 L617.7,125.8 L618.4,125.3 L619.1,124.6 L619.8,124.0 L620.9,123.5 L621.9,123.0 L622.8,122.2 L623.6,121.4 L624.4,120.8 L625.3,120.3 L626.5,119.1 L628.2,117.8 L628.9,116.8 L629.3,116.5 L630.8,115.9 L632.7,115.5 L633.6,115.5 L634.5,116.4 L635.0,116.3 L635.5,116.1 L636.5,115.9 L637.5,116.1 L638.5,116.1 L639.5,116.0 L641.5,115.7 L642.5,115.3 L643.5,114.9 L647.0,114.6 L649.4,113.8 L649.8,113.9 L650.2,114.1 L650.2,114.6 L649.9,115.2 L650.2,115.6 L650.7,115.8 L653.0,115.9 L653.7,116.0 L654.6,115.6 L655.5,115.1 L656.4,114.4 L657.1,113.6 L656.5,112.7 L656.4,111.6 L656.9,110.5 L657.6,109.6 L658.5,109.0 L659.3,108.3 L660.9,106.4 L662.1,104.9 L662.5,103.0 L662.3,100.8 L663.3,99.2 L664.3,98.9 L666.3,98.2 L667.3,97.9 L667.4,98.3 L667.4,98.7 L665.9,100.1 L665.0,100.6 L664.5,100.8 L664.0,101.1 L663.8,101.6 L664.6,102.4 L664.8,103.0 L664.7,103.5 L664.8,104.1 L665.6,104.6 L666.7,104.8 L667.1,104.8 L667.5,104.7 L668.6,103.3 L668.9,103.0 L672.2,102.0 L673.8,101.3 L674.7,101.1 L675.6,100.7 L677.5,99.1 L678.2,98.4 L678.8,97.6 L679.3,96.7 L679.7,95.7 L680.3,95.0 L683.3,93.6 L684.2,92.8 L684.5,92.4 L684.9,91.2 L685.2,90.1 L685.5,89.1 L686.0,88.3 L686.7,87.4 L687.4,86.6 L687.9,85.8 L688.5,83.8 L688.8,82.6 L689.0,82.3 L689.3,81.9 L689.6,81.5 L689.8,81.0 L689.9,80.5 L690.1,79.1 L690.0,78.0 L689.5,77.0 L689.1,76.8 L688.6,76.8 L687.9,76.8 L687.4,76.4 L687.5,76.1 L688.1,76.0 L688.5,75.9 L688.8,75.5 L689.3,74.5 L689.6,73.4 L689.6,72.9 L689.2,72.0 L688.9,71.0 L688.9,70.4 L689.2,69.7 L689.8,69.2 L690.2,69.0 L690.7,69.0 L691.2,68.8 L691.6,68.5 L691.9,68.2 L692.2,67.2 L692.4,66.7 L692.1,65.3 L692.4,65.0 L692.7,64.7 L693.2,64.9 L693.7,64.9 L694.2,64.9 L694.7,65.0 L694.8,65.4 L695.2,67.7 L695.3,68.1 L695.7,68.3 L696.2,68.3 L696.5,67.9 L696.8,67.4 L697.3,67.3 L698.8,67.8 L699.3,67.5 L699.7,66.9 L700.0,65.9 L699.8,64.9 L699.5,64.6 L699.1,64.7 L698.8,64.9 L698.4,65.1 L696.2,65.5 L696.2,64.5 L696.7,63.0 L696.9,62.5 L697.3,62.3 L698.2,62.5 L698.7,62.7 L699.7,63.4 Z M559.1,214.4 L558.6,215.8 L558.2,216.0 L557.8,215.9 L557.4,215.1 L557.7,214.8 L558.1,215.0 L558.4,214.9 L559.2,213.8 L559.4,214.0 L559.1,214.4 Z M555.8,216.5 L555.2,216.7 L554.6,216.5 L554.0,216.5 L554.0,216.2 L554.6,215.9 L554.6,215.5 L554.8,215.3 L556.1,215.8 L556.1,216.1 L555.8,216.5 Z M568.7,212.4 L568.0,212.6 L567.2,212.5 L567.3,211.2 L567.6,211.4 L567.8,211.8 L568.3,212.1 L568.7,212.4 Z M592.0,195.3 L591.2,195.7 L590.9,196.2 L590.2,196.3 L589.5,197.0 L588.8,197.2 L588.8,197.7 L589.1,198.2 L588.6,198.3 L588.1,198.8 L588.1,199.3 L588.3,199.6 L588.3,199.8 L587.6,200.3 L587.0,200.3 L587.0,199.8 L587.0,199.3 L587.6,198.4 L587.6,197.2 L588.2,197.1 L588.4,197.0 L589.3,196.2 L589.4,195.8 L589.0,195.5 L589.0,195.1 L589.1,194.9 L589.8,195.0 L590.1,195.3 L590.3,195.4 L590.7,195.1 L590.9,194.8 L591.7,194.0 L592.0,193.2 L592.6,193.9 L592.5,194.7 L592.0,195.3 Z M598.2,185.7 L597.8,185.9 L597.4,185.7 L597.2,184.6 L597.4,184.1 L597.8,184.0 L598.1,184.9 L598.3,185.3 L598.2,185.7 Z M601.9,181.3 L601.2,182.1 L600.5,181.4 L599.6,181.0 L600.0,180.9 L600.2,180.7 L600.3,180.4 L600.9,180.0 L602.0,179.7 L602.4,179.7 L602.8,179.4 L603.0,179.1 L603.2,179.0 L603.9,178.6 L604.1,179.0 L604.1,179.3 L603.5,179.5 L603.0,180.0 L602.4,180.5 L602.0,180.8 L601.8,180.9 L601.9,181.3 Z M600.9,182.3 L600.9,182.5 L600.1,182.3 L599.8,181.5 L600.3,181.6 L600.5,181.9 L600.9,182.3 Z M688.2,137.9 L688.1,138.0 L687.7,137.7 L687.6,137.5 L687.7,137.3 L687.9,137.3 L688.5,137.6 L688.2,137.9 Z" fill="#7fb3c9" fill-opacity="0.7" stroke="#818b96" stroke-width="0.7" stroke-opacity="0.95" stroke-linejoin="round"/>
+  <path d="M390.4,422.1 L389.1,422.7 L387.7,422.1 L388.2,421.3 L389.1,421.0 L389.9,421.3 L390.3,421.5 L390.6,421.8 L390.4,422.1 Z" fill="#8fae8c" fill-opacity="0.7" stroke="#818b96" stroke-width="0.7" stroke-opacity="0.95" stroke-linejoin="round"/>
+  <circle cx="389.5" cy="421.8" r="5" fill="#8fae8c" fill-opacity="0.72" stroke="#0a0a0a" stroke-width="0.8" stroke-dasharray="0"/>
+  <path d="M164.5,114.6 L164.9,115.4 L165.5,116.6 L165.9,117.4 L166.3,118.3 L166.5,118.8 L166.9,119.5 L166.7,120.0 L166.5,120.6 L165.6,121.1 L164.6,121.4 L164.4,121.6 L164.4,121.9 L163.9,122.4 L163.1,122.9 L162.4,122.8 L161.9,122.7 L159.6,123.5 L158.5,123.5 L157.6,124.0 L157.0,124.5 L155.7,125.0 L154.9,125.0 L153.6,124.7 L152.0,124.1 L151.4,123.8 L150.8,123.8 L149.4,123.7 L148.1,123.4 L146.5,123.1 L145.7,122.9 L144.0,122.6 L143.0,123.0 L142.0,123.4 L141.2,123.6 L140.6,124.7 L140.3,125.1 L140.0,125.7 L139.8,126.1 L140.0,126.6 L140.9,126.9 L141.3,127.4 L141.4,127.8 L141.0,128.2 L140.7,128.5 L140.7,128.8 L140.9,129.1 L141.1,129.3 L142.5,129.4 L143.3,129.5 L143.6,129.6 L143.6,130.0 L143.3,130.5 L142.2,130.9 L141.5,131.4 L141.3,132.0 L141.4,132.5 L141.6,132.8 L142.1,133.1 L142.6,133.6 L142.8,133.9 L142.7,134.4 L142.5,135.0 L142.0,135.7 L141.5,136.3 L141.5,136.5 L141.6,136.7 L141.9,137.2 L142.6,137.8 L143.4,138.3 L143.9,138.4 L144.1,138.5 L144.2,139.1 L144.3,139.7 L144.1,140.1 L144.5,140.5 L145.6,140.5 L146.4,140.6 L146.8,140.5 L147.0,140.6 L146.9,141.9 L147.0,142.7 L147.2,143.0 L148.1,143.3 L149.7,143.3 L150.7,143.6 L151.8,144.1 L152.4,144.5 L152.6,144.9 L152.5,145.5 L152.0,146.1 L151.0,146.5 L150.4,146.6 L147.7,147.8 L146.8,148.4 L146.2,149.0 L145.9,149.5 L145.8,150.0 L146.4,151.7 L146.5,152.2 L146.0,154.0 L145.8,154.7 L146.0,155.2 L146.6,155.3 L146.7,155.7 L146.8,156.0 L145.8,156.7 L144.7,157.3 L144.4,157.3 L143.3,158.4 L141.6,160.6 L140.7,161.4 L140.6,161.8 L140.6,162.2 L140.9,162.8 L141.0,163.3 L140.6,163.9 L140.0,164.5 L138.7,165.0 L137.1,165.6 L136.4,165.9 L135.9,167.3 L135.4,168.8 L135.2,169.3 L134.3,171.0 L132.8,173.5 L132.4,174.0 L130.1,175.2 L127.8,176.5 L127.4,177.0 L126.9,178.1 L126.4,179.4 L126.0,180.1 L124.5,181.6 L124.0,182.8 L123.9,183.6 L122.6,184.0 L121.1,184.4 L119.0,184.5 L118.2,184.7 L115.6,185.8 L115.0,185.8 L114.4,185.6 L114.1,185.3 L113.7,184.7 L113.6,183.8 L113.1,183.4 L112.4,183.0 L111.7,183.0 L111.0,183.4 L110.4,183.8 L109.9,184.2 L109.5,184.6 L108.7,185.9 L107.5,187.9 L106.0,189.4 L105.5,189.8 L105.2,190.1 L104.7,190.6 L104.5,191.1 L104.1,192.6 L103.9,193.9 L104.0,194.2 L104.2,194.5 L105.0,194.9 L106.1,195.5 L107.6,195.9 L108.8,195.9 L109.3,196.2 L109.6,196.6 L109.6,196.9 L109.6,198.0 L109.4,199.2 L109.0,200.5 L109.0,201.2 L109.2,201.9 L110.5,203.8 L111.0,203.9 L112.1,204.0 L112.5,204.0 L113.1,203.8 L113.4,203.9 L113.7,204.1 L113.8,204.5 L113.7,206.3 L114.2,207.1 L115.0,208.2 L115.6,209.5 L116.2,211.1 L116.8,212.3 L117.0,212.9 L116.6,213.2 L116.4,213.5 L116.4,213.9 L116.5,214.4 L116.4,214.7 L116.7,215.1 L117.0,215.2 L117.0,215.5 L116.5,215.8 L116.0,215.8 L115.7,216.0 L115.0,216.7 L114.7,216.8 L114.3,216.9 L113.8,216.8 L113.1,216.5 L112.9,216.1 L113.0,215.6 L112.9,215.3 L112.4,215.4 L110.7,215.9 L109.1,216.5 L108.9,216.9 L108.5,217.3 L107.8,217.5 L106.7,217.6 L106.0,217.5 L105.3,217.0 L104.7,216.6 L103.7,216.6 L102.0,216.6 L101.0,216.6 L100.5,216.5 L99.9,216.6 L99.2,216.4 L98.9,216.7 L98.6,216.7 L98.4,216.3 L98.2,216.2 L98.0,216.3 L97.9,216.4 L97.8,216.7 L97.7,219.4 L96.6,219.3 L95.8,219.3 L94.9,219.5 L94.1,219.7 L93.7,219.9 L93.1,220.3 L93.0,220.9 L92.7,221.3 L92.3,220.7 L92.0,220.4 L91.7,220.6 L91.3,220.6 L90.6,219.9 L90.2,220.6 L89.0,220.7 L88.8,220.2 L88.8,219.8 L88.1,220.1 L87.6,219.6 L87.4,218.9 L87.2,218.7 L87.0,218.5 L86.5,218.2 L86.0,217.5 L85.9,216.7 L85.8,215.7 L84.8,212.3 L84.3,211.9 L81.0,211.3 L80.8,210.7 L81.0,209.1 L80.9,208.1 L79.9,206.7 L79.6,205.8 L78.7,204.9 L77.8,204.7 L76.9,204.8 L76.5,205.1 L76.2,205.7 L78.1,205.5 L78.5,205.7 L79.0,206.1 L78.5,206.1 L77.8,205.9 L77.1,205.9 L74.2,206.3 L72.5,206.9 L70.2,206.7 L67.3,207.3 L65.0,207.3 L64.0,208.4 L63.4,208.2 L63.0,208.0 L59.8,207.1 L59.6,206.7 L59.0,206.5 L58.4,206.9 L58.0,207.0 L56.2,206.6 L54.8,206.9 L54.3,207.4 L54.3,208.2 L52.6,208.0 L51.6,207.8 L50.3,208.1 L47.4,207.7 L46.7,207.8 L45.6,208.3 L45.2,208.7 L44.5,208.9 L44.0,208.3 L43.6,208.1 L43.2,208.2 L42.6,208.7 L41.1,208.9 L39.8,208.9 L38.3,208.4 L38.5,208.3 L38.7,207.5 L38.9,204.8 L39.2,203.9 L39.1,203.4 L39.2,203.2 L39.7,202.7 L39.9,202.5 L40.1,201.2 L40.3,199.7 L40.6,199.1 L40.8,199.0 L42.6,198.3 L43.0,197.8 L43.9,197.9 L44.0,197.8 L44.1,197.3 L44.5,196.7 L45.1,196.3 L45.6,196.1 L47.2,195.8 L48.2,195.4 L48.4,195.4 L51.0,195.5 L51.5,195.3 L51.6,195.2 L51.8,193.6 L52.2,193.4 L52.3,193.3 L52.1,192.2 L52.2,191.5 L52.7,191.1 L52.7,190.8 L52.3,190.3 L51.8,190.0 L51.6,189.9 L49.5,190.2 L48.6,190.1 L48.2,189.9 L48.2,189.8 L48.2,189.5 L48.3,189.0 L48.6,188.2 L48.6,187.7 L48.4,185.0 L48.1,183.2 L48.2,181.4 L48.2,181.0 L48.1,181.0 L47.9,181.0 L46.6,181.1 L45.5,180.0 L44.8,179.5 L43.0,178.9 L42.2,178.8 L41.0,178.3 L39.9,177.2 L38.8,176.1 L38.3,175.4 L37.8,174.2 L36.4,171.9 L36.4,171.3 L36.2,170.9 L34.9,169.4 L33.9,168.3 L32.3,166.6 L35.5,167.6 L37.9,168.3 L41.9,169.5 L45.0,170.5 L45.9,170.6 L54.9,169.8 L58.3,170.4 L59.3,170.7 L59.5,170.6 L59.9,170.1 L60.7,169.7 L61.8,169.4 L62.8,169.2 L64.4,169.2 L65.4,169.2 L66.1,169.3 L67.6,169.3 L68.3,169.1 L70.7,168.4 L72.3,168.0 L74.8,167.3 L76.6,166.8 L77.0,166.5 L77.5,166.0 L77.7,165.6 L77.2,164.9 L77.1,164.3 L77.5,163.6 L77.7,162.4 L77.6,160.8 L77.5,159.9 L78.0,158.1 L78.4,157.1 L79.2,156.7 L79.8,156.4 L80.1,156.2 L80.3,155.9 L81.2,154.6 L82.0,154.0 L82.8,153.6 L83.7,153.7 L84.4,154.2 L85.8,154.4 L87.2,154.2 L88.4,153.9 L88.9,153.5 L89.5,153.3 L89.5,153.0 L88.8,152.7 L88.4,152.3 L88.2,151.8 L88.6,151.5 L89.6,151.4 L91.9,150.3 L92.8,149.5 L93.1,149.2 L93.5,149.1 L94.4,149.5 L95.4,149.6 L96.0,149.2 L96.7,149.2 L97.3,149.5 L97.7,150.0 L98.2,150.6 L98.9,150.7 L99.8,150.4 L100.7,149.7 L101.6,148.8 L102.3,148.0 L102.2,145.2 L102.0,143.5 L102.4,142.6 L103.0,142.1 L103.4,141.3 L103.4,140.5 L103.8,139.9 L104.2,138.3 L104.7,137.9 L105.9,137.6 L107.7,137.4 L109.1,136.7 L110.5,135.8 L110.7,135.1 L110.2,134.4 L109.4,132.9 L108.8,132.0 L107.2,130.4 L107.4,129.4 L108.3,129.0 L110.4,129.7 L111.0,129.8 L111.8,129.9 L113.8,129.9 L115.4,129.6 L117.1,129.0 L117.4,128.4 L117.4,127.7 L117.4,127.0 L117.4,126.2 L116.8,125.6 L116.5,125.1 L116.4,124.7 L116.8,124.5 L117.2,124.1 L117.6,123.4 L118.5,122.5 L119.1,121.7 L119.6,121.3 L120.4,120.8 L120.9,120.1 L121.2,119.6 L121.6,119.2 L121.8,118.9 L121.7,118.6 L121.4,118.3 L121.2,117.9 L121.2,117.6 L121.4,117.2 L121.6,116.9 L121.5,116.4 L121.4,115.6 L120.9,115.2 L120.7,114.1 L120.2,113.1 L119.9,112.6 L119.5,112.1 L118.5,111.6 L118.2,111.2 L118.6,110.5 L119.2,110.0 L120.5,108.9 L121.2,108.2 L121.8,107.7 L122.6,107.7 L123.1,107.7 L123.5,107.2 L124.3,106.8 L125.7,105.9 L126.2,105.3 L127.0,105.0 L127.7,104.9 L128.5,104.7 L129.3,104.4 L130.1,104.1 L131.3,104.1 L133.2,103.9 L134.2,103.8 L136.7,103.7 L139.3,103.6 L139.6,103.6 L140.8,103.9 L141.6,104.2 L141.9,104.2 L143.2,103.5 L145.1,102.8 L146.0,102.4 L146.5,102.3 L147.3,102.3 L147.9,102.5 L148.5,102.8 L148.9,103.0 L149.4,102.9 L150.3,102.7 L151.0,102.9 L152.7,103.4 L153.0,103.6 L153.4,105.0 L153.7,105.1 L154.6,104.8 L155.4,104.9 L156.3,105.3 L156.8,105.7 L157.2,106.2 L157.6,106.9 L157.7,107.5 L157.9,108.1 L157.9,110.1 L157.6,110.4 L157.4,110.8 L157.4,111.1 L157.7,111.4 L158.2,111.6 L158.7,111.7 L159.0,112.0 L159.4,113.1 L159.6,113.3 L160.2,113.3 L161.4,113.0 L162.3,112.7 L162.7,112.6 L162.8,113.6 L163.4,114.0 L164.2,114.4 L164.5,114.6 Z" fill="#d7b169" fill-opacity="0.7" stroke="#818b96" stroke-width="0.7" stroke-opacity="0.95" stroke-linejoin="round"/>
+  <path d="M164.5,114.6 L164.9,115.4 L165.5,116.6 L165.9,117.4 L166.3,118.3 L166.5,118.8 L166.9,119.5 L166.7,120.0 L166.5,120.6 L165.6,121.1 L164.6,121.4 L164.4,121.6 L164.4,121.9 L163.9,122.4 L163.1,122.9 L162.4,122.8 L161.9,122.7 L159.6,123.5 L158.5,123.5 L157.6,124.0 L157.0,124.5 L155.7,125.0 L154.9,125.0 L153.6,124.7 L152.0,124.1 L151.4,123.8 L150.8,123.8 L149.4,123.7 L148.1,123.4 L146.5,123.1 L145.7,122.9 L144.0,122.6 L143.0,123.0 L142.0,123.4 L141.2,123.6 L140.6,124.7 L140.3,125.1 L140.0,125.7 L139.8,126.1 L140.0,126.6 L140.9,126.9 L141.3,127.4 L141.4,127.8 L141.0,128.2 L140.7,128.5 L140.7,128.8 L140.9,129.1 L141.1,129.3 L142.5,129.4 L143.3,129.5 L143.6,129.6 L143.6,130.0 L143.3,130.5 L142.2,130.9 L141.5,131.4 L141.3,132.0 L141.4,132.5 L141.6,132.8 L142.1,133.1 L142.6,133.6 L142.8,133.9 L142.7,134.4 L142.5,135.0 L142.0,135.7 L141.5,136.3 L141.5,136.5 L141.6,136.7 L141.9,137.2 L142.6,137.8 L143.4,138.3 L143.9,138.4 L144.1,138.5 L144.2,139.1 L144.3,139.7 L144.1,140.1 L144.5,140.5 L145.6,140.5 L146.4,140.6 L146.8,140.5 L147.0,140.6 L146.9,141.9 L147.0,142.7 L147.2,143.0 L148.1,143.3 L149.7,143.3 L150.7,143.6 L151.8,144.1 L152.4,144.5 L152.6,144.9 L152.5,145.5 L152.0,146.1 L151.0,146.5 L150.4,146.6 L147.7,147.8 L146.8,148.4 L146.2,149.0 L145.9,149.5 L145.8,150.0 L146.4,151.7 L146.5,152.2 L146.0,154.0 L145.8,154.7 L146.0,155.2 L146.6,155.3 L146.7,155.7 L146.8,156.0 L145.8,156.7 L144.7,157.3 L144.4,157.3 L143.3,158.4 L141.6,160.6 L140.7,161.4 L140.6,161.8 L140.6,162.2 L140.9,162.8 L141.0,163.3 L140.6,163.9 L140.0,164.5 L138.7,165.0 L137.1,165.6 L136.4,165.9 L135.9,167.3 L135.4,168.8 L135.2,169.3 L134.3,171.0 L132.8,173.5 L132.4,174.0 L130.1,175.2 L127.8,176.5 L127.4,177.0 L126.9,178.1 L126.4,179.4 L126.0,180.1 L124.5,181.6 L124.0,182.8 L123.9,183.6 L122.6,184.0 L121.1,184.4 L119.0,184.5 L118.2,184.7 L115.6,185.8 L115.0,185.8 L114.4,185.6 L114.1,185.3 L113.7,184.7 L113.6,183.8 L113.1,183.4 L112.4,183.0 L111.7,183.0 L111.0,183.4 L110.4,183.8 L109.9,184.2 L109.5,184.6 L108.7,185.9 L107.5,187.9 L106.0,189.4 L105.5,189.8 L105.2,190.1 L104.7,190.6 L104.5,191.1 L104.1,192.6 L103.9,193.9 L104.0,194.2 L104.2,194.5 L105.0,194.9 L106.1,195.5 L107.6,195.9 L108.8,195.9 L109.3,196.2 L109.6,196.6 L109.6,196.9 L109.6,198.0 L109.4,199.2 L109.0,200.5 L109.0,201.2 L109.2,201.9 L110.5,203.8 L111.0,203.9 L112.1,204.0 L112.5,204.0 L113.1,203.8 L113.4,203.9 L113.7,204.1 L113.8,204.5 L113.7,206.3 L114.2,207.1 L115.0,208.2 L115.6,209.5 L116.2,211.1 L116.8,212.3 L117.0,212.9 L116.6,213.2 L116.4,213.5 L116.4,213.9 L116.5,214.4 L116.4,214.7 L116.7,215.1 L117.0,215.2 L117.0,215.5 L116.5,215.8 L116.0,215.8 L115.7,216.0 L115.0,216.7 L114.7,216.8 L114.3,216.9 L113.8,216.8 L113.1,216.5 L112.9,216.1 L113.0,215.6 L112.9,215.3 L112.4,215.4 L110.7,215.9 L109.1,216.5 L108.9,216.9 L108.5,217.3 L107.8,217.5 L106.7,217.6 L106.0,217.5 L105.3,217.0 L104.7,216.6 L103.7,216.6 L102.0,216.6 L101.0,216.6 L100.5,216.5 L99.9,216.6 L99.2,216.4 L98.9,216.7 L98.6,216.7 L98.4,216.3 L98.2,216.2 L98.0,216.3 L97.9,216.4 L97.8,216.7 L97.7,219.4 L96.6,219.3 L95.8,219.3 L94.9,219.5 L94.1,219.7 L93.7,219.9 L93.1,220.3 L93.0,220.9 L92.7,221.3 L92.3,220.7 L92.0,220.4 L91.7,220.6 L91.3,220.6 L90.6,219.9 L90.2,220.6 L89.0,220.7 L88.8,220.2 L88.8,219.8 L88.1,220.1 L87.6,219.6 L87.4,218.9 L87.2,218.7 L87.0,218.5 L86.5,218.2 L86.0,217.5 L85.9,216.7 L85.8,215.7 L84.8,212.3 L84.3,211.9 L81.0,211.3 L80.8,210.7 L81.0,209.1 L80.9,208.1 L79.9,206.7 L79.6,205.8 L78.7,204.9 L77.8,204.7 L76.9,204.8 L76.5,205.1 L76.2,205.7 L78.1,205.5 L78.5,205.7 L79.0,206.1 L78.5,206.1 L77.8,205.9 L77.1,205.9 L74.2,206.3 L72.5,206.9 L70.2,206.7 L67.3,207.3 L65.0,207.3 L64.0,208.4 L63.4,208.2 L63.0,208.0 L59.8,207.1 L59.6,206.7 L59.0,206.5 L58.4,206.9 L58.0,207.0 L56.2,206.6 L54.8,206.9 L54.3,207.4 L54.3,208.2 L52.6,208.0 L51.6,207.8 L50.3,208.1 L47.4,207.7 L46.7,207.8 L45.6,208.3 L45.2,208.7 L44.5,208.9 L44.0,208.3 L43.6,208.1 L43.2,208.2 L42.6,208.7 L41.1,208.9 L39.8,208.9 L38.3,208.4 L38.5,208.3 L38.7,207.5 L38.9,204.8 L39.2,203.9 L39.1,203.4 L39.2,203.2 L39.7,202.7 L39.9,202.5 L40.1,201.2 L40.3,199.7 L40.6,199.1 L40.8,199.0 L42.6,198.3 L43.0,197.8 L43.9,197.9 L44.0,197.8 L44.1,197.3 L44.5,196.7 L45.1,196.3 L45.6,196.1 L47.2,195.8 L48.2,195.4 L48.4,195.4 L51.0,195.5 L51.5,195.3 L51.6,195.2 L51.8,193.6 L52.2,193.4 L52.3,193.3 L52.1,192.2 L52.2,191.5 L52.7,191.1 L52.7,190.8 L52.3,190.3 L51.8,190.0 L51.6,189.9 L49.5,190.2 L48.6,190.1 L48.2,189.9 L48.2,189.8 L48.2,189.5 L48.3,189.0 L48.6,188.2 L48.6,187.7 L48.4,185.0 L48.1,183.2 L48.2,181.4 L48.2,181.0 L48.1,181.0 L47.9,181.0 L46.6,181.1 L45.5,180.0 L44.8,179.5 L43.0,178.9 L42.2,178.8 L41.0,178.3 L39.9,177.2 L38.8,176.1 L38.3,175.4 L37.8,174.2 L36.4,171.9 L36.4,171.3 L36.2,170.9 L34.9,169.4 L33.9,168.3 L32.3,166.6 L35.5,167.6 L37.9,168.3 L41.9,169.5 L45.0,170.5 L45.9,170.6 L54.9,169.8 L58.3,170.4 L59.3,170.7 L59.5,170.6 L59.9,170.1 L60.7,169.7 L61.8,169.4 L62.8,169.2 L64.4,169.2 L65.4,169.2 L66.1,169.3 L67.6,169.3 L68.3,169.1 L70.7,168.4 L72.3,168.0 L74.8,167.3 L76.6,166.8 L77.0,166.5 L77.5,166.0 L77.7,165.6 L77.2,164.9 L77.1,164.3 L77.5,163.6 L77.7,162.4 L77.6,160.8 L77.5,159.9 L78.0,158.1 L78.4,157.1 L79.2,156.7 L79.8,156.4 L80.1,156.2 L80.3,155.9 L81.2,154.6 L82.0,154.0 L82.8,153.6 L83.7,153.7 L84.4,154.2 L85.8,154.4 L87.2,154.2 L88.4,153.9 L88.9,153.5 L89.5,153.3 L89.5,153.0 L88.8,152.7 L88.4,152.3 L88.2,151.8 L88.6,151.5 L89.6,151.4 L91.9,150.3 L92.8,149.5 L93.1,149.2 L93.5,149.1 L94.4,149.5 L95.4,149.6 L96.0,149.2 L96.7,149.2 L97.3,149.5 L97.7,150.0 L98.2,150.6 L98.9,150.7 L99.8,150.4 L100.7,149.7 L101.6,148.8 L102.3,148.0 L102.2,145.2 L102.0,143.5 L102.4,142.6 L103.0,142.1 L103.4,141.3 L103.4,140.5 L103.8,139.9 L104.2,138.3 L104.7,137.9 L105.9,137.6 L107.7,137.4 L109.1,136.7 L110.5,135.8 L110.7,135.1 L110.2,134.4 L109.4,132.9 L108.8,132.0 L107.2,130.4 L107.4,129.4 L108.3,129.0 L110.4,129.7 L111.0,129.8 L111.8,129.9 L113.8,129.9 L115.4,129.6 L117.1,129.0 L117.4,128.4 L117.4,127.7 L117.4,127.0 L117.4,126.2 L116.8,125.6 L116.5,125.1 L116.4,124.7 L116.8,124.5 L117.2,124.1 L117.6,123.4 L118.5,122.5 L119.1,121.7 L119.6,121.3 L120.4,120.8 L120.9,120.1 L121.2,119.6 L121.6,119.2 L121.8,118.9 L121.7,118.6 L121.4,118.3 L121.2,117.9 L121.2,117.6 L121.4,117.2 L121.6,116.9 L121.5,116.4 L121.4,115.6 L120.9,115.2 L120.7,114.1 L120.2,113.1 L119.9,112.6 L119.5,112.1 L118.5,111.6 L118.2,111.2 L118.6,110.5 L119.2,110.0 L120.5,108.9 L121.2,108.2 L121.8,107.7 L122.6,107.7 L123.1,107.7 L123.5,107.2 L124.3,106.8 L125.7,105.9 L126.2,105.3 L127.0,105.0 L127.7,104.9 L128.5,104.7 L129.3,104.4 L130.1,104.1 L131.3,104.1 L133.2,103.9 L134.2,103.8 L136.7,103.7 L139.3,103.6 L139.6,103.6 L140.8,103.9 L141.6,104.2 L141.9,104.2 L143.2,103.5 L145.1,102.8 L146.0,102.4 L146.5,102.3 L147.3,102.3 L147.9,102.5 L148.5,102.8 L148.9,103.0 L149.4,102.9 L150.3,102.7 L151.0,102.9 L152.7,103.4 L153.0,103.6 L153.4,105.0 L153.7,105.1 L154.6,104.8 L155.4,104.9 L156.3,105.3 L156.8,105.7 L157.2,106.2 L157.6,106.9 L157.7,107.5 L157.9,108.1 L157.9,110.1 L157.6,110.4 L157.4,110.8 L157.4,111.1 L157.7,111.4 L158.2,111.6 L158.7,111.7 L159.0,112.0 L159.4,113.1 L159.6,113.3 L160.2,113.3 L161.4,113.0 L162.3,112.7 L162.7,112.6 L162.8,113.6 L163.4,114.0 L164.2,114.4 L164.5,114.6 Z" fill="url(#hatch)" stroke="#e8eef4" stroke-width="1" stroke-dasharray="3 2.5" stroke-opacity="0.8"/>
+  <path d="M531.8,231.4 L531.3,232.5 L530.9,233.6 L530.7,234.6 L530.8,235.7 L530.6,236.7 L530.4,237.6 L529.6,237.4 L529.2,236.7 L529.1,235.5 L528.5,234.2 L528.3,233.8 L527.4,233.0 L526.7,232.6 L526.1,232.0 L526.2,232.1 L525.7,231.3 L525.4,230.5 L524.7,228.2 L524.5,227.7 L524.2,227.2 L524.1,226.7 L524.2,226.1 L524.5,225.3 L524.7,224.4 L524.5,223.3 L524.6,222.2 L524.8,221.6 L528.7,214.8 L529.7,213.3 L530.4,212.6 L531.0,211.8 L531.5,210.7 L532.1,209.8 L532.6,209.5 L534.8,208.7 L535.5,207.9 L536.1,207.6 L536.7,207.6 L537.1,208.0 L537.5,208.5 L537.9,208.7 L538.8,209.2 L539.3,209.6 L539.5,210.3 L538.9,211.0 L538.6,211.7 L538.5,212.4 L538.6,213.3 L538.6,214.3 L537.9,216.5 L537.1,217.9 L536.9,218.6 L536.6,220.3 L536.1,222.0 L535.7,224.2 L535.1,226.5 L534.7,227.4 L534.2,228.3 L533.1,230.0 L531.8,231.4 Z M510.2,214.4 L510.6,215.0 L510.5,215.3 L509.3,215.1 L509.2,214.8 L509.7,214.8 L510.2,214.4 Z" fill="#d7b169" fill-opacity="0.7" stroke="#818b96" stroke-width="0.7" stroke-opacity="0.95" stroke-linejoin="round"/>
+  <path d="M531.8,231.4 L531.3,232.5 L530.9,233.6 L530.7,234.6 L530.8,235.7 L530.6,236.7 L530.4,237.6 L529.6,237.4 L529.2,236.7 L529.1,235.5 L528.5,234.2 L528.3,233.8 L527.4,233.0 L526.7,232.6 L526.1,232.0 L526.2,232.1 L525.7,231.3 L525.4,230.5 L524.7,228.2 L524.5,227.7 L524.2,227.2 L524.1,226.7 L524.2,226.1 L524.5,225.3 L524.7,224.4 L524.5,223.3 L524.6,222.2 L524.8,221.6 L528.7,214.8 L529.7,213.3 L530.4,212.6 L531.0,211.8 L531.5,210.7 L532.1,209.8 L532.6,209.5 L534.8,208.7 L535.5,207.9 L536.1,207.6 L536.7,207.6 L537.1,208.0 L537.5,208.5 L537.9,208.7 L538.8,209.2 L539.3,209.6 L539.5,210.3 L538.9,211.0 L538.6,211.7 L538.5,212.4 L538.6,213.3 L538.6,214.3 L537.9,216.5 L537.1,217.9 L536.9,218.6 L536.6,220.3 L536.1,222.0 L535.7,224.2 L535.1,226.5 L534.7,227.4 L534.2,228.3 L533.1,230.0 L531.8,231.4 Z M510.2,214.4 L510.6,215.0 L510.5,215.3 L509.3,215.1 L509.2,214.8 L509.7,214.8 L510.2,214.4 Z" fill="url(#hatch)" stroke="#e8eef4" stroke-width="1" stroke-dasharray="3 2.5" stroke-opacity="0.8"/>
+  <line x1="538.9" y1="298.9" x2="538.9" y2="305.9" stroke="#59636e" stroke-width="0.9"/>
+  <text x="538.9" y="314.9" text-anchor="middle" font-size="10.5" font-family="-apple-system,sans-serif" fill="#dfe6ed" stroke="#0a0c0f" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke" font-weight="500">Philippines</text>
+  <line x1="196.7" y1="359.9" x2="196.7" y2="366.9" stroke="#59636e" stroke-width="0.9"/>
+  <text x="196.7" y="375.9" text-anchor="middle" font-size="10.5" font-family="-apple-system,sans-serif" fill="#dfe6ed" stroke="#0a0c0f" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke" font-weight="500">Sri Lanka</text>
+  <line x1="277.4" y1="221.4" x2="277.4" y2="228.4" stroke="#59636e" stroke-width="0.9"/>
+  <text x="277.4" y="237.4" text-anchor="middle" font-size="10.5" font-family="-apple-system,sans-serif" fill="#dfe6ed" stroke="#0a0c0f" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke" font-weight="500">Bangladesh</text>
+  <line x1="364.2" y1="310.3" x2="364.2" y2="317.3" stroke="#59636e" stroke-width="0.9"/>
+  <text x="364.2" y="326.3" text-anchor="middle" font-size="10.5" font-family="-apple-system,sans-serif" fill="#dfe6ed" stroke="#0a0c0f" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke" font-weight="500">Thailand</text>
+  <line x1="584.7" y1="110.7" x2="584.7" y2="117.7" stroke="#59636e" stroke-width="0.9"/>
+  <text x="584.7" y="126.7" text-anchor="middle" font-size="10.5" font-family="-apple-system,sans-serif" fill="#dfe6ed" stroke="#0a0c0f" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke" font-weight="500">South Korea</text>
+  <line x1="407.9" y1="285.3" x2="407.9" y2="292.3" stroke="#59636e" stroke-width="0.9"/>
+  <text x="407.9" y="301.3" text-anchor="middle" font-size="10.5" font-family="-apple-system,sans-serif" fill="#dfe6ed" stroke="#0a0c0f" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke" font-weight="500">Vietnam</text>
+  <line x1="213.8" y1="210.7" x2="213.8" y2="217.7" stroke="#59636e" stroke-width="0.9"/>
+  <text x="213.8" y="226.7" text-anchor="middle" font-size="10.5" font-family="-apple-system,sans-serif" fill="#dfe6ed" stroke="#0a0c0f" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke" font-weight="500">India</text>
+  <line x1="671.5" y1="105.1" x2="671.5" y2="112.1" stroke="#59636e" stroke-width="0.9"/>
+  <text x="671.5" y="121.1" text-anchor="middle" font-size="10.5" font-family="-apple-system,sans-serif" fill="#dfe6ed" stroke="#0a0c0f" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke" font-weight="500">Japan</text>
+  <line x1="389.5" y1="421.8" x2="389.5" y2="402.8" stroke="#59636e" stroke-width="0.9"/>
+  <text x="389.5" y="398.8" text-anchor="middle" font-size="10.5" font-family="-apple-system,sans-serif" fill="#dfe6ed" stroke="#0a0c0f" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke" font-weight="500">Singapore</text>
+  <line x1="106.7" y1="163.7" x2="106.7" y2="170.7" stroke="#59636e" stroke-width="0.9"/>
+  <text x="106.7" y="179.7" text-anchor="middle" font-size="10.5" font-family="-apple-system,sans-serif" fill="#dfe6ed" stroke="#0a0c0f" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke" font-weight="500">Pakistan</text>
+  <line x1="531.7" y1="222.3" x2="531.7" y2="229.3" stroke="#59636e" stroke-width="0.9"/>
+  <text x="531.7" y="238.3" text-anchor="middle" font-size="10.5" font-family="-apple-system,sans-serif" fill="#dfe6ed" stroke="#0a0c0f" stroke-width="2.6" stroke-linejoin="round" paint-order="stroke" font-weight="500">Taiwan</text>
+  <rect x="654" y="340" width="120" height="74" fill="none" stroke="#2b3138"
+    stroke-dasharray="3 3"/>
+  <path d="M680.5,354.9 L681.7,355.1 L682.6,355.1 L683.1,354.9 L683.0,355.1 L683.5,355.4 L683.6,355.4 L684.2,355.2 L685.8,355.2 L686.0,355.3 L686.3,355.6 L686.7,355.8 L687.1,356.0 L687.5,356.0 L688.0,355.9 L688.4,356.0 L688.9,356.3 L689.0,356.3 L689.5,356.2 L689.4,356.5 L690.1,356.9 L690.7,357.7 L691.1,358.0 L691.6,358.3 L691.9,358.5 L692.3,358.6 L693.6,358.6 L693.9,358.6 L694.1,358.7 L694.4,358.8 L694.5,358.7 L697.0,360.0 L697.7,360.6 L698.2,361.0 L699.2,361.5 L699.6,361.6 L699.8,361.5 L699.8,361.4 L699.5,361.1 L699.5,361.0 L699.8,361.1 L700.5,361.7 L700.7,361.9 L701.1,362.1 L701.4,362.2 L701.2,362.4 L701.0,362.4 L700.4,362.3 L700.8,362.7 L700.9,363.0 L701.1,363.0 L701.4,362.7 L701.6,362.5 L702.4,363.1 L702.8,363.4 L702.7,363.5 L702.6,363.7 L703.1,363.5 L703.3,363.6 L703.4,363.6 L703.6,363.9 L704.0,364.0 L704.5,364.0 L705.3,364.2 L706.2,364.6 L706.9,364.7 L707.7,364.7 L708.1,365.0 L708.3,365.3 L708.1,365.5 L708.0,365.8 L708.3,366.1 L707.7,366.2 L707.6,366.4 L707.6,366.5 L707.7,366.6 L708.1,366.6 L708.6,366.6 L709.4,366.7 L710.0,366.7 L711.1,366.8 L711.5,367.0 L712.1,367.3 L712.4,367.6 L713.1,368.2 L713.7,368.5 L714.2,368.6 L714.4,368.5 L714.5,368.6 L714.7,368.7 L714.8,369.0 L714.7,369.3 L714.4,369.5 L714.3,369.7 L713.6,369.7 L712.6,369.8 L711.6,370.1 L711.1,370.3 L710.9,370.4 L710.4,370.6 L710.4,370.4 L710.4,370.3 L710.3,370.0 L710.2,370.3 L710.0,370.4 L709.7,370.6 L708.5,370.6 L708.0,370.4 L707.5,370.3 L705.8,370.1 L705.4,370.1 L704.2,370.3 L703.0,370.4 L702.5,370.5 L702.1,370.6 L701.1,370.6 L700.0,370.7 L698.9,370.8 L699.6,369.7 L701.1,368.6 L701.4,368.4 L701.6,368.1 L701.6,367.9 L701.6,367.7 L701.2,367.4 L701.1,367.1 L701.0,367.0 L700.5,366.9 L700.0,366.8 L699.4,366.8 L698.2,366.7 L697.6,366.6 L697.1,366.4 L696.2,365.6 L695.8,365.4 L695.6,365.2 L695.4,365.0 L695.2,363.9 L695.0,363.3 L694.8,362.8 L694.4,362.4 L693.9,362.3 L692.3,362.6 L691.9,362.6 L691.6,362.5 L689.1,361.7 L688.1,361.3 L687.7,361.1 L687.3,360.8 L686.9,360.3 L686.5,359.9 L686.5,360.1 L686.5,360.2 L684.4,360.2 L684.1,360.1 L683.9,360.0 L683.7,359.8 L683.6,359.5 L683.4,359.2 L683.4,359.5 L683.3,359.8 L683.0,360.0 L682.7,360.0 L682.3,359.6 L680.6,359.5 L680.5,359.5 L679.9,359.1 L679.5,358.6 L679.9,358.5 L680.9,358.2 L681.1,358.1 L681.2,357.9 L681.1,357.6 L680.9,357.4 L680.7,357.3 L680.5,357.3 L680.2,357.2 L676.5,357.2 L676.3,357.3 L676.0,357.6 L675.3,358.0 L674.9,358.4 L674.7,358.6 L674.5,358.8 L674.0,359.0 L673.7,359.4 L673.2,359.6 L672.9,359.5 L672.7,359.5 L672.5,359.6 L672.3,359.6 L671.3,359.7 L671.2,359.8 L671.1,360.0 L670.9,360.6 L670.8,360.8 L670.3,360.8 L669.8,361.0 L668.9,361.5 L668.7,361.6 L668.7,361.2 L668.7,360.8 L668.4,360.8 L668.1,360.9 L667.9,361.0 L667.4,361.2 L667.2,361.3 L667.0,361.2 L667.0,361.0 L668.5,360.3 L668.7,360.3 L669.0,360.3 L669.2,360.3 L669.4,360.1 L669.2,359.3 L669.3,358.7 L669.6,358.2 L670.4,357.5 L670.7,357.3 L674.2,355.8 L674.6,355.8 L676.8,355.5 L677.2,355.4 L678.2,354.9 L679.3,354.8 L680.5,354.9 Z M699.1,360.7 L698.9,360.9 L698.7,360.6 L698.6,360.6 L698.4,360.5 L698.0,360.3 L698.0,360.1 L698.2,360.0 L698.6,360.1 L699.2,360.2 L699.2,360.5 L699.1,360.7 Z M697.5,359.1 L697.4,359.2 L697.1,359.0 L696.8,358.9 L696.6,358.7 L696.4,358.6 L696.4,358.4 L696.7,358.4 L696.9,358.4 L697.2,358.6 L697.3,359.0 L697.5,359.1 Z M694.8,357.8 L695.4,357.9 L695.6,357.9 L695.8,357.9 L696.0,357.9 L696.3,358.3 L696.1,358.3 L695.9,358.3 L695.7,358.3 L695.2,358.3 L694.8,358.1 L694.6,358.0 L694.5,357.9 L694.8,357.8 Z M698.1,359.9 L698.0,359.9 L697.5,359.7 L697.4,359.5 L697.6,359.3 L697.6,359.0 L697.7,359.0 L697.7,359.3 L698.1,359.4 L698.1,359.5 L698.3,359.8 L698.1,359.9 Z M677.3,362.5 L676.9,362.8 L676.0,363.1 L675.5,363.2 L675.1,363.0 L674.7,362.7 L674.5,362.4 L674.5,362.3 L674.8,362.5 L675.1,362.6 L675.3,362.6 L675.5,362.4 L675.0,361.5 L675.0,361.3 L675.4,360.8 L676.4,360.9 L676.6,361.0 L676.8,361.3 L677.0,361.6 L677.3,362.3 L677.3,362.5 Z M691.6,357.3 L691.6,357.4 L690.8,357.1 L690.5,356.7 L690.4,356.6 L690.6,356.6 L691.4,357.2 L691.6,357.3 Z" fill="none" stroke="#aab3bd" stroke-width="1.6" stroke-dasharray="3 2.5"/>
+  <text x="654" y="334" font-size="9.5" font-family="ui-monospace,monospace"
+    fill="#79828c">⊘ CUBA — 220° AWAY</text>
+  <text x="654" y="428" font-size="9.5" font-family="ui-monospace,monospace"
+    fill="#69727c">“Not a Hormuz case.”</text>
+  <text x="34" y="312" font-size="9.5" font-family="ui-monospace,monospace" fill="#8b949e" letter-spacing="1">ASSESSMENT CLASS — CATEGORICAL</text>
+  <rect x="34" y="320" width="11" height="11" fill="#e08b76" fill-opacity="0.72"/><text x="50" y="329.5" font-size="9" font-family="-apple-system,sans-serif" fill="#97a0aa">Already stressed</text>
+  <rect x="34" y="337" width="11" height="11" fill="#d7b169" fill-opacity="0.72"/><text x="50" y="346.5" font-size="9" font-family="-apple-system,sans-serif" fill="#97a0aa">Acute if disruption persists</text>
+  <rect x="34" y="354" width="11" height="11" fill="#7fb3c9" fill-opacity="0.72"/><text x="50" y="363.5" font-size="9" font-family="-apple-system,sans-serif" fill="#97a0aa">Price shock first</text>
+  <rect x="34" y="371" width="11" height="11" fill="#8fae8c" fill-opacity="0.72"/><text x="50" y="380.5" font-size="9" font-family="-apple-system,sans-serif" fill="#97a0aa">Resilient but expensive</text>
+  <rect x="34" y="394" width="11" height="11" fill="#3a424b" stroke="#e8eef4" stroke-width="1" stroke-dasharray="2 2" stroke-opacity="0.8"/><text x="50" y="403.5" font-size="9" font-family="-apple-system,sans-serif" fill="#97a0aa">no reserve figure</text>
+</svg>
+<div class="figfoot">
+  <span><b>n</b> 11 in frame · Cuba inset</span><br>
+  <span class="long"><b>INTERPRETED</b> every fill. Shade encodes an authored band; neither
+  it nor land area encodes a measured quantity.</span>
+  <span class="long"><b>SUBSTRATE</b> national boundaries are reference geography, not
+  evidence — they carry no claim (source in Method).</span>
+  <span class="long"><b>OBSERVED</b> only the hatch — whether a reserve figure exists.</span>
+</div>
+</figure></div>
+<div class="sec"><div class="rung">Qualification</div>
+<h2>What each published figure counts</h2>
+<div class="lede">The receipts for the split above. The corpus stores one integer per
+country; each country's own confidence note says what that integer is.</div>
+<div class="scroll"><table>
+<thead><tr><th>Country</th><th>Stored</th><th>What the corpus says about that figure — verbatim</th><th>Treated as</th></tr></thead><tbody>
+<tr><td class="k">Philippines</td><td class="n">45 d</td>
+<td><q>Declared national energy emergency March 2026; public reserve data available</q></td>
+<td class="n"><span style="color:var(--tx-faint)">on the axis</span></td></tr>
+<tr><td class="k">Thailand</td><td class="n">95 d</td>
+<td><q>Good reserve data; active government conservation measures documented</q></td>
+<td class="n"><span style="color:var(--tx-faint)">on the axis</span></td></tr>
+<tr><td class="k">South Korea</td><td class="n">210 d</td>
+<td><q>Comprehensive data; 210 days strategic oil but only 9 days working LNG inventory</q></td>
+<td class="n"><span class="mk mk-d">off the axis</span></td></tr>
+<tr><td class="k">Vietnam</td><td class="n">30 d</td>
+<td><q>Generation mix clear; reserve data weak (20-45 days range); actively pursuing Russian alternatives</q></td>
+<td class="n"><span class="mk mk-d">range</span></td></tr>
+<tr><td class="k">India</td><td class="n">50 d</td>
+<td><q>Extensive official data; reserve estimates vary (25-74 days); diversification actively underway</q></td>
+<td class="n"><span class="mk mk-d">range</span></td></tr>
+<tr><td class="k">Japan</td><td class="n">257 d</td>
+<td><q>Best data coverage of any country; 254-260 days of reserves; comprehensive IEA/EIA profiles</q></td>
+<td class="n"><span class="mk mk-d">range</span></td></tr>
+<tr><td class="k">Singapore</td><td class="n">245 d</td>
+<td><q>Excellent data; 245 days reserves (includes foreign-owned storage); 95% gas generation is the exposure</q></td>
+<td class="n"><span class="mk mk-d">off the axis</span></td></tr>
+</tbody></table></div>
+<div class="figfoot">
+  <span class="long"><b>DERIVED</b> the flag. A figure is flagged when its own confidence
+  note contains an explicit day-range, or names a basis narrower than the label —
+  “strategic oil”, “working LNG”, “foreign-owned”, “estimates vary”, “data weak”. Applied
+  mechanically, no per-row judgment. 5 on the axis (3 as ranges),
+  2 off it.</span>
+</div>
+
+<div class="interp">
+<p>South Korea's 210 days is strategic <em>oil</em>; its working LNG inventory is nine.
+None of this is new research — every word was already in the corpus, in a field the
+published map renders as a footnote.</p>
+<div class="by">▌Interpreted · not evidence</div>
+</div>
+<figure class="support" style="margin-top:72px">
+<figcaption>The inputs that do exist put the unmeasured countries in the worst corner.</figcaption>
+<div class="fignote">Share of oil arriving through the strait against fossil share of
+generation — the two dimensions published for nearly everyone. Dashed rings have no
+reserve figure.</div>
+<svg viewBox="0 0 720 384" width="100%" role="img"
+  aria-label="Scatter plot of chokepoint oil import share against fossil share of generation for eleven countries. Bangladesh and Pakistan sit at the extreme right; Singapore at the top.">
+  <rect x="50" y="26" width="648" height="292" fill="#0c0e11" stroke="#1c2025"/>
+  <line x1="212.0" y1="26" x2="212.0" y2="318" stroke="#161a1e"/>
+  <line x1="50" y1="245.0" x2="698" y2="245.0" stroke="#161a1e"/>
+  <line x1="374.0" y1="26" x2="374.0" y2="318" stroke="#161a1e"/>
+  <line x1="50" y1="172.0" x2="698" y2="172.0" stroke="#161a1e"/>
+  <line x1="536.0" y1="26" x2="536.0" y2="318" stroke="#161a1e"/>
+  <line x1="50" y1="99.0" x2="698" y2="99.0" stroke="#161a1e"/>
+  <rect x="536.0" y="26.0" width="162.0" height="87.6" fill="#ef5350" opacity="0.05"/>
+  <text x="541.2" y="30.4" fill="#ef5350" font-size="10.5" font-family="ui-monospace,monospace" opacity="0.8">&#8805;75% imported &#183; &#8805;70% fossil</text>
+  <circle cx="646.2" cy="96.1" r="5" fill="#4fc3f7" stroke="#4fc3f7" stroke-width="1" stroke-dasharray="0" opacity="0.92"/>
+  <circle cx="600.8" cy="186.6" r="5" fill="none" stroke="#ef5350" stroke-width="1.6" stroke-dasharray="3 2" opacity="0.92"/>
+  <circle cx="665.6" cy="58.1" r="5" fill="none" stroke="#ef5350" stroke-width="1.6" stroke-dasharray="3 2" opacity="0.92"/>
+  <circle cx="568.4" cy="84.4" r="5" fill="#4fc3f7" stroke="#4fc3f7" stroke-width="1" stroke-dasharray="0" opacity="0.92"/>
+  <circle cx="503.6" cy="101.9" r="5" fill="#4fc3f7" stroke="#4fc3f7" stroke-width="1" stroke-dasharray="0" opacity="0.92"/>
+  <circle cx="633.2" cy="139.9" r="5" fill="#4fc3f7" stroke="#4fc3f7" stroke-width="1" stroke-dasharray="0" opacity="0.92"/>
+  <circle cx="341.6" cy="93.2" r="5" fill="#4fc3f7" stroke="#4fc3f7" stroke-width="1" stroke-dasharray="0" opacity="0.92"/>
+  <circle cx="549.0" cy="113.6" r="5" fill="#4fc3f7" stroke="#4fc3f7" stroke-width="1" stroke-dasharray="0" opacity="0.92"/>
+  <circle cx="503.6" cy="40.6" r="5" fill="#4fc3f7" stroke="#4fc3f7" stroke-width="1" stroke-dasharray="0" opacity="0.92"/>
+  <circle cx="665.6" cy="174.9" r="5" fill="none" stroke="#ef5350" stroke-width="1.6" stroke-dasharray="3 2" opacity="0.92"/>
+  <circle cx="503.6" cy="69.8" r="5" fill="none" stroke="#ef5350" stroke-width="1.6" stroke-dasharray="3 2" opacity="0.92"/>
+  <line x1="641.7" y1="98.1" x2="638.2" y2="110.1" stroke="#39414a" stroke-width="1"/>
+  <text x="636.2" y="113.1" text-anchor="end" fill="#a9b2bc" font-size="11.5" font-family="-apple-system,sans-serif">Philippines</text>
+  <text x="590.8" y="190.6" text-anchor="end" fill="#a9b2bc" font-size="11.5" font-family="-apple-system,sans-serif">Sri Lanka</text>
+  <text x="655.6" y="62.1" text-anchor="end" fill="#a9b2bc" font-size="11.5" font-family="-apple-system,sans-serif">Bangladesh</text>
+  <text x="578.4" y="88.4" text-anchor="start" fill="#a9b2bc" font-size="11.5" font-family="-apple-system,sans-serif">Thailand</text>
+  <line x1="508.1" y1="103.9" x2="511.6" y2="128.9" stroke="#39414a" stroke-width="1"/>
+  <text x="513.6" y="131.9" text-anchor="start" fill="#a9b2bc" font-size="11.5" font-family="-apple-system,sans-serif">South Korea</text>
+  <line x1="628.7" y1="141.9" x2="625.2" y2="166.9" stroke="#39414a" stroke-width="1"/>
+  <text x="623.2" y="169.9" text-anchor="end" fill="#a9b2bc" font-size="11.5" font-family="-apple-system,sans-serif">Vietnam</text>
+  <text x="351.6" y="97.2" text-anchor="start" fill="#a9b2bc" font-size="11.5" font-family="-apple-system,sans-serif">India</text>
+  <line x1="553.5" y1="115.6" x2="557.0" y2="153.6" stroke="#39414a" stroke-width="1"/>
+  <text x="559.0" y="156.6" text-anchor="start" fill="#a9b2bc" font-size="11.5" font-family="-apple-system,sans-serif">Japan</text>
+  <text x="513.6" y="44.6" text-anchor="start" fill="#a9b2bc" font-size="11.5" font-family="-apple-system,sans-serif">Singapore</text>
+  <line x1="661.1" y1="176.9" x2="657.6" y2="201.9" stroke="#39414a" stroke-width="1"/>
+  <text x="655.6" y="204.9" text-anchor="end" fill="#a9b2bc" font-size="11.5" font-family="-apple-system,sans-serif">Pakistan</text>
+  <text x="513.6" y="73.8" text-anchor="start" fill="#a9b2bc" font-size="11.5" font-family="-apple-system,sans-serif">Taiwan</text>
+  <text x="50" y="336" fill="#69727c" font-size="10.5" font-family="ui-monospace,monospace">0%</text>
+  <text x="374" y="336" fill="#69727c" font-size="10.5" text-anchor="middle" font-family="ui-monospace,monospace">Share of oil imports through the strait →</text>
+  <text x="698" y="336" fill="#69727c" font-size="10.5" text-anchor="end" font-family="ui-monospace,monospace">100%</text>
+  <text transform="translate(15,172) rotate(-90)" fill="#69727c" font-size="10.5" text-anchor="middle" font-family="ui-monospace,monospace">Fossil share of generation →</text>
+  <g font-family="ui-monospace,monospace" font-size="10" fill="#69727c">
+    <circle cx="55" cy="368" r="5" fill="#4fc3f7" opacity="0.92"/>
+    <text x="66" y="372">reserve figure published</text>
+    <circle cx="238" cy="368" r="5" fill="none" stroke="#ef5350" stroke-width="1.6" stroke-dasharray="3 2"/>
+    <text x="249" y="372">no reserve figure</text>
+  </g>
+</svg>
+<div class="figfoot">
+  <span><b>n</b> 11 of 12 — Cuba has no recorded import share</span>
+  <span><b>OBSERVED</b> both axes</span><br>
+  <span><b>DENOM</b> oil imports by volume; generation by share of output</span>
+  <span><b>DERIVED</b> the shaded quadrant, drawn for reading only</span>
+</div>
+</figure></div>
+<div class="sec"><div class="rung">Country evidence</div>
+<h2>The twelve</h2>
+<div class="lede">Each claim as the corpus states it, against what is measured behind it.
+Every band is an authored judgment.</div>
+<div class="scroll"><table class="ledger">
+<thead><tr><th>Country</th><th>Interpreted band</th><th>Conf.</th><th>Oil</th><th>LNG</th><th>Reserve</th><th>Fossil</th></tr></thead><tbody>
+<tr class="lr">
+  <td class="k cty">Sri Lanka</td>
+  <td class="bandc">Already stressed</td>
+  <td class="n cf-medium">medium</td>
+  <td class="n">85%</td><td class="n miss">none</td><td class="n miss">none</td><td class="n">45%</td>
+</tr>
+<tr class="claimrow"><td colspan="7"><span class="cl">Already rationing fuel with no public reserve data — Hormuz is an accelerant on existing fragility.</span>
+<span class="mix">Hydro 37%, solar 14%, coal/oil 45%</span>
+<span class="cope"><b>If it persists:</b> Minimal. Small domestic hydro base helps but insufficient. Emergency purchases at extreme premiums. <b>Capacity to ration:</b> Already rationing. Prior 2022 economic crisis built institutional muscle for austerity measures but population tolerance is low.</span><span class="qn">Active crisis well-documented; reserve data limited; LNG import data sparse</span></td></tr>
+<tr class="lr">
+  <td class="k cty">Bangladesh</td>
+  <td class="bandc">Already stressed</td>
+  <td class="n cf-medium">medium</td>
+  <td class="n">95%</td><td class="n">99%</td><td class="n miss">none</td><td class="n">89%</td>
+</tr>
+<tr class="claimrow"><td colspan="7"><span class="cl">99% of LNG from Qatar/UAE, military deployed for fuel hoarding, universities shut — no reserve data public.</span>
+<span class="mix">Gas 47%, coal 30%, oil 12%, renewables 4%</span>
+<span class="cope"><b>If it persists:</b> Near zero. 99% of LNG from Qatar and UAE. No pipeline alternatives. Domestic gas production declining. <b>Capacity to ration:</b> Low. Military enforcement suggests political stress. History of grid instability and load-shedding even before crisis.</span><span class="qn">Active crisis documented; reserve data unavailable; 99% of LNG from Qatar/UAE</span></td></tr>
+<tr class="lr">
+  <td class="k cty">Philippines</td>
+  <td class="bandc">Already stressed</td>
+  <td class="n cf-high">high</td>
+  <td class="n">92%</td><td class="n miss">none</td><td class="n">45 d</td><td class="n">76%</td>
+</tr>
+<tr class="claimrow"><td colspan="7"><span class="cl">92% of oil from the Gulf, 45 days of reserves, energy emergency already declared.</span>
+<span class="mix">Coal 53%, gas 18%, renewables 12%, oil 5%</span>
+<span class="cope"><b>If it persists:</b> Limited. No pipeline alternatives. Attempting emergency spot purchases. Domestic coal dominant but imported. <b>Capacity to ration:</b> Low. Limited state capacity to manage prolonged shortage. History of grid stress during typhoon season.</span></td></tr>
+<tr class="lr">
+  <td class="k cty">Pakistan</td>
+  <td class="bandc">Acute if disruption persists</td>
+  <td class="n cf-low">low</td>
+  <td class="n">95%</td><td class="n">99%</td><td class="n miss">none</td><td class="n">49%</td>
+</tr>
+<tr class="claimrow"><td colspan="7"><span class="cl">Government says 74% domestic power sources, but 99% of LNG from Gulf, no public reserve data, universities already shut.</span>
+<span class="mix">Gas 25%, hydro 19%, coal 14%, nuclear 13%, renewables 13%, oil 10%</span>
+<span class="cope"><b>If it persists:</b> More diversified generation than it appears (hydro 19%, nuclear 13%). But 99% of LNG from Qatar/UAE. Domestic gas declining. No strategic reserve data public. <b>Capacity to ration:</b> Low. History of political instability and grid management challenges. Already experiencing rolling blackouts in many regions pre-crisis.</span><span class="qn">Reserve data unavailable; conflicting reports on domestic vs import dependency; 99% of LNG from Gulf</span></td></tr>
+<tr class="lr">
+  <td class="k cty">Taiwan</td>
+  <td class="bandc">Acute if disruption persists</td>
+  <td class="n cf-low">low</td>
+  <td class="n">70%</td><td class="n miss">none</td><td class="n miss">none</td><td class="n">85%</td>
+</tr>
+<tr class="claimrow"><td colspan="7"><span class="cl">85% fossil generation, no public reserve data, decommissioned nuclear — the data gap is the red flag.</span>
+<span class="mix">Gas 42%, coal 39%, nuclear 4%, renewables 12%</span>
+<span class="cope"><b>If it persists:</b> Limited. Decommissioned nuclear (restart planned). Coal stockpiles provide some buffer. But 42% gas generation with unclear LNG source diversification. <b>Capacity to ration:</b> High state capacity. But the absence of public reserve data is itself a signal — either reserves are thin or disclosure is politically sensitive.</span><span class="qn">Generation mix clear; reserve data essentially unavailable publicly; no crisis reporting yet</span></td></tr>
+<tr class="lr">
+  <td class="k cty">Vietnam</td>
+  <td class="bandc">Acute if disruption persists</td>
+  <td class="n cf-medium">medium</td>
+  <td class="n">90%</td><td class="n">49%</td><td class="n">30 d</td><td class="n">61%</td>
+</tr>
+<tr class="claimrow"><td colspan="7"><span class="cl">Coal and hydro provide a generation buffer, but 90% of oil is from the Gulf and reserves are thin at 20-45 days.</span>
+<span class="mix">Coal 52%, hydro 31%, gas 6%, solar/wind 8%</span>
+<span class="cope"><b>If it persists:</b> Pursuing Russian alternatives. Domestic coal and hydro provide buffer. LNG dependency still small. Emergency procurement of 4M barrels non-Middle-Eastern oil (~6 days). <b>Capacity to ration:</b> Moderate. Coal and hydro provide structural resilience. The vulnerability is oil for transport and industry, not electricity generation.</span></td></tr>
+<tr class="lr">
+  <td class="k cty">Thailand</td>
+  <td class="bandc">Acute if disruption persists</td>
+  <td class="n cf-high">high</td>
+  <td class="n">80%</td><td class="n">28%</td><td class="n">95 d</td><td class="n">80%</td>
+</tr>
+<tr class="claimrow"><td colspan="7"><span class="cl">95 days of reserves and active conservation measures, but 55% gas-fired generation is the structural exposure.</span>
+<span class="mix">Gas 55%, coal 20%, renewables 15%, oil 5%</span>
+<span class="cope"><b>If it persists:</b> Limited. Some pipeline gas from Myanmar. Qatar supplies 28% of LNG (second-largest buyer). Exploring alternatives. <b>Capacity to ration:</b> Moderate. Government acting early with conservation measures. 95 days provides buffer but gas-heavy generation mix is the vulnerability.</span></td></tr>
+<tr class="lr">
+  <td class="k cty">South Korea</td>
+  <td class="bandc">Acute if disruption persists</td>
+  <td class="n cf-high">high</td>
+  <td class="n">70%</td><td class="n">18%</td><td class="n">210 d</td><td class="n">74%</td>
+</tr>
+<tr class="claimrow"><td colspan="7"><span class="cl">210 days of strategic oil reserves but only 9 days of working LNG inventory — the mismatch is the risk.</span>
+<span class="mix">Coal 42%, gas 27%, nuclear 18%, renewables 8%</span>
+<span class="cope"><b>If it persists:</b> Some. Nuclear provides 18% baseload. Coal stockpiles exist. But working LNG terminal inventory is only ~9 days despite 210-day strategic oil reserve. <b>Capacity to ration:</b> High state capacity. Institutional ability to enforce conservation. The gap between 210-day oil reserves and 9-day LNG working stock is the real vulnerability.</span></td></tr>
+<tr class="lr">
+  <td class="k cty">India</td>
+  <td class="bandc">Price shock first, physical shortage later</td>
+  <td class="n cf-high">high</td>
+  <td class="n">45%</td><td class="n">53%</td><td class="n">50 d</td><td class="n">77%</td>
+</tr>
+<tr class="claimrow"><td colspan="7"><span class="cl">Coal-dominant grid limits electricity exposure, but 88% oil import dependent and 90% of LPG through Hormuz.</span>
+<span class="mix">Coal 73%, renewables 12%, gas 4%, nuclear 3%, hydro 8%</span>
+<span class="cope"><b>If it persists:</b> Best positioned of the vulnerable countries. Coal-dominant generation reduces electricity exposure. Russian oil deals active. But 88% oil import dependent overall. <b>Capacity to ration:</b> High state capacity. Large domestic coal base insulates electricity. Primary risk is transport fuel and LPG for cooking, not grid collapse.</span></td></tr>
+<tr class="lr">
+  <td class="k cty">Japan</td>
+  <td class="bandc">Price shock first, physical shortage later</td>
+  <td class="n cf-high">high</td>
+  <td class="n">77%</td><td class="n">7%</td><td class="n">257 d</td><td class="n">70%</td>
+</tr>
+<tr class="claimrow"><td colspan="7"><span class="cl">257 days of reserves and strong state capacity — pain is price, not blackouts, unless disruption extends past 6 months.</span>
+<span class="mix">Coal 32%, gas 33%, nuclear 10%, renewables 20%, oil 5%</span>
+<span class="cope"><b>If it persists:</b> Best in Asia. Massive strategic reserves. Nuclear restart program. Diversified LNG sources. But volume dependency on Gulf crude is structurally high. <b>Capacity to ration:</b> Very high state capacity. Institutional experience from Fukushima energy conservation. Can sustain months of elevated prices before physical shortage.</span></td></tr>
+<tr class="lr">
+  <td class="k cty">Singapore</td>
+  <td class="bandc">Resilient but expensive</td>
+  <td class="n cf-high">high</td>
+  <td class="n">70%</td><td class="n">45%</td><td class="n">245 d</td><td class="n">95%</td>
+</tr>
+<tr class="claimrow"><td colspan="7"><span class="cl">95% gas generation and 45% of LNG from Qatar — money buys time, not immunity.</span>
+<span class="mix">Gas 95%, solar 2%, other 3%</span>
+<span class="cope"><b>If it persists:</b> Large storage capacity (245 days, though much is foreign-owned). Refining hub status provides some flexibility. But 95% gas generation is extreme single-fuel exposure. <b>Capacity to ration:</b> Very high state capacity and fiscal reserves. Can subsidize and purchase at premium for extended period. The question is whether global LNG supply physically exists at any price.</span></td></tr>
+<tr class="lr">
+  <td class="k cty">Cuba</td>
+  <td class="bandc">Special case: distorted substrate</td>
+  <td class="n cf-medium">medium</td>
+  <td class="n miss">none</td><td class="n miss">none</td><td class="n miss">none</td><td class="n">82%</td>
+</tr>
+<tr class="claimrow"><td colspan="7"><span class="cl">Not a Hormuz case. Already inside the wreckage from US sanctions cutting Venezuelan oil. Hormuz amplifies via global prices.</span>
+<span class="mix">Fossil fuels 82%, renewables 18%</span>
+<span class="cope"><b>If it persists:</b> Venezuelan supply cut by US policy. Russian humanitarian shipments. No market alternatives at scale. Decrepit domestic generation infrastructure. <b>Capacity to ration:</b> Already beyond rationing into collapse. Not a Hormuz case — this is blockade + infrastructure decay + loss of benefactor supply. Hormuz is an amplifier through global price pressure.</span><span class="qn">Grid collapse well-documented; not primarily Hormuz-driven; Venezuelan/US sanctions are the primary mechanism</span></td></tr>
+</tbody></table></div></div>
+<div class="auditline">Audit<span>Everything below is the page checking itself: limits, method, and the source record.</span></div>
+
+<div class="sec audit"><div class="rung">Audit · what the marks mean</div>
+<div class="regdefs">
+  <div class="r-observed"><div class="rl">● Observed</div><div class="rd">Read off a cited source. Has a unit and a receipt.</div></div>
+  <div class="r-derived"><div class="rl">◌ Derived</div><div class="rd">Computed here. Shows its rule; carries no receipt.</div></div>
+  <div class="r-interpreted"><div class="rl">▌Interpreted</div><div class="rd">Authored judgment. Publishable — and not evidence.</div></div>
+  <div class="r-refused"><div class="rl">⊘ Refused</div><div class="rd">Declined or unavailable. Shown, not omitted.</div></div>
+</div>
+<div class="refusal">
+<b>What this page does not claim.</b> That the disruption will persist. That any country
+will ration, or when. That the assessments here are forecasts, rankings of suffering, or
+probabilities.
+</div></div>
+<div class="sec audit bound"><div class="rung">Audit · boundary conditions</div>
+<h2>What this page does not show</h2>
+<div class="pull">The five countries with no reserve figure are not the least exposed.
+They are the least measured.</div>
+<ul>
+<li><b>Five of twelve publish no reserve figure</b> —
+Sri Lanka, Bangladesh, Pakistan, Taiwan, Cuba. Their assessments rest on current-status
+reporting and generation mix alone, and two carry <code>confidence: low</code>.</li>
+<li><b>Even the comparable figures are not equally solid</b> — three of the
+five on the axis are ranges the corpus flattened to a point. The range is drawn;
+the point it stores is marked.</li>
+<li><b>Bands are exposure, not forecast.</b> No probability, date, or ordering of harm
+attaches to any of them, and none should be read off the shading of a map.</li>
+<li><b>National aggregates say nothing about distribution.</b> A country with 95 days of
+national reserve can still have a province out of diesel on day nine.</li>
+</ul></div>
+<div class="sec audit meth"><div class="rung">Audit · method</div>
+<h2>How the bands were assigned</h2>
+<div class="rule1">They were assigned by judgment. No derivation rule was ever specified
+for <code>stress_band</code>, and none can honestly be reconstructed.</div>
+<p>The field was introduced in commit <code>1ecc1de</code> (2026-03-29) and never edited.
+That commit names the inputs — “12 countries scored on 7 dimensions” — then enumerates
+which country landed in which band. It states no threshold, weight, or ordering rule; its
+own framing is <i>“stress bands, not countdown clocks.”</i> The repository's
+<code>schema.yaml</code> governs the U.S. case corpus only. No threshold table exists
+anywhere in the repository or its siblings.</p>
+<p><b>Nor are the classes a scale.</b> “Already stressed” is a present state, “acute if
+disruption persists” a conditional, “price shock first, physical shortage later” a
+sequencing claim, “resilient but expensive” a cost judgment. They describe different kinds
+of thing, and nothing in the corpus ranks them — so nothing here does. The map's colours
+are categorical for that reason, and an earlier draft of this page that ordered the classes
+and called two of them “severest” was wrong: that ranking was invented here, not found in
+the corpus.</p>
+<p>A formula could be back-fitted to the twelve current values. That would be an invention
+presented as a method, so it has not been done. <b><code>stress_band</code> therefore
+renders as <span class="mk mk-i">interpreted</span> everywhere it appears</b> — including
+on the map above, which is drawn in neutral ink for that reason.</p>
+<p>The named inputs, so the judgment is at least inspectable: chokepoint oil share,
+chokepoint LNG share, reserve days, generation mix, current status, alternative supply,
+rationing capacity. Four of the twelve are missing at least one; Cuba is missing three.</p>
+<p><b>The map's geography is not the corpus's.</b> <code>countries.geojson</code> carries a
+hand-drawn outline per country — 9 to 31 vertices, roughly the right place, not the right
+shape. Rendering those implied a cartographic fidelity the corpus does not have, so they
+are no longer drawn. National boundaries here are vendored substrate — Natural Earth 1:50m Admin 0, v5.1.2, public domain (vendor/boundaries/PROVENANCE.md) — joined
+to the corpus by ISO country code at build time. They are reference geography: they carry
+no claim, and the build fails if a corpus country has no boundary rather than dropping it.
+The corpus polygons are left untouched in the data; they are simply not the render path.</p>
+<p><b>Everything derived on this page.</b> Two computations, both stating their rule where
+they appear: the <i>evidence window</i> (2026-01-01 → 2026-03-26) is min/max of all
+receipt dates, and the <i>qualifier flag</i> is the rule given under the reserve table.
+Everything else is presentational and encodes nothing: sort order, the 60-day line, the
+shaded quadrant, label placement on both figures, and the minimum mark size that keeps
+Singapore visible on the map — which exaggerates its area, one reason area is
+not an encoding there.
+<b>Confidence</b> is the corpus's own field, reproduced unchanged; it rates a country's
+<i>inputs</i>, never the band assignment.</p></div>
+<div class="sec audit rcpt"><div class="rung">Audit · receipts</div>
+<h2>Source material</h2>
+<div class="lede">All 24 citations, and what each supports.</div>
+<div class="absence"><b>No citation in this corpus has a retrieval date or an archive
+snapshot.</b> Those fields do not exist in the schema yet, so nothing here records when a
+source was last seen or preserves it against removal. Stated once rather than repeated as
+an empty column.</div>
+<div class="scroll"><table>
+<thead><tr><th>Supports</th><th>Publisher</th><th>Published</th></tr></thead><tbody>
+<tr><td class="k">Bangladesh</td>
+<td><a href="https://www.reuters.com/business/energy/bangladesh-rations-fuel-middle-east-conflict-spur-panic-buying-2026-03-06/" rel="noopener">Reuters</a></td>
+<td class="n">2026-03-06</td></tr>
+<tr><td class="k">Bangladesh</td>
+<td><a href="https://www.deccanherald.com/amp/story/world/asia/philippines-to-pakistan-a-look-at-how-asian-countries-are-hit-by-energy-crisis-3945218" rel="noopener">Deccan Herald</a></td>
+<td class="n">2026-03-25</td></tr>
+<tr><td class="k">Cuba</td>
+<td><a href="https://www.reuters.com/business/energy/cuba-says-electrical-grid-reconnected-after-major-power-blackout-2026-03-05/" rel="noopener">Reuters</a></td>
+<td class="n">2026-03-05</td></tr>
+<tr><td class="k">Cuba</td>
+<td><a href="https://www.npr.org/2026/03/26/nx-s1-5760763/southeast-asia-is-being-hit-hard-by-irans-cutoff-of-oil-and-gas" rel="noopener">NPR</a></td>
+<td class="n">2026-03-26</td></tr>
+<tr><td class="k">India</td>
+<td><a href="https://www.india-briefing.com/news/indias-oil-supply-hormuz-diversification-strategy-43381.html/" rel="noopener">India Briefing</a></td>
+<td class="n">2026-03-15</td></tr>
+<tr><td class="k">India</td>
+<td><a href="https://www.iea.org/countries/india" rel="noopener">IEA</a></td>
+<td class="n">2026-01-01</td></tr>
+<tr><td class="k">Japan</td>
+<td><a href="https://energytracker.asia/japan-most-at-risk-from-disruption-in-the-strait-of-hormuz/" rel="noopener">Energy Tracker Asia</a></td>
+<td class="n">2026-03-08</td></tr>
+<tr><td class="k">Japan</td>
+<td><a href="https://www.aljazeera.com/news/2026/3/23/which-countries-have-strategic-oil-reserves-and-how-much" rel="noopener">Al Jazeera</a></td>
+<td class="n">2026-03-23</td></tr>
+<tr><td class="k">Pakistan</td>
+<td><a href="https://www.reuters.com/business/energy/pakistans-domestic-power-sources-cushion-lng-supply-risk-minister-says-2026-03-13/" rel="noopener">Reuters</a></td>
+<td class="n">2026-03-13</td></tr>
+<tr><td class="k">Pakistan</td>
+<td><a href="https://www.woodmac.com/press-releases/strait-of-hormuz-closure-threatens-south-asia-lng-supply/" rel="noopener">Wood Mackenzie</a></td>
+<td class="n">2026-03-10</td></tr>
+<tr><td class="k">Philippines</td>
+<td><a href="https://www.reuters.com/business/energy/philippine-president-declares-energy-emergency-over-middle-east-conflict-risk-2026-03-24/" rel="noopener">Reuters</a></td>
+<td class="n">2026-03-24</td></tr>
+<tr><td class="k">Philippines</td>
+<td><a href="https://www.lowyinstitute.org/the-interpreter/philippines-fuel-emergency-textbook-case-warning-hiding-official-statistics" rel="noopener">Lowy Institute</a></td>
+<td class="n">2026-03-15</td></tr>
+<tr><td class="k">Singapore</td>
+<td><a href="https://ema.gov.sg/our-energy-story/energy-supply/natural-gas" rel="noopener">EMA Singapore</a></td>
+<td class="n">2026-01-01</td></tr>
+<tr><td class="k">Singapore</td>
+<td><a href="https://www.cnbc.com/2026/03/03/strait-of-hormuz-closure-which-countries-will-be-hit-the-most.html" rel="noopener">CNBC</a></td>
+<td class="n">2026-03-03</td></tr>
+<tr><td class="k">South Korea</td>
+<td><a href="https://www.reuters.com/business/energy/south-koreas-lee-calls-energy-saving-campaign-including-curbs-cars-2026-03-24/" rel="noopener">Reuters</a></td>
+<td class="n">2026-03-24</td></tr>
+<tr><td class="k">South Korea</td>
+<td><a href="https://zerocarbon-analytics.org/insights/briefings/asian-countries-most-at-risk-from-oil-and-gas-supply-disruptions-in-strait-of-hormuz/" rel="noopener">Zero Carbon Analytics</a></td>
+<td class="n">2026-03-10</td></tr>
+<tr><td class="k">Sri Lanka</td>
+<td><a href="https://www.reuters.com/business/energy/sri-lanka-tightens-fuel-rationing-supply-squeeze-deepens-2026-03-18/" rel="noopener">Reuters</a></td>
+<td class="n">2026-03-18</td></tr>
+<tr><td class="k">Sri Lanka</td>
+<td><a href="https://www.atlanticcouncil.org/dispatches/demand-destruction-has-begun-what-sri-lanka-reveals-about-the-global-energy-crisis/" rel="noopener">Atlantic Council</a></td>
+<td class="n">2026-03-20</td></tr>
+<tr><td class="k">Taiwan</td>
+<td><a href="https://lowcarbonpower.org/" rel="noopener">Low-Carbon Power</a></td>
+<td class="n">2026-01-01</td></tr>
+<tr><td class="k">Taiwan</td>
+<td><a href="https://zerocarbon-analytics.org/insights/briefings/asian-countries-most-at-risk-from-oil-and-gas-supply-disruptions-in-strait-of-hormuz/" rel="noopener">Zero Carbon Analytics</a></td>
+<td class="n">2026-03-10</td></tr>
+<tr><td class="k">Thailand</td>
+<td><a href="https://www.reuters.com/business/energy/thailand-orders-bureaucrats-use-stairs-work-home-energy-saving-drive-2026-03-10/" rel="noopener">Reuters</a></td>
+<td class="n">2026-03-10</td></tr>
+<tr><td class="k">Thailand</td>
+<td><a href="https://www.cnbc.com/2026/03/03/strait-of-hormuz-closure-which-countries-will-be-hit-the-most.html" rel="noopener">CNBC</a></td>
+<td class="n">2026-03-03</td></tr>
+<tr><td class="k">Vietnam</td>
+<td><a href="https://www.reuters.com/business/energy/vietnam-russia-set-sign-energy-deals-during-pms-moscow-visit-2026-03-23/" rel="noopener">Reuters</a></td>
+<td class="n">2026-03-23</td></tr>
+<tr><td class="k">Vietnam</td>
+<td><a href="https://www.reuters.com/business/energy/fuel-thirsty-asian-countries-line-up-russian-oil-2026-03-26/" rel="noopener">Reuters</a></td>
+<td class="n">2026-03-26</td></tr>
+</tbody></table></div>
+<div class="figfoot">
+  <span><b>24</b> citations · <b>22</b> unique URLs</span>
+</div></div>
+
+<footer>
+Built from <code>docs/hormuz/data/countries.geojson</code> by
+<code>tools/build_atlas_hormuz.py</code>. Case prose is reproduced verbatim from the
+corpus; every derived value states its rule on the page.<br>
+<a href="../insurance/">Insurance</a> · <a href="../cloud/">Cloud &amp; CDN</a> ·
+<a href="../">All atlases</a>
+</footer>
+
+</div></body></html>
