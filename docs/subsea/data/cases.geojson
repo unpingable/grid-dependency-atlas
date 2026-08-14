@@ -3,7 +3,13 @@
   "features": [
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [33.0, 28.0] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          33.0,
+          28.0
+        ]
+      },
       "properties": {
         "case_id": "egypt-suez-corridor",
         "title": "Egypt / Suez–Red Sea corridor — 17% of global internet through one country",
@@ -15,14 +21,28 @@
         "who_controls": "Egyptian government (terrestrial crossing permits). Cable operators (mostly consortiums, increasingly hyperscalers). Houthi/Yemen conflict determines repair access. No single entity governs the corridor.",
         "affected_scope": "Europe-Asia-Africa internet traffic. 17-20% of global internet. 90%+ of Europe-Asia communications.",
         "sources": [
-          { "publisher": "CSIS", "url": "https://www.csis.org/analysis/strategic-future-subsea-cables-egypt-case-study", "date": "2024-06-01" },
-          { "publisher": "Reuters", "url": "https://www.reuters.com/technology/un-body-protect-vulnerable-submarine-cables-after-ruptures-2024-12-12/", "date": "2024-12-12" }
+          {
+            "publisher": "CSIS",
+            "url": "https://www.csis.org/analysis/strategic-future-subsea-cables-egypt-case-study",
+            "date": "2024-06-01"
+          },
+          {
+            "publisher": "Reuters",
+            "url": "https://www.reuters.com/technology/un-body-protect-vulnerable-submarine-cables-after-ruptures-2024-12-12/",
+            "date": "2024-12-12"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [5.37, 43.30] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.37,
+          43.3
+        ]
+      },
       "properties": {
         "case_id": "marseille-hub",
         "title": "Marseille — 16 cables land in one city, making it Europe's digital gateway",
@@ -34,14 +54,32 @@
         "who_controls": "Port of Marseille-Fos (infrastructure). Cable operators (routing decisions). Increasingly hyperscalers (Google, Meta investing in Marseille-landing cables). French government (regulatory, but light-touch).",
         "affected_scope": "Europe-Africa, Europe-Middle East, Europe-Asia connectivity. Major traffic share for Southern Europe.",
         "sources": [
-          { "publisher": "Submarine Networks", "url": "https://www.submarinenetworks.com/en/stations/europe/france/cable-landing-stations-in-marseille", "date": "2025-01-01" },
-          { "publisher": "SubTel Forum", "url": "https://subtelforum.com", "date": "2025-01-01" }
+          {
+            "publisher": "Submarine Networks",
+            "url": "https://www.submarinenetworks.com/en/stations/europe/france/cable-landing-stations-in-marseille",
+            "date": "2025-01-01",
+            "retrieved": "2026-08-14",
+            "note": "Marseille cable landing stations"
+          },
+          {
+            "publisher": "ECDPM",
+            "url": "https://ecdpm.org/work/troubled-waters-europes-subsea-telecommunications-network",
+            "date": "2025-09-01",
+            "retrieved": "2026-08-14",
+            "note": "European hub concentration"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [103.85, 1.35] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          103.85,
+          1.35
+        ]
+      },
       "properties": {
         "case_id": "singapore-megahub",
         "title": "Singapore — 28 cables, 13 more coming, three designated landing sites",
@@ -53,14 +91,32 @@
         "who_controls": "IMDA (Singapore regulator). Hyperscalers (Google, Meta, Microsoft — major investors). Cable operators. Singapore government manages landing site designation but the investment decisions are increasingly hyperscaler-driven.",
         "affected_scope": "Asia-Pacific internet connectivity. Major hub for Southeast Asia, India, Australia, and trans-Pacific routes.",
         "sources": [
-          { "publisher": "CSIS", "url": "https://www.csis.org/analysis", "date": "2025-01-01" },
-          { "publisher": "TeleGeography", "url": "https://www2.telegeography.com", "date": "2025-01-01" }
+          {
+            "publisher": "CSIS",
+            "url": "https://www.csis.org/analysis/building-cooperative-frameworks-subsea-cable-security-indo-pacific",
+            "date": "2025-06-01",
+            "retrieved": "2026-08-14",
+            "note": "Indo-Pacific subsea cable security frameworks"
+          },
+          {
+            "publisher": "TeleGeography",
+            "url": "https://resources.telegeography.com/current-state-forecasts-submarine-cable-maintenance",
+            "date": "2025-06-01",
+            "retrieved": "2026-08-14",
+            "note": "Regional maintenance capacity and hub concentration"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-175.2, -21.2] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -175.2,
+          -21.2
+        ]
+      },
       "properties": {
         "case_id": "tonga-single-cable",
         "title": "Tonga — volcanic eruption severed the only cable, nation offline 5 weeks",
@@ -72,90 +128,195 @@
         "who_controls": "Tonga Cable Ltd (operator). Repair ships (global fleet of <70, aging). ROI calculations by cable operators determine whether Pacific islands get redundancy. They don't.",
         "affected_scope": "Tonga (106,000 people). Pattern applies to many Pacific island nations with single-cable connections.",
         "sources": [
-          { "publisher": "Reuters", "url": "https://www.reuters.com/markets/funds/undersea-cable-fault-could-cut-off-tonga-rest-world-weeks-2022-01-18/", "date": "2022-01-18" },
-          { "publisher": "NPR", "url": "https://www.npr.org/", "date": "2022-01-20" }
+          {
+            "publisher": "Reuters",
+            "url": "https://www.reuters.com/markets/funds/undersea-cable-fault-could-cut-off-tonga-rest-world-weeks-2022-01-18/",
+            "date": "2022-01-18"
+          },
+          {
+            "publisher": "TeleGeography",
+            "url": "https://resources.telegeography.com/youve-read-a-lot-on-cable-breaks-lately.-have-you-read-about-the-repairs",
+            "date": "2025-03-01",
+            "retrieved": "2026-08-14",
+            "note": "Repair logistics and vessel dispatch distances"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [22.0, 59.0] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.0,
+          59.0
+        ]
+      },
       "properties": {
         "case_id": "baltic-hybrid-warfare",
-        "title": "Baltic Sea cable cuts — hybrid warfare targeting European connectivity",
+        "title": "Baltic cable cuts — suspected sabotage, one dismissed prosecution, a NATO mission",
         "category": "sabotage_exposure",
         "category_label": "Gray-zone / sabotage exposure",
-        "one_line": "Nov 2024: Sweden-Lithuania and Finland-Germany cables cut (Chinese ship suspected). Dec 2024: Finland-Estonia cables cut by Russian shadow fleet tanker dragging anchor for 62 miles. EU spending €1B on cable surveillance. The cables are now military targets.",
-        "dependency": "November 17-18, 2024: BCS East-West Interlink (Sweden-Lithuania) and C-Lion1 (Finland-Germany — Finland's only connection to continental Europe) cut simultaneously. Chinese bulk carrier Yi Peng 3 suspected. December 25, 2024: Estlink 2, FEC-1, FEC-2 cut by Russian shadow fleet tanker Eagle S dragging anchor 62 miles.",
-        "consequence": "Finland temporarily lost its only direct cable to continental Europe. Pattern of escalating attacks on Baltic infrastructure. EU moved to spend nearly €1B on cable surveillance and emergency repair capacity. NATO treating cable security as alliance defense issue.",
-        "who_controls": "Russia (suspected direction of shadow fleet operations). China (Yi Peng 3 ownership). Cable operators (repair). NATO/EU (surveillance, deterrence). Finland, Sweden, Estonia, Lithuania (affected but limited unilateral response options).",
+        "one_line": "Cables between Sweden-Lithuania, Finland-Germany and Finland-Estonia were cut in late 2024. A Finnish court dismissed the Eagle S case in October 2025, finding intent unproven. NATO's Baltic Sentry has run since January 2025 and there have been no further incidents.",
+        "dependency": "November 2024: the Sweden-Lithuania and Finland-Germany cables were cut. December 2024: the Finland-Estonia Estlink 2 power cable and telecom cables were damaged, with the tanker Eagle S suspected of dragging its anchor. The Baltic's shallow, crowded seabed puts cables and pipelines within reach of any vessel's ground tackle.",
+        "consequence": "In October 2025 a Finnish court dismissed the case against the Eagle S captain and crew, ruling that prosecutors had not proved intent and that any negligence was a matter for the flag state or the crew's home countries. No charges were brought against the owner and the vessel was released. NATO launched Baltic Sentry on 14 January 2025 — frigates, maritime patrol aircraft, naval drones and surveillance — and no further incidents have been reported since. Whether that reflects deterrence or the absence of intent in the first place is not settled by the record.",
+        "who_controls": "Cable and pipeline owners; flag states of transiting vessels; NATO and Baltic littoral states through Baltic Sentry. Prosecution depends on jurisdiction over a vessel in international waters, which the Eagle S dismissal showed to be the binding constraint.",
         "affected_scope": "Baltic states connectivity. Finland-continental Europe link. Broader European infrastructure security.",
         "sources": [
-          { "publisher": "Reuters", "url": "https://www.reuters.com/world/europe/finland-police-investigate-role-foreign-ship-after-power-cable-outage-2024-12-26/", "date": "2024-12-26" },
-          { "publisher": "Atlantic Council", "url": "https://www.atlanticcouncil.org", "date": "2025-01-01" }
+          {
+            "publisher": "Submarine Networks",
+            "url": "https://www.submarinenetworks.com/en/nv/insights/finnish-court-dismisses-case-against-eagle-s",
+            "date": "2025-10-01",
+            "retrieved": "2026-08-14",
+            "note": "Finnish court dismissal; intent not proven"
+          },
+          {
+            "publisher": "Atlantic Council",
+            "url": "https://www.atlanticcouncil.org/in-depth-research-reports/issue-brief/how-the-baltic-sea-nations-have-tackled-suspicious-cable-cuts/",
+            "date": "2025-06-01",
+            "retrieved": "2026-08-14",
+            "note": "Baltic states' response and Baltic Sentry"
+          },
+          {
+            "publisher": "Reuters",
+            "url": "https://www.reuters.com/world/europe/finland-police-investigate-role-foreign-ship-after-power-cable-outage-2024-12-26/",
+            "date": "2024-12-26"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [120.5, 24.0] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.5,
+          24.0
+        ]
+      },
       "properties": {
         "case_id": "taiwan-gray-zone",
-        "title": "Taiwan cable damage — 5 malfunctions in 2025, first criminal charge against Chinese captain",
+        "title": "Taiwan cable cuts — the first conviction anywhere for severing a subsea cable",
         "category": "sabotage_exposure",
         "category_label": "Gray-zone / sabotage exposure",
-        "one_line": "Five submarine cable malfunctions by February 2025. Taiwan filed the first-ever criminal charge against a Chinese ship captain for intentional cable damage. The cables connecting Taiwan to the world are a gray-zone pressure point.",
-        "dependency": "Taiwan's international connectivity depends on submarine cables crossing the Taiwan Strait and East/South China Sea. Multiple cables (SJC2, PLCN, FNAL, RNAL, EAC2) damaged in January 2026 earthquakes. Five malfunctions reported by late February 2025. Historical precedent: December 2006 earthquakes cut 20+ breaks across 8 cables in Strait of Luzon.",
-        "consequence": "Cable damage disrupts Taiwan's connectivity and, through Taiwan's role as a tech hub, affects global semiconductor and technology supply chains. Gray-zone cable pressure is a lower-cost alternative to military escalation. Taiwan detained a China-linked cargo ship and filed first criminal charge for intentional damage.",
-        "who_controls": "Chinese ships (suspected deliberate damage in some cases). Seismic activity (natural risk). Taiwan's Coast Guard (interdiction). Cable operators (repair). The gray zone between natural damage and intentional sabotage is deliberately ambiguous.",
+        "one_line": "Five cable malfunctions by February 2025. Taiwan prosecuted the captain of the Hong Tai 58 for severing the Taiwan-Penghu No. 3 cable, won a three-year sentence upheld on appeal, and deported him in January 2026 — the first such conviction anywhere.",
+        "dependency": "Taiwan's external connectivity runs through a small number of submarine cables, including the Taiwan-Penghu links to its offshore islands. Five cable malfunctions were recorded by February 2025. On the night of 22 February 2025 the Togolese-flagged Hong Tai 58 entered a no-anchor zone about five nautical miles off Tainan's Beimen District; Chunghwa Telecom detected the break at around 3am.",
+        "consequence": "Captain Wang Yuliang was convicted of damaging telecommunications infrastructure and sentenced to three years, upheld on appeal, with NT$18.22M (about US$570,000) in damages to Chunghwa Telecom. He admitted ordering the anchor dropped but denied intent; the court rejected that. He was deported in January 2026. It is the first prosecution and conviction for severing cables in the seas around Taiwan — and it stands in contrast to the Baltic, where the comparable case collapsed for want of proof of intent.",
+        "who_controls": "Chunghwa Telecom and consortium owners (cables). Taiwanese courts and coast guard (enforcement, within territorial waters). Flag states elsewhere. The Hong Tai case shows prosecution is possible where the act occurs inside a state's own jurisdiction.",
         "affected_scope": "Taiwan (23.5M people). Regional connectivity to Japan, Philippines, Southeast Asia. Global tech supply chain (TSMC dependency).",
         "sources": [
-          { "publisher": "Reuters", "url": "https://www.reuters.com/world/asia-pacific/taiwan-detains-china-linked-cargo-ship-after-undersea-cable-disconnected-2025-02-25/", "date": "2025-02-25" },
-          { "publisher": "Reuters", "url": "https://www.reuters.com/technology/un-body-protect-vulnerable-submarine-cables-after-ruptures-2024-12-12/", "date": "2024-12-12" }
+          {
+            "publisher": "SubTel Forum",
+            "url": "https://subtelforum.com/chinese-captain-sentenced-for-taiwan-cable-damage/",
+            "date": "2025-06-12",
+            "retrieved": "2026-08-14",
+            "note": "Three-year sentence; NT$18.22M damages"
+          },
+          {
+            "publisher": "Taipei Times",
+            "url": "https://www.taipeitimes.com/News/taiwan/archives/2026/01/09/2003850330",
+            "date": "2026-01-09",
+            "retrieved": "2026-08-14",
+            "note": "Conviction upheld; captain deported"
+          },
+          {
+            "publisher": "Reuters",
+            "url": "https://www.reuters.com/world/asia-pacific/taiwan-detains-china-linked-cargo-ship-after-undersea-cable-disconnected-2025-02-25/",
+            "date": "2025-02-25"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-30.0, 40.0] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -30.0,
+          40.0
+        ]
+      },
       "properties": {
         "case_id": "hyperscaler-ownership",
         "title": "Hyperscaler cable ownership — 90% of transatlantic capacity, 4 companies",
         "category": "ownership_concentration",
         "category_label": "Ownership concentration",
-        "one_line": "Google, Meta, Microsoft, and Amazon now control ~50% of the global subsea cable market and 90% of transatlantic capacity. The consortium model is dying. Four US companies own the internet's backbone.",
-        "dependency": "10 years ago hyperscalers held negligible cable share. Now: ~50% of global subsea market, 90% transatlantic capacity, 70%+ international bandwidth. Meta planning Project Waterworth (50,000km, first wholly-owned global cable). Amazon announced Fastnet (first wholly-owned, Maryland-Ireland). $13B projected investment 2025-2027 (2x prior period).",
+        "one_line": "Google, Meta, Microsoft and Amazon hold about 71% of global subsea fibre capacity and roughly 90% of the transatlantic route — up from about 10% transatlantic in 2014. The consortium model is dying. Four US companies own the internet's backbone.",
+        "dependency": "Google holds a stake in 34 cable systems and Meta in 20, with Microsoft and Amazon holding about ten more between them. Together the four control roughly 71% of global subsea fibre capacity and about 90% of transatlantic capacity — against roughly 10% of the transatlantic route in 2014. Their share of international bandwidth use has gone from almost nothing in 2010 to around 75%, and they are involved in more than two-thirds of planned deployments. New systems are designed around their data-centre interconnection needs rather than around shared carrier consortia.",
         "consequence": "Shift from consortium ownership (16+ operators sharing) to private ownership concentrates routing decisions, access policy, and maintenance priorities in four companies. Countries lose ability to mandate domestic control. Landing decisions made by tech companies, not governments. 'Critical infrastructure outsourced to private industries with remarkable freedom from regulation.'",
         "who_controls": "Google (~33 cables), Meta (~15 cables + Waterworth), Microsoft (~5 cables), Amazon (~4 cables + Fastnet). AI buildout is the primary investment driver — cables now connect data centers, not population centers.",
         "affected_scope": "Global internet backbone. All countries using hyperscaler-owned cables. EU sovereignty particularly exposed (data flows controlled by US companies).",
         "sources": [
-          { "publisher": "The Register", "url": "https://www.theregister.com", "date": "2025-06-01" },
-          { "publisher": "Hoover Institution", "url": "https://www.hoover.org", "date": "2025-01-01" }
+          {
+            "publisher": "IEEE ComSoc Technology Blog",
+            "url": "https://techblog.comsoc.org/2026/06/01/hyperscalers-dominance-of-subsea-cable-capacity-to-increase-in-the-ai-era/",
+            "date": "2026-06-01",
+            "retrieved": "2026-08-14",
+            "note": "~71% of global subsea capacity; ~90% transatlantic; ownership counts"
+          },
+          {
+            "publisher": "ECDPM",
+            "url": "https://ecdpm.org/work/troubled-waters-europes-subsea-telecommunications-network",
+            "date": "2025-09-01",
+            "retrieved": "2026-08-14",
+            "note": "European exposure to hyperscaler-owned routes"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [10.0, 20.0] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.0,
+          20.0
+        ]
+      },
       "properties": {
         "case_id": "repair-ship-bottleneck",
-        "title": "Cable repair fleet — fewer than 70 ships, half approaching retirement",
+        "title": "Repair-vessel bottleneck — about 60 cable ships, fewer than 20 that only repair",
         "category": "repair_dependency",
         "category_label": "Repair-vessel dependency",
-        "one_line": "Fewer than 70 cable repair ships worldwide. Two-thirds reach end-of-life by 2040. Average repair: 15-40 days. When multiple cables break simultaneously — as in the Red Sea — the queue stretches to months. $3B needed just to maintain current capacity.",
-        "dependency": "Global fleet: <70 cable-laying and repair ships. Average repair: 10-20 days (15 days North America, 30 days Asia-Pacific due to permitting). Current benchmark: 40-day restoration. 2025: 150-200 cable outages worldwide. Fleet aging: two-thirds reach end-of-service by 2040. Replacing the fleet requires ~$3B and 15+ new vessels.",
-        "consequence": "When multiple cables break simultaneously (Red Sea 2024, Baltic 2024), available repair ships are overwhelmed. Red Sea conflict makes repair permits 'extremely difficult' — some cables left stranded indefinitely. Without fleet expansion, median restoration times will exceed 40-day benchmark. The repair bottleneck is the hidden dependency behind all other cable dependencies.",
-        "who_controls": "A handful of specialized companies (SubCom, Alcatel Submarine Networks, NEC). No government or international body manages fleet capacity. No strategic reserve of repair ships. Investment decisions are private and market-driven.",
+        "one_line": "Roughly 60 specialised vessels lay and maintain every submarine cable on earth, and fewer than 20 of those do repair work alone. Two-thirds reach end of life by 2040. Replacing and expanding the fleet is costed at about $3B, and almost none of it has been spent.",
+        "dependency": "About 60 specialised cable ships lay and maintain the world's submarine cables; fewer than 20 are dedicated solely to repair. The International Cable Protection Committee records roughly 200 cable faults a year. Around 65% of maintenance vessels reach end of life within 15 years, and about two-thirds by 2040. Meeting demand is costed at roughly $3B — 15 replacement ships and five additional ones.",
+        "consequence": "Repairs are queued against a fleet that is both small and ageing, so a simultaneous multi-cable break — as in the Red Sea — stretches the queue to months. Notably, the ICPC attributes 70-80% of faults to accidental human activity, chiefly fishing gear and ships' anchors, rather than to sabotage: the fleet's real workload is ordinary accidents, and the capacity shortfall is what turns any of them into an outage.",
+        "who_controls": "A small number of specialist operators and consortium maintenance agreements. No state or international body is responsible for fleet capacity, and the replacement investment has no committed source.",
         "affected_scope": "Global — every submarine cable depends on this fleet. 597 cable systems and 1,712 landings worldwide.",
         "sources": [
-          { "publisher": "TeleGeography", "url": "https://www2.telegeography.com", "date": "2025-01-01" },
-          { "publisher": "ITU", "url": "https://www.itu.int", "date": "2026-01-01" }
+          {
+            "publisher": "TeleGeography",
+            "url": "https://resources.telegeography.com/submarine-cable-maintenance-data",
+            "date": "2025-06-01",
+            "retrieved": "2026-08-14",
+            "note": "~$3B to sustain service levels; 15 replacement plus 5 additional ships"
+          },
+          {
+            "publisher": "Scientific American",
+            "url": "https://www.scientificamerican.com/article/iran-threats-expose-the-aging-fleet-that-repairs-undersea-internet-cables/",
+            "date": "2025-07-01",
+            "retrieved": "2026-08-14",
+            "note": "~60 vessels; fewer than 20 repair-only; ageing profile"
+          },
+          {
+            "publisher": "International Cable Protection Committee",
+            "url": "https://www.iscpc.org/",
+            "date": "2026-01-01",
+            "retrieved": "2026-08-14",
+            "note": "ICPC public fault statistics. Organisation index rather than a document URL: no stable deep link to the annual fault figures was located, and the same figures are corroborated by the TeleGeography and Scientific American sources cited alongside."
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [150.0, 0.0] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          150.0,
+          0.0
+        ]
+      },
       "properties": {
         "case_id": "pacific-thin-routes",
         "title": "Pacific island nations — ROI calculations determine who gets redundancy",
@@ -167,8 +328,18 @@
         "who_controls": "Cable operators (investment decisions). International development banks (some subsidy for Pacific connectivity). Market economics determines who gets redundancy. Small island states have no leverage over global cable investment priorities.",
         "affected_scope": "Pacific island nations: Tonga, Samoa, Kiribati, Marshall Islands, Tuvalu, and others. Collectively ~2.5M people across the Pacific.",
         "sources": [
-          { "publisher": "Reuters", "url": "https://www.reuters.com/markets/funds/undersea-cable-fault-could-cut-off-tonga-rest-world-weeks-2022-01-18/", "date": "2022-01-18" },
-          { "publisher": "UN News", "url": "https://news.un.org", "date": "2024-01-01" }
+          {
+            "publisher": "Reuters",
+            "url": "https://www.reuters.com/markets/funds/undersea-cable-fault-could-cut-off-tonga-rest-world-weeks-2022-01-18/",
+            "date": "2022-01-18"
+          },
+          {
+            "publisher": "CSIS",
+            "url": "https://www.csis.org/analysis/building-cooperative-frameworks-subsea-cable-security-indo-pacific",
+            "date": "2025-06-01",
+            "retrieved": "2026-08-14",
+            "note": "Pacific island connectivity and route economics"
+          }
         ]
       }
     }
