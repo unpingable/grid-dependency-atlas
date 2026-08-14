@@ -3,7 +3,13 @@
   "features": [
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-95.0, 39.0] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -95.0,
+          39.0
+        ]
+      },
       "properties": {
         "case_id": "lpt-shortage",
         "title": "Large Power Transformer shortage — 80% imported, 2-3 year lead times",
@@ -12,42 +18,86 @@
         "severity": "structural",
         "severity_label": "Structural vulnerability",
         "affected_scope": "US grid (328M people)",
-        "one_line": "80% of large power transformers are imported. Lead times went from months to 2-3 years. 70% of the fleet is 25+ years old. FERC identified 30 critical units whose loss in combinations of 9 could cause coast-to-coast blackout.",
-        "dependency": "80% of US large power transformers imported (Canada, Mexico, South Korea, Germany, China). Lead times: 80-210 weeks (avg 120-128), up from 50 weeks in 2021. Demand up 119% since 2019. Wood Mackenzie projects 30% shortfall in 2025, 47% for generator step-up units.",
+        "one_line": "80% of large power transformers are imported and lead times now average 128 weeks — 144 for generator step-ups. 70% of the fleet is 25+ years old. FERC identified 30 critical units whose loss in combinations of 9 could cause a coast-to-coast blackout.",
+        "dependency": "80% of US large power transformers imported (Mexico, South Korea, Canada, Germany, China). Lead times as of Q2 2025: 128 weeks average for power transformers, 144 weeks for generator step-up units, with some specialised orders quoted at four years — up from roughly 50 weeks in 2021. Demand since 2019: generator step-up units +274%, substation power transformers +116%. Wood Mackenzie projects 2025 supply deficits of 30% for power transformers and 10% for distribution transformers.",
         "consequence": "Average fleet age: 40 years (end of expected life). 70% are 25+ years old. FERC identified 30 critical transformers — loss of just 9 in various combinations could cause cascading coast-to-coast blackout. Each unit weighs up to 400 tons, requires custom engineering. If damaged, replacement takes months to years.",
         "who_controls": "Global manufacturers (Hitachi Energy, Siemens, ABB, Hyundai). US has limited domestic manufacturing. DPA invoked June 2022 but only $254M of $500M allocated. New plants (Hitachi $457M in Virginia, Siemens $150M in Charlotte) won't be operational until 2028.",
-        "mitigation": "Biden invoked Defense Production Act (June 2022) for transformers. $254M allocated of $500M authorized. Hitachi announced $1B manufacturing investment. But new capacity is years away and demand continues to outpace supply.",
+        "mitigation": "Defense Production Act invoked June 2022 for transformers; $254M allocated of $500M authorised. Roughly $1.8B in North American manufacturing investment has since been announced — Hitachi Energy $1B+ (South Boston, Virginia, targeted 2028; Alamo, Tennessee expansion), Siemens Energy $150M in Charlotte (2027), Eaton $340M in South Carolina (2027). All are future commitments: none of this capacity is producing yet, and lead times have not come down.",
         "sources": [
-          { "publisher": "DOE", "url": "https://www.energy.gov/sites/default/files/2024-10/EXEC-2022-001242%20-%20Large%20Power%20Transformer%20Resilience%20Report%20signed%20by%20Secretary%20Granholm%20on%207-10-24.pdf", "date": "2024-07-10" },
-          { "publisher": "Wood Mackenzie", "url": "https://www.woodmac.com/press-releases/power-transformers-and-distribution-transformers-will-face-supply-deficits-of-30-and-10-in-2025/", "date": "2025-01-01" }
+          {
+            "publisher": "U.S. Department of Energy",
+            "url": "https://www.energy.gov/sites/default/files/2024-10/EXEC-2022-001242%20-%20Large%20Power%20Transformer%20Resilience%20Report%20signed%20by%20Secretary%20Granholm%20on%207-10-24.pdf",
+            "date": "2024-07-10",
+            "note": "Large Power Transformer Resilience Report"
+          },
+          {
+            "publisher": "POWER Magazine",
+            "url": "https://www.powermag.com/transformers-in-2026-shortage-scramble-or-self-inflicted-crisis/",
+            "date": "2026-01-02",
+            "retrieved": "2026-08-14",
+            "note": "2026 lead times and announced North American capacity"
+          },
+          {
+            "publisher": "Wood Mackenzie",
+            "url": "https://www.woodmac.com/press-releases/power-transformers-and-distribution-transformers-will-face-supply-deficits-of-30-and-10-in-2025/",
+            "date": "2025-01-01"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [117.0, 31.0] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          117.0,
+          31.0
+        ]
+      },
       "properties": {
         "case_id": "goes-concentration",
-        "title": "Grain-Oriented Electrical Steel — China produces 56%, US has one plant",
+        "title": "Grain-Oriented Electrical Steel — China produces 56%, the US has one producer",
         "category": "raw_material",
         "category_label": "Raw material dependency",
         "severity": "structural",
         "severity_label": "Structural vulnerability",
         "affected_scope": "Global transformer manufacturing; US grid indirectly",
-        "one_line": "You can't build a transformer without GOES. China makes 56% of it. The US has one plant (AK Steel, Pennsylvania) that can't produce the highest grades. The bottleneck behind the bottleneck.",
-        "dependency": "Grain-oriented electrical steel (GOES) is the core magnetic material in every power transformer. China produces 56% globally (Baosteel alone: 500K tonnes/year). Top 10 producers control >70% of market. US has one domestic supplier (AK Steel, PA) that doesn't produce the highest grades needed for large transformers. 80% of GOES for US transformer production is imported.",
+        "one_line": "You can't build a transformer without GOES. China makes roughly 56% of it. In the United States there is exactly one producer — Cleveland-Cliffs, at Butler Works in Pennsylvania. The bottleneck behind the bottleneck.",
+        "dependency": "Grain-oriented electrical steel is the core magnetic material in every power transformer. China produces about 56% globally (Baosteel alone ~500K tonnes/year); the top ten producers control over 70%. Cleveland-Cliffs is the sole US producer of regular grain-oriented steel, at Butler Works in Pennsylvania, with finishing at Zanesville, Ohio. Every US transformer manufacturer drawing on domestic steel draws from that one source.",
         "consequence": "GOES shortage constrains transformer manufacturing regardless of factory capacity. Even new US transformer plants (Hitachi, Siemens) will depend on imported GOES. This is the raw material dependency behind the equipment dependency behind the grid dependency.",
-        "who_controls": "China (56% via Baosteel, WISCO). Japan (JFE Steel, NIPPON Steel). South Korea (POSCO). Russia (NLMK). Germany (ThyssenKrupp). NIAC flagged foreign GOES dependence as national security risk.",
-        "mitigation": "Limited. No announced US GOES expansion to highest-grade production. Even as transformer manufacturing reshores, the raw material remains concentrated offshore.",
+        "who_controls": "China (~56%, via Baosteel and WISCO). Japan (JFE Steel, Nippon Steel). South Korea (POSCO). Russia (NLMK). Germany (ThyssenKrupp). In the US, Cleveland-Cliffs alone. NIAC flagged foreign GOES dependence as a grid reliability risk in its June 2024 report.",
+        "mitigation": "A DOE-supported grain-oriented electrical steel expansion at Cleveland-Cliffs' Butler Works is on schedule for 2028 — a change from the position through 2025, when no US GOES expansion had been announced. Until it lands, transformer reshoring still depends on a single domestic supplier and on imports for the highest grades.",
         "sources": [
-          { "publisher": "NIAC", "url": "https://www.cisa.gov/sites/default/files/2024-09/NIAC_Addressing%20the%20Critical%20Shortage%20of%20Power%20Transformers%20to%20Ensure%20Reliability%20of%20the%20U.S.%20Grid_Report_06112024_508c_pdf_0.pdf", "date": "2024-06-11" },
-          { "publisher": "Wood Mackenzie", "url": "https://www.woodmac.com/news/opinion/transformer-troubles-manufacturing-and-policy-constraints-hit-us-transformer-supply/", "date": "2025-01-01" }
+          {
+            "publisher": "National Infrastructure Advisory Council (NIAC)",
+            "url": "https://www.cisa.gov/sites/default/files/2024-09/NIAC_Addressing%20the%20Critical%20Shortage%20of%20Power%20Transformers%20to%20Ensure%20Reliability%20of%20the%20U.S.%20Grid_Report_06112024_508c_pdf_0.pdf",
+            "date": "2024-06-11",
+            "note": "Addressing the Critical Shortage of Power Transformers"
+          },
+          {
+            "publisher": "Cleveland-Cliffs",
+            "url": "https://www.clevelandcliffs.com/sustainability/steel-as-a-sustainable-material/dept-of-energy-butler-works-project",
+            "date": "2026-01-01",
+            "retrieved": "2026-08-14",
+            "note": "DOE Butler Works GOES expansion, on schedule for 2028"
+          },
+          {
+            "publisher": "Wood Mackenzie",
+            "url": "https://www.woodmac.com/news/opinion/transformer-troubles-manufacturing-and-policy-constraints-hit-us-transformer-supply/",
+            "date": "2025-01-01"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-66.5, 18.2] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -66.5,
+          18.2
+        ]
+      },
       "properties": {
         "case_id": "puerto-rico-grid",
         "title": "Puerto Rico — 11 months to restore power, then it happened again",
@@ -56,102 +106,180 @@
         "severity": "demonstrated",
         "severity_label": "Demonstrated failure",
         "affected_scope": "Puerto Rico (3.2M people)",
-        "one_line": "Hurricane Maria destroyed 293 substations and 2,478 miles of transmission. It took 328 days to restore power. Five years later, Hurricane Fiona knocked it all out again. No spare transformer capacity exists in the Caribbean.",
+        "one_line": "Hurricane Maria destroyed 293 substations and 2,478 miles of transmission; restoration took 328 days. Nine years on the grid is still not stable — an island-wide blackout in April 2025 lasted nearly two days, and GAO found only limited progress in July 2026.",
         "dependency": "2,478 miles of transmission lines, 293 substations, 31,446 miles of overhead lines damaged/destroyed. No spare large transformer capacity in the Caribbean region. Multi-year lead times meant multi-year recovery. Federal funding ($9.6B) announced 3 years after the hurricane.",
-        "consequence": "328 days (11 months) to restore all customers. Largest blackout in US history. $100B in estimated infrastructure repair costs. Five years later (Sept 2022), Hurricane Fiona knocked out 100% of grid again — 4+ weeks without power in some areas. The grid was rebuilt to the same vulnerability.",
-        "who_controls": "LUMA Energy (private operator since 2021). Puerto Rico Electric Power Authority (PREPA, debt-ridden predecessor). Federal government (FEMA funding, Army Corps support). Transformer manufacturers (global, multi-year lead times).",
-        "mitigation": "$9.6B federal funding announced Sept 2020 (3 years post-Maria). Grid modernization underway but progress characterized as 'slow.' Fundamental vulnerability — island grid with no interconnection, no spare capacity in region — remains.",
+        "consequence": "328 days to restore all customers after Maria — the largest blackout in US history — and ~$100B in estimated infrastructure repair costs. Hurricane Fiona took the grid out again in September 2022. Instability persists: between 2021 and 2024 the average household lost power 19 times a year for about 27 hours, and an island-wide blackout in April 2025 lasted nearly two days.",
+        "who_controls": "LUMA Energy (transmission and distribution operator since 2021, contract extension under legal challenge). Genera PR (generation since 2023). PREPA (debt-laden owner). Federal government (FEMA funding, Army Corps).",
+        "mitigation": "Billions in federal funding appropriated, but GAO reported in July 2026 that progress toward grid stability remains limited. Roughly $3.6B remained unobligated as of June 2026, when FEMA asked PREPA for a prioritised project list. Nine large FEMA projects are complete. Vegetation clearing had covered about 400 of 16,000 planned miles as of February 2026. LUMA's contract extension is being challenged in court, which may itself delay projects.",
         "sources": [
-          { "publisher": "GAO", "url": "https://www.gao.gov/blog/hurricane-recovery-can-take-years-puerto-rico-5-years-show-its-unique-challenges", "date": "2022-09-01" },
-          { "publisher": "NREL", "url": "https://docs.nrel.gov/docs/fy22osti/82860.pdf", "date": "2022-01-01" }
+          {
+            "publisher": "U.S. Government Accountability Office",
+            "url": "https://www.gao.gov/products/gao-26-107772",
+            "date": "2026-07-01",
+            "retrieved": "2026-08-14",
+            "note": "GAO-26-107772, Puerto Rico Grid Recovery: Limited Progress Toward Stability"
+          },
+          {
+            "publisher": "U.S. Government Accountability Office",
+            "url": "https://www.gao.gov/blog/hurricane-recovery-can-take-years-puerto-rico-5-years-show-its-unique-challenges",
+            "date": "2022-09-01"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-121.4, 37.35] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -121.4,
+          37.35
+        ]
+      },
       "properties": {
         "case_id": "metcalf-attack",
-        "title": "Metcalf substation — 100 rifle rounds, 17 transformers, unsolved",
+        "title": "Metcalf substation — 100 rifle rounds, 17 transformers, still unsolved",
         "category": "physical_attack",
         "category_label": "Physical attack",
         "severity": "demonstrated",
         "severity_label": "Demonstrated failure",
         "affected_scope": "PG&E service territory, California",
-        "one_line": "Unknown attackers cut fiber-optic lines and fired 100+ rounds at 17 transformers in 19 minutes. $15M in damage. Unsolved 11 years later. NERC had no mandatory physical security standards for substations until after this attack.",
+        "one_line": "Unknown attackers cut fibre-optic lines and fired 100+ rounds at 17 transformers in 19 minutes. $15M in damage. Unsolved since April 2013. Substations had no mandatory physical-security standard until FERC ordered one in response.",
         "dependency": "April 16, 2013. PG&E substation near San Jose. Attackers cut fiber-optic lines, then fired 100+ .30-caliber rifle rounds at 17 power transformers over 19 minutes. Radiators leaked thousands of gallons of cooling oil, causing overheating/shutdown.",
-        "consequence": "$15M in damage. Attack exposed that high-voltage transformers are vulnerable to intentional damage with basic weapons. Pre-2013, physical security was voluntary guidelines, not mandatory. DHS indicated attack may have been committed by 'an insider' (October 2015).",
+        "consequence": "$15M in damage. The attack showed that high-voltage transformers can be disabled with ordinary rifles. Physical security was voluntary guidance beforehand; DHS reported in 2015 that the attack showed indications of insider knowledge. PG&E offered a $250,000 reward in 2014. As of 2026 no one has been charged.",
         "who_controls": "PG&E (utility). FERC ordered mandatory physical security standards after the attack (2014). But standards focus on critical substations — most remain lightly protected. Unsolved 11+ years later.",
-        "mitigation": "FERC ordered mandatory physical security standards for substations (2014). But enforcement scope limited to 'critical' facilities. Transformer replacement lead times (2-3 years) mean a successful attack on the right targets could cause extended regional blackouts with no rapid recovery option.",
+        "mitigation": "FERC directed NERC to write a mandatory physical-security standard within 90 days of the attack; CIP-014 was promulgated in 2015. Its scope is limited to facilities identified as critical, so most substations remain outside it. Transformer replacement lead times (now 128 weeks average) mean a successful attack on windings is a multi-year outage.",
         "sources": [
-          { "publisher": "Wikipedia", "url": "https://en.wikipedia.org/wiki/Metcalf_sniper_attack", "date": "2013-04-16" },
-          { "publisher": "CNN", "url": "https://money.cnn.com/2015/10/16/technology/sniper-power-grid/", "date": "2015-10-16" }
+          {
+            "publisher": "Congressional Research Service",
+            "url": "https://www.everycrsreport.com/reports/R45135.html",
+            "date": "2018-03-19",
+            "retrieved": "2026-08-14",
+            "note": "R45135, NERC Standards for Bulk Power Physical Security: Is the Grid More Secure?"
+          },
+          {
+            "publisher": "CNN Money",
+            "url": "https://money.cnn.com/2015/10/16/technology/sniper-power-grid/",
+            "date": "2015-10-16"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-79.43, 35.34] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.43,
+          35.34
+        ]
+      },
       "properties": {
         "case_id": "moore-county-attack",
-        "title": "Moore County substation attacks — 40,000 without power, unsolved",
+        "title": "Moore County substation attacks — 45,000 without power, still unsolved",
         "category": "physical_attack",
         "category_label": "Physical attack",
         "severity": "demonstrated",
         "severity_label": "Demonstrated failure",
         "affected_scope": "Moore County, North Carolina (45K people)",
-        "one_line": "Gunfire hit two Duke Energy substations, knocking out power for 40,000 customers. One death (oxygen-dependent patient). Three years later, unsolved. The transformers were radiators, not windings — if the windings had been hit, replacement could have taken years.",
+        "one_line": "Gunfire hit two Duke Energy substations, cutting power to about 45,000 customers for roughly a week. One death. Unsolved since December 2022, with a $100,000 reward outstanding. The rounds hit radiators, not windings — had they hit windings, replacement could have taken years.",
         "dependency": "December 3, 2022. Gunfire targeted two Duke Energy distribution substations (West End and Substation #2). Two 115kV transformers hit. Damage to radiators (not windings — if windings had been destroyed, full replacement at 2-3 year lead times).",
-        "consequence": "40,000 customers lost power. Karin Zoanelli, 87, died (oxygen-dependent). Initial estimate: 4 days to restore. Attack described as 'targeted' (deliberate site selection). Demonstrated that distribution substations remain vulnerable to basic weapons.",
-        "who_controls": "Duke Energy (utility). FBI investigated. Three years later: unsolved, no suspects. Physical security standards exist for critical substations but distribution substations are lower priority.",
+        "consequence": "About 45,000 customers lost power, some for roughly a week. Karin Zoanelli, 87 and oxygen-dependent, died. The site selection was described as targeted. The attack showed that distribution substations — numerous, lightly protected, and outside CIP-014's critical-facility scope — are a soft target.",
+        "who_controls": "Duke Energy (utility). FBI and Moore County Sheriff investigating; as of December 2025 the case remains unsolved with no suspects publicly identified and a $100,000 reward outstanding. Physical-security standards cover critical transmission substations; distribution substations are largely outside that scope.",
         "mitigation": "Post-attack security reviews. But distribution substations are numerous and lightly protected by design. The lucky outcome (radiator damage, not winding damage) masked the full vulnerability — a winding hit would have meant months-to-years replacement.",
         "sources": [
-          { "publisher": "NPR", "url": "https://www.npr.org/2022/12/09/1141937948/north-carolina-attacks-highlight-the-vulnerability-of-power-grids", "date": "2022-12-09" },
-          { "publisher": "Practical Engineering", "url": "https://practical.engineering/blog/2023/1/16/what-really-happened-with-the-substation-attack-in-north-carolina", "date": "2023-01-16" }
+          {
+            "publisher": "Federal Bureau of Investigation",
+            "url": "https://www.fbi.gov/wanted/seeking-info/shooting-of-electrical-substations",
+            "date": "2022-12-04",
+            "retrieved": "2026-08-14",
+            "note": "FBI seeking-info notice; ~45,000 customers, $100,000 reward"
+          },
+          {
+            "publisher": "ABC11 Raleigh-Durham",
+            "url": "https://abc11.com/post/moore-county-substation-shooting-attack-unsolved-3-years-later/18248092/",
+            "date": "2025-12-03",
+            "retrieved": "2026-08-14",
+            "note": "Three years on, still unsolved"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [-77.6, 39.0] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.6,
+          39.0
+        ]
+      },
       "properties": {
         "case_id": "pjm-interconnection-queue",
-        "title": "PJM interconnection queue — 5+ year waits, transformer bottleneck",
+        "title": "PJM interconnection queue — multi-year waits, and the 2028/29 auction came up short",
         "category": "supply_chain",
         "category_label": "Supply chain",
         "severity": "structural",
         "severity_label": "Structural vulnerability",
         "affected_scope": "PJM footprint (13 states + DC, 67M people)",
-        "one_line": "Data centers added 5-7 GW/year to PJM demand. New supply adds 2-3 GW. Interconnection queue wait: 5+ years. Transformer shortage makes it worse. Two completed Silicon Valley data centers can't operate because the transformers aren't available.",
+        "one_line": "Data centres add 5-7 GW a year to PJM demand; new supply adds 2-3 GW. The July 2026 capacity auction cleared at $325/MW-day and still fell 6,831 MW short of PJM's own reliability requirement. Transformer lead times of 128 weeks sit underneath the whole problem.",
         "dependency": "Data center demand: 5-7 GW added annually. New supply: 2-3 GW annually. Gap widening. Interconnection queue: 5+ years average (was months). Transformer shortages compound the delay. PJM's December 2025 auction fell 6,625 MW short of reliability requirements — first-ever shortfall.",
-        "consequence": "PJM capacity prices hit $333.44/MW-day (record). $9.3B+ in socialized costs across 13 states. 67M ratepayers. Gartner: power shortages will constrain 40% of AI data centers by 2027. Two Silicon Valley data centers completed but inoperable — transformers unavailable.",
+        "consequence": "The 2028/2029 base residual auction (July 2026) cleared at $325/MW-day across the footprint, cost $16.4B, procured 138,318 MW — and came in 6,831 MW below the reliability requirement, leaving a 14.7% reserve margin. PJM attributes continued growth to large data centre loads entering the forecast. Costs are socialised across 13 states and roughly 67M ratepayers.",
         "who_controls": "PJM (market rules, queue management). Transformer manufacturers (global, multi-year backlogs). Data center developers (demand signal). FERC Order 1920 (2024) attempts transmission planning reform but implementation is years away.",
-        "mitigation": "FERC Order 1920 requires 20-year transmission planning. New Indio River dam for Panama Canal water. Manufacturer capacity expansion underway. But demand growth continues to outpace all mitigation — the queue gets longer, not shorter.",
+        "mitigation": "FERC Order 1920 requires 20-year transmission planning. Manufacturer capacity expansion is announced but not yet producing. Demand growth continues to outpace both supply additions and equipment availability.",
         "sources": [
-          { "publisher": "Utility Dive", "url": "https://www.utilitydive.com/news/solving-pjms-data-center-problem/805600/", "date": "2025-06-01" },
-          { "publisher": "NRDC", "url": "https://www.nrdc.org/bio/tom-rutigliano/building-data-centers-without-breaking-pjm", "date": "2025-10-01" }
+          {
+            "publisher": "PJM Interconnection",
+            "url": "https://insidelines.pjm.com/pjm-capacity-auction-procures-138318-mw-of-generation-resources-as-work-continues-to-address-growing-electricity-demand/",
+            "date": "2026-07-14",
+            "retrieved": "2026-08-14",
+            "note": "2028/2029 Base Residual Auction: $325/MW-day, $16.4B, 6,831 MW short"
+          },
+          {
+            "publisher": "Utility Dive",
+            "url": "https://www.utilitydive.com/news/solving-pjms-data-center-problem/805600/",
+            "date": "2025-06-01"
+          }
         ]
       }
     },
     {
       "type": "Feature",
-      "geometry": { "type": "Point", "coordinates": [116.4, 39.9] },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.4,
+          39.9
+        ]
+      },
       "properties": {
         "case_id": "china-battery-dominance",
-        "title": "China battery/inverter dominance — 70% of global supply, 43% one company",
+        "title": "Chinese manufacturers dominate grid batteries — but deployment has moved offshore",
         "category": "raw_material",
         "category_label": "Raw material / manufacturing",
         "severity": "structural",
         "severity_label": "Structural vulnerability",
         "affected_scope": "Global grid transition to renewables; US grid indirectly",
-        "one_line": "China supplies 70% of global batteries and 56% of components. CATL alone holds 43% market share. The US grid's transition to renewables runs through Chinese manufacturing whether anyone planned it that way or not.",
-        "dependency": "China deployed 174 GWh of battery storage in 2024 (triple North America). 70% of global batteries from China. 56% of battery inputs/components. CATL: 43% global market share. BYD: 12%. Plans: 200 additional battery plants by 2030, 3,000 GWh capacity.",
-        "consequence": "US grid transition to renewables depends on Chinese manufacturing for grid-scale storage and inverters. No comparable domestic or allied-nation supply chain at scale. Similar dynamics to GOES for transformers — the raw material/manufacturing bottleneck behind the transition.",
-        "who_controls": "Chinese government (subsidies, planning, export policy). CATL, BYD, EVE Energy (manufacturers). High barriers to entry for non-Chinese competitors. US policy (IRA incentives) attempts to build domestic capacity but scale gap is enormous.",
-        "mitigation": "IRA domestic manufacturing incentives. Some reshoring underway. But Chinese cost advantage (vertically integrated supply chain, scale) makes competition difficult. Policy constraints (tariffs, sourcing requirements) create tension between climate goals and supply chain sovereignty.",
+        "one_line": "Chinese firms still make most of the world's grid-storage cells: CATL alone shipped 27.1% of global ESS batteries in H1 2026. But for the first time, most of those batteries were deployed outside China — 56.1% of shipments, against 43.9% inside it.",
+        "dependency": "Global energy-storage battery shipments reached 461.3 GWh in H1 2026, up 71% year-on-year. Chinese manufacturers took the top seven places: CATL 27.1% (125.0 GWh), EVE Energy 10.4%, Hithium 10.0%, BYD 7.7%, CALB 6.8%, Rept Battero 6.8%, Cornex 6.5%. In electric-vehicle batteries, seven Chinese firms hold a combined 72.4% and CATL alone 39.9%. The US grid's storage build-out runs through these manufacturers regardless of where the cells are installed.",
+        "consequence": "Manufacturing concentration and deployment geography have diverged. China's share of ESS shipments fell from 50.5% to 43.9% year-on-year as North American and European demand grew, so non-China markets took 56.1% for the first time. The dependency is therefore on Chinese *manufacturers*, not on Chinese *installations* — a distinction the older framing of this case did not make.",
+        "who_controls": "Chinese manufacturers (CATL, EVE Energy, Hithium, BYD, CALB, Rept Battero, Cornex) and Chinese industrial policy on subsidies and export controls. No comparable domestic or allied-nation cell supply chain operates at this scale.",
+        "mitigation": "IRA domestic manufacturing incentives and some reshoring. Chinese cost advantage from vertical integration and scale still makes competition difficult at cell level.",
         "sources": [
-          { "publisher": "China Briefing", "url": "https://www.china-briefing.com/doing-business-guide/china/sector-insights/china-s-energy-storage-sector-policies-and-investment-opportunities", "date": "2025-06-01" },
-          { "publisher": "Nikkei Asia", "url": "https://asia.nikkei.com/business/energy/china-battery-storage-installations-triple-north-america-s-in-2025", "date": "2025-01-01" }
+          {
+            "publisher": "CnEVPost (SNE Research data)",
+            "url": "https://cnevpost.com/2026/08/04/global-ess-battery-market-share-h1-2026/",
+            "date": "2026-08-04",
+            "retrieved": "2026-08-14",
+            "note": "Global ESS battery shipments H1 2026; China 43.9% vs non-China 56.1%"
+          },
+          {
+            "publisher": "CnEVPost (SNE Research data)",
+            "url": "https://cnevpost.com/2026/08/07/global-ev-battery-market-share-h1-2026/",
+            "date": "2026-08-07",
+            "retrieved": "2026-08-14",
+            "note": "Global EV battery share H1 2026: CATL 39.9%, seven Chinese firms 72.4%"
+          }
         ]
       }
     }
