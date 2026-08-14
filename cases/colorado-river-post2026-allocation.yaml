@@ -16,13 +16,16 @@ trigger: >
   cutbacks even during severe drought. The deadline was missed. Lower Basin
   proposed 27% cuts for AZ, 17% for NV, 10% for CA. No agreement reached.
   Tier 1 shortage in effect for 2026: Nevada gets 279,000 acre-feet (7% cut),
-  Arizona loses 18%.
+  Arizona loses 18%, California takes no cuts due to senior rights.
 public_consequence: >
   2.3 million people in Southern Nevada get 90% of water from the Colorado River.
   Arizona's 7.1 million residents face the largest proportional cuts. No agreed
   framework means the Interior Secretary may impose unilateral cuts. Municipal
   water providers cannot plan capital investments without knowing future
   allocations. 40 million people basin-wide affected.
+location:
+  lng: -114.7
+  lat: 36.0
 affected_population_est: 40000000
 status: emerging
 date_surfaced: "2026-02-14"

@@ -21,6 +21,9 @@ public_consequence: >
   days. Businesses closed, tourism disrupted. Estimated $65M in economic damage.
   Toledo has since invested $500M in treatment upgrades. Toxic blooms continue
   annually.
+location:
+  lng: -83.5
+  lat: 41.7
 affected_population_est: 500000
 status: recurring
 date_surfaced: "2014-08-02"

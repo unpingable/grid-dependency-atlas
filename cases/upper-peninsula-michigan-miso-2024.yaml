@@ -23,6 +23,9 @@ public_consequence: >
   ATC cannot provide firm service to some UP utilities due to transmission
   constraints. Wisconsin data center-driven buildout costs may be socialized to
   UP customers.
+location:
+  lng: -87.5
+  lat: 46.8
 affected_population_est: 301000
 status: active
 date_surfaced: "2024-07-17"

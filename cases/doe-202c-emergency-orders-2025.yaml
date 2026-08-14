@@ -38,6 +38,9 @@ current_status: >
   environmental groups argue DOE is using §202(c) to override normal RTO
   planning, resource-adequacy decisions, and cost-allocation rules without
   statutory limit.
+location:
+  lng: -86.2
+  lat: 43.05
 affected_population_est: 45000000
 status: active
 date_surfaced: "2025-05-23"

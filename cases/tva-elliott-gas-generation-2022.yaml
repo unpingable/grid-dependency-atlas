@@ -21,6 +21,9 @@ public_consequence: >
   of customers affected across TVA's seven-state territory. Financial impact to
   TVA: $170M. FERC/NERC found the event was the largest percentage of Eastern
   Interconnection capacity ever to fail simultaneously (13%).
+location:
+  lng: -86.8
+  lat: 36.2
 affected_population_est: 10000000
 status: recurring
 date_surfaced: "2022-12-23"

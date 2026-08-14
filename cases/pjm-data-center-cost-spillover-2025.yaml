@@ -24,6 +24,17 @@ public_consequence: >
   capacity costs through 2033. PJM's first-ever reliability shortfall means
   potential rolling blackouts. Customers in Ohio, Illinois, and West Virginia
   have no influence over Virginia's data center permitting.
+current_status: >
+  FERC opened a parallel colocation tariff proceeding (Docket EL25-49-000) via
+  show-cause order on Dec 18, 2025, addressing whether data centers colocated
+  with generation should bypass grid charges. March 25, 2026 protests from
+  Vistra, Constellation Energy, and the Data Center Coalition criticized PJM's
+  proposed framework as operationally rigid; replies due April 17, 2026.
+  Separately, FERC's RM26-4-000 ANOPR on large-load (>20 MW) interconnection —
+  directed by DOE Oct 2025 — is on a June 2026 action timeline.
+location:
+  lng: -77.6
+  lat: 39.0
 affected_population_est: 67000000
 status: active
 date_surfaced: "2024-07-30"

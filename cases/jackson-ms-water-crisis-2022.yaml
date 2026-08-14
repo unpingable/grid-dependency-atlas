@@ -22,6 +22,9 @@ public_consequence: >
   breaks per 100 miles annually (safe threshold: 15). ~50% of treated water lost
   to leaks or faulty meters. Total repair cost estimated at $2 billion. Federal
   disaster declaration issued.
+location:
+  lng: -90.2
+  lat: 32.3
 affected_population_est: 180000
 status: recurring
 date_surfaced: "2022-08-29"

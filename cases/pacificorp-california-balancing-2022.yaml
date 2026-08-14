@@ -22,6 +22,9 @@ public_consequence: >
   customers face a 32-45% transmission rate increase from wildfire costs while
   PacifiCorp's own retail customers in Salt Lake City pay nothing toward wildfire
   liability.
+location:
+  lng: -121.8
+  lat: 41.3
 affected_population_est: 47800
 status: active
 date_surfaced: "2022-12-01"

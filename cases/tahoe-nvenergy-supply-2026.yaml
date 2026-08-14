@@ -11,17 +11,28 @@ controlling_jurisdiction:
   state: Nevada
 trigger: >
   NV Energy informed Liberty Utilities it would not extend the full-requirements
-  wholesale supply arrangement beyond May 2027, citing its own resource needs.
-  Liberty currently gets ~75% of its power from NV Energy. The northern Nevada
-  market is now "extremely competitive" due to data center load growth, and
-  transmission for new interconnections is severely constrained.
+  wholesale supply arrangement past its May 31, 2027 termination, citing its own
+  resource needs. Liberty currently gets ~75% of its power from NV Energy. The
+  northern Nevada market is now "extremely competitive" due to Tahoe-Reno
+  Industrial Center data center load growth, and transmission for new
+  interconnections is severely constrained.
 public_consequence: >
-  49,000 California customers face a rushed wholesale resupply process. Liberty
-  must procure replacement power by March 2027 and has asked California regulators
-  for expedited approval. Customers will absorb whatever replacement costs emerge.
-  Because Liberty's territory sits in the NV Energy balancing authority — not
-  CAISO — the community has no access to California's main grid reliability
-  programs.
+  49,000 California customers face a rushed wholesale resupply process covering
+  ~75% of Liberty's Tahoe-region supply. Liberty must procure replacement power
+  before the May 31, 2027 contract termination and has asked California
+  regulators for expedited approval. Customers will absorb whatever replacement
+  costs emerge. Greenlink Nevada transmission relief lands after the gap opens —
+  Greenlink West in-service slipped to May 2027, Greenlink North to late 2028 —
+  so upstream capacity relief arrives too late to help. Because Liberty's
+  territory sits in the NV Energy balancing authority — not CAISO — the community
+  has no access to California's main grid reliability programs.
+current_status: >
+  Liberty filed at CPUC in March 2026 seeking expedited authorization to run an
+  RFP for replacement supply; formal RFP planned for summer 2026. Replacement
+  power likely sourced outside California and wheeled over NV Energy transmission.
+location:
+  lng: -120.1
+  lat: 39.1
 affected_population_est: 49000
 status: active
 date_surfaced: "2026-03-20"
@@ -30,6 +41,13 @@ sources:
   - publisher: CalMatters
     url: "https://calmatters.org/economy/2026/03/nevada-utility-to-lake-tahoe-find-electricity-elsewhere/"
     date: "2026-03-20"
+  - publisher: Northern Nevada Business Weekly
+    url: "https://www.nnbw.com/news/2026/apr/08/nv-energys-greenlink-west-expected-to-come-online-in-mid-2027/"
+    date: "2026-04-08"
+  - publisher: South Tahoe Now
+    url: "https://southtahoenow.com/05/15/2026/liberty-responds-to-upcoming-power-situation-for-lake-tahoe"
+    date: "2026-05-15"
 one_line: >
   California community electrically dependent on Nevada; supplier withdrawing
-  capacity under data-center pressure, forcing emergency procurement.
+  capacity under data-center pressure, forcing emergency procurement before
+  upstream transmission relief arrives.

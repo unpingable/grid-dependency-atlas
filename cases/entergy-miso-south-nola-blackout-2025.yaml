@@ -22,6 +22,9 @@ public_consequence: >
   has had limited transmission import capability since at least 2006. New Orleans
   City Council regulates Entergy locally but has no authority over MISO's
   reliability decisions or Entergy's multi-state transmission investment priorities.
+location:
+  lng: -90.1
+  lat: 29.95
 affected_population_est: 250000
 status: active
 date_surfaced: "2025-05-25"

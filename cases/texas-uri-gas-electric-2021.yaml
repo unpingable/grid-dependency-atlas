@@ -21,6 +21,9 @@ public_consequence: >
   Official death toll: 246; independent estimates: 426-978 excess deaths. 69% of
   Texans lost power; 49% lost water service. Economic losses estimated at
   $80-130 billion (Federal Reserve Bank of Dallas).
+location:
+  lng: -97.7
+  lat: 30.3
 affected_population_est: 29000000
 status: resolved
 date_surfaced: "2021-02-14"

@@ -21,6 +21,9 @@ public_consequence: >
   contaminated or runs low. DC Water, Arlington County, and Fairfax Water have
   no vote on Army Corps capital investment decisions. Rate-setting and
   modernization are controlled by a federal agency with competing priorities.
+location:
+  lng: -77.1
+  lat: 38.93
 affected_population_est: 1100000
 status: active
 date_surfaced: "2026-01-19"

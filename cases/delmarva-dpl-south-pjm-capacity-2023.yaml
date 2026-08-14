@@ -21,6 +21,9 @@ public_consequence: >
   corrected parameters — a $178M overcharge driven by a modeling error at PJM.
   Delaware and Maryland regulators had no power to correct it and spent three
   years litigating through FERC and federal appeals court.
+location:
+  lng: -75.5
+  lat: 38.3
 affected_population_est: 515000
 status: active
 date_surfaced: "2023-02-01"

@@ -22,6 +22,9 @@ public_consequence: >
   temperatures. Thousands displaced to hotels. Each customer required individual
   service restoration (relighting pilots). National Grid later paid a $2M class
   action settlement.
+location:
+  lng: -71.3
+  lat: 41.5
 affected_population_est: 18000
 status: resolved
 date_surfaced: "2019-01-21"

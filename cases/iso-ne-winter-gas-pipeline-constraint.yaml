@@ -23,6 +23,9 @@ public_consequence: >
   year). January 2026 wholesale power prices averaged $154.73/MWh real-time,
   with peaks reaching $441.80/MWh. Reliability risk during cold snaps requires
   emergency DOE orders, oil-fired backup, and reliance on globally-priced LNG.
+location:
+  lng: -71.1
+  lat: 42.4
 affected_population_est: 15100000
 status: recurring
 date_surfaced: "2013-01-01"

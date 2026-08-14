@@ -22,9 +22,19 @@ editorial claims; tooling cannot publish claims the evidence doesn't support.
 
 ## Source-of-truth graph
 
+> **Amended 2026-08-14.** The U.S. atlas no longer follows the rule below.
+> `cases/*.yaml` + `overlays/us.yaml` are canonical; `docs/us/data/*.geojson`
+> is **generated** by `tools/build_us_geojson.py` and must not be hand-edited
+> (`--check` fails if it is). The one-time reconciliation that established this,
+> and the full record of every divergence it resolved, is in
+> [RECONCILIATION-2026-08-14.md](RECONCILIATION-2026-08-14.md).
+> The eight non-U.S. atlases still follow the rule below and still have no
+> canonical source behind their GeoJSON.
+
 **Authoritative (source):**
 
-- `docs/<atlas>/data/<name>.geojson` — canonical per-atlas dataset.
+- `docs/<atlas>/data/<name>.geojson` — canonical per-atlas dataset *(non-U.S.
+  atlases only; see amendment above)*.
   One file per atlas (US has two: `cases.geojson` + `overlays.geojson`).
   Filename is not uniform across atlases:
   - Point atlases: `cases.geojson` (us, cloud, subsea, grid-equipment, water)
@@ -65,18 +75,15 @@ To update one atlas:
   — fixed 2026-05-27 (GeoJSON is 12; splash now matches).
 - ~~README description enumerated 8 substrates while the table listed 9 atlases
   (maritime chokepoints missing from prose)~~ — fixed 2026-05-27.
-- **Parallel source for U.S. cases:** `cases/*.yaml` and
-  `docs/us/data/cases.geojson` hold the same case content in two formats. The
-  GeoJSON is currently treated as source-of-truth by REFRESH.md, but CASES.md
-  links to the YAMLs. The May 2026 refresh updated three case GeoJSONs (Tahoe,
-  PJM spillover, Potomac) without updating the corresponding YAMLs — those
-  YAMLs now lag the GeoJSON. The new DOE 202(c) case has both. Needs a
-  reconciliation decision: deprecate `cases/*.yaml` and treat as historical,
-  OR re-establish them as the editorial source with GeoJSON generated from
-  them.
-- **Orphaned root duplicate:** `docs/data/cases.geojson` and
-  `docs/data/overlays.geojson` are byte-identical to `docs/us/data/...` and
-  not loaded by any atlas page. Candidate for deletion after confirming.
+- ~~**Parallel source for U.S. cases:**~~ **RESOLVED 2026-08-14.** The
+  divergence was worse than recorded here: 15 of 16 cases differed, not three,
+  and 18 citations present in the YAML corpus had never been published.
+  Reconciled per operator directive — YAML canonical, GeoJSON generated. Full
+  divergence record: [RECONCILIATION-2026-08-14.md](RECONCILIATION-2026-08-14.md).
+- ~~**Orphaned root duplicate:**~~ **DELETED 2026-08-14.** It was not
+  byte-identical, as claimed here: 15 cases against 16, with superseded prose
+  on Tahoe, PJM spillover, and Potomac. Content preserved in the reconciliation
+  record and git history.
 - No automated check for schema divergence across Features within a single
   GeoJSON. The DOE 202(c) addition introduced `current_status` to 4 of 16 US
   cases — intentional but visible to a schema-check primitive.
