@@ -44,7 +44,16 @@ docs/                # GitHub Pages site
   grid-equipment/    # Grid equipment dependency map + data
   subsea/            # Subsea cable dependency map + data
   cloud/             # Cloud/CDN dependency map + data
+  assets/basemap.js  # Basemap config seam shared by the interactive maps
+  assets/basemap/    # Self-hosted Natural Earth substrate (derived)
+tools/
+  build_basemap.py   # Only writer of docs/assets/basemap/*.geojson
 ```
+
+The six interactive maps draw their basemap from `docs/assets/basemap/`, served
+from this site: Natural Earth 1:50m, public domain, no API key. Every provider
+setting lives in `docs/assets/basemap.js`; no page names a tile URL. See
+[docs/assets/basemap/PROVENANCE.md](docs/assets/basemap/PROVENANCE.md).
 
 ## The invariant
 

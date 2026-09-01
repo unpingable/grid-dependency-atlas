@@ -414,6 +414,7 @@
   </div>
 
   <script src="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.js"></script>
+  <script src="../assets/basemap.js"></script>
   <script>
     const STATUS_COLORS = {
       active_crisis: '#ef5350',
@@ -431,29 +432,14 @@
 
     const map = new maplibregl.Map({
       container: 'map',
-      style: {
-        version: 8,
-        sources: {
-          'carto-dark': {
-            type: 'raster',
-            tiles: ['https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png'],
-            tileSize: 256,
-            attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
-          }
-        },
-        layers: [{
-          id: 'carto-dark-layer',
-          type: 'raster',
-          source: 'carto-dark',
-          minzoom: 0,
-          maxzoom: 19
-        }]
-      },
+      style: AtlasBasemap.style(),
       center: [50, 20],
       zoom: 2.2,
       minZoom: 1.5,
       maxZoom: 10
     });
+
+    AtlasBasemap.watch(map);
 
     map.addControl(new maplibregl.NavigationControl(), 'top-left');
 
